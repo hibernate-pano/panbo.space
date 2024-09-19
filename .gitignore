@@ -1,0 +1,14 @@
+## idea
+.idea
+
+## 构建目录
+.node_modules
+
+## vitePress 缓存和临时文件
+.vitepress/cache
+.vitepress/temp
+.vitepress/dist
+
+## 临时文件
+*.tmp
+*.tmp.*
