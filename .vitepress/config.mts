@@ -9,7 +9,8 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Examples', link: '/markdown-examples' },
-      { text: 'Thinking', link: '/thinking/关于贫穷' }
+      { text: 'Thinking', link: '/thinking/关于贫穷' },
+      { text: 'Coding', link: '/coding/Redis/Redis 介绍和基本命令' }
     ],
 
     sidebar: [
@@ -17,13 +18,35 @@ export default defineConfig({
         text: 'Examples',
         items: [
           { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: 'Runtime API Examples', link: '/api-examples' },
         ]
       },
       {
         text: 'Thinking',
         items: [
           { text: '关于贫穷', link: '/thinking/关于贫穷' }
+        ]
+      },
+      {
+        text: 'Coding',
+        items: [
+          { text: 'Redis', 
+            items: [
+              { text: 'Redis 介绍和基本命令', link: '/coding/Redis/Redis 介绍和基本命令' },
+              { text: 'Redis 数据类型', link: '/coding/Redis/Redis 五种基本数据类型' },
+            ]
+           },
+           { text: 'MySQL',
+            items: [
+              { text: 'MySQL 介绍和基本命令', link: '/coding/MySQL/MySQL 介绍和基本命令' },
+              { text: 'MySQL 数据类型', link: '/coding/MySQL/MySQL 五种基本数据类型' },
+            ]
+           },
+           { text: '架构心得',
+            items: [
+              { text: '项目稳定性 -- 限流', link: '/coding/架构心得/项目稳定性 -- 限流' },
+            ]
+           }
         ]
       }
     ],
