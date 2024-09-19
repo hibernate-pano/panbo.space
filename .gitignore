@@ -2,7 +2,7 @@
 .idea
 
 ## 构建目录
-.node_modules
+node_modules
 
 ## vitePress 缓存和临时文件
 .vitepress/cache
