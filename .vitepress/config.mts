@@ -12,86 +12,136 @@ export default defineConfig({
     // 导航栏
     nav: [
       { text: '首页', link: '/' },
-      { text: '思考', link: '/thinking/关于贫穷' },
-      {
-        text: '技术',
+      { text: '💭 思考', link: '/thinking/关于贫穷' },
+      { 
+        text: '📚 技术导航', 
         items: [
-          { text: 'Redis', link: '/coding/Redis/Redis 介绍和基本命令' },
-          { text: 'MySQL', link: '/coding/MySQL/MySQL 介绍和基本命令' },
-          { text: '架构心得', link: '/coding/架构心得/项目稳定性 -- 限流' }
+          { text: 'Java 并发', link: '/coding/Java/Java并发编程完全指南' },
+          { text: 'MySQL', link: '/coding/MySQL/MySQL索引完全指南' },
+          { text: 'Redis', link: '/coding/Redis/Redis介绍和基本命令' },
+          { text: 'Spring Cloud', link: '/coding/SpringCloud/SpringCloud微服务入门完全指南' },
+          { text: 'Docker', link: '/coding/Docker/Docker快速入门完全指南' },
+          { text: 'K8s', link: '/coding/Kubernetes/Kubernetes快速入门完全指南' }
         ]
       },
+      { text: '🏦 HSBC', link: '/coding/HSBC/汇丰入职指南' },
       { text: '关于', link: '/about' }
     ],
 
-    // 侧边栏
+    // 侧边栏 - 极客风格
     sidebar: [
       {
-        text: '💭 思考',
+        text: '▸ 思考记录',
+        collapsed: false,
         items: [
           { text: '关于贫穷', link: '/thinking/关于贫穷' }
         ]
       },
       {
-        text: '💻 技术',
+        text: '▸ Java 开发',
         collapsed: false,
         items: [
+          { text: 'Java 并发编程', link: '/coding/Java/Java并发编程完全指南' },
+          {
+            text: '锁与并发控制',
+            collapsed: true,
+            items: [
+              { text: 'synchronized 深入理解', link: '/coding/Java/锁与并发控制/synchronized深入理解' },
+              { text: 'ReentrantLock 详解', link: '/coding/Java/锁与并发控制/ReentrantLock详解' },
+              { text: '读写锁 ReadWriteLock', link: '/coding/Java/锁与并发控制/读写锁ReadWriteLock' },
+              { text: 'Semaphore 信号量', link: '/coding/Java/锁与并发控制/Semaphore信号量' },
+              { text: 'CountDownLatch', link: '/coding/Java/锁与并发控制/CountDownLatch与CyclicBarrier' }
+            ]
+          }
+        ]
+      },
+      {
+        text: '▸ 数据库',
+        collapsed: false,
+        items: [
+          {
+            text: 'MySQL',
+            collapsed: true,
+            items: [
+              { text: 'MySQL 索引完全指南', link: '/coding/MySQL/MySQL索引完全指南' },
+              { text: 'MySQL 事务与锁', link: '/coding/MySQL/MySQL事务与锁' },
+              { text: 'MySQL SQL 优化实战', link: '/coding/MySQL/MySQLSQL优化实战' },
+              { text: 'MySQL 主从复制', link: '/coding/MySQL/MySQL主从复制与读写分离' }
+            ]
+          },
           {
             text: 'Redis',
             collapsed: true,
             items: [
-              { text: 'Redis 介绍和基本命令', link: '/coding/Redis/Redis 介绍和基本命令' },
-              { text: '五种基本数据类型', link: '/coding/Redis/Redis 五种基本数据类型' },
-              { text: 'Redis 线程 IO 模型', link: '/coding/Redis/Redis 线程 IO 模型' },
-              { text: 'Redis 过期策略', link: '/coding/Redis/Redis 过期策略' },
-              { text: 'Redis 持久化', link: '/coding/Redis/Redis 持久化' },
-              { text: 'Redis 复制', link: '/coding/Redis/Redis 复制' },
-              { text: 'Redis 哨兵', link: '/coding/Redis/Redis 哨兵' },
-              { text: 'Redis 集群', link: '/coding/Redis/Redis 集群' },
-              { text: 'Redis 分布式锁', link: '/coding/Redis/Redis 实现分布式锁' },
-              { text: 'Redis 消息队列', link: '/coding/Redis/Redis 实现消息队列' },
-              { text: 'Redis 发布与订阅', link: '/coding/Redis/Redis 发布与订阅' },
-              { text: 'Redis 位图', link: '/coding/Redis/Redis 位图' },
-              { text: 'Redis HyperLogLog', link: '/coding/Redis/Redis HyperLogLog' },
-              { text: 'Redis GeoHash', link: '/coding/Redis/GeoHash 算法' },
-              { text: 'Redis Scan 命令', link: '/coding/Redis/Redis Scan 命令用法' },
-              { text: 'Redis 限流', link: '/coding/Redis/Redis-Cell 限流模块' },
-              { text: 'Redis BloomFilter', link: '/coding/Redis/Redis-BloomFilter（布隆过滤器）' },
-              { text: 'Redis 使用规范', link: '/coding/Redis/Redis 使用规范' },
-              { text: 'Redis 配置文件解析', link: '/coding/Redis/Redis 配置文件解析' }
+              { text: 'Redis 介绍', link: '/coding/Redis/Redis介绍和基本命令' },
+              { text: '五种基本数据类型', link: '/coding/Redis/Redis五种基本数据类型' },
+              { text: 'Redis 线程 IO 模型', link: '/coding/Redis/Redis线程IO模型' },
+              { text: 'Redis 过期策略', link: '/coding/Redis/Redis过期策略' },
+              { text: 'Redis 分布式锁', link: '/coding/Redis/Redis实现分布式锁' },
+              { text: 'Redis 消息队列', link: '/coding/Redis/Redis实现消息队列' },
+              { text: 'Redis 集群', link: '/coding/Redis/Redis集群' }
+            ]
+          }
+        ]
+      },
+      {
+        text: '▸ 架构设计',
+        collapsed: false,
+        items: [
+          {
+            text: '微服务',
+            collapsed: true,
+            items: [
+              { text: 'Spring Cloud 完全指南', link: '/coding/SpringCloud/SpringCloud微服务入门完全指南' }
+            ]
+          },
+          {
+            text: '分布式系统',
+            collapsed: true,
+            items: [
+              { text: '分布式理论 CAP/BASE', link: '/coding/分布式系统/分布式理论-CAP与BASE' },
+              { text: '数据分片与复制', link: '/coding/分布式系统/分布式存储-数据分片与复制' },
+              { text: 'RPC 与微服务', link: '/coding/分布式系统/分布式服务-RPC与服务治理' }
             ]
           },
           {
             text: '架构心得',
             collapsed: true,
             items: [
-              { text: '项目稳定性 -- 限流', link: '/coding/架构心得/项目稳定性 -- 限流' },
-              { text: '项目稳定性 -- 幂等', link: '/coding/架构心得/项目稳定性 -- 幂等' },
-              { text: '项目安全性 -- 鉴权和授权', link: '/coding/架构心得/项目安全性 -- 鉴权和授权' },
-              { text: '项目可用性 -- 集群', link: '/coding/架构心得/项目可用性 -- 集群' }
-            ]
-          },
-          {
-            text: '汇丰银行',
-            collapsed: false,
-            items: [
-              { text: '入职指南', link: '/coding/HSBC/汇丰入职指南' },
-              { text: '业务线基本常识', link: '/coding/HSBC/汇丰业务线基本常识' },
-              { text: '技术参考', link: '/coding/HSBC/汇丰技术参考' },
-              { text: '项目开发流程', link: '/coding/HSBC/汇丰项目开发流程' },
-              { text: '内部工具与系统', link: '/coding/HSBC/汇丰内部工具与系统' },
-              { text: '安全与合规实践', link: '/coding/HSBC/汇丰安全与合规实践' }
+              { text: '限流', link: '/coding/架构心得/项目稳定性--限流' },
+              { text: '幂等', link: '/coding/架构心得/项目稳定性--幂等' },
+              { text: '鉴权与授权', link: '/coding/架构心得/项目安全性--鉴权和授权' },
+              { text: '集群高可用', link: '/coding/架构心得/项目可用性--集群' }
             ]
           }
         ]
+      },
+      {
+        text: '▸ DevOps',
+        collapsed: false,
+        items: [
+          { text: 'Docker 完全指南', link: '/coding/Docker/Docker快速入门完全指南' },
+          { text: 'Kubernetes 完全指南', link: '/coding/Kubernetes/Kubernetes快速入门完全指南' }
+        ]
+      },
+      {
+        text: '▸ 银行科技',
+        collapsed: false,
+        items: [
+          { text: '汇丰入职指南', link: '/coding/HSBC/汇丰入职指南' },
+          { text: '汇丰业务线常识', link: '/coding/HSBC/汇丰业务线基本常识' },
+          { text: '汇丰技术参考', link: '/coding/HSBC/汇丰技术参考' },
+          { text: '项目开发流程', link: '/coding/HSBC/汇丰项目开发流程' }
+        ]
+      },
+      {
+        text: '▸ 知识宫殿',
+        collapsed: false,
+        items: [
+          { text: '规划', link: '/coding/知识宫殿规划' }
+        ]
       }
     ],
-
-    // 社交链接 - 首页不显示
-    // socialLinks: [
-    //   { icon: 'github', link: 'https://github.com/hibernate-pano', ariaLabel: 'GitHub' },
-    //   { icon: 'twitter', link: 'https://x.com/HibernatePano', ariaLabel: 'Twitter/X' }
-    // ],
 
     // 搜索
     search: {
@@ -100,21 +150,33 @@ export default defineConfig({
 
     // 页脚
     footer: {
-      message: '学而时习之，不亦说乎？',
-      copyright: '© 2024 panbo.space. Built with VitePress.'
+      message: '> 学而时习之，不亦说乎？',
+      copyright: '© 2024-2026 panbo.space | Built with VitePress'
     },
 
     // Outline (右侧标题导航)
     outline: {
       level: [2, 3],
-      label: '目录'
+      label: 'CONTENTS'
     },
 
     // 编辑链接
     editLink: {
       pattern: 'https://github.com/hibernate-pano/panbo.space/edit/main/:path',
-      text: '在 GitHub 上编辑此页'
-    }
+      text: 'Edit on GitHub'
+    },
+
+    // 社交链接
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/hibernate-pano', ariaLabel: 'GitHub' },
+      { icon: 'twitter', link: 'https://x.com/HibernatePano', ariaLabel: 'Twitter/X' }
+    ],
+
+    // 顶部赞助/宣传
+    // headline: {
+    //   text: '🚀 技术博客更新中...',
+    //   link: '/coding/知识宫殿规划'
+    // }
   },
 
   // Vite 配置
