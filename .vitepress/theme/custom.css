@@ -602,3 +602,294 @@ html {
   padding: 1rem;
   margin: 1rem 0;
 }
+
+/* ============================================
+   Mobile Responsive - 移动端适配
+   ============================================ */
+
+/* 移动端基础适配 */
+@media (max-width: 768px) {
+  /* 导航栏 */
+  .VPNav {
+    height: 48px !important;
+    padding: 0 12px !important;
+  }
+  
+  .VPNavBar {
+    height: 48px !important;
+  }
+  
+  .VPNavBar .title {
+    font-size: 0.9rem !important;
+  }
+  
+  /* Logo */
+  .VPNavBar .logo {
+    font-size: 0.95rem !important;
+  }
+  
+  /* 搜索框 */
+  .VPSearch {
+    display: none !important;
+  }
+  
+  /* 首页 Hero */
+  .VPHero {
+    padding: 2rem 1rem 1.5rem !important;
+  }
+  
+  .VPHero .name {
+    font-size: 1.75rem !important;
+    text-align: center;
+  }
+  
+  .VPHero .tagline {
+    font-size: 0.85rem !important;
+    text-align: center;
+    white-space: normal !important;
+    width: auto !important;
+    animation: none !important;
+  }
+  
+  .VPHero .tagline::after {
+    display: none;
+  }
+  
+  .VPHero .actions {
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .VPActionButton {
+    width: 100% !important;
+    max-width: 200px !important;
+    justify-content: center;
+    font-size: 0.8rem !important;
+    padding: 0.5rem 1rem !important;
+  }
+  
+  /* 内容区域 */
+  .VPContent {
+    padding: 0 !important;
+  }
+  
+  .vp-doc {
+    padding: 1rem !important;
+  }
+  
+  .vp-doc h1 {
+    font-size: 1.5rem !important;
+  }
+  
+  .vp-doc h2 {
+    font-size: 1.15rem !important;
+  }
+  
+  .vp-doc h3 {
+    font-size: 1rem !important;
+  }
+  
+  .vp-doc p {
+    font-size: 0.9rem !important;
+    line-height: 1.7;
+  }
+  
+  .vp-doc li {
+    font-size: 0.9rem !important;
+  }
+  
+  /* 代码块 */
+  .vp-doc div[class*='language-'] {
+    font-size: 0.75rem !important;
+    margin: 1rem -0.5rem !important;
+    border-radius: 0 !important;
+  }
+  
+  .vp-doc code {
+    font-size: 0.8rem !important;
+  }
+  
+  /* 表格 */
+  .vp-doc table {
+    font-size: 0.75rem !important;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .vp-doc th,
+  .vp-doc td {
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.75rem !important;
+  }
+  
+  /* 侧边栏 */
+  .VPSidebar {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0.5rem !important;
+  }
+  
+  .VPSidebarItem {
+    font-size: 0.8rem !important;
+  }
+  
+  .VPSidebarItem .text {
+    padding: 0.4rem 0.5rem !important;
+    font-size: 0.8rem !important;
+  }
+  
+  .VPSidebarSection-title {
+    font-size: 0.65rem !important;
+    padding-left: 0.5rem !important;
+  }
+  
+  /* 目录导航 */
+  .VPDocOutlineOutline {
+    display: none !important;
+  }
+  
+  /* Footer */
+  .VPFooter {
+    padding: 1rem !important;
+    text-align: center;
+  }
+  
+  .VPFooter .message {
+    font-size: 0.75rem !important;
+  }
+  
+  .VPFooter .copyright {
+    font-size: 0.65rem !important;
+  }
+  
+  /* Feature Cards */
+  .VPFeatures {
+    padding: 1rem !important;
+  }
+  
+  .VPFeature {
+    padding: 1rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .VPFeature .title {
+    font-size: 0.95rem !important;
+  }
+  
+  .VPFeature .details {
+    font-size: 0.8rem !important;
+  }
+  
+  /* 图片自适应 */
+  .vp-doc img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  
+  /* 块引用 */
+  .vp-doc blockquote {
+    padding: 0.75rem 1rem !important;
+    font-size: 0.85rem !important;
+  }
+  
+  /* 选择框 */
+  select {
+    font-size: 0.9rem !important;
+    padding: 0.5rem !important;
+  }
+}
+
+/* 超小屏幕适配 */
+@media (max-width: 480px) {
+  .VPHero .name {
+    font-size: 1.5rem !important;
+  }
+  
+  .VPHero .tagline {
+    font-size: 0.8rem !important;
+  }
+  
+  .vp-doc h1 {
+    font-size: 1.35rem !important;
+  }
+  
+  .vp-doc h2 {
+    font-size: 1.05rem !important;
+  }
+  
+  .VPFeature {
+    padding: 0.75rem !important;
+  }
+}
+
+/* 移动端菜单按钮 */
+@media (max-width: 768px) {
+  .VPNavBar .item {
+    display: none !important;
+  }
+  
+  .VPNavBar .menu {
+    display: flex !important;
+  }
+  
+  /* 移动端下拉菜单 */
+  .VPNavBar .nav-dropdown {
+    position: fixed !important;
+    top: 48px !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: var(--vp-c-bg-alt) !important;
+    border-bottom: 1px solid var(--vp-c-border) !important;
+    padding: 0.5rem !important;
+    z-index: 100;
+  }
+  
+  .VPNavBar .nav-dropdown .item {
+    display: block !important;
+    padding: 0.75rem 1rem !important;
+    font-size: 0.9rem !important;
+  }
+}
+
+/* 触摸优化 */
+@media (hover: none) and (pointer: coarse) {
+  /* 触摸友好的点击区域 */
+  .VPSidebarItem .text {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .VPActionButton {
+    min-height: 44px;
+  }
+  
+  /* 移除 hover 效果 */
+  .vp-doc a:hover {
+    border-bottom-color: transparent !important;
+  }
+  
+  /* 触摸时显示下划线 */
+  .vp-doc a:active {
+    border-bottom-color: var(--vp-c-brand) !important;
+  }
+}
+
+/* 暗黑模式移动端优化 */
+@media (max-width: 768px) and (prefers-color-scheme: dark) {
+  :root {
+    --vp-c-bg: #0D1117 !important;
+    --vp-c-bg-alt: #161B22 !important;
+    --vp-c-text-1: #E6EDF3 !important;
+    --vp-c-text-2: #8B949E !important;
+  }
+}
+
+/* 暗色主题强制 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
