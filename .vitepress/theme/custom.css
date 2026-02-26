@@ -82,8 +82,8 @@ body {
   background: var(--vp-c-bg) !important;
 }
 
-/* ========================================= 哲学与代码===
-   Typography -的对话
+/* ============================================
+   Base Styles
    ============================================ */
 .vp-doc {
   font-family: var(--vp-font-family-base);
@@ -211,9 +211,9 @@ h1, h2, h3, h4, h5, h6 {
 .VPSidebarItem {
   font-family: var(--vp-font-family-mono);
   font-size: 0.75rem;
-barItem.is-active}
+}
 
-.VPSide .text {
+.VPSidebarItem.is-active .text {
   color: var(--vp-c-text-1) !important;
   font-weight: 600;
 }
@@ -522,4 +522,114 @@ a:hover, button:hover {
 
 .vp-doc .tag::before {
   content: "#";
+}
+
+/* ============================================
+   Search - 命令面板风格
+   ============================================ */
+.VPLocalSearchBox {
+  background: var(--vp-c-bg-alt) !important;
+  border: 1px solid var(--vp-c-border) !important;
+  border-radius: 2px !important;
+}
+
+.VPLocalSearchBox input {
+  font-family: var(--vp-font-family-mono) !important;
+  background: var(--vp-c-bg) !important;
+  border: 1px solid var(--vp-c-border) !important;
+  border-radius: 2px !important;
+  color: var(--vp-c-text-1) !important;
+}
+
+.VPLocalSearchBox input::placeholder {
+  color: var(--vp-c-text-3) !important;
+  font-family: var(--vp-font-family-mono) !important;
+}
+
+.VPLocalSearchBox .result-title {
+  font-family: var(--vp-font-family-mono) !important;
+  color: var(--vp-c-text-1) !important;
+}
+
+.VPLocalSearchBox .result-link {
+  font-family: var(--vp-font-family-mono) !important;
+  color: var(--vp-c-brand) !important;
+}
+
+/* ============================================
+   Outline - 右侧目录
+   ============================================ */
+.VPDocOutline {
+  border-left: 1px solid var(--vp-c-border) !important;
+}
+
+.VPDocOutlineItem {
+  font-family: var(--vp-font-family-mono) !important;
+  font-size: 0.7rem !important;
+}
+
+.VPDocOutlineItem .text {
+  color: var(--vp-c-text-2) !important;
+}
+
+.VPDocOutlineItem.is-active .text {
+  color: var(--vp-c-brand) !important;
+}
+
+/* ============================================
+   Code Group Tabs
+   ============================================ */
+.vp-doc .vp-code-group .tabs label {
+  font-family: var(--vp-font-family-mono) !important;
+  font-size: 0.7rem !important;
+  background: var(--vp-c-bg-alt) !important;
+  border: 1px solid var(--vp-c-border) !important;
+  border-radius: 0 !important;
+}
+
+.vp-doc .vp-code-group .tabs input:checked + label {
+  background: var(--code-bg) !important;
+  border-bottom-color: var(--code-bg) !important;
+}
+
+/* ============================================
+   Copy Code Button
+   ============================================ */
+.vp-doc .vp-code-copy {
+  font-family: var(--vp-font-family-mono) !important;
+  border-radius: 2px !important;
+}
+
+/* ============================================
+   Image - 保持简洁
+   ============================================ */
+.vp-doc img {
+  border: 1px solid var(--vp-c-border);
+  border-radius: 2px;
+}
+
+/* ============================================
+   Badge
+   ============================================ */
+.vp-doc .badge {
+  font-family: var(--vp-font-family-mono) !important;
+  font-size: 0.65rem !important;
+  padding: 2px 6px !important;
+  border-radius: 2px !important;
+  border: 1px solid var(--vp-c-border) !important;
+}
+
+/* ============================================
+   Timeline (if used)
+   ============================================ */
+.vp-doc .timeline-item {
+  border-left: 1px solid var(--vp-c-border) !important;
+  padding-left: 16px !important;
+}
+
+.vp-doc .timeline-item::before {
+  content: "●";
+  color: var(--vp-c-brand);
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.6rem;
 }
