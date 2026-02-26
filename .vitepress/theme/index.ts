@@ -4,7 +4,7 @@ import './custom.css'
 export default {
   extends: DefaultTheme,
   enhanceApp({ app }) {
-    // Theme toggle
+    // Theme toggle - use .dark class
     if (typeof window !== 'undefined') {
       const initThemeToggle = () => {
         if (document.getElementById('custom-theme-toggle')) return
@@ -62,12 +62,12 @@ export default {
             width: 18px;
             height: 18px;
             stroke: var(--vp-c-text-2);
-            position: absolute;
           }
+          /* 默认浅色模式显示月亮，深色模式显示太阳 */
           :root .sun-icon { display: none; }
           :root .moon-icon { display: block; }
-          :root.light .sun-icon { display: block; }
-          :root.light .moon-icon { display: none; }
+          :root.dark .sun-icon { display: block; }
+          :root.dark .moon-icon { display: none; }
         `
         document.head.appendChild(style)
         
@@ -76,21 +76,25 @@ export default {
           actions.insertBefore(toggle, actions.firstChild)
         }
         
+        // Toggle between light and dark
         toggle.querySelector('.theme-btn').addEventListener('click', () => {
-          const isLight = document.documentElement.classList.contains('light')
-          if (isLight) {
-            document.documentElement.classList.remove('light')
-            localStorage.setItem('theme', 'dark')
-          } else {
-            document.documentElement.classList.add('light')
+          const isDark = document.documentElement.classList.contains('dark')
+          if (isDark) {
+            document.documentElement.classList.remove('dark')
             localStorage.setItem('theme', 'light')
+          } else {
+            document.documentElement.classList.add('dark')
+            localStorage.setItem('theme', 'dark')
           }
         })
         
-        // 初始化
+        // Initialize theme from localStorage
         const saved = localStorage.getItem('theme')
-        if (saved === 'light') {
-          document.documentElement.classList.add('light')
+        if (saved === 'dark') {
+          document.documentElement.classList.add('dark')
+        } else {
+          // Default is light, ensure dark is removed
+          document.documentElement.classList.remove('dark')
         }
       }
       
