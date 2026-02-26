@@ -69,6 +69,17 @@ export default defineConfig({
               { text: '项目安全性 -- 鉴权和授权', link: '/coding/架构心得/项目安全性 -- 鉴权和授权' },
               { text: '项目可用性 -- 集群', link: '/coding/架构心得/项目可用性 -- 集群' }
             ]
+          },
+          {
+            text: '汇丰银行',
+            collapsed: false,
+            items: [
+              { text: '入职指南', link: '/coding/HSBC/汇丰入职指南' },
+              { text: '技术参考', link: '/coding/HSBC/汇丰技术参考' },
+              { text: '项目开发流程', link: '/coding/HSBC/汇丰项目开发流程' },
+              { text: '内部工具与系统', link: '/coding/HSBC/汇丰内部工具与系统' },
+              { text: '安全与合规实践', link: '/coding/HSBC/汇丰安全与合规实践' }
+            ]
           }
         ]
       }
