@@ -75,6 +75,7 @@ export default defineConfig({
             collapsed: false,
             items: [
               { text: '入职指南', link: '/coding/HSBC/汇丰入职指南' },
+              { text: '业务线基本常识', link: '/coding/HSBC/汇丰业务线基本常识' },
               { text: '技术参考', link: '/coding/HSBC/汇丰技术参考' },
               { text: '项目开发流程', link: '/coding/HSBC/汇丰项目开发流程' },
               { text: '内部工具与系统', link: '/coding/HSBC/汇丰内部工具与系统' },
