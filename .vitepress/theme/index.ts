@@ -4,7 +4,7 @@ import './custom.css'
 export default {
   extends: DefaultTheme,
   enhanceApp({ app }) {
-    // Theme toggle - use .dark class with enhanced styling
+    // Theme toggle functionality
     if (typeof window !== 'undefined') {
       const initThemeToggle = () => {
         if (document.getElementById('custom-theme-toggle')) return
@@ -15,11 +15,11 @@ export default {
           return
         }
 
-        // 创建主题切换按钮 - 斯多葛风格
+        // Create theme toggle button
         const toggle = document.createElement('div')
         toggle.id = 'custom-theme-toggle'
         toggle.innerHTML = `
-          <button class="theme-btn" title="切换主题 / Toggle Theme" aria-label="切换主题">
+          <button class="theme-btn" title="Toggle Theme" aria-label="Toggle Theme">
             <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="4"/>
               <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
@@ -30,7 +30,7 @@ export default {
           </button>
         `
 
-        // 注入样式
+        // Inject styles
         const style = document.createElement('style')
         style.textContent = `
           #custom-theme-toggle {
@@ -39,41 +39,26 @@ export default {
             margin: 0 12px;
           }
           #custom-theme-toggle .theme-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 8px;
+            width: 36px;
+            height: 36px;
             border: 1px solid var(--border);
             background: var(--bg-tertiary);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.25s ease;
-            position: relative;
-            overflow: hidden;
-          }
-          #custom-theme-toggle .theme-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--accent-soft);
-            opacity: 0;
-            transition: opacity 0.25s ease;
-          }
-          #custom-theme-toggle .theme-btn:hover::before {
-            opacity: 1;
+            transition: none;
+            border-radius: 2px;
           }
           #custom-theme-toggle .theme-btn:hover {
             border-color: var(--accent);
           }
           #custom-theme-toggle .sun-icon,
           #custom-theme-toggle .moon-icon {
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             stroke: var(--text-secondary);
-            transition: stroke 0.25s ease;
-            position: relative;
-            z-index: 1;
+            transition: none;
           }
           #custom-theme-toggle .theme-btn:hover .sun-icon,
           #custom-theme-toggle .theme-btn:hover .moon-icon {
@@ -83,9 +68,6 @@ export default {
           :root .moon-icon { display: none; }
           :root.dark .sun-icon { display: none; }
           :root.dark .moon-icon { display: block; }
-          #custom-theme-toggle .theme-btn:active {
-            transform: scale(0.95);
-          }
         `
         document.head.appendChild(style)
 
@@ -94,7 +76,7 @@ export default {
           actions.insertBefore(toggle, actions.firstChild)
         }
 
-        // Toggle between light and dark
+        // Toggle theme
         toggle.querySelector('.theme-btn').addEventListener('click', () => {
           const isDark = document.documentElement.classList.contains('dark')
           if (isDark) {
@@ -106,7 +88,7 @@ export default {
           }
         })
 
-        // Initialize theme from localStorage or system preference
+        // Initialize theme
         const saved = localStorage.getItem('theme')
         if (saved === 'dark') {
           document.documentElement.classList.add('dark')
@@ -124,9 +106,8 @@ export default {
       }
 
       setTimeout(initThemeToggle, 500)
-      setTimeout(initThemeToggle, 1000)
 
-      // Reading progress bar - 斯多葛风格
+      // Reading progress bar - simple style
       document.addEventListener('DOMContentLoaded', () => {
         const progressBar = document.createElement('div')
         progressBar.style.cssText = `
@@ -137,7 +118,7 @@ export default {
           height: 2px;
           background: var(--accent);
           z-index: 9999;
-          transition: width 0.1s ease-out;
+          transition: none;
         `
         document.body.appendChild(progressBar)
 
