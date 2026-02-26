@@ -633,3 +633,356 @@ a:hover, button:hover {
   font-family: var(--vp-font-family-mono);
   font-size: 0.6rem;
 }
+
+/* ============================================
+   Home Page - 数字斯多葛主义首页
+   ============================================ */
+.home .VPHero,
+.home .VPFeatures,
+.home .VPContent > .container > .vp-doc > div:first-child,
+.home .VPContent > .container > .vp-doc > h1 {
+  display: none !important;
+}
+
+.stoic-home {
+  min-height: calc(100vh - var(--vp-nav-height));
+  background: var(--vp-c-bg);
+  padding: 0;
+  margin: 0;
+}
+
+.stoic-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.03;
+  background-image:
+    linear-gradient(var(--vp-c-text-2) 1px, transparent 1px),
+    linear-gradient(90deg, var(--vp-c-text-2) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.stoic-content {
+  position: relative;
+  z-index: 1;
+  max-width: 65ch;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+.stoic-header {
+  margin-bottom: 64px;
+  border-bottom: 1px solid var(--vp-c-border);
+  padding-bottom: 24px;
+}
+
+.stoic-header::before {
+  content: "/* ============================================ */";
+  display: block;
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.65rem;
+  color: var(--vp-c-text-3);
+  margin-bottom: 16px;
+  letter-spacing: 0.05em;
+}
+
+.stoic-title {
+  font-family: var(--vp-font-family-mono);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--vp-c-text-1);
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+
+.stoic-subtitle {
+  font-family: var(--vp-font-family-base);
+  font-size: 0.95rem;
+  color: var(--vp-c-text-2);
+  font-style: italic;
+}
+
+.stoic-terminal {
+  background: var(--vp-c-bg-alt);
+  border: 1px solid var(--vp-c-border);
+  padding: 20px;
+  margin-bottom: 48px;
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.75rem;
+  line-height: 1.8;
+}
+
+.stoic-terminal::before {
+  content: "> cat README.md";
+  display: block;
+  color: var(--vp-c-brand);
+  margin-bottom: 12px;
+}
+
+.stoic-terminal-line {
+  color: var(--vp-c-text-2);
+  padding-left: 0;
+}
+
+.stoic-terminal-line::before {
+  content: "$ ";
+  color: var(--vp-c-text-3);
+  margin-right: 8px;
+}
+
+.stoic-profile {
+  margin-bottom: 48px;
+}
+
+.stoic-profile-title {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--vp-c-text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 16px;
+}
+
+.stoic-profile-title::before {
+  content: "// ";
+  color: var(--vp-c-brand);
+}
+
+.stoic-name {
+  font-family: var(--vp-font-family-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--vp-c-text-1);
+  margin-bottom: 12px;
+}
+
+.stoic-role {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.75rem;
+  color: var(--vp-c-brand);
+  margin-bottom: 16px;
+}
+
+.stoic-motto {
+  font-family: var(--vp-font-family-base);
+  font-size: 0.9rem;
+  color: var(--vp-c-text-2);
+  line-height: 1.7;
+  border-left: 2px solid var(--vp-c-border);
+  padding-left: 16px;
+}
+
+.stoic-tech {
+  margin-bottom: 48px;
+}
+
+.stoic-section-title {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--vp-c-text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 16px;
+}
+
+.stoic-section-title::before {
+  content: "## ";
+  color: var(--vp-c-brand);
+}
+
+.stoic-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stoic-tag {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.7rem;
+  color: var(--vp-c-text-2);
+  background: var(--vp-c-bg-alt);
+  border: 1px solid var(--vp-c-border);
+  padding: 4px 10px;
+}
+
+.stoic-nav {
+  margin-bottom: 48px;
+}
+
+.stoic-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.stoic-nav-item {
+  margin-bottom: 8px;
+}
+
+.stoic-nav-link {
+  display: block;
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.8rem;
+  color: var(--vp-c-text-2);
+  text-decoration: none;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+}
+
+.stoic-nav-link:hover {
+  color: var(--vp-c-brand);
+  border-color: var(--vp-c-border);
+  background: var(--vp-c-bg-alt);
+}
+
+.stoic-nav-link::before {
+  content: "[ ] ";
+  color: var(--vp-c-text-3);
+  margin-right: 8px;
+}
+
+.stoic-nav-link:hover::before {
+  content: "[x] ";
+  color: var(--vp-c-brand);
+}
+
+.stoic-posts {
+  margin-bottom: 48px;
+}
+
+.stoic-post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.stoic-post-item {
+  border-bottom: 1px solid var(--vp-c-divider);
+  padding: 12px 0;
+}
+
+.stoic-post-item:last-child {
+  border-bottom: none;
+}
+
+.stoic-post-link {
+  display: block;
+  text-decoration: none;
+}
+
+.stoic-post-title {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+  margin-bottom: 4px;
+}
+
+.stoic-post-link:hover .stoic-post-title {
+  color: var(--vp-c-brand);
+}
+
+.stoic-post-meta {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.65rem;
+  color: var(--vp-c-text-3);
+}
+
+.stoic-post-meta .category {
+  color: var(--vp-c-brand);
+}
+
+.stoic-post-meta .category::before {
+  content: "#";
+}
+
+.stoic-social {
+  padding-top: 24px;
+  border-top: 1px solid var(--vp-c-border);
+  margin-top: 48px;
+}
+
+.stoic-social-title {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.65rem;
+  color: var(--vp-c-text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+
+.stoic-social-list {
+  display: flex;
+  gap: 16px;
+}
+
+.stoic-social-link {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.75rem;
+  color: var(--vp-c-text-2);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.stoic-social-link:hover {
+  color: var(--vp-c-brand);
+  border-bottom-color: var(--vp-c-brand);
+}
+
+.stoic-social-link::after {
+  content: " [->]";
+  font-size: 0.65rem;
+  color: var(--vp-c-text-3);
+}
+
+.stoic-footer {
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid var(--vp-c-border);
+  text-align: center;
+}
+
+.stoic-footer-text {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.65rem;
+  color: var(--vp-c-text-3);
+}
+
+.stoic-footer-text::before {
+  content: "/* ";
+}
+
+.stoic-footer-text::after {
+  content: " */";
+}
+
+@media (max-width: 768px) {
+  .stoic-content {
+    padding: 40px 16px;
+  }
+
+  .stoic-title {
+    font-size: 1.4rem;
+  }
+
+  .stoic-header::before {
+    font-size: 0.55rem;
+  }
+
+  .stoic-terminal {
+    font-size: 0.7rem;
+    padding: 16px;
+  }
+
+  .stoic-tags {
+    gap: 6px;
+  }
+
+  .stoic-tag {
+    font-size: 0.65rem;
+    padding: 3px 8px;
+  }
+}
