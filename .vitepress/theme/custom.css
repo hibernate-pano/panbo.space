@@ -1,133 +1,120 @@
 /* ============================================
-   Panbo Blog - 极客风格主题 v3.0
-   支持亮色/深色模式切换
+   Panbo Blog - 工程师极简风格
+   Pure Black & White Professional Theme
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
 
-/* CSS Variables - 深色模式 */
+/* CSS Variables - 纯黑白 */
 :root {
-  /* 极客深色系 */
-  --vp-c-bg: #0D1117;
-  --vp-c-bg-alt: #161B22;
-  --vp-c-bg-soft: #21262D;
+  /* 纯黑白 */
+  --vp-c-bg: #000000;
+  --vp-c-bg-alt: #0A0A0A;
+  --vp-c-bg-soft: #141414;
 
-  --vp-c-text-1: #E6EDF3;
-  --vp-c-text-2: #8B949E;
-  --vp-c-text-3: #6E7681;
+  --vp-c-text-1: #FFFFFF;
+  --vp-c-text-2: #B3B3B3;
+  --vp-c-text-3: #666666;
 
-  /* 极客绿 + 代码蓝 */
-  --vp-c-brand: #58A6FF;
-  --vp-c-brand-light: #79C0FF;
-  --vp-c-brand-dark: #388BFD;
+  /* 纯白强调 */
+  --vp-c-brand: #FFFFFF;
+  --vp-c-brand-light: #FFFFFF;
+  --vp-c-brand-dark: #E6E6E6;
   
-  /* 强调色：终端绿 */
-  --vp-c-accent: #3FB950;
-  --vp-c-accent-light: #56D364;
-  --vp-c-accent-dark: #238636;
+  --vp-c-accent: #FFFFFF;
+  --vp-c-accent-light: #FFFFFF;
+  --vp-c-accent-dark: #CCCCCC;
 
-  --vp-c-border: #30363D;
-  --vp-c-divider: #21262D;
-  --vp-c-gutter: #21262D;
+  --vp-c-border: #333333;
+  --vp-c-divider: #222222;
+  --vp-c-gutter: #222222;
 
   /* Typography */
-  --vp-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --vp-font-family-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --vp-font-family-base: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  --vp-font-family-mono: 'JetBrains Mono', monospace;
 
-  /* Layout */
-  --vp-sidebar-width: 300px;
-  --vp-nav-height: 64px;
+  --vp-sidebar-width: 280px;
+  --vp-nav-height: 56px;
 
-  /* Transitions */
-  --vp-transition-duration: 0.2s;
-  --vp-transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --vp-transition-duration: 0.15s;
   
-  /* Code block */
-  --code-bg: #0D1117;
-  --code-border: #30363D;
-}
-
-/* 亮色模式 */
-.light {
-  --vp-c-bg: #FFFFFF;
-  --vp-c-bg-alt: #F6F8FA;
-  --vp-c-bg-soft: #F0F3F6;
-
-  --vp-c-text-1: #1F2328;
-  --vp-c-text-2: #656D76;
-  --vp-c-text-3: #8C959F;
-
-  --vp-c-brand: #0969DA;
-  --vp-c-brand-light: #218BFF;
-  --vp-c-brand-dark: #0550AE;
-  
-  --vp-c-accent: #1A7F37;
-  --vp-c-accent-light: #2DA44E;
-  --vp-c-accent-dark: #116329;
-
-  --vp-c-border: #D0D7DE;
-  --vp-c-divider: #D0D7DE;
-  --vp-c-gutter: #D0D7DE;
-  
-  --code-bg: #F6F8FA;
-  --code-border: #D0D7DE;
+  --code-bg: #0A0A0A;
+  --code-border: #333333;
 }
 
 /* ============================================
-   Base Typography
+   Base Styles
+   ============================================ */
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: #000 !important;
+  color: #FFF;
+}
+
+.VPContent {
+  background: #000 !important;
+}
+
+/* ============================================
+   Typography
    ============================================ */
 
 .vp-doc {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  line-height: 1.75;
+  font-family: 'Noto Sans SC', sans-serif;
+  line-height: 1.8;
+  color: var(--vp-c-text-2);
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
-  letter-spacing: -0.02em;
   color: var(--vp-c-text-1);
+  letter-spacing: -0.02em;
 }
 
 .vp-doc h1 {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 700;
-  border-bottom: 2px solid var(--vp-c-accent);
+  border-bottom: 1px solid var(--vp-c-border);
   padding-bottom: 0.75rem;
   margin-bottom: 1.5rem;
 }
 
 .vp-doc h2 {
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   font-weight: 600;
   border-bottom: 1px solid var(--vp-c-border);
   padding-bottom: 0.5rem;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   margin-bottom: 1rem;
 }
 
 .vp-doc h3 {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   margin-bottom: 0.75rem;
 }
 
 .vp-doc p {
   margin-bottom: 1rem;
-  color: var(--vp-c-text-2);
+  font-size: 0.95rem;
 }
 
 .vp-doc a {
   color: var(--vp-c-brand);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: all var(--vp-transition-duration) var(--vp-transition-ease);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: #444;
+  transition: text-decoration-color 0.2s;
 }
 
 .vp-doc a:hover {
-  color: var(--vp-c-accent);
-  border-bottom-color: var(--vp-c-accent);
+  text-decoration-color: #FFF;
 }
 
 /* ============================================
@@ -136,49 +123,56 @@ h1, h2, h3, h4, h5, h6 {
 
 .vp-doc div[class*='language-'] {
   background: var(--code-bg) !important;
-  border: 1px solid var(--code-border);
-  border-radius: 8px;
+  border: 1px solid var(--code-border) !important;
+  border-radius: 4px;
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.875rem;
+  font-size: 0.8rem !important;
   line-height: 1.6;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .vp-doc code {
   font-family: 'JetBrains Mono', monospace !important;
   background: var(--vp-c-bg-soft) !important;
-  color: var(--vp-c-accent) !important;
-  padding: 0.2em 0.4em !important;
-  border-radius: 4px !important;
-  font-size: 0.875em;
+  color: var(--vp-c-brand) !important;
+  padding: 0.15em 0.4em !important;
+  border-radius: 3px !important;
+  font-size: 0.85em;
 }
 
 .vp-doc p code {
-  background: rgba(88, 166, 255, 0.15) !important;
-  color: var(--vp-c-brand-light) !important;
+  background: #1A1A1A !important;
+  color: #FFF !important;
+  border: 1px solid #333;
 }
 
 /* ============================================
-   Navigation
+   Navigation - 极简黑色
    ============================================ */
 
 .VPNav {
-  background: var(--vp-c-bg) !important;
-  backdrop-filter: blur(16px);
+  background: #000 !important;
   border-bottom: 1px solid var(--vp-c-border) !important;
+  height: 56px !important;
+}
+
+.VPNavBar {
+  background: transparent !important;
+  height: 56px !important;
 }
 
 .VPNavBar .title {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9rem;
+  color: #FFF !important;
+  letter-spacing: -0.02em;
 }
 
 .VPNavBar .logo {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
+  color: #FFF !important;
 }
 
 /* ============================================
@@ -186,36 +180,41 @@ h1, h2, h3, h4, h5, h6 {
    ============================================ */
 
 .VPSidebar {
-  background: var(--vp-c-bg-alt) !important;
+  background: #0A0A0A !important;
   border-right: 1px solid var(--vp-c-border);
+  padding: 1rem 0 !important;
 }
 
 .VPSidebarItem {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
 }
 
 .VPSidebarItem.is-active .text {
-  color: var(--vp-c-accent) !important;
+  color: #FFF !important;
   font-weight: 600;
 }
 
 .VPSidebarItem .text {
-  color: var(--vp-c-text-2) !important;
-  padding: 0.35rem 0 !important;
+  color: #888 !important;
+  padding: 0.4rem 1rem !important;
+  font-size: 0.75rem !important;
 }
 
 .VPSidebarItem .text:hover {
-  color: var(--vp-c-brand) !important;
+  color: #FFF !important;
 }
 
 .VPSidebarSection-title {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem !important;
+  font-size: 0.65rem !important;
   font-weight: 600 !important;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--vp-c-text-3) !important;
+  letter-spacing: 0.15em;
+  color: #555 !important;
+  padding-left: 1rem !important;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 /* ============================================
@@ -223,69 +222,56 @@ h1, h2, h3, h4, h5, h6 {
    ============================================ */
 
 .VPHero {
-  padding: 3rem 0 2rem !important;
+  padding: 4rem 2rem 3rem !important;
+  background: #000 !important;
 }
 
 .VPHero .name {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 2.75rem !important;
+  font-size: 2.5rem !important;
   font-weight: 700;
-  letter-spacing: -0.03em;
-}
-
-:root .VPHero .name {
-  color: var(--vp-c-accent) !important;
+  color: #FFF !important;
+  letter-spacing: -0.04em;
+  margin-bottom: 0.5rem;
 }
 
 .VPHero .tagline {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 1.05rem;
-  color: var(--vp-c-text-2);
-}
-
-/* Terminal cursor */
-.VPHero .tagline::after {
-  content: '_';
-  display: inline-block;
-  animation: blink 1s step-end infinite;
-  color: var(--vp-c-accent);
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  font-size: 0.9rem;
+  color: #888;
+  letter-spacing: 0.02em;
 }
 
 /* Action buttons */
 .VPActionButton {
   font-family: 'JetBrains Mono', monospace !important;
   font-weight: 500 !important;
-  font-size: 0.85rem !important;
-  border-radius: 6px !important;
-  padding: 0.6rem 1.25rem !important;
-  letter-spacing: 0.02em;
+  font-size: 0.75rem !important;
+  border-radius: 3px !important;
+  padding: 0.6rem 1.2rem !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .VPActionButton.brand {
-  background: var(--vp-c-accent-dark) !important;
-  border: none !important;
-  color: #fff !important;
+  background: #FFF !important;
+  border: 1px solid #FFF !important;
+  color: #000 !important;
 }
 
 .VPActionButton.brand:hover {
-  background: var(--vp-c-accent) !important;
-  transform: translateY(-2px);
+  background: #E0E0E0 !important;
 }
 
 .VPActionButton.alt {
   background: transparent !important;
-  border: 1px solid var(--vp-c-border) !important;
-  color: var(--vp-c-text-1) !important;
+  border: 1px solid #444 !important;
+  color: #FFF !important;
 }
 
 .VPActionButton.alt:hover {
-  border-color: var(--vp-c-brand) !important;
-  color: var(--vp-c-brand) !important;
+  border-color: #FFF !important;
+  background: #111 !important;
 }
 
 /* ============================================
@@ -294,27 +280,27 @@ h1, h2, h3, h4, h5, h6 {
 
 .VPFeature {
   border: 1px solid var(--vp-c-border);
-  border-radius: 8px;
-  padding: 1.5rem;
-  background: var(--vp-c-bg-alt);
+  border-radius: 4px;
+  padding: 1.25rem;
+  background: #0A0A0A;
 }
 
 .VPFeature:hover {
-  border-color: var(--vp-c-brand);
-  transform: translateY(-4px);
+  border-color: #555;
 }
 
 .VPFeature .title {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.85rem;
+  color: #FFF;
 }
 
 .VPFeature .details {
-  font-family: 'Inter', sans-serif;
-  color: var(--vp-c-text-2);
+  font-family: 'Noto Sans SC', sans-serif;
+  color: #888;
   line-height: 1.6;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 /* ============================================
@@ -322,18 +308,20 @@ h1, h2, h3, h4, h5, h6 {
    ============================================ */
 
 .VPFooter {
-  background: var(--vp-c-bg-alt);
+  background: #050505;
   border-top: 1px solid var(--vp-c-border);
 }
 
 .VPFooter .message {
   font-family: 'JetBrains Mono', monospace;
-  color: var(--vp-c-text-3);
+  color: #555;
+  font-size: 0.8rem;
 }
 
 .VPFooter .copyright {
   font-family: 'JetBrains Mono', monospace;
-  color: var(--vp-c-text-3);
+  color: #444;
+  font-size: 0.7rem;
 }
 
 /* ============================================
@@ -343,7 +331,7 @@ h1, h2, h3, h4, h5, h6 {
 .vp-doc table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   margin: 1.5rem 0;
 }
 
@@ -352,19 +340,23 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   text-align: left;
   padding: 0.75rem 1rem;
-  background: var(--vp-c-bg-soft);
+  background: #111;
   border: 1px solid var(--vp-c-border);
-  color: var(--vp-c-accent);
+  color: #FFF;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .vp-doc td {
-  padding: 0.75rem 1rem;
+  padding: 0.6rem 1rem;
   border: 1px solid var(--vp-c-border);
-  color: var(--vp-c-text-2);
+  color: #AAA;
+  font-size: 0.85rem;
 }
 
 .vp-doc tr:hover td {
-  background: var(--vp-c-bg-alt);
+  background: #0A0A0A;
 }
 
 /* ============================================
@@ -372,16 +364,17 @@ h1, h2, h3, h4, h5, h6 {
    ============================================ */
 
 .vp-doc blockquote {
-  background: var(--vp-c-bg-alt);
-  border-left: 3px solid var(--vp-c-accent);
+  background: #0A0A0A;
+  border-left: 2px solid #FFF;
   padding: 1rem 1.25rem;
   margin: 1.5rem 0;
-  border-radius: 0 6px 6px 0;
+  border-radius: 0 4px 4px 0;
 }
 
 .vp-doc blockquote p {
   margin: 0;
-  color: var(--vp-c-text-2);
+  color: #AAA;
+  font-size: 0.9rem;
 }
 
 /* ============================================
@@ -389,17 +382,18 @@ h1, h2, h3, h4, h5, h6 {
    ============================================ */
 
 .vp-doc ul, .vp-doc ol {
-  padding-left: 1.5rem;
+  padding-left: 1.25rem;
   margin: 1rem 0;
 }
 
 .vp-doc li {
-  color: var(--vp-c-text-2);
-  margin: 0.5rem 0;
+  color: #AAA;
+  margin: 0.4rem 0;
+  font-size: 0.9rem;
 }
 
 .vp-doc li::marker {
-  color: var(--vp-c-accent);
+  color: #666;
 }
 
 /* ============================================
@@ -407,32 +401,17 @@ h1, h2, h3, h4, h5, h6 {
    ============================================ */
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--vp-c-bg);
+  background: #0A0A0A;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--vp-c-border);
-  border-radius: 4px;
-}
-
-/* ============================================
-   Animations
-   ============================================ */
-
-@keyframes slideIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.VPHero .name,
-.VPHero .tagline,
-.VPHero .actions {
-  animation: slideIn 0.4s var(--vp-transition-ease) forwards;
+  background: #333;
+  border-radius: 3px;
 }
 
 /* ============================================
@@ -441,104 +420,46 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 768px) {
   .vp-doc {
-    padding: 16px !important;
-    font-size: 15px !important;
-  }
-  
-  .vp-doc h1 {
-    font-size: 22px !important;
-  }
-  
-  .vp-doc h2 {
-    font-size: 18px !important;
-  }
-  
-  .vp-doc div[class*='language-'] {
-    font-size: 12px !important;
-    padding: 12px !important;
-    margin: 12px -16px !important;
-    border-radius: 0 !important;
-    border-left: none !important;
-    border-right: none !important;
-  }
-  
-  .VPHero .name {
-    font-size: 28px !important;
-  }
-  
-  .VPHero .tagline {
+    padding: 1rem !important;
     font-size: 14px !important;
   }
   
+  .vp-doc h1 {
+    font-size: 1.5rem !important;
+  }
+  
+  .vp-doc h2 {
+    font-size: 1.1rem !important;
+  }
+  
+  .vp-doc div[class*='language-'] {
+    font-size: 0.7rem !important;
+    margin: 1rem -1rem !important;
+    border-radius: 0 !important;
+  }
+  
+  .VPHero .name {
+    font-size: 1.75rem !important;
+  }
+  
+  .VPHero .tagline {
+    font-size: 0.8rem !important;
+  }
+  
   .VPFeature {
-    padding: 14px !important;
+    padding: 1rem !important;
   }
 }
 
 /* ============================================
-   Light Mode Toggle Button Styles
+   Theme Toggle Button - Minimal
    ============================================ */
 
-/* Theme toggle button in nav */
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
-  cursor: pointer;
-  transition: all 0.2s ease;
+#custom-theme-toggle .theme-btn {
+  background: transparent !important;
+  border: 1px solid #333 !important;
 }
 
-.theme-toggle:hover {
-  border-color: var(--vp-c-brand);
-  background: var(--vp-c-bg-alt);
-}
-
-.theme-toggle svg {
-  width: 18px;
-  height: 18px;
-  fill: var(--vp-c-text-2);
-}
-
-/* ============================================
-   Fix Theme Toggle Position
-   ============================================ */
-
-@media (max-width: 768px) {
-  #theme-toggle-btn {
-    position: fixed !important;
-    bottom: 20px !important;
-    right: 20px !important;
-    z-index: 9999 !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
-  }
-}
-
-/* Desktop - in nav bar */
-@media (min-width: 769px) {
-  #theme-toggle-btn {
-    position: relative !important;
-    margin-left: 8px !important;
-  }
-}
-
-/* ============================================
-   Theme Toggle - Fixed Position
-   ============================================ */
-
-/* 强制将主题按钮放到正确位置 */
-#theme-toggle-btn {
-  position: absolute !important;
-  right: 60px !important;
-  top: 14px !important;
-  z-index: 1000 !important;
-}
-
-/* 隐藏模式下调整 */
-.VPNavBar .title-wrapper {
-  margin-right: 100px !important;
+#custom-theme-toggle .theme-btn:hover {
+  border-color: #FFF !important;
 }
