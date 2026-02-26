@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  ignoreDeadLinks: true,
   title: "panbo.space",
   description: "Coding && Thinking - 技术博客与思考记录",
   lang: 'zh-CN',

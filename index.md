@@ -1,9 +1,16 @@
 ---
-layout: custom
-title: Panbo.space - Java && React Developer
+layout: home
 ---
 
 <style>
+/* Hide default VitePress home elements */
+.VPHero,
+.home .VPFeatures,
+.home .VPContent > .container > .vp-doc > div:first-child,
+.home .VPContent > .container > .vp-doc > h1 {
+  display: none !important;
+}
+
 /* Hero Section Override */
 .VPHero {
   display: none !important;
@@ -545,31 +552,31 @@ title: Panbo.space - Java && React Developer
     <div class="posts-section">
       <h2 class="section-title">最近更新</h2>
       <div class="posts-grid">
+        <a href="/coding/React/React 入门系列课程" class="post-card">
+          <h3 class="post-card-title">React 入门系列课程</h3>
+          <div class="post-card-meta">
+            <span class="post-category">React</span>
+            <span class="post-arrow">→</span>
+          </div>
+        </a>
+        <a href="/coding/React/React 简介与环境搭建" class="post-card">
+          <h3 class="post-card-title">React 简介与环境搭建</h3>
+          <div class="post-card-meta">
+            <span class="post-category">React</span>
+            <span class="post-arrow">→</span>
+          </div>
+        </a>
+        <a href="/coding/React/TodoList 实战" class="post-card">
+          <h3 class="post-card-title">TodoList 实战 - 整合所有概念</h3>
+          <div class="post-card-meta">
+            <span class="post-category">React</span>
+            <span class="post-arrow">→</span>
+          </div>
+        </a>
         <a href="/coding/Redis/Redis 线程 IO 模型" class="post-card">
           <h3 class="post-card-title">Redis 线程 IO 模型</h3>
           <div class="post-card-meta">
             <span class="post-category">Redis</span>
-            <span class="post-arrow">→</span>
-          </div>
-        </a>
-        <a href="/coding/架构心得/项目稳定性 -- 限流" class="post-card">
-          <h3 class="post-card-title">项目稳定性 -- 限流</h3>
-          <div class="post-card-meta">
-            <span class="post-category">架构</span>
-            <span class="post-arrow">→</span>
-          </div>
-        </a>
-        <a href="/coding/架构心得/项目稳定性 -- 幂等" class="post-card">
-          <h3 class="post-card-title">项目稳定性 -- 幂等</h3>
-          <div class="post-card-meta">
-            <span class="post-category">架构</span>
-            <span class="post-arrow">→</span>
-          </div>
-        </a>
-        <a href="/coding/HSBC/汇丰业务线基本常识" class="post-card">
-          <h3 class="post-card-title">汇丰业务线基本常识</h3>
-          <div class="post-card-meta">
-            <span class="post-category">HSBC</span>
             <span class="post-arrow">→</span>
           </div>
         </a>
