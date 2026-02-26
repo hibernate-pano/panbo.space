@@ -491,16 +491,13 @@ layout: home
 }
 </style>
 
-<!-- 自定义首页 -->
 <div class="custom-home">
-  <!-- 背景元素 -->
   <div class="home-grid"></div>
   <div class="philosophy-decoration decoration-circle"></div>
   <div class="philosophy-decoration decoration-square"></div>
   <div class="philosophy-decoration decoration-triangle"></div>
 
   <div class="home-content">
-    <!-- 欢迎语 -->
     <div class="welcome-section">
       <p class="welcome-text">Welcome</p>
       <h1 class="name-title">Panbo</h1>
@@ -511,7 +508,6 @@ layout: home
       </p>
     </div>
 
-    <!-- 三个主要板块 -->
     <div class="sections-grid">
       <a href="/coding/" class="section-card tech">
         <span class="section-icon">⌘</span>
@@ -532,7 +528,6 @@ layout: home
       </a>
     </div>
 
-    <!-- 终端风格介绍 -->
     <div class="terminal-section">
       <div class="terminal-header">
         <span class="terminal-dot dot-1"></span>
@@ -554,7 +549,6 @@ layout: home
       </div>
     </div>
 
-    <!-- 技术栈 -->
     <div class="tech-section">
       <div class="section-header">
         <span class="section-label">Tech Stack</span>
@@ -572,7 +566,6 @@ layout: home
       </div>
     </div>
 
-    <!-- 社交链接 -->
     <div class="social-section">
       <div class="social-links">
         <a href="https://github.com/hibernate-pano" target="_blank" class="social-link" title="GitHub">
@@ -596,7 +589,6 @@ layout: home
       </div>
     </div>
 
-    <!-- 底部引用 -->
     <p class="footer-quote">学而时习之，不亦说乎</p>
   </div>
 </div>
