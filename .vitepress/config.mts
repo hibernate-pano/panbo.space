@@ -13,8 +13,9 @@ export default defineConfig({
     nav: [
       { text: '首页', link: '/' },
       { text: '💭 思考', link: '/thinking/关于贫穷' },
-      { 
-        text: '📚 技术导航', 
+      { text: '☦ 哲学', link: '/philosophy/尼采' },
+      {
+        text: '⌘ 技术导航',
         items: [
           { text: 'Java 并发', link: '/coding/Java/Java并发编程完全指南' },
           { text: 'MySQL', link: '/coding/MySQL/MySQL索引完全指南' },
@@ -35,6 +36,13 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '关于贫穷', link: '/thinking/关于贫穷' }
+        ]
+      },
+      {
+        text: '▸ 哲学专栏',
+        collapsed: false,
+        items: [
+          { text: '尼采', link: '/philosophy/尼采' }
         ]
       },
       {
