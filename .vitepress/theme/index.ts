@@ -27,8 +27,8 @@ export default {
             <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
             </svg>
-          `
-        }
+          </button>
+        `
 
         // 注入样式
         const style = document.createElement('style')
@@ -38,7 +38,6 @@ export default {
             align-items: center;
             margin: 0 12px;
           }
-
           #custom-theme-toggle .theme-btn {
             width: 38px;
             height: 38px;
@@ -53,7 +52,6 @@ export default {
             position: relative;
             overflow: hidden;
           }
-
           #custom-theme-toggle .theme-btn::before {
             content: '';
             position: absolute;
@@ -62,39 +60,29 @@ export default {
             opacity: 0;
             transition: opacity 0.25s ease;
           }
-
           #custom-theme-toggle .theme-btn:hover::before {
             opacity: 1;
           }
-
           #custom-theme-toggle .theme-btn:hover {
             border-color: var(--accent);
           }
-
           #custom-theme-toggle .sun-icon,
           #custom-theme-toggle .moon-icon {
             width: 18px;
             height: 18px;
             stroke: var(--text-secondary);
-            transition: stroke 0.25s ease, transform 0.3s ease;
+            transition: stroke 0.25s ease;
             position: relative;
             z-index: 1;
           }
-
           #custom-theme-toggle .theme-btn:hover .sun-icon,
           #custom-theme-toggle .theme-btn:hover .moon-icon {
             stroke: var(--accent);
           }
-
-          /* 浅色模式显示太阳（表示可以切换到深色）*/
           :root .sun-icon { display: block; }
           :root .moon-icon { display: none; }
-
-          /* 深色模式显示月亮（表示可以切换到浅色）*/
           :root.dark .sun-icon { display: none; }
           :root.dark .moon-icon { display: block; }
-
-          /* 点击动画 */
           #custom-theme-toggle .theme-btn:active {
             transform: scale(0.95);
           }
@@ -119,33 +107,26 @@ export default {
         })
 
         // Initialize theme from localStorage or system preference
-        const initTheme = () => {
-          const saved = localStorage.getItem('theme')
-          if (saved === 'dark') {
+        const saved = localStorage.getItem('theme')
+        if (saved === 'dark') {
+          document.documentElement.classList.add('dark')
+        } else if (saved === 'light') {
+          document.documentElement.classList.remove('dark')
+        } else {
+          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.documentElement.classList.add('dark')
-          } else if (saved === 'light') {
-            document.documentElement.classList.remove('dark')
+            localStorage.setItem('theme', 'dark')
           } else {
-            // Check system preference
-            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-              document.documentElement.classList.add('dark')
-              localStorage.setItem('theme', 'dark')
-            } else {
-              document.documentElement.classList.remove('dark')
-              localStorage.setItem('theme', 'light')
-            }
+            document.documentElement.classList.remove('dark')
+            localStorage.setItem('theme', 'light')
           }
         }
-
-        initTheme()
       }
 
       setTimeout(initThemeToggle, 500)
       setTimeout(initThemeToggle, 1000)
-    }
 
-    // Reading progress bar - 斯多葛风格
-    if (typeof window !== 'undefined') {
+      // Reading progress bar - 斯多葛风格
       document.addEventListener('DOMContentLoaded', () => {
         const progressBar = document.createElement('div')
         progressBar.style.cssText = `
