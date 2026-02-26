@@ -1,76 +1,109 @@
 /* ============================================
-   Panbo Blog - 工程师极简风格
-   Pure Black & White Professional Theme
+   Panbo Blog - 专业工程师主题
+   Professional Engineer Theme
+   Light / Dark Mode
    ============================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
 
-/* CSS Variables - 纯黑白 */
+/* ============================================
+   Dark Mode (默认)
+   ============================================ */
 :root {
-  /* 纯黑白 */
-  --vp-c-bg: #000000;
-  --vp-c-bg-alt: #0A0A0A;
-  --vp-c-bg-soft: #141414;
-
-  --vp-c-text-1: #FFFFFF;
-  --vp-c-text-2: #B3B3B3;
-  --vp-c-text-3: #666666;
-
-  /* 纯白强调 */
-  --vp-c-brand: #FFFFFF;
-  --vp-c-brand-light: #FFFFFF;
-  --vp-c-brand-dark: #E6E6E6;
+  /* 背景 */
+  --vp-c-bg: #0D1117;
+  --vp-c-bg-alt:;
+  --vp-c-bg-soft: #21262D;
   
-  --vp-c-accent: #FFFFFF;
-  --vp-c-accent-light: #FFFFFF;
-  --vp-c-accent-dark: #CCCCCC;
-
-  --vp-c-border: #333333;
-  --vp-c-divider: #222222;
-  --vp-c-gutter: #222222;
-
-  /* Typography */
+  /* 文字 #161B22 - 舒适的灰白色 */
+  --vp-c-text-1: #E6EDF3;
+  --vp-c-text-2: #8B949E;
+  --vp-c-text-3: #6E7681;
+  
+  /* 强调色 - 专业的蓝色 */
+  --vp-c-brand: #58A6FF;
+  --vp-c-brand-light: #79C0FF;
+  --vp-c-brand-dark: #388BFD;
+  
+  --vp-c-accent: #3FB950;
+  
+  /* 边框 */
+  --vp-c-border: #30363D;
+  --vp-c-divider: #21262D;
+  
+  /* 代码块 */
+  --code-bg: #161B22;
+  --code-border: #30363D;
+  
+  /* 字体 */
   --vp-font-family-base: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
   --vp-font-family-mono: 'JetBrains Mono', monospace;
-
+  
   --vp-sidebar-width: 280px;
   --vp-nav-height: 56px;
-
-  --vp-transition-duration: 0.15s;
-  
-  --code-bg: #0A0A0A;
-  --code-border: #333333;
 }
 
 /* ============================================
-   Base Styles
+   Light Mode
    ============================================ */
+.light {
+  /* 背景 - 干净的白色 */
+  --vp-c-bg: #FFFFFF;
+  --vp-c-bg-alt: #F6F8FA;
+  --vp-c-bg-soft: #F0F3F6;
+  
+  /* 文字 - 深灰非纯黑 */
+  --vp-c-text-1: #1F2328;
+  --vp-c-text-2: #57606A;
+  --vp-c-text-3: #8C959F;
+  
+  /* 强调色 - 专业的蓝色 */
+  --vp-c-brand: #0969DA;
+  --vp-c-brand-light: #218BFF;
+  --vp-c-brand-dark: #0550AE;
+  
+  --vp-c-accent: #1A7F37;
+  
+  /* 边框 */
+  --vp-c-border: #D0D7DE;
+  --vp-c-divider: #D8DEE4;
+  
+  /* 代码块 */
+  --code-bg: #F6F8FA;
+  --code-border: #D0D7DE;
+}
 
+/* ============================================
+   Base
+   ============================================ */
 html {
   color-scheme: dark;
 }
 
+.light html {
+  color-scheme: light;
+}
+
 body {
-  background: #000 !important;
-  color: #FFF;
+  background: var(--vp-c-bg) !important;
+  color: var(--vp-c-text-1);
 }
 
 .VPContent {
-  background: #000 !important;
+  background: var(--vp-c-bg) !important;
 }
 
 /* ============================================
    Typography
    ============================================ */
-
 .vp-doc {
-  font-family: 'Noto Sans SC', sans-serif;
+  font-family: var(--vp-font-family-base);
   line-height: 1.8;
   color: var(--vp-c-text-2);
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--vp-font-family-mono);
   font-weight: 600;
   color: var(--vp-c-text-1);
   letter-spacing: -0.02em;
@@ -85,7 +118,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .vp-doc h2 {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 600;
   border-bottom: 1px solid var(--vp-c-border);
   padding-bottom: 0.5rem;
@@ -94,7 +127,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .vp-doc h3 {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin-top: 2rem;
   margin-bottom: 0.75rem;
@@ -103,231 +136,197 @@ h1, h2, h3, h4, h5, h6 {
 .vp-doc p {
   margin-bottom: 1rem;
   font-size: 0.95rem;
+  line-height: 1.75;
 }
 
 .vp-doc a {
   color: var(--vp-c-brand);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-color: #444;
-  transition: text-decoration-color 0.2s;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
 }
 
 .vp-doc a:hover {
-  text-decoration-color: #FFF;
+  border-bottom-color: var(--vp-c-brand);
 }
 
 /* ============================================
-   Code Blocks
+   Code
    ============================================ */
-
 .vp-doc div[class*='language-'] {
   background: var(--code-bg) !important;
   border: 1px solid var(--code-border) !important;
-  border-radius: 4px;
-  font-family: 'JetBrains Mono', monospace !important;
+  border-radius: 6px;
+  font-family: var(--vp-font-family-mono) !important;
   font-size: 0.8rem !important;
   line-height: 1.6;
 }
 
 .vp-doc code {
-  font-family: 'JetBrains Mono', monospace !important;
+  font-family: var(--vp-font-family-mono) !important;
   background: var(--vp-c-bg-soft) !important;
-  color: var(--vp-c-brand) !important;
+  color: var(--vp-c-accent) !important;
   padding: 0.15em 0.4em !important;
-  border-radius: 3px !important;
-  font-size: 0.85em;
+  border-radius: 4px !important;
 }
 
 .vp-doc p code {
-  background: #1A1A1A !important;
-  color: #FFF !important;
-  border: 1px solid #333;
+  background: var(--vp-c-bg-soft) !important;
+  color: var(--vp-c-brand) !important;
 }
 
 /* ============================================
-   Navigation - 极简黑色
+   Navigation
    ============================================ */
-
 .VPNav {
-  background: #000 !important;
+  background: var(--vp-c-bg) !important;
   border-bottom: 1px solid var(--vp-c-border) !important;
   height: 56px !important;
 }
 
 .VPNavBar {
   background: transparent !important;
-  height: 56px !important;
 }
 
 .VPNavBar .title {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--vp-font-family-mono);
   font-weight: 600;
   font-size: 0.9rem;
-  color: #FFF !important;
-  letter-spacing: -0.02em;
+  color: var(--vp-c-text-1) !important;
 }
 
 .VPNavBar .logo {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--vp-font-family-mono);
   font-weight: 700;
   font-size: 0.95rem;
-  color: #FFF !important;
+  color: var(--vp-c-text-1) !important;
 }
 
 /* ============================================
    Sidebar
    ============================================ */
-
 .VPSidebar {
-  background: #0A0A0A !important;
+  background: var(--vp-c-bg-alt) !important;
   border-right: 1px solid var(--vp-c-border);
-  padding: 1rem 0 !important;
 }
 
 .VPSidebarItem {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.8rem;
 }
 
 .VPSidebarItem.is-active .text {
-  color: #FFF !important;
+  color: var(--vp-c-text-1) !important;
   font-weight: 600;
 }
 
 .VPSidebarItem .text {
-  color: #888 !important;
-  padding: 0.4rem 1rem !important;
+  color: var(--vp-c-text-2) !important;
   font-size: 0.75rem !important;
 }
 
 .VPSidebarItem .text:hover {
-  color: #FFF !important;
+  color: var(--vp-c-text-1) !important;
 }
 
 .VPSidebarSection-title {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--vp-font-family-mono);
   font-size: 0.65rem !important;
   font-weight: 600 !important;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: #555 !important;
-  padding-left: 1rem !important;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
+  letter-spacing: 0.1em;
+  color: var(--vp-c-text-3) !important;
 }
 
 /* ============================================
-   Home Page
+   Home
    ============================================ */
-
 .VPHero {
   padding: 4rem 2rem 3rem !important;
-  background: #000 !important;
+  background: var(--vp-c-bg) !important;
 }
 
 .VPHero .name {
-  font-family: 'JetBrains Mono', monospace !important;
+  font-family: var(--vp-font-family-mono) !important;
   font-size: 2.5rem !important;
   font-weight: 700;
-  color: #FFF !important;
-  letter-spacing: -0.04em;
-  margin-bottom: 0.5rem;
+  color: var(--vp-c-text-1) !important;
+  letter-spacing: -0.03em;
 }
 
 .VPHero .tagline {
-  font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.9rem;
-  color: #888;
-  letter-spacing: 0.02em;
+  font-family: var(--vp-font-family-mono) !important;
+  font-size: 0.95rem;
+  color: var(--vp-c-text-2);
 }
 
-/* Action buttons */
 .VPActionButton {
-  font-family: 'JetBrains Mono', monospace !important;
+  font-family: var(--vp-font-family-mono) !important;
   font-weight: 500 !important;
   font-size: 0.75rem !important;
-  border-radius: 3px !important;
+  border-radius: 4px !important;
   padding: 0.6rem 1.2rem !important;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .VPActionButton.brand {
-  background: #FFF !important;
-  border: 1px solid #FFF !important;
-  color: #000 !important;
-}
-
-.VPActionButton.brand:hover {
-  background: #E0E0E0 !important;
+  background: var(--vp-c-text-1) !important;
+  border: 1px solid var(--vp-c-text-1) !important;
+  color: var(--vp-c-bg) !important;
 }
 
 .VPActionButton.alt {
   background: transparent !important;
-  border: 1px solid #444 !important;
-  color: #FFF !important;
-}
-
-.VPActionButton.alt:hover {
-  border-color: #FFF !important;
-  background: #111 !important;
+  border: 1px solid var(--vp-c-border) !important;
+  color: var(--vp-c-text-1) !important;
 }
 
 /* ============================================
    Features
    ============================================ */
-
 .VPFeature {
   border: 1px solid var(--vp-c-border);
-  border-radius: 4px;
+  border-radius: 6px;
   padding: 1.25rem;
-  background: #0A0A0A;
-}
-
-.VPFeature:hover {
-  border-color: #555;
+  background: var(--vp-c-bg-alt);
 }
 
 .VPFeature .title {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--vp-font-family-mono);
   font-weight: 600;
-  font-size: 0.85rem;
-  color: #FFF;
+  font-size: 0.9rem;
+  color: var(--vp-c-text-1);
 }
 
 .VPFeature .details {
-  font-family: 'Noto Sans SC', sans-serif;
-  color: #888;
-  line-height: 1.6;
+  font-family: var(--vp-font-family-base);
+  color: var(--vp-c-text-2);
   font-size: 0.85rem;
 }
 
 /* ============================================
    Footer
    ============================================ */
-
 .VPFooter {
-  background: #050505;
+  background: var(--vp-c-bg-alt);
   border-top: 1px solid var(--vp-c-border);
 }
 
 .VPFooter .message {
-  font-family: 'JetBrains Mono', monospace;
-  color: #555;
+  font-family: var(--vp-font-family-mono);
+  color: var(--vp-c-text-3);
   font-size: 0.8rem;
 }
 
 .VPFooter .copyright {
-  font-family: 'JetBrains Mono', monospace;
-  color: #444;
+  font-family: var(--vp-font-family-mono);
+  color: var(--vp-c-text-3);
   font-size: 0.7rem;
 }
 
 /* ============================================
    Tables
    ============================================ */
-
 .vp-doc table {
   width: 100%;
   border-collapse: collapse;
@@ -336,88 +335,75 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .vp-doc th {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--vp-font-family-mono);
   font-weight: 600;
   text-align: left;
   padding: 0.75rem 1rem;
-  background: #111;
+  background: var(--vp-c-bg-soft);
   border: 1px solid var(--vp-c-border);
-  color: #FFF;
+  color: var(--vp-c-text-1);
   font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
 .vp-doc td {
   padding: 0.6rem 1rem;
   border: 1px solid var(--vp-c-border);
-  color: #AAA;
-  font-size: 0.85rem;
+  color: var(--vp-c-text-2);
 }
 
 .vp-doc tr:hover td {
-  background: #0A0A0A;
+  background: var(--vp-c-bg-alt);
 }
 
 /* ============================================
    Blockquote
    ============================================ */
-
 .vp-doc blockquote {
-  background: #0A0A0A;
-  border-left: 2px solid #FFF;
+  background: var(--vp-c-bg-alt);
+  border-left: 3px solid var(--vp-c-brand);
   padding: 1rem 1.25rem;
   margin: 1.5rem 0;
-  border-radius: 0 4px 4px 0;
 }
 
 .vp-doc blockquote p {
   margin: 0;
-  color: #AAA;
-  font-size: 0.9rem;
+  color: var(--vp-c-text-2);
 }
 
 /* ============================================
    Lists
    ============================================ */
-
 .vp-doc ul, .vp-doc ol {
   padding-left: 1.25rem;
   margin: 1rem 0;
 }
 
 .vp-doc li {
-  color: #AAA;
+  color: var(--vp-c-text-2);
   margin: 0.4rem 0;
   font-size: 0.9rem;
-}
-
-.vp-doc li::marker {
-  color: #666;
 }
 
 /* ============================================
    Scrollbar
    ============================================ */
-
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0A0A0A;
+  background: var(--vp-c-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: var(--vp-c-border);
   border-radius: 3px;
 }
 
 /* ============================================
-   Mobile Responsive
+   Mobile
    ============================================ */
-
 @media (max-width: 768px) {
   .vp-doc {
     padding: 1rem !important;
@@ -425,7 +411,7 @@ h1, h2, h3, h4, h5, h6 {
   }
   
   .vp-doc h1 {
-    font-size: 1.5rem !important;
+    font-size: 1.4rem !important;
   }
   
   .vp-doc h2 {
@@ -442,48 +428,19 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.75rem !important;
   }
   
-  .VPHero .tagline {
-    font-size: 0.8rem !important;
-  }
-  
   .VPFeature {
     padding: 1rem !important;
   }
 }
 
 /* ============================================
-   Theme Toggle Button - Minimal
+   Theme Toggle
    ============================================ */
-
 #custom-theme-toggle .theme-btn {
-  background: transparent !important;
-  border: 1px solid #333 !important;
+  background: var(--vp-c-bg-soft) !important;
+  border: 1px solid var(--vp-c-border) !important;
 }
 
 #custom-theme-toggle .theme-btn:hover {
-  border-color: #FFF !important;
-}
-
-/* Light Mode - 纯白模式 */
-:root, [data-theme="light"] {
-  --vp-c-bg: #FFFFFF;
-  --vp-c-bg-alt: #F5F5F5;
-  --vp-c-bg-soft: #EBEBEB;
-  --vp-c-text-1: #000000;
-  --vp-c-text-2: #333333;
-  --vp-c-text-3: #888888;
-  --vp-c-brand: #000000;
-  --vp-c-brand-light: #333333;
-  --vp-c-brand-dark: #000000;
-  --vp-c-accent: #000000;
-  --vp-c-border: #E0E0E0;
-  --vp-c-divider: #EBEBEB;
-  --vp-c-gutter: #EBEBEB;
-  --code-bg: #F5F5F5;
-  --code-border: #E0E0E0;
-}
-
-[data-theme="light"] body {
-  background: #FFF;
-  color: #000;
+  border-color: var(--vp-c-brand) !important;
 }
