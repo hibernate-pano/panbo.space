@@ -1,576 +1,603 @@
 ---
-layout: page
-title: 首页
+layout: home
 ---
 
 <style>
-/* ============================================
-   数字斯多葛主义 (Digital Stoicism)
-   UI Design: Absolute Restraint & Pure Logic
-
-   1. 色彩体系：单色系与焦点
-   2. 字体排印：哲学与代码的对话
-   3. 空间布局：网格与边框
-   4. 交互逻辑：目的驱动
-   5. 视觉符号：ASCII与纯文本
-   ============================================ */
-
-/* ============================================
-   CSS Variables - 色彩系统
-   ============================================ */
-:root, :root:not(.dark) {
-  /* 浅色模式 - 羊皮纸 */
-  --bg-primary:    #F4F4F0;
-  --bg-secondary:  #EAEAE5;
-  --bg-tertiary:   #E0E0DA;
-
-  --text-primary:  #2C2C2C;
-  --text-secondary:#5A5A55;
-  --text-muted:    #8A8A85;
-
-  /* 强调色 - 沉静蓝 */
-  --accent:        #4682B4;
-  --accent-light:  #6A9ED4;
-  --accent-soft:  rgba(70, 130, 180, 0.1);
-
-  --border:        #D0D0C8;
-  --border-light:  #E0E0D8;
-
-  /* 终端风格 */
-  --terminal-green: #4AF626;
-
-  /* 字体 */
-  --font-serif-cn:   'Noto Serif SC', 'Songti SC', serif;
-  --font-serif-en:  'EB Garamond', 'Times New Roman', serif;
-  --font-mono:      'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
-
-  --code-bg:       #E8E8E3;
-  --code-border:   #D0D0C8;
+/* Hide default VitePress home elements */
+.VPHero,
+.home .VPFeatures,
+.home .VPContent > .container > .vp-doc > div:first-child,
+.home .VPContent > .container > .vp-doc > h1 {
+  display: none !important;
 }
 
-:root.dark {
-  /* 深色模式 - 深夜终端 */
-  --bg-primary:    #121212;
-  --bg-secondary:  #1A1A1D;
-  --bg-tertiary:   #242428;
-
-  --text-primary:  #E0E0E0;
-  --text-secondary:#A0A0A0;
-  --text-muted:    #606060;
-
-  /* 强调色 - 终端绿 */
-  --accent:        #4AF626;
-  --accent-light:  #6AF846;
-  --accent-soft:   rgba(74, 246, 38, 0.15);
-
-  --border:        #2A2A2E;
-  --border-light:  #3A3A40;
-
-  /* 终端风格 */
-  --terminal-green: #4AF626;
-
-  /* 字体 */
-  --font-serif-cn:   'Noto Serif SC', 'Songti SC', serif;
-  --font-serif-en:  'EB Garamond', 'Times New Roman', serif;
-  --font-mono:      'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
-
-  --code-bg:       #1A1A1D;
-  --code-border:   #2A2A2E;
+/* Hero Section Override */
+.VPHero {
+  display: none !important;
 }
 
-/* ============================================
-   Base Reset
-   ============================================ */
-html {
-  color-scheme: light;
-}
-
-:root.dark html {
-  color-scheme: dark;
-}
-
-body {
-  background: var(--bg-primary) !important;
-  color: var(--text-primary) !important;
-  font-family: var(--font-serif-cn);
-  line-height: 1.7;
-  margin: 0;
-  padding: 0;
-}
-
-/* ============================================
-   首页容器 - 去除VitePress默认布局
-   ============================================ */
-.home-page {
-  min-height: 100vh;
+/* Custom Home Page */
+.custom-home {
+  min-height: calc(100vh - var(--vp-nav-height));
   padding: 0;
   margin: 0;
-  background: var(--bg-primary);
+  background: #0a0a0f;
   position: relative;
+  overflow: hidden;
 }
 
-/* 极简网格背景 */
-.home-grid {
-  position: fixed;
+/* Animated Grid Background */
+.grid-bg {
+  position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(var(--border-light) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border-light) 1px, transparent 1px);
-  background-size: 50px 50px;
+    linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(60px, 60px); }
+}
+
+/* Gradient Orbs */
+.gradient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
   opacity: 0.4;
-  pointer-events: none;
-  z-index: 0;
+  animation: float 8s ease-in-out infinite;
 }
 
-:root.dark .home-grid {
-  background-image:
-    linear-gradient(rgba(74, 246, 38, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(74, 246, 38, 0.03) 1px, transparent 1px);
+.orb-1 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent);
+  top: -100px;
+  right: -100px;
+  animation-delay: 0s;
 }
 
-/* ============================================
-   主内容区域 - 居中对齐
-   ============================================ */
+.orb-2 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.25), transparent);
+  bottom: -50px;
+  left: -50px;
+  animation-delay: -3s;
+}
+
+.orb-3 {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.2), transparent);
+  top: 40%;
+  left: 30%;
+  animation-delay: -5s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(20px, -20px); }
+}
+
+/* Content Container */
 .home-content {
   position: relative;
   z-index: 1;
-  max-width: 720px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 80px 24pxpx;
+  padding: 80px 24px;
 }
 
-/* ============================================
-   60 Header - 极简风格
-   ============================================ */
-.site-header {
-  text-align: center;
-  margin-bottom: 72px;
-  padding-top: 40px;
-}
-
-.site-title {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  margin-bottom: 24px;
-}
-
-.site-title::before {
-  content: '/* ';
-  color: var(--accent);
-}
-
-.site-title::after {
-  content: ' */';
-  color: var(--accent);
-}
-
-.name-title {
-  font-family: var(--font-serif-en);
-  font-size: 3.5rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  letter-spacing: 0.02em;
-  margin: 0 0 12px;
-  line-height: 1.2;
-}
-
-.name-subtitle {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  margin-bottom: 24px;
-  letter-spacing: 0.05em;
-}
-
-/* 哲学座右铭 */
-.motto {
-  font-family: var(--font-serif-cn);
-  font-size: 1rem;
-  color: var(--text-muted);
-  max-width: 500px;
-  margin: 0 auto;
-  line-height: 1.9;
-  position: relative;
-  padding: 16px 0;
-}
-
-.motto::before {
-  content: '「';
-  font-family: var(--font-serif-en);
-  font-size: 2rem;
-  color: var(--accent);
-  opacity: 0.4;
-  position: absolute;
-  top: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.motto::after {
-  content: '」';
-  font-family: var(--font-serif-en);
-  font-size: 2rem;
-  color: var(--accent);
-  opacity: 0.4;
-  position: absolute;
-  bottom: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* ============================================
-   分割线 - ASCII 风格
-   ============================================ */
-.divider {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--border);
-  text-align: center;
-  margin: 48px 0;
-  letter-spacing: 0.3em;
-}
-
-/* ============================================
-   章节导航 - 极简边框风格
-   ============================================ */
-.sections-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+/* Terminal Style */
+.terminal {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 12px;
+  padding: 24px;
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+  font-size: 14px;
+  line-height: 1.8;
   margin-bottom: 48px;
-}
-
-.section-card {
-  background: var(--bg-primary);
-  padding: 28px 20px;
-  text-decoration: none;
-  display: block;
-  transition: background 0.15s ease;
-}
-
-.section-card:hover {
-  background: var(--bg-secondary);
-}
-
-.section-icon {
-  font-family: var(--font-mono);
-  font-size: 1rem;
-  color: var(--accent);
-  margin-bottom: 12px;
-  display: block;
-}
-
-.section-title {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 6px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.section-desc {
-  font-family: var(--font-serif-cn);
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
-
-/* ============================================
-   终端风格自我介绍
-   ============================================ */
-.terminal-block {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  padding: 20px 24px;
-  margin-bottom: 40px;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .terminal-header {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  gap: 8px;
   margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border-light);
 }
 
 .terminal-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
 }
 
-.dot-red { background: #C23B22; }
-.dot-yellow { background: #C9A227; }
-.dot-green { background: var(--terminal-green); }
-
-.terminal-title {
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  margin-left: 8px;
-}
+.dot-red { background: #ef4444; }
+.dot-yellow { background: #eab308; }
+.dot-green { background: #22c55e; }
 
 .terminal-line {
-  color: var(--text-secondary);
-  line-height: 1.9;
+  color: #a5b4fc;
+  min-height: 24px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .terminal-line::before {
-  content: '$';
-  color: var(--accent);
-  margin-right: 10px;
+  content: '➜';
+  color: #22c55e;
+  margin-right: 12px;
   flex-shrink: 0;
 }
 
-.terminal-line .comment {
-  color: var(--text-muted);
-  font-style: italic;
+/* Typewriter cursor */
+.type-cursor {
+  display: inline-block;
+  width: 10px;
+  height: 18px;
+  background: #22c55e;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
 }
 
-/* ============================================
-   技术栈 - 标签风格
-   ============================================ */
-.tech-section {
-  margin-bottom: 40px;
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
-.section-label {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
+/* Profile Section */
+.profile-section {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.avatar-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 24px;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  font-weight: 700;
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+
+.avatar-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4);
+  animation: rotate 3s linear infinite;
+  z-index: 0;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.avatar-ring::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: #0a0a0f;
+}
+
+.name-title {
+  font-family: 'Archivo', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.title-desc {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  color: #94a3b8;
   margin-bottom: 16px;
-  display: block;
 }
 
-.section-label::before {
-  content: '# ';
-  color: var(--accent);
+.motto {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  color: #64748b;
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Tech Stack */
+.tech-section {
+  margin-bottom: 64px;
+}
+
+.section-title {
+  font-family: 'Archivo', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title::before {
+  content: '>';
+  color: #3b82f6;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .tech-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px;
+  justify-content: center;
 }
 
 .tech-tag {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  padding: 5px 12px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--text-secondary);
-  transition: all 0.15s ease;
-}
-
-.tech-tag:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  cursor: default;
-}
-
-/* ============================================
-   链接区块 - 纯文本风格
-   ============================================ */
-.links-section {
-  margin-top: 48px;
-  padding-top: 32px;
-  border-top: 1px solid var(--border);
-}
-
-.link-item {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  text-decoration: none;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.9rem;
+  color: #93c5fd;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 0;
-  transition: color 0.15s ease;
+  transition: all 0.3s ease;
 }
 
-.link-item::before {
-  content: '->';
-  color: var(--accent);
-  font-size: 0.7rem;
+.tech-tag:hover {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.4);
+  transform: translateY(-2px);
 }
 
-.link-item:hover {
-  color: var(--accent);
+/* Action Buttons */
+.action-section {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 64px;
 }
 
-.link-item[href^="http"]::after {
-  content: ' [ext]';
-  font-size: 0.65rem;
-  color: var(--text-muted);
+.action-btn {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 14px 32px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* ============================================
-   底部引用
-   ============================================ */
-.footer-quote {
-  text-align: center;
-  margin-top: 56px;
-  font-family: var(--font-serif-en);
-  font-style: italic;
-  color: var(--text-muted);
+.action-btn.primary {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+}
+
+.action-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
+}
+
+.action-btn.secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.action-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Posts Section */
+.posts-section {
+  margin-bottom: 64px;
+}
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.post-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: block;
+}
+
+.post-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(59, 130, 246, 0.3);
+  transform: translateY(-2px);
+}
+
+.post-card-title {
+  font-family: 'Archivo', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.post-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 0.85rem;
 }
 
-.footer-quote::before {
-  content: '—— ';
+.post-category {
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+  padding: 4px 10px;
+  border-radius: 4px;
 }
 
-.footer-quote::after {
-  content: ' ——';
+.post-arrow {
+  color: #64748b;
+  margin-left: auto;
+  transition: transform 0.3s ease;
 }
 
-/* ============================================
-   响应式设计
-   ============================================ */
+.post-card:hover .post-arrow {
+  transform: translateX(4px);
+  color: #3b82f6;
+}
+
+/* Social Links */
+.social-section {
+  text-align: center;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.social-links {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.social-link {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.social-link:hover {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #60a5fa;
+  transform: translateY(-2px);
+}
+
+/* Footer Quote */
+.footer-quote {
+  text-align: center;
+  margin-top: 64px;
+  padding: 24px;
+  font-family: 'Space Grotesk', sans-serif;
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .home-content {
-    padding: 48px 16px 40px;
+    padding: 48px 16px;
   }
 
   .name-title {
-    font-size: 2.5rem;
+    font-size: 1.75rem;
   }
 
-  .motto {
-    font-size: 0.9rem;
+  .title-desc {
+    font-size: 1rem;
   }
 
-  .sections-grid {
-    grid-template-columns: 1fr;
-    gap: 1px;
-  }
-
-  .section-card {
-    padding: 24px 16px;
-  }
-
-  .terminal-block {
-    font-size: 0.75rem;
+  .terminal {
+    font-size: 12px;
     padding: 16px;
   }
 
-  .home-grid {
-    background-size: 30px 30px;
+  .avatar {
+    width: 100px;
+    height: 100px;
+    font-size: 40px;
+  }
+
+  .action-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .action-btn {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
   }
 }
 
-/* ============================================
-   减少动画 (Accessibility)
-   ============================================ */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-    animation: none !important;
+  .grid-bg,
+  .gradient-orb,
+  .avatar-ring,
+  .type-cursor {
+    animation: none;
+  }
+
+  .tech-tag,
+  .action-btn,
+  .post-card,
+  .social-link {
+    transition: none;
   }
 }
 </style>
 
-<!-- 首页内容 -->
-<div class="home-page">
-  <div class="home-grid"></div>
+<!-- Custom Home Page -->
+<div class="custom-home">
+  <!-- Background Effects -->
+  <div class="grid-bg"></div>
+  <div class="gradient-orb orb-1"></div>
+  <div class="gradient-orb orb-2"></div>
+  <div class="gradient-orb orb-3"></div>
 
   <div class="home-content">
-    <!-- Header -->
-    <header class="site-header">
-      <p class="site-title">panbo.space</p>
-      <h1 class="name-title">Panbo</h1>
-      <p class="name-subtitle">Java Engineer & Philosophy Enthusiast</p>
-      <p class="motto">
-        偶尔思考，偶尔编码<br>
-        在代码中寻找秩序，在哲学中寻找意义
-      </p>
-    </header>
-
-    <!-- 分割线 -->
-    <p class="divider">/* --- */</p>
-
-    <!-- 章节导航 -->
-    <nav class="sections-grid">
-      <a href="/coding/" class="section-card">
-        <span class="section-icon">[CODE]</span>
-        <h3 class="section-title">技术记录</h3>
-        <p class="section-desc">Java、架构、数据库<br>与代码为伴的日常</p>
-      </a>
-
-      <a href="/philosophy/" class="section-card">
-        <span class="section-icon">[PHI]</span>
-        <h3 class="section-title">哲学专栏</h3>
-        <p class="section-desc">尼采、康德、存在主义<br>思考人类处境与意义</p>
-      </a>
-
-      <a href="/thinking/" class="section-card">
-        <span class="section-icon">[IDEA]</span>
-        <h3 class="section-title">思考碎片</h3>
-        <p class="section-desc">生活感悟、读书笔记<br>灵光一现的记录</p>
-      </a>
-    </nav>
-
-    <!-- 终端风格自我介绍 -->
-    <div class="terminal-block">
+    <!-- Terminal Intro -->
+    <div class="terminal">
       <div class="terminal-header">
         <span class="terminal-dot dot-red"></span>
         <span class="terminal-dot dot-yellow"></span>
         <span class="terminal-dot dot-green"></span>
-        <span class="terminal-title">about-me.sh</span>
       </div>
-      <div class="terminal-line">
-        <span class="comment"># 一名普通的程序员，喜欢写代码和思考</span>
-      </div>
-      <div class="terminal-line">
-        <span class="comment"># 相信技术可以改变世界</span>
-      </div>
-      <div class="terminal-line">
-        <span class="comment"># 但更相信思考的力量</span>
-      </div>
-      <div class="terminal-line">
-        <span class="comment"># 学而时习之，不亦说乎</span>
-      </div>
+      <div class="terminal-line">npm install @panbo/developer</div>
+      <div class="terminal-line">npm run build-life -- --backend=java --frontend=react</div>
+      <div class="terminal-line">cat about-me.md <span class="type-cursor"></span></div>
     </div>
 
-    <!-- 技术栈 -->
+    <!-- Profile Section -->
+    <div class="profile-section">
+      <div class="avatar-container">
+        <div class="avatar-ring"></div>
+        <div class="avatar">P</div>
+      </div>
+      <h1 class="name-title">Panbo</h1>
+      <p class="title-desc">Java && React Developer</p>
+      <p class="motto">
+        子曰：学而时习之，不亦说乎？<br>
+        持续学习，持续输出，探索技术的边界
+      </p>
+    </div>
+
+    <!-- Tech Stack -->
     <div class="tech-section">
-      <span class="section-label">Tech Stack</span>
+      <h2 class="section-title">Tech Stack</h2>
       <div class="tech-grid">
-        <span class="tech-tag">Java</span>
-        <span class="tech-tag">Spring</span>
-        <span class="tech-tag">React</span>
-        <span class="tech-tag">MySQL</span>
-        <span class="tech-tag">Redis</span>
-        <span class="tech-tag">Docker</span>
-        <span class="tech-tag">K8s</span>
-        <span class="tech-tag">Git</span>
+        <span class="tech-tag">☕ Java</span>
+        <span class="tech-tag">⚛️ React</span>
+        <span class="tech-tag">🍃 Spring Boot</span>
+        <span class="tech-tag">⚡ Redis</span>
+        <span class="tech-tag">🐬 MySQL</span>
+        <span class="tech-tag">☸️ Kubernetes</span>
+        <span class="tech-tag">🐳 Docker</span>
+        <span class="tech-tag">📂 Git</span>
       </div>
     </div>
 
-    <!-- 链接 -->
-    <nav class="links-section">
-      <a href="https://github.com/hibernate-pano" target="_blank" class="link-item">GitHub</a>
-      <a href="https://x.com/HibernatePano" target="_blank" class="link-item">Twitter/X</a>
-      <a href="/about" class="link-item">About</a>
-    </nav>
+    <!-- Actions -->
+    <div class="action-section">
+      <a href="/coding/Redis/Redis%20介绍和基本命令" class="action-btn primary">
+        <span>进入技术频道</span>
+        <span>→</span>
+      </a>
+      <a href="/thinking/关于贫穷" class="action-btn secondary">
+        <span>思考记录</span>
+        <span>→</span>
+      </a>
+      <a href="/about" class="action-btn secondary">
+        <span>关于我</span>
+        <span>→</span>
+      </a>
+    </div>
 
-    <!-- 底部引用 -->
-    <p class="footer-quote">学而时习之，不亦说乎</p>
+    <!-- Recent Posts -->
+    <div class="posts-section">
+      <h2 class="section-title">最近更新</h2>
+      <div class="posts-grid">
+        <a href="/coding/React/React 入门系列课程" class="post-card">
+          <h3 class="post-card-title">React 入门系列课程</h3>
+          <div class="post-card-meta">
+            <span class="post-category">React</span>
+            <span class="post-arrow">→</span>
+          </div>
+        </a>
+        <a href="/coding/React/React 简介与环境搭建" class="post-card">
+          <h3 class="post-card-title">React 简介与环境搭建</h3>
+          <div class="post-card-meta">
+            <span class="post-category">React</span>
+            <span class="post-arrow">→</span>
+          </div>
+        </a>
+        <a href="/coding/React/TodoList 实战" class="post-card">
+          <h3 class="post-card-title">TodoList 实战 - 整合所有概念</h3>
+          <div class="post-card-meta">
+            <span class="post-category">React</span>
+            <span class="post-arrow">→</span>
+          </div>
+        </a>
+        <a href="/coding/Redis/Redis 线程 IO 模型" class="post-card">
+          <h3 class="post-card-title">Redis 线程 IO 模型</h3>
+          <div class="post-card-meta">
+            <span class="post-category">Redis</span>
+            <span class="post-arrow">→</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Social Links -->
+    <div class="social-section">
+      <div class="social-links">
+        <a href="https://github.com/hibernate-pano" target="_blank" class="social-link" title="GitHub">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        </a>
+        <a href="https://x.com/HibernatePano" target="_blank" class="social-link" title="Twitter/X">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Footer Quote -->
+    <div class="footer-quote">
+      <p>学而时习之，不亦说乎？</p>
+    </div>
   </div>
 </div>
