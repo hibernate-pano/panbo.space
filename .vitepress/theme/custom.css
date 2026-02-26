@@ -503,3 +503,25 @@ h1, h2, h3, h4, h5, h6 {
   height: 18px;
   fill: var(--vp-c-text-2);
 }
+
+/* ============================================
+   Fix Theme Toggle Position
+   ============================================ */
+
+@media (max-width: 768px) {
+  #theme-toggle-btn {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 9999 !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+  }
+}
+
+/* Desktop - in nav bar */
+@media (min-width: 769px) {
+  #theme-toggle-btn {
+    position: relative !important;
+    margin-left: 8px !important;
+  }
+}
