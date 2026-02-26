@@ -86,11 +86,11 @@ export default defineConfig({
       }
     ],
 
-    // 社交链接
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/hibernate-pano', ariaLabel: 'GitHub' },
-      { icon: 'twitter', link: 'https://x.com/HibernatePano', ariaLabel: 'Twitter/X' }
-    ],
+    // 社交链接 - 首页不显示
+    // socialLinks: [
+    //   { icon: 'github', link: 'https://github.com/hibernate-pano', ariaLabel: 'GitHub' },
+    //   { icon: 'twitter', link: 'https://x.com/HibernatePano', ariaLabel: 'Twitter/X' }
+    // ],
 
     // 搜索
     search: {
