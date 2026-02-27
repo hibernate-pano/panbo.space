@@ -1,64 +1,80 @@
 /* ============================================
-   Panbo Blog - 数字斯多葛主义
-   Digital Stoicism Theme
+   Panbo Blog - Cyber Terminal
+   赛博终端主题
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700&family=Fira+Code:wght@400;500;600&display=swap');
 
 /* ============================================
    CSS Variables - 色彩体系
    ============================================ */
-:root, :root:not(.dark) {
-  /* 浅色模式 - 羊皮纸质感 */
-  --vp-c-bg: #F4F4F0;
-  --vp-c-bg-alt: #EAEAEA;
-  --vp-c-bg-soft: #E5E5E0;
-  
-  /* 文字 - 高对比但柔和 */
-  --vp-c-text-1: #2C2C2C;
-  --vp-c-text-2: #555555;
-  --vp-c-text-3: #888888;
-  
-  /* 强调色 - 沉静蓝 */
-  --vp-c-brand: #4682B4;
-  --vp-c-brand-light: #5A9BC9;
-  --vp-c-brand-dark: #356791;
-  
-  /* 边框 - 1px 实线 */
-  --vp-c-border: #C0C0C0;
-  --vp-c-divider: #D8D8D4;
-  
-  /* 代码块 */
-  --code-bg: #E8E8E4;
-  --code-border: #C0C0C0;
-  
-  /* 字体 */
-  --vp-font-family-base: 'Noto Serif SC', 'EB Garamond', Georgia, serif;
-  --vp-font-family-mono: 'JetBrains Mono', 'Fira Code', monospace;
-  
-  --vp-sidebar-width: 260px;
+
+/* 暗色模式（主角） */
+:root.dark {
+  --vp-c-bg: #0a0a0f;
+  --vp-c-bg-alt: #111318;
+  --vp-c-bg-soft: #1a1d24;
+
+  --vp-c-text-1: #c8d6e5;
+  --vp-c-text-2: #6b7b8d;
+  --vp-c-text-3: #3d4a5c;
+
+  --vp-c-brand: #00ff41;
+  --vp-c-brand-light: #33ff66;
+  --vp-c-brand-dark: #00cc34;
+  --vp-c-brand-1: #00ff41;
+  --vp-c-brand-2: #33ff66;
+  --vp-c-brand-3: #00cc34;
+
+  --vp-c-border: #1e2530;
+  --vp-c-divider: #1e2530;
+
+  --cyber-glow: rgba(0, 255, 65, 0.15);
+  --cyber-amber: #ffb000;
+  --cyber-amber-glow: rgba(255, 176, 0, 0.15);
+
+  --code-bg: #0d0f14;
+  --code-border: #1e2530;
+
+  --vp-font-family-base: 'Noto Sans SC', 'IBM Plex Mono', sans-serif;
+  --vp-font-family-mono: 'IBM Plex Mono', 'Fira Code', monospace;
+
+  --vp-sidebar-width: 280px;
   --vp-nav-height: 52px;
 }
 
-/* 深色模式 - 石板灰 */
-:root.dark {
-  --vp-c-bg: #1C1E21;
-  --vp-c-bg-alt: #121212;
-  --vp-c-bg-soft: #252829;
-  
-  --vp-c-text-1: #E0E0E0;
-  --vp-c-text-2: #A0A0A0;
-  --vp-c-text-3: #666666;
-  
-  --vp-c-brand: #4AF626;
-  --vp-c-brand-light: #6FF547;
-  --vp-c-brand-dark: #3AC71E;
-  
-  --vp-c-border: #3A3A3A;
-  --vp-c-divider: #2A2A2A;
-  
-  --code-bg: #141618;
-  --code-border: #3A3A3A;
+/* 亮色模式（极客白） */
+:root, :root:not(.dark) {
+  --vp-c-bg: #f0f2f5;
+  --vp-c-bg-alt: #e4e7eb;
+  --vp-c-bg-soft: #ffffff;
+
+  --vp-c-text-1: #1a1d24;
+  --vp-c-text-2: #4a5568;
+  --vp-c-text-3: #9ca3af;
+
+  --vp-c-brand: #00a832;
+  --vp-c-brand-light: #00c93d;
+  --vp-c-brand-dark: #008a29;
+  --vp-c-brand-1: #00a832;
+  --vp-c-brand-2: #00c93d;
+  --vp-c-brand-3: #008a29;
+
+  --vp-c-border: #d1d5db;
+  --vp-c-divider: #d1d5db;
+
+  --cyber-glow: rgba(0, 168, 50, 0.1);
+  --cyber-amber: #d4880e;
+  --cyber-amber-glow: rgba(212, 136, 14, 0.1);
+
+  --code-bg: #e8eaed;
+  --code-border: #d1d5db;
+
+  --vp-font-family-base: 'Noto Sans SC', 'IBM Plex Mono', sans-serif;
+  --vp-font-family-mono: 'IBM Plex Mono', 'Fira Code', monospace;
+
+  --vp-sidebar-width: 280px;
+  --vp-nav-height: 52px;
 }
 
 /* ============================================
@@ -78,42 +94,123 @@ body {
   font-family: var(--vp-font-family-base);
 }
 
+* {
+  border-radius: 0 !important;
+}
+
 .VPContent {
   background: var(--vp-c-bg) !important;
+  padding-top: 0 !important;
 }
 
 /* ============================================
-   Base Styles
+   Global CRT Scanlines Overlay
+   ============================================ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+}
+
+:root.dark body::before {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+}
+
+/* Noise texture overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9997;
+  opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+:root.dark body::after {
+  opacity: 0.03;
+}
+
+/* ============================================
+   Document Content Styles
    ============================================ */
 .vp-doc {
   font-family: var(--vp-font-family-base);
-  line-height: 1.7;
+  line-height: 1.8;
   color: var(--vp-c-text-2);
-  max-width: 65ch;
+  padding: 24px 24px !important;
 }
 
+/* Override VitePress default content width constraint */
+.VPDoc .content-container {
+  max-width: 100% !important;
+}
+
+.VPDoc.has-aside .content {
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}
+
+.VPDoc .container {
+  gap: 16px;
+}
+
+.VPDoc .aside {
+  flex-shrink: 0;
+}
+
+/* Headings - mono, uppercase, spacing */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--vp-font-family-mono);
   font-weight: 600;
   color: var(--vp-c-text-1);
-  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .vp-doc h1 {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  border-bottom: 1px solid var(--vp-c-border);
+  border-bottom: 2px solid var(--vp-c-brand);
   padding-bottom: 0.6rem;
   margin-bottom: 1.2rem;
+  text-shadow: 0 0 10px var(--cyber-glow);
+}
+
+.vp-doc h1::before {
+  content: '# ';
+  color: var(--vp-c-brand);
+  opacity: 0.5;
 }
 
 .vp-doc h2 {
   font-size: 1.15rem;
   font-weight: 600;
-  border-bottom: 1px solid var(--vp-c-divider);
+  border-bottom: 1px solid var(--vp-c-border);
   padding-bottom: 0.4rem;
   margin-top: 2rem;
   margin-bottom: 0.8rem;
+}
+
+.vp-doc h2::before {
+  content: '## ';
+  color: var(--vp-c-brand);
+  opacity: 0.4;
 }
 
 .vp-doc h3 {
@@ -123,24 +220,40 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0.6rem;
 }
 
+.vp-doc h3::before {
+  content: '### ';
+  color: var(--vp-c-brand);
+  opacity: 0.3;
+}
+
 .vp-doc p {
   margin-bottom: 0.9rem;
   font-size: 0.95rem;
-  line-height: 1.7;
+  line-height: 1.8;
 }
 
-/* Links - 极简下划线 */
+/* Links - glow hover */
 .vp-doc a {
   color: var(--vp-c-brand);
   text-decoration: none;
   border-bottom: 1px solid var(--vp-c-border);
+  transition: all 0.25s ease;
 }
 
 .vp-doc a:hover {
   border-bottom-color: var(--vp-c-brand);
+  text-shadow: 0 0 8px var(--cyber-glow);
 }
 
-/* Meta data - 代码注释风格 */
+/* External link marker */
+.vp-doc a[href^="http"]::after {
+  content: " ↗";
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.7em;
+  color: var(--vp-c-text-3);
+}
+
+/* Meta data */
 .vp-doc .meta {
   font-family: var(--vp-font-family-mono);
   font-size: 0.7rem;
@@ -148,229 +261,130 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================
-   Code - 终端风格
+   Code Blocks - Terminal Style
    ============================================ */
 .vp-doc div[class*='language-'] {
   background: var(--code-bg) !important;
-  border: 1px solid var(--code-border) !important;
-  border-radius: 2px !important;
-  font-family: var(--vp-font-family-mono) !important;
-  font-size: 0.75rem !important;
-  line-height: 1.5;
+  border: 1px solid var(--vp-c-brand) !important;
+  border-left: 3px solid var(--vp-c-brand) !important;
+  font-family: 'Fira Code', var(--vp-font-family-mono) !important;
+  font-size: 0.8rem !important;
+  line-height: 1.6;
+  margin: 1.2rem 0;
+  box-shadow: 0 0 15px var(--cyber-glow);
+  position: relative;
+  overflow: visible;
+}
+
+/* Terminal header with dots */
+.vp-doc div[class*='language-']::before {
+  content: '●  ●  ●';
+  display: block;
+  padding: 8px 12px;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--vp-c-text-3);
+  border-bottom: 1px solid var(--vp-c-border);
+  background: var(--vp-c-bg-soft);
+}
+
+:root.dark .vp-doc div[class*='language-']::before {
+  color: #ff5f56;
+  text-shadow: 18px 0 0 #ffbd2e, 36px 0 0 #27c93f;
+}
+
+:root:not(.dark) .vp-doc div[class*='language-']::before {
+  color: #e06c6c;
+  text-shadow: 18px 0 0 #e0b44c, 36px 0 0 #5eb85e;
 }
 
 .vp-doc code {
-  font-family: var(--vp-font-family-mono) !important;
+  font-family: 'Fira Code', var(--vp-font-family-mono) !important;
+  font-feature-settings: "liga" 1;
   background: var(--vp-c-bg-soft) !important;
   color: var(--vp-c-brand) !important;
-  padding: 0.12em 0.35em !important;
-  border-radius: 2px !important;
+  padding: 0.15em 0.4em !important;
   font-size: 0.85em;
 }
 
 .vp-doc p code {
   background: var(--vp-c-bg-soft) !important;
   color: var(--vp-c-brand) !important;
+  padding: 0.2em 0.5em !important;
+  border: 1px solid var(--vp-c-border);
 }
 
-/* ============================================
-   Navigation - 极简克制
-   ============================================ */
-.VPNav {
-  background: var(--vp-c-bg) !important;
-  border-bottom: 1px solid var(--vp-c-border) !important;
-  height: 52px !important;
-}
-
-.VPNavBar {
-  background: transparent !important;
-}
-
-.VPNavBar .title {
-  font-family: var(--vp-font-family-mono);
-  font-weight: 600;
-  font-size: 0.85rem;
-  color: var(--vp-c-text-1) !important;
-}
-
-.VPNavBar .logo {
-  font-family: var(--vp-font-family-mono);
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: var(--vp-c-text-1) !important;
-}
-
-/* ============================================
-   Sidebar - 知识管理风格
-   ============================================ */
-.VPSidebar {
-  background: var(--vp-c-bg-alt) !important;
-  border-right: 1px solid var(--vp-c-border);
-}
-
-.VPSidebarItem {
-  font-family: var(--vp-font-family-mono);
-  font-size: 0.75rem;
-}
-
-.VPSidebarItem.is-active .text {
-  color: var(--vp-c-text-1) !important;
-  font-weight: 600;
-}
-
-.VPSidebarItem .text {
-  color: var(--vp-c-text-2) !important;
-  font-size: 0.7rem !important;
-}
-
-.VPSidebarItem .text:hover {
-  color: var(--vp-c-brand) !important;
-}
-
-.VPSidebarSection-title {
-  font-family: var(--vp-font-family-mono);
+/* Language tag */
+.vp-doc div[class*='language-'] .language-tag {
+  font-family: var(--vp-font-family-mono) !important;
   font-size: 0.6rem !important;
-  font-weight: 500 !important;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--vp-c-text-3) !important;
-  padding-left: 0.75rem !important;
-}
-
-/* ============================================
-   Home Page
-   ============================================ */
-.VPHero {
-  padding: 3.5rem 1.5rem 2.5rem !important;
-  background: var(--vp-c-bg) !important;
-}
-
-.VPHero .name {
-  font-family: var(--vp-font-family-mono) !important;
-  font-size: 2.2rem !important;
-  font-weight: 700;
-  color: var(--vp-c-text-1) !important;
-  letter-spacing: -0.03em;
-}
-
-.VPHero .tagline {
-  font-family: var(--vp-font-family-base) !important;
-  font-size: 0.9rem;
-  color: var(--vp-c-text-2);
-  font-style: italic;
-}
-
-/* Action buttons - 硬边矩形 */
-.VPActionButton {
-  font-family: var(--vp-font-family-mono) !important;
-  font-weight: 500 !important;
-  font-size: 0.7rem !important;
-  border-radius: 2px !important;
-  padding: 0.5rem 1rem !important;
   letter-spacing: 0.05em;
 }
 
-.VPActionButton.brand {
-  background: var(--vp-c-text-1) !important;
-  border: 1px solid var(--vp-c-text-1) !important;
-  color: var(--vp-c-bg) !important;
-}
-
-.VPActionButton.alt {
-  background: transparent !important;
-  border: 1px solid var(--vp-c-border) !important;
-  color: var(--vp-c-text-1) !important;
-}
-
 /* ============================================
-   Features - 无阴影边框
+   Tables - Hard Edge Geek
    ============================================ */
-.VPFeature {
-  border: 1px solid var(--vp-c-border);
-  border-radius: 2px;
-  padding: 1rem;
-  background: var(--vp-c-bg-alt);
+
+/* Table wrapper - ensure full width + horizontal scroll for wide tables */
+.vp-doc > div:has(> table) {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1.2rem 0;
 }
 
-.VPFeature .title {
-  font-family: var(--vp-font-family-mono);
-  font-weight: 600;
-  font-size: 0.85rem;
-  color: var(--vp-c-text-1);
-}
-
-.VPFeature .details {
-  font-family: var(--vp-font-family-base);
-  color: var(--vp-c-text-2);
-  font-size: 0.8rem;
-  line-height: 1.6;
-}
-
-/* ============================================
-   Footer
-   ============================================ */
-.VPFooter {
-  background: var(--vp-c-bg-alt);
-  border-top: 1px solid var(--vp-c-border);
-}
-
-.VPFooter .message {
-  font-family: var(--vp-font-family-mono);
-  color: var(--vp-c-text-3);
-  font-size: 0.75rem;
-}
-
-.VPFooter .copyright {
-  font-family: var(--vp-font-family-mono);
-  color: var(--vp-c-text-3);
-  font-size: 0.65rem;
-}
-
-/* ============================================
-   Tables - 极简边框
-   ============================================ */
 .vp-doc table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.8rem;
-  margin: 1.2rem 0;
+  margin: 0;
+  border: 1px solid var(--vp-c-brand);
+  border-left: 3px solid var(--vp-c-brand);
+  box-shadow: 0 0 12px var(--cyber-glow);
 }
 
 .vp-doc th {
   font-family: var(--vp-font-family-mono);
   font-weight: 600;
   text-align: left;
-  padding: 0.5rem 0.75rem;
-  background: var(--vp-c-bg-soft);
+  padding: 0.6rem 1rem;
+  background: var(--vp-c-bg-alt);
   border: 1px solid var(--vp-c-border);
-  color: var(--vp-c-text-1);
-  font-size: 0.7rem;
+  color: var(--vp-c-brand);
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
 }
 
 .vp-doc td {
-  padding: 0.5rem 0.75rem;
+  padding: 0.6rem 1rem;
   border: 1px solid var(--vp-c-border);
   color: var(--vp-c-text-2);
-  font-size: 0.8rem;
+  font-size: 0.82rem;
+}
+
+.vp-doc tr:hover {
+  background: var(--cyber-glow);
 }
 
 /* ============================================
-   Blockquote - ASCII 风格
+   Blockquote - Terminal Comment Style
    ============================================ */
 .vp-doc blockquote {
-  background: var(--vp-c-bg-alt);
+  background: var(--vp-c-bg-soft);
   border-left: 3px solid var(--vp-c-brand);
   padding: 0.8rem 1rem;
   margin: 1.2rem 0;
-  border-radius: 0;
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.85rem;
+  position: relative;
 }
 
 .vp-doc blockquote::before {
-  content: "> ";
+  content: "// ";
   font-family: var(--vp-font-family-mono);
   color: var(--vp-c-brand);
+  opacity: 0.6;
 }
 
 .vp-doc blockquote p {
@@ -395,101 +409,26 @@ h1, h2, h3, h4, h5, h6 {
 
 .vp-doc li::marker {
   font-family: var(--vp-font-family-mono);
-  color: var(--vp-c-text-3);
+  color: var(--vp-c-brand);
 }
 
 /* ============================================
-   Scrollbar - 极简
-   ============================================ */
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--vp-c-bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--vp-c-border);
-}
-
-/* ============================================
-   Interactive - 目的驱动，无过渡
-   ============================================ */
-a, button {
-  transition: none !important;
-}
-
-a:hover, button:hover {
-  /* 直接切换，无动画 */
-}
-
-/* ============================================
-   Mobile - 响应式
-   ============================================ */
-@media (max-width: 768px) {
-  .vp-doc {
-    padding: 0.8rem !important;
-    font-size: 14px !important;
-  }
-  
-  .vp-doc h1 {
-    font-size: 1.3rem !important;
-  }
-  
-  .vp-doc h2 {
-    font-size: 1rem !important;
-  }
-  
-  .vp-doc div[class*='language-'] {
-    font-size: 0.7rem !important;
-    margin: 0.8rem -0.8rem !important;
-    border-radius: 0 !important;
-  }
-  
-  .VPHero .name {
-    font-size: 1.5rem !important;
-  }
-  
-  .VPHero .tagline {
-    font-size: 0.8rem !important;
-  }
-  
-  .VPFeature {
-    padding: 0.8rem !important;
-  }
-}
-
-/* ============================================
-   Theme Toggle - 纯文本符号
-   ============================================ */
-#custom-theme-toggle .theme-btn {
-  background: transparent !important;
-  border: 1px solid var(--vp-c-border) !important;
-  font-family: var(--vp-font-family-mono);
-}
-
-#custom-theme-toggle .theme-btn:hover {
-  border-color: var(--vp-c-brand) !important;
-}
-
-/* ============================================
-   ASCII 分割线
+   Horizontal Rule - Terminal Separator
    ============================================ */
 .vp-doc hr {
   border: none;
-  border-top: 1px solid var(--vp-c-divider);
+  border-top: 1px solid var(--vp-c-border);
   margin: 2rem 0;
+  position: relative;
 }
 
 .vp-doc hr::before {
-  content: "/* --- */";
+  content: "// ─────────────────────────────";
   display: block;
   text-align: center;
   color: var(--vp-c-text-3);
   font-family: var(--vp-font-family-mono);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   margin-top: -0.5rem;
   background: var(--vp-c-bg);
   width: fit-content;
@@ -499,25 +438,34 @@ a:hover, button:hover {
 }
 
 /* ============================================
-   外部链接标记
+   Images
    ============================================ */
-.vp-doc a[href^="http"]::after {
-  content: " [->]";
-  font-family: var(--vp-font-family-mono);
-  font-size: 0.7em;
-  color: var(--vp-c-text-3);
+.vp-doc img {
+  border: 1px solid var(--vp-c-border);
 }
 
 /* ============================================
-   标签样式 - #tag
+   Badge
+   ============================================ */
+.vp-doc .badge {
+  font-family: var(--vp-font-family-mono) !important;
+  font-size: 0.65rem !important;
+  padding: 2px 6px !important;
+  border: 1px solid var(--vp-c-brand) !important;
+  background: var(--cyber-glow) !important;
+  color: var(--vp-c-brand) !important;
+}
+
+/* ============================================
+   Tag Style - #tag
    ============================================ */
 .vp-doc .tag {
   font-family: var(--vp-font-family-mono);
   font-size: 0.75rem;
   color: var(--vp-c-brand);
-  background: var(--vp-c-bg-soft);
+  background: var(--cyber-glow);
   padding: 0.15em 0.4em;
-  border-radius: 2px;
+  border: 1px solid var(--vp-c-brand);
 }
 
 .vp-doc .tag::before {
@@ -525,55 +473,253 @@ a:hover, button:hover {
 }
 
 /* ============================================
-   Search - 命令面板风格
+   Navigation - Cyber Terminal
+   ============================================ */
+.VPNav {
+  background: var(--vp-c-bg-alt) !important;
+  border-bottom: 1px solid var(--vp-c-border) !important;
+  height: 52px !important;
+  position: relative;
+}
+
+/* Bottom green gradient line */
+.VPNav::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--vp-c-brand), transparent);
+  opacity: 0.6;
+}
+
+.VPNavBar {
+  background: transparent !important;
+  padding: 0 16px !important;
+}
+
+.VPNavBar .title {
+  font-family: var(--vp-font-family-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--vp-c-brand) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 8px var(--cyber-glow);
+}
+
+.VPNavBar .logo {
+  font-family: var(--vp-font-family-mono);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--vp-c-brand) !important;
+}
+
+/* Nav links - glitch hover */
+.VPNavBar a {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.VPNavBarMenuLink .VPLink:hover,
+.VPNavBar .VPFlyout:hover .text {
+  color: var(--vp-c-brand) !important;
+  text-shadow: 0 0 8px var(--cyber-glow);
+}
+
+/* Glitch hover effect on nav */
+@keyframes glitch-hover {
+  0% { transform: translate(0); }
+  20% { transform: translate(-1px, 1px); }
+  40% { transform: translate(1px, -1px); }
+  60% { transform: translate(-1px, 0); }
+  80% { transform: translate(1px, 1px); }
+  100% { transform: translate(0); }
+}
+
+.VPNavBarMenuLink:hover .VPLink {
+  animation: glitch-hover 0.3s ease;
+}
+
+/* ============================================
+   Sidebar - Terminal Directory Tree
+   ============================================ */
+.VPSidebar {
+  background: var(--vp-c-bg-alt) !important;
+  border-right: 1px solid var(--vp-c-border);
+  padding: 16px 16px 16px 16px !important;
+  width: 272px !important;
+}
+
+/* Hide scrollbar */
+.VPSidebar {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.VPSidebar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.VPSidebar > div {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.VPSidebar > div::-webkit-scrollbar {
+  display: none !important;
+}
+
+.VPSidebarItem {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.75rem;
+  margin: 2px 0;
+}
+
+.VPSidebarItem.is-active .text {
+  color: var(--vp-c-brand) !important;
+  font-weight: 600;
+  background: var(--cyber-glow);
+  text-shadow: 0 0 6px var(--cyber-glow);
+}
+
+.VPSidebarItem .text {
+  color: var(--vp-c-text-2) !important;
+  font-size: 0.7rem !important;
+  padding: 6px 12px !important;
+  transition: all 0.2s ease;
+}
+
+.VPSidebarItem .text:hover {
+  color: var(--vp-c-brand) !important;
+  background: var(--cyber-glow);
+  padding-left: 16px !important;
+}
+
+.VPSidebarSection-title {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.6rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--vp-c-brand) !important;
+  padding: 12px 16px 8px !important;
+  opacity: 0.7;
+}
+
+/* Sidebar buttons */
+.VPSidebarItem button {
+  padding: 6px 12px !important;
+  color: var(--vp-c-text-2) !important;
+  font-size: 0.7rem !important;
+}
+
+.VPSidebarItem button:hover {
+  background: var(--cyber-glow) !important;
+  color: var(--vp-c-brand) !important;
+}
+
+.VPSidebarItem .arrow {
+  fill: var(--vp-c-text-3) !important;
+  transition: transform 0.2s ease;
+}
+
+.VPSidebarItem button:hover .arrow {
+  fill: var(--vp-c-brand) !important;
+}
+
+/* ============================================
+   Outline - Right Side TOC
+   ============================================ */
+.VPDocOutline {
+  border-left: 1px solid var(--vp-c-border) !important;
+  padding: 16px 16px 16px 16px !important;
+  margin-left: 24px;
+}
+
+.VPDocOutlineItem {
+  font-family: var(--vp-font-family-mono) !important;
+  font-size: 0.7rem !important;
+  margin: 4px 0 !important;
+}
+
+.VPDocOutlineItem .text {
+  color: var(--vp-c-text-2) !important;
+  padding: 4px 8px !important;
+  transition: all 0.2s ease;
+}
+
+.VPDocOutlineItem .text:hover {
+  color: var(--vp-c-brand) !important;
+  background: var(--cyber-glow);
+}
+
+.VPDocOutlineItem.is-active .text {
+  color: var(--vp-c-brand) !important;
+  background: var(--cyber-glow);
+  font-weight: 500;
+  border-left: 2px solid var(--vp-c-brand);
+  text-shadow: 0 0 6px var(--cyber-glow);
+}
+
+/* Hide outline scrollbar */
+.VPDocOutline {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.VPDocOutline::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+}
+
+/* ============================================
+   Search - Command Palette Style
    ============================================ */
 .VPLocalSearchBox {
   background: var(--vp-c-bg-alt) !important;
-  border: 1px solid var(--vp-c-border) !important;
-  border-radius: 2px !important;
+  border: 1px solid var(--vp-c-brand) !important;
+  padding: 8px !important;
+  box-shadow: 0 0 20px var(--cyber-glow) !important;
 }
 
 .VPLocalSearchBox input {
   font-family: var(--vp-font-family-mono) !important;
   background: var(--vp-c-bg) !important;
   border: 1px solid var(--vp-c-border) !important;
-  border-radius: 2px !important;
   color: var(--vp-c-text-1) !important;
+  padding: 8px 12px !important;
+  font-size: 0.8rem !important;
 }
 
 .VPLocalSearchBox input::placeholder {
   color: var(--vp-c-text-3) !important;
   font-family: var(--vp-font-family-mono) !important;
+  font-size: 0.7rem !important;
 }
 
 .VPLocalSearchBox .result-title {
   font-family: var(--vp-font-family-mono) !important;
   color: var(--vp-c-text-1) !important;
+  font-size: 0.8rem !important;
 }
 
 .VPLocalSearchBox .result-link {
   font-family: var(--vp-font-family-mono) !important;
   color: var(--vp-c-brand) !important;
-}
-
-/* ============================================
-   Outline - 右侧目录
-   ============================================ */
-.VPDocOutline {
-  border-left: 1px solid var(--vp-c-border) !important;
-}
-
-.VPDocOutlineItem {
-  font-family: var(--vp-font-family-mono) !important;
   font-size: 0.7rem !important;
 }
 
-.VPDocOutlineItem .text {
+.VPLocalSearchBox .result-excerpt {
+  font-size: 0.75rem !important;
   color: var(--vp-c-text-2) !important;
-}
-
-.VPDocOutlineItem.is-active .text {
-  color: var(--vp-c-brand) !important;
 }
 
 /* ============================================
@@ -584,59 +730,96 @@ a:hover, button:hover {
   font-size: 0.7rem !important;
   background: var(--vp-c-bg-alt) !important;
   border: 1px solid var(--vp-c-border) !important;
-  border-radius: 0 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .vp-doc .vp-code-group .tabs input:checked + label {
   background: var(--code-bg) !important;
   border-bottom-color: var(--code-bg) !important;
+  color: var(--vp-c-brand) !important;
 }
 
-/* ============================================
-   Copy Code Button
-   ============================================ */
+/* Copy Code Button */
 .vp-doc .vp-code-copy {
   font-family: var(--vp-font-family-mono) !important;
-  border-radius: 2px !important;
 }
 
 /* ============================================
-   Image - 保持简洁
+   Footer
    ============================================ */
-.vp-doc img {
-  border: 1px solid var(--vp-c-border);
-  border-radius: 2px;
+.VPFooter {
+  background: var(--vp-c-bg-alt);
+  border-top: 1px solid var(--vp-c-border);
+  padding: 20px !important;
+  position: relative;
 }
 
-/* ============================================
-   Badge
-   ============================================ */
-.vp-doc .badge {
-  font-family: var(--vp-font-family-mono) !important;
-  font-size: 0.65rem !important;
-  padding: 2px 6px !important;
-  border-radius: 2px !important;
-  border: 1px solid var(--vp-c-border) !important;
+.VPFooter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--vp-c-brand), transparent);
+  opacity: 0.4;
 }
 
-/* ============================================
-   Timeline (if used)
-   ============================================ */
-.vp-doc .timeline-item {
-  border-left: 1px solid var(--vp-c-border) !important;
-  padding-left: 16px !important;
-}
-
-.vp-doc .timeline-item::before {
-  content: "●";
-  color: var(--vp-c-brand);
+.VPFooter .message {
   font-family: var(--vp-font-family-mono);
-  font-size: 0.6rem;
+  color: var(--vp-c-text-3);
+  font-size: 0.75rem;
+}
+
+.VPFooter .copyright {
+  font-family: var(--vp-font-family-mono);
+  color: var(--vp-c-text-3);
+  font-size: 0.65rem;
 }
 
 /* ============================================
-   Home Page - 数字斯多葛主义首页
+   Scrollbar - Cyber Style
    ============================================ */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--vp-c-border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--vp-c-brand);
+}
+
+.VPSidebar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--vp-c-border) transparent;
+}
+
+.VPSidebar::-webkit-scrollbar {
+  width: 0 !important;
+  display: none !important;
+}
+
+/* ============================================
+   Interactive - Transitions
+   ============================================ */
+a, button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* ============================================
+   Home Page Styles
+   ============================================ */
+
+/* Hide default VitePress hero/features */
 .home .VPHero,
 .home .VPFeatures,
 .home .VPContent > .container > .vp-doc > div:first-child,
@@ -644,345 +827,695 @@ a:hover, button:hover {
   display: none !important;
 }
 
-.stoic-home {
+/* Home Container */
+.cyber-home {
   min-height: calc(100vh - var(--vp-nav-height));
   background: var(--vp-c-bg);
   padding: 0;
   margin: 0;
+  position: relative;
+  overflow: hidden;
 }
 
-.stoic-grid {
+/* Tech grid background */
+.cyber-grid {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
   opacity: 0.03;
   background-image:
-    linear-gradient(var(--vp-c-text-2) 1px, transparent 1px),
-    linear-gradient(90deg, var(--vp-c-text-2) 1px, transparent 1px);
+    linear-gradient(var(--vp-c-brand) 1px, transparent 1px),
+    linear-gradient(90deg, var(--vp-c-brand) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
-.stoic-content {
+:root:not(.dark) .cyber-grid {
+  opacity: 0.02;
+}
+
+/* Green glow orbs */
+.cyber-glow {
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  border-radius: 50% !important;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(100px);
+}
+
+.cyber-glow--top {
+  top: -200px;
+  right: -100px;
+  background: var(--vp-c-brand);
+  opacity: 0.04;
+}
+
+:root:not(.dark) .cyber-glow--top {
+  opacity: 0.02;
+}
+
+.cyber-glow--bottom {
+  bottom: -200px;
+  left: -100px;
+  background: var(--vp-c-brand);
+  opacity: 0.03;
+}
+
+:root:not(.dark) .cyber-glow--bottom {
+  opacity: 0.015;
+}
+
+/* Content wrapper */
+.cyber-content {
   position: relative;
   z-index: 1;
-  max-width: 65ch;
+  max-width: 72ch;
   margin: 0 auto;
-  padding: 80px 24px;
+  padding: 80px 24px 80px;
 }
 
-.stoic-header {
-  margin-bottom: 64px;
-  border-bottom: 1px solid var(--vp-c-border);
-  padding-bottom: 24px;
-}
-
-.stoic-header::before {
-  content: "/* ============================================ */";
-  display: block;
+/* ============================================
+   ASCII Art Header
+   ============================================ */
+.cyber-ascii {
   font-family: var(--vp-font-family-mono);
-  font-size: 0.65rem;
-  color: var(--vp-c-text-3);
-  margin-bottom: 16px;
-  letter-spacing: 0.05em;
-}
-
-.stoic-title {
-  font-family: var(--vp-font-family-mono);
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--vp-c-text-1);
-  letter-spacing: -0.03em;
+  font-size: 0.55rem;
+  line-height: 1.15;
+  color: var(--vp-c-brand);
+  white-space: pre;
   margin-bottom: 8px;
+  padding-top: 8px;
+  text-shadow: 0 0 20px var(--cyber-glow), 0 0 40px rgba(0, 255, 65, 0.05);
+  opacity: 0;
+  animation: fadeSlideIn 0.6s ease forwards;
+  overflow-x: auto;
 }
 
-.stoic-subtitle {
-  font-family: var(--vp-font-family-base);
-  font-size: 0.95rem;
+.cyber-tagline {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.8rem;
   color: var(--vp-c-text-2);
-  font-style: italic;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeSlideIn 0.6s ease 0.15s forwards;
 }
 
-.stoic-terminal {
-  background: var(--vp-c-bg-alt);
+.cyber-tagline .blink {
+  animation: blink 1s step-end infinite;
+  color: var(--vp-c-brand);
+}
+
+/* ============================================
+   Terminal Block
+   ============================================ */
+.cyber-terminal {
+  background: var(--vp-c-bg-soft);
   border: 1px solid var(--vp-c-border);
-  padding: 20px;
-  margin-bottom: 48px;
+  border-left: 3px solid var(--vp-c-brand);
+  padding: 0;
+  margin-bottom: 40px;
   font-family: var(--vp-font-family-mono);
   font-size: 0.75rem;
   line-height: 1.8;
+  position: relative;
+  opacity: 0;
+  animation: fadeSlideIn 0.6s ease 0.3s forwards;
+  box-shadow: 0 0 20px var(--cyber-glow);
 }
 
-.stoic-terminal::before {
-  content: "> cat README.md";
-  display: block;
-  color: var(--vp-c-brand);
-  margin-bottom: 12px;
-}
-
-.stoic-terminal-line {
-  color: var(--vp-c-text-2);
-  padding-left: 0;
-}
-
-.stoic-terminal-line::before {
-  content: "$ ";
-  color: var(--vp-c-text-3);
-  margin-right: 8px;
-}
-
-.stoic-profile {
-  margin-bottom: 48px;
-}
-
-.stoic-profile-title {
-  font-family: var(--vp-font-family-mono);
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: var(--vp-c-text-3);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  margin-bottom: 16px;
-}
-
-.stoic-profile-title::before {
-  content: "// ";
-  color: var(--vp-c-brand);
-}
-
-.stoic-name {
-  font-family: var(--vp-font-family-mono);
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--vp-c-text-1);
-  margin-bottom: 12px;
-}
-
-.stoic-role {
-  font-family: var(--vp-font-family-mono);
-  font-size: 0.75rem;
-  color: var(--vp-c-brand);
-  margin-bottom: 16px;
-}
-
-.stoic-motto {
-  font-family: var(--vp-font-family-base);
-  font-size: 0.9rem;
-  color: var(--vp-c-text-2);
-  line-height: 1.7;
-  border-left: 2px solid var(--vp-c-border);
-  padding-left: 16px;
-}
-
-.stoic-tech {
-  margin-bottom: 48px;
-}
-
-.stoic-section-title {
-  font-family: var(--vp-font-family-mono);
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: var(--vp-c-text-3);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  margin-bottom: 16px;
-}
-
-.stoic-section-title::before {
-  content: "## ";
-  color: var(--vp-c-brand);
-}
-
-.stoic-tags {
+.cyber-terminal-header {
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
-}
-
-.stoic-tag {
-  font-family: var(--vp-font-family-mono);
-  font-size: 0.7rem;
-  color: var(--vp-c-text-2);
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--vp-c-border);
   background: var(--vp-c-bg-alt);
-  border: 1px solid var(--vp-c-border);
-  padding: 4px 10px;
-}
-
-.stoic-nav {
-  margin-bottom: 48px;
-}
-
-.stoic-nav-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.stoic-nav-item {
-  margin-bottom: 8px;
-}
-
-.stoic-nav-link {
-  display: block;
-  font-family: var(--vp-font-family-mono);
-  font-size: 0.8rem;
+  font-size: 0.68rem;
   color: var(--vp-c-text-2);
-  text-decoration: none;
-  padding: 8px 12px;
-  border: 1px solid transparent;
 }
 
-.stoic-nav-link:hover {
-  color: var(--vp-c-brand);
-  border-color: var(--vp-c-border);
-  background: var(--vp-c-bg-alt);
-}
-
-.stoic-nav-link::before {
-  content: "[ ] ";
-  color: var(--vp-c-text-3);
-  margin-right: 8px;
-}
-
-.stoic-nav-link:hover::before {
-  content: "[x] ";
-  color: var(--vp-c-brand);
-}
-
-.stoic-posts {
-  margin-bottom: 48px;
-}
-
-.stoic-post-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.stoic-post-item {
-  border-bottom: 1px solid var(--vp-c-divider);
-  padding: 12px 0;
-}
-
-.stoic-post-item:last-child {
-  border-bottom: none;
-}
-
-.stoic-post-link {
-  display: block;
-  text-decoration: none;
-}
-
-.stoic-post-title {
-  font-family: var(--vp-font-family-mono);
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--vp-c-text-1);
-  margin-bottom: 4px;
-}
-
-.stoic-post-link:hover .stoic-post-title {
-  color: var(--vp-c-brand);
-}
-
-.stoic-post-meta {
-  font-family: var(--vp-font-family-mono);
-  font-size: 0.65rem;
-  color: var(--vp-c-text-3);
-}
-
-.stoic-post-meta .category {
-  color: var(--vp-c-brand);
-}
-
-.stoic-post-meta .category::before {
-  content: "#";
-}
-
-.stoic-social {
-  padding-top: 24px;
-  border-top: 1px solid var(--vp-c-border);
-  margin-top: 48px;
-}
-
-.stoic-social-title {
-  font-family: var(--vp-font-family-mono);
-  font-size: 0.65rem;
-  color: var(--vp-c-text-3);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 12px;
-}
-
-.stoic-social-list {
+.cyber-terminal-dots {
   display: flex;
-  gap: 16px;
+  gap: 6px;
 }
 
-.stoic-social-link {
-  font-family: var(--vp-font-family-mono);
-  font-size: 0.75rem;
-  color: var(--vp-c-text-2);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
+.cyber-terminal-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50% !important;
 }
 
-.stoic-social-link:hover {
-  color: var(--vp-c-brand);
-  border-bottom-color: var(--vp-c-brand);
-}
+:root.dark .cyber-terminal-dots span:nth-child(1) { background: #ff5f56; }
+:root.dark .cyber-terminal-dots span:nth-child(2) { background: #ffbd2e; }
+:root.dark .cyber-terminal-dots span:nth-child(3) { background: #27c93f; }
 
-.stoic-social-link::after {
-  content: " [->]";
-  font-size: 0.65rem;
-  color: var(--vp-c-text-3);
-}
+:root:not(.dark) .cyber-terminal-dots span:nth-child(1) { background: #e06c6c; }
+:root:not(.dark) .cyber-terminal-dots span:nth-child(2) { background: #e0b44c; }
+:root:not(.dark) .cyber-terminal-dots span:nth-child(3) { background: #5eb85e; }
 
-.stoic-footer {
-  margin-top: 64px;
-  padding-top: 24px;
-  border-top: 1px solid var(--vp-c-border);
+.cyber-terminal-title {
+  flex: 1;
   text-align: center;
 }
 
-.stoic-footer-text {
+.cyber-terminal-body {
+  padding: 18px 24px;
+}
+
+.cyber-terminal-cmd {
+  color: var(--vp-c-brand);
+  margin-bottom: 8px;
+}
+
+.cyber-terminal-cmd::before {
+  content: '$ ';
+  opacity: 0.6;
+}
+
+.cyber-terminal-output {
+  color: var(--vp-c-text-2);
+  padding-left: 16px;
+}
+
+.cyber-terminal-output .key {
+  color: var(--cyber-amber);
+}
+
+.cyber-terminal-output .val {
+  color: var(--vp-c-text-1);
+}
+
+.cyber-terminal-output .comment {
+  color: var(--vp-c-text-3);
+  font-style: italic;
+}
+
+.cyber-terminal-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: var(--vp-c-brand);
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+  margin-left: 4px;
+}
+
+/* ============================================
+   Section Title
+   ============================================ */
+.cyber-section-title {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--vp-c-text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px dashed var(--vp-c-border);
+}
+
+.cyber-section-title .prefix {
+  color: var(--vp-c-brand);
+  text-shadow: 0 0 6px var(--cyber-glow);
+}
+
+.cyber-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--vp-c-border), transparent);
+}
+
+/* ============================================
+   Tech Stack - npm list style
+   ============================================ */
+.cyber-tech {
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeSlideIn 0.6s ease 0.45s forwards;
+}
+
+.cyber-tech-list {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.75rem;
+  color: var(--vp-c-text-2);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-border);
+  border-left: 3px solid var(--vp-c-brand);
+  padding: 14px 20px;
+  box-shadow: 0 0 12px var(--cyber-glow);
+}
+
+.cyber-tech-item {
+  padding: 4px 0;
+  transition: all 0.2s ease;
+}
+
+.cyber-tech-item:hover {
+  color: var(--vp-c-brand);
+  padding-left: 4px;
+}
+
+.cyber-tech-item .tree {
+  color: var(--vp-c-text-3);
+  margin-right: 4px;
+}
+
+.cyber-tech-item .name {
+  color: var(--vp-c-text-1);
+}
+
+.cyber-tech-item .ver {
+  color: var(--vp-c-brand);
+  opacity: 0.7;
+}
+
+/* ============================================
+   Navigation - Terminal Commands
+   ============================================ */
+.cyber-nav {
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeSlideIn 0.6s ease 0.6s forwards;
+}
+
+.cyber-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cyber-nav-item {
+  margin-bottom: 4px;
+}
+
+.cyber-nav-link {
+  display: block;
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.82rem;
+  color: var(--vp-c-text-2);
+  text-decoration: none;
+  padding: 10px 16px;
+  border-left: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.cyber-nav-link:hover {
+  color: var(--vp-c-brand);
+  border-left-color: var(--vp-c-brand);
+  background: var(--cyber-glow);
+  padding-left: 22px;
+  text-shadow: 0 0 8px var(--cyber-glow);
+}
+
+.cyber-nav-link .prompt {
+  color: var(--vp-c-brand);
+  margin-right: 8px;
+  opacity: 0.6;
+}
+
+.cyber-nav-link .cmd {
+  color: var(--cyber-amber);
+  margin-right: 4px;
+}
+
+.cyber-nav-link .arg {
+  color: var(--vp-c-text-1);
+}
+
+/* ============================================
+   Recent Posts - git log style
+   ============================================ */
+.cyber-posts {
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeSlideIn 0.6s ease 0.75s forwards;
+}
+
+.cyber-post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-family: var(--vp-font-family-mono);
+}
+
+.cyber-post-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--vp-c-border);
+  transition: all 0.2s ease;
+}
+
+.cyber-post-item:last-child {
+  border-bottom: none;
+}
+
+.cyber-post-item:hover {
+  padding-left: 8px;
+  border-bottom-color: var(--vp-c-brand);
+}
+
+.cyber-post-link {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  text-decoration: none;
+  font-size: 0.82rem;
+  flex-wrap: wrap;
+}
+
+.cyber-post-hash {
+  color: var(--cyber-amber);
+  font-size: 0.72rem;
+  flex-shrink: 0;
+  text-shadow: 0 0 4px var(--cyber-amber-glow);
+}
+
+.cyber-post-title {
+  color: var(--vp-c-text-1);
+  transition: color 0.2s ease;
+}
+
+.cyber-post-link:hover .cyber-post-title {
+  color: var(--vp-c-brand);
+  text-shadow: 0 0 6px var(--cyber-glow);
+}
+
+.cyber-post-meta {
+  color: var(--vp-c-text-3);
+  font-size: 0.65rem;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.cyber-post-meta .tag {
+  color: var(--vp-c-brand);
+  opacity: 0.7;
+}
+
+/* ============================================
+   Social Links
+   ============================================ */
+.cyber-social {
+  padding-top: 28px;
+  border-top: 1px solid var(--vp-c-border);
+  margin-top: 48px;
+  opacity: 0;
+  animation: fadeSlideIn 0.6s ease 0.9s forwards;
+}
+
+.cyber-social-list {
+  display: flex;
+  gap: 24px;
+}
+
+.cyber-social-link {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.82rem;
+  color: var(--vp-c-text-2);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+}
+
+.cyber-social-link:hover {
+  color: var(--vp-c-brand);
+  text-shadow: 0 0 8px var(--cyber-glow);
+  border-color: var(--vp-c-border);
+  background: var(--cyber-glow);
+}
+
+.cyber-social-link::before {
+  content: '> ';
+  color: var(--vp-c-brand);
+  opacity: 0.5;
+}
+
+/* ============================================
+   Home Footer
+   ============================================ */
+.cyber-footer {
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--vp-c-border);
+  text-align: center;
+  opacity: 0;
+  animation: fadeSlideIn 0.6s ease 1.05s forwards;
+  position: relative;
+}
+
+.cyber-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--vp-c-brand), transparent);
+  opacity: 0.3;
+}
+
+.cyber-footer-text {
   font-family: var(--vp-font-family-mono);
   font-size: 0.65rem;
   color: var(--vp-c-text-3);
+  letter-spacing: 0.08em;
 }
 
-.stoic-footer-text::before {
-  content: "/* ";
+/* ============================================
+   Theme Toggle - Terminal Style
+   ============================================ */
+#custom-theme-toggle .theme-btn {
+  background: transparent !important;
+  border: 1px solid var(--vp-c-border) !important;
+  font-family: var(--vp-font-family-mono);
 }
 
-.stoic-footer-text::after {
-  content: " */";
+#custom-theme-toggle .theme-btn:hover {
+  border-color: var(--vp-c-brand) !important;
+  color: var(--vp-c-brand) !important;
+  box-shadow: 0 0 8px var(--cyber-glow);
 }
 
+/* ============================================
+   Features (if used)
+   ============================================ */
+.VPFeature {
+  border: 1px solid var(--vp-c-border);
+  padding: 1rem;
+  background: var(--vp-c-bg-soft);
+}
+
+.VPFeature .title {
+  font-family: var(--vp-font-family-mono);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--vp-c-brand);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.VPFeature .details {
+  font-family: var(--vp-font-family-base);
+  color: var(--vp-c-text-2);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes subtle-flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.8; }
+  94% { opacity: 1; }
+  96% { opacity: 0.9; }
+  97% { opacity: 1; }
+}
+
+/* ============================================
+   Hero override
+   ============================================ */
+.VPHero {
+  padding: 3.5rem 1.5rem 2.5rem !important;
+  background: var(--vp-c-bg) !important;
+}
+
+.VPHero .name {
+  font-family: var(--vp-font-family-mono) !important;
+  font-size: 2.2rem !important;
+  font-weight: 700;
+  color: var(--vp-c-brand) !important;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.VPHero .tagline {
+  font-family: var(--vp-font-family-mono) !important;
+  font-size: 0.9rem;
+  color: var(--vp-c-text-2);
+}
+
+.VPActionButton {
+  font-family: var(--vp-font-family-mono) !important;
+  font-weight: 500 !important;
+  font-size: 0.7rem !important;
+  padding: 0.5rem 1rem !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.VPActionButton.brand {
+  background: var(--vp-c-brand) !important;
+  border: 1px solid var(--vp-c-brand) !important;
+  color: var(--vp-c-bg) !important;
+}
+
+.VPActionButton.alt {
+  background: transparent !important;
+  border: 1px solid var(--vp-c-border) !important;
+  color: var(--vp-c-text-1) !important;
+}
+
+/* ============================================
+   Timeline (if used)
+   ============================================ */
+.vp-doc .timeline-item {
+  border-left: 1px solid var(--vp-c-brand) !important;
+  padding-left: 16px !important;
+}
+
+.vp-doc .timeline-item::before {
+  content: "▸";
+  color: var(--vp-c-brand);
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.6rem;
+}
+
+/* ============================================
+   Responsive - Mobile
+   ============================================ */
 @media (max-width: 768px) {
-  .stoic-content {
-    padding: 40px 16px;
+  .vp-doc {
+    padding: 0.8rem !important;
+    font-size: 14px !important;
   }
 
-  .stoic-title {
-    font-size: 1.4rem;
+  .vp-doc h1 {
+    font-size: 1.3rem !important;
   }
 
-  .stoic-header::before {
-    font-size: 0.55rem;
+  .vp-doc h2 {
+    font-size: 1rem !important;
   }
 
-  .stoic-terminal {
+  .vp-doc div[class*='language-'] {
+    font-size: 0.7rem !important;
+    margin: 0.8rem -0.8rem !important;
+  }
+
+  .VPHero .name {
+    font-size: 1.5rem !important;
+  }
+
+  .VPHero .tagline {
+    font-size: 0.8rem !important;
+  }
+
+  .VPFeature {
+    padding: 0.8rem !important;
+  }
+
+  /* Reduce scanline effect on mobile */
+  body::before {
+    opacity: 0.5;
+  }
+
+  body::after {
+    display: none;
+  }
+
+  /* Home page mobile */
+  .cyber-content {
+    padding: 40px 16px 60px;
+  }
+
+  .cyber-ascii {
+    font-size: 0.35rem;
+    overflow-x: auto;
+  }
+
+  .cyber-terminal {
     font-size: 0.7rem;
-    padding: 16px;
   }
 
-  .stoic-tags {
-    gap: 6px;
+  .cyber-terminal-body {
+    padding: 12px 14px;
   }
 
-  .stoic-tag {
-    font-size: 0.65rem;
-    padding: 3px 8px;
+  .cyber-post-link {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .cyber-post-meta {
+    margin-left: 0;
+  }
+
+  .cyber-nav-link {
+    font-size: 0.75rem;
+    padding: 6px 10px;
+  }
+
+  .cyber-glow {
+    width: 250px;
+    height: 250px;
+  }
+
+  .cyber-glow--top {
+    top: -100px;
+    right: -50px;
+  }
+
+  .cyber-glow--bottom {
+    bottom: -100px;
+    left: -50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cyber-ascii {
+    font-size: 0.28rem;
+  }
+
+  .cyber-social-list {
+    flex-direction: column;
+    gap: 10px;
   }
 }
