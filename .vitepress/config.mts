@@ -1,11 +1,17 @@
 import { defineConfig } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
 // https://vitepress.dev/reference/site-config
-export default defineConfig({
+export default withMermaid({
   ignoreDeadLinks: true,
   title: "panbo.space",
   description: "Coding && Thinking - 技术博客与思考记录",
   lang: 'zh-CN',
+
+  // Mermaid 配置
+  mermaid: {
+    // Mermaid 配置
+  },
 
   // 主题配置
   themeConfig: {
