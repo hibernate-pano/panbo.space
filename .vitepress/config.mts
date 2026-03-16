@@ -41,14 +41,20 @@ export default withMermaid({
         text: '▸ 思考记录',
         collapsed: false,
         items: [
-          { text: '关于贫穷', link: '/thinking/关于贫穷' }
+          { text: '关于贫穷', link: '/thinking/关于贫穷' },
+          { text: '关于人际关系', link: '/thinking/关于人际关系' },
+          { text: '关于学习', link: '/thinking/关于学习' },
+          { text: '关于时间', link: '/thinking/关于时间' }
         ]
       },
       {
         text: '▸ 哲学专栏',
         collapsed: false,
         items: [
-          { text: '尼采', link: '/philosophy/尼采' }
+          { text: '尼采', link: '/philosophy/尼采' },
+          { text: '叔本华', link: '/philosophy/叔本华' },
+          { text: '叔本华与东方哲学', link: '/philosophy/叔本华与东方哲学' },
+          { text: '存在的重量——自由、荒谬与责任', link: '/philosophy/存在的重量——自由、荒谬与责任' }
         ]
       },
       {
