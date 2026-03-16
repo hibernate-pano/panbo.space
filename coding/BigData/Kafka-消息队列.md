@@ -546,7 +546,7 @@ public class UserBehaviorAnalytics {
 
 下一章我们将学习 **Flink**：真正的流处理引擎，了解真正的实时计算。
 
-> 📚 下一章：[Flink：流处理引擎](/coding/BigData/Flink-流处理)
+> 📚 下一章：[Flink：流处理引擎](Flink-流处理)
 
 ---
 

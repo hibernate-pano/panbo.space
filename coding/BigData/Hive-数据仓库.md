@@ -562,7 +562,7 @@ SELECT dt, SUM(amount) FROM orders GROUP BY dt;
 
 下一章我们将学习 **Spark**：更快的大数据计算引擎。
 
-> 📚 下一章：[Spark 基础：内存计算与 DataFrame](/coding/BigData/Spark-内存计算)
+> 📚 下一章：[Spark 基础：内存计算与 DataFrame](Spark-内存计算)
 
 ---
 

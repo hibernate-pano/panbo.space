@@ -615,7 +615,7 @@ query.awaitTermination()
 
 下一章我们将学习 **Kafka**：消息队列与数据管道，这是构建实时数据平台的关键组件。
 
-> 📚 下一章：[Kafka：消息队列与流数据平台](/coding/BigData/Kafka-消息队列)
+> 📚 下一章：[Kafka：消息队列与流数据平台](Kafka-消息队列)
 
 ---
 

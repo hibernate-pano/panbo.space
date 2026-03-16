@@ -463,7 +463,7 @@ public class HDFSClientDemo {
 
 下一章我们将学习 **MapReduce**：分布式计算的入门，了解如何"搬运"大规模数据。
 
-> 📚 下一章：[MapReduce：分布式计算原理与实战](/coding/BigData/MapReduce-分布式计算)
+> 📚 下一章：[MapReduce：分布式计算原理与实战](MapReduce-分布式计算)
 
 ---
 
