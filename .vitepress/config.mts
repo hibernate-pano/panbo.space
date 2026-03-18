@@ -8,6 +8,9 @@ export default withMermaid({
   description: "Coding && Thinking - 技术博客与思考记录",
   lang: 'zh-CN',
 
+  // 最后更新时间
+  lastUpdated: true,
+
   // Mermaid 配置
   mermaid: {
     // Mermaid 配置
@@ -54,7 +57,7 @@ export default withMermaid({
           { text: '尼采', link: '/philosophy/尼采' },
           { text: '叔本华', link: '/philosophy/叔本华' },
           { text: '叔本华与东方哲学', link: '/philosophy/叔本华与东方哲学' },
-          { text: '存在的重量——自由、荒谬与责任', link: '/philosophy/存在的重量——自由、荒谬与责任' }
+          { text: '存在的重量——自由、荒谬与责任', link: '/philosophy/存在的重量-自由、荒谬与责任' }
         ]
       },
       {
@@ -151,7 +154,8 @@ export default withMermaid({
           { text: '汇丰入职指南', link: '/coding/HSBC/汇丰入职指南' },
           { text: '汇丰业务线常识', link: '/coding/HSBC/汇丰业务线基本常识' },
           { text: '汇丰技术参考', link: '/coding/HSBC/汇丰技术参考' },
-          { text: '项目开发流程', link: '/coding/HSBC/汇丰项目开发流程' }
+          { text: '汇丰技术栈与思考', link: '/coding/HSBC/汇丰Senior-FullStack-Developer技术栈与思考' },
+          { text: '汇丰项目开发流程', link: '/coding/HSBC/汇丰项目开发流程' }
         ]
       },
       {
@@ -165,7 +169,10 @@ export default withMermaid({
 
     // 搜索
     search: {
-      provider: 'local'
+      provider: 'local',
+      options: {
+        detailedView: true
+      }
     },
 
     // 页脚
@@ -174,11 +181,20 @@ export default withMermaid({
       copyright: '© 2024-2026 panbo.space | Built with VitePress'
     },
 
+    // 文档底部 prev/next 链接
+    docFooter: {
+      prev: '← 上一页',
+      next: '下一页 →'
+    },
+
     // Outline (右侧标题导航)
     outline: {
       level: [2, 3],
       label: 'CONTENTS'
     },
+
+    // 返回顶部
+    returnToTop: '↑ 返回顶部',
 
     // 编辑链接
     editLink: {
