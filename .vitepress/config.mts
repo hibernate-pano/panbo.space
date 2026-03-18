@@ -79,6 +79,26 @@ export default withMermaid({
         ]
       },
       {
+        text: '▸ 前端开发',
+        collapsed: false,
+        items: [
+          { text: 'React 系列课程', link: '/coding/React/React 入门系列课程' },
+          { text: 'React + TypeScript 深度集成', link: '/coding/React/React与TypeScript深度集成实战' },
+          {
+            text: 'React 基础',
+            collapsed: true,
+            items: [
+              { text: 'React 简介', link: '/coding/React/React 简介与环境搭建' },
+              { text: 'JSX 语法', link: '/coding/React/JSX 语法完全指南' },
+              { text: '组件化开发', link: '/coding/React/组件化开发思想' },
+              { text: 'Props 与 State', link: '/coding/React/Props 与 State - 数据流动' },
+              { text: 'useState 状态管理', link: '/coding/React/useState 状态管理' },
+              { text: 'useEffect 副作用', link: '/coding/React/useEffect 副作用处理' }
+            ]
+          }
+        ]
+      },
+      {
         text: '▸ 数据库',
         collapsed: false,
         items: [
