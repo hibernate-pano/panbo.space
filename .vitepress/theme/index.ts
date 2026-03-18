@@ -100,7 +100,7 @@ export default {
               { cmd: 'cd', arg: './thinking', desc: '思考记录', link: '/thinking/关于贫穷' },
               { cmd: 'cd', arg: './philosophy', desc: '哲学专栏', link: '/philosophy/尼采' },
               { cmd: 'cd', arg: './coding', desc: '技术频道', link: '/coding/Java/Java并发编程完全指南' },
-              { cmd: 'cd', arg: './hsbc', desc: 'HSBC 工作', link: '/coding/HSBC/汇丰入职指南' },
+              { cmd: 'cd', arg: './hsbc', desc: 'HSBC 工作', link: '/coding/HSBC/汇丰Senior-FullStack-Developer技术栈与思考' },
               { cmd: 'cat', arg: './about.md', desc: '关于我', link: '/about' }
             ].map(item =>
               h('li', { class: 'cyber-nav-item' },
@@ -119,12 +119,14 @@ export default {
           h('section', { class: 'cyber-posts' }, [
             h('div', { class: 'cyber-section-title' }, [
               h('span', { class: 'prefix' }, '$'),
-              ' git log --oneline -n 3'
+              ' git log --oneline -n 5'
             ]),
             h('ul', { class: 'cyber-post-list' }, [
-              { title: 'React 入门系列课程', category: 'React', link: '/coding/React/React 入门系列课程', hash: 'a3f7c21', date: '2026' },
-              { title: 'Redis 线程 IO 模型', category: 'Redis', link: '/coding/Redis/Redis线程IO模型', hash: 'e9b4d08', date: '2026' },
-              { title: 'synchronized 深入理解', category: 'Java', link: '/coding/Java/锁与并发控制/synchronized深入理解', hash: 'f2c8a15', date: '2026' }
+              { title: 'Spring Boot 连接池调优', category: 'Java', link: '/coding/Java/SpringBoot数据库连接池调优', hash: '225af32', date: '2026-03-19' },
+              { title: 'React + TypeScript 深度集成', category: 'React', link: '/coding/React/React与TypeScript深度集成实战', hash: 'c89c2f3', date: '2026-03-19' },
+              { title: '汇丰技术栈与思考', category: 'HSBC', link: '/coding/HSBC/汇丰Senior-FullStack-Developer技术栈与思考', hash: '60b974e', date: '2026-03-18' },
+              { title: '存在的重量——自由、荒谬与责任', category: 'Philosophy', link: '/philosophy/存在的重量——自由、荒谬与责任', hash: '77e8282', date: '2026-03-14' },
+              { title: 'Redis 线程 IO 模型', category: 'Redis', link: '/coding/Redis/Redis线程IO模型', hash: 'e9b4d08', date: '2026' }
             ].map(post =>
               h('li', { class: 'cyber-post-item' },
                 h('a', { href: post.link, class: 'cyber-post-link' }, [
