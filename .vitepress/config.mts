@@ -65,6 +65,7 @@ export default withMermaid({
         collapsed: false,
         items: [
           { text: 'Java 并发编程', link: '/coding/Java/Java并发编程完全指南' },
+          { text: 'Spring Boot 连接池调优', link: '/coding/Java/SpringBoot数据库连接池调优' },
           {
             text: '锁与并发控制',
             collapsed: true,

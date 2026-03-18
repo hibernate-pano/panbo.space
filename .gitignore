@@ -9,6 +9,9 @@ node_modules
 .vitepress/temp
 .vitepress/dist
 
+## Claude Code
+.claude/
+
 ## 临时文件
 *.tmp
 *.tmp.*
