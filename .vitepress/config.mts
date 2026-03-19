@@ -142,6 +142,7 @@ export default withMermaid({
             text: '分布式系统',
             collapsed: true,
             items: [
+              { text: '分布式事务与 Saga 模式', link: '/coding/分布式系统/分布式事务与Saga模式实战' },
               { text: '分布式理论 CAP/BASE', link: '/coding/分布式系统/分布式理论-CAP与BASE' },
               { text: '数据分片与复制', link: '/coding/分布式系统/分布式存储-数据分片与复制' },
               { text: 'RPC 与微服务', link: '/coding/分布式系统/分布式通信-RPC与消息队列' }
