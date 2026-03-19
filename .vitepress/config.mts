@@ -151,6 +151,7 @@ export default withMermaid({
             text: '架构心得',
             collapsed: true,
             items: [
+              { text: 'DDD 领域驱动设计实战', link: '/coding/架构心得/领域驱动设计DDD在银行系统的实战' },
               { text: 'Spring Security + OAuth 2.0', link: '/coding/架构心得/SpringSecurity与OAuth2银行级安全实战' },
               { text: '分布式系统可观测性', link: '/coding/架构心得/分布式系统可观测性实战' },
               { text: '银行科技 CI/CD 流水线', link: '/coding/架构心得/银行科技CI-CD流水线设计' },
