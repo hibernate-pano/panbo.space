@@ -153,6 +153,7 @@ export default withMermaid({
             collapsed: true,
             items: [
               { text: '分布式系统可观测性', link: '/coding/架构心得/分布式系统可观测性实战' },
+              { text: '银行科技 CI/CD 流水线', link: '/coding/架构心得/银行科技CI-CD流水线设计' },
               { text: '限流', link: '/coding/架构心得/项目稳定性--限流' },
               { text: '幂等', link: '/coding/架构心得/项目稳定性--幂等' },
               { text: '鉴权与授权', link: '/coding/架构心得/项目安全性--鉴权和授权' },
