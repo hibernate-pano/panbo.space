@@ -2,5 +2,8 @@
   "framework": "vitepress",
   "buildCommand": "pnpm docs:build",
   "outputDirectory": ".vitepress/dist",
-  "installCommand": "pnpm install"
+  "installCommand": "pnpm install",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
