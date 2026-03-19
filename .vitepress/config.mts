@@ -28,7 +28,7 @@ export default withMermaid({
         items: [
           { text: 'Java 并发', link: '/coding/Java/Java并发编程完全指南' },
           { text: 'MySQL', link: '/coding/MySQL/MySQL索引完全指南' },
-          { text: 'Redis', link: '/coding/Redis/Redis介绍和基本命令' },
+          { text: 'Redis', link: '/coding/Redis/Redis 介绍和基本命令' },
           { text: 'Spring Cloud', link: '/coding/SpringCloud/SpringCloud微服务入门完全指南' },
           { text: 'Docker', link: '/coding/Docker/Docker快速入门完全指南' },
           { text: 'K8s', link: '/coding/Kubernetes/Kubernetes快速入门完全指南' }
@@ -57,7 +57,7 @@ export default withMermaid({
           { text: '尼采', link: '/philosophy/尼采' },
           { text: '叔本华', link: '/philosophy/叔本华' },
           { text: '叔本华与东方哲学', link: '/philosophy/叔本华与东方哲学' },
-          { text: '存在的重量——自由、荒谬与责任', link: '/philosophy/存在的重量-自由、荒谬与责任' }
+          { text: '存在的重量——自由、荒谬与责任', link: '/philosophy/存在的重量-自由-荒谬与责任' }
         ]
       },
       {
@@ -117,13 +117,12 @@ export default withMermaid({
             text: 'Redis',
             collapsed: true,
             items: [
-              { text: 'Redis 介绍', link: '/coding/Redis/Redis介绍和基本命令' },
-              { text: '五种基本数据类型', link: '/coding/Redis/Redis五种基本数据类型' },
-              { text: 'Redis 线程 IO 模型', link: '/coding/Redis/Redis线程IO模型' },
-              { text: 'Redis 过期策略', link: '/coding/Redis/Redis过期策略' },
-              { text: 'Redis 分布式锁', link: '/coding/Redis/Redis实现分布式锁' },
-              { text: 'Redis 消息队列', link: '/coding/Redis/Redis实现消息队列' },
-              { text: 'Redis 集群', link: '/coding/Redis/Redis集群' }
+              { text: 'Redis 介绍', link: '/coding/Redis/Redis 介绍和基本命令' },
+              { text: '五种基本数据类型', link: '/coding/Redis/Redis 五种基本数据类型' },
+              { text: 'Redis 线程 IO 模型', link: '/coding/Redis/Redis 线程 IO 模型' },
+              { text: 'Redis 过期策略', link: '/coding/Redis/Redis 过期策略' },
+              { text: 'Redis 分布式锁', link: '/coding/Redis/Redis 实现分布式锁' },
+              { text: 'Redis 消息队列', link: '/coding/Redis/Redis 实现消息队列' }
             ]
           }
         ]
@@ -145,19 +144,20 @@ export default withMermaid({
             items: [
               { text: '分布式理论 CAP/BASE', link: '/coding/分布式系统/分布式理论-CAP与BASE' },
               { text: '数据分片与复制', link: '/coding/分布式系统/分布式存储-数据分片与复制' },
-              { text: 'RPC 与微服务', link: '/coding/分布式系统/分布式服务-RPC与服务治理' }
+              { text: 'RPC 与微服务', link: '/coding/分布式系统/分布式通信-RPC与消息队列' }
             ]
           },
           {
             text: '架构心得',
             collapsed: true,
             items: [
+              { text: 'Spring Security + OAuth 2.0', link: '/coding/架构心得/SpringSecurity与OAuth2银行级安全实战' },
               { text: '分布式系统可观测性', link: '/coding/架构心得/分布式系统可观测性实战' },
               { text: '银行科技 CI/CD 流水线', link: '/coding/架构心得/银行科技CI-CD流水线设计' },
-              { text: '限流', link: '/coding/架构心得/项目稳定性--限流' },
-              { text: '幂等', link: '/coding/架构心得/项目稳定性--幂等' },
-              { text: '鉴权与授权', link: '/coding/架构心得/项目安全性--鉴权和授权' },
-              { text: '集群高可用', link: '/coding/架构心得/项目可用性--集群' }
+              { text: '限流', link: '/coding/架构心得/项目稳定性-限流' },
+              { text: '幂等', link: '/coding/架构心得/项目稳定性-幂等' },
+              { text: '鉴权与授权', link: '/coding/架构心得/项目安全性-鉴权和授权' },
+              { text: '集群高可用', link: '/coding/架构心得/项目可用性-集群' }
             ]
           }
         ]

@@ -125,7 +125,7 @@ export default {
               { title: 'Spring Boot 连接池调优', category: 'Java', link: '/coding/Java/SpringBoot数据库连接池调优', hash: '225af32', date: '2026-03-19' },
               { title: 'React + TypeScript 深度集成', category: 'React', link: '/coding/React/React与TypeScript深度集成实战', hash: 'c89c2f3', date: '2026-03-19' },
               { title: '汇丰技术栈与思考', category: 'HSBC', link: '/coding/HSBC/汇丰Senior-FullStack-Developer技术栈与思考', hash: '60b974e', date: '2026-03-18' },
-              { title: '存在的重量——自由、荒谬与责任', category: 'Philosophy', link: '/philosophy/存在的重量——自由、荒谬与责任', hash: '77e8282', date: '2026-03-14' },
+              { title: '存在的重量——自由、荒谬与责任', category: 'Philosophy', link: '/philosophy/存在的重量-自由-荒谬与责任', hash: '77e8282', date: '2026-03-14' },
               { title: 'Redis 线程 IO 模型', category: 'Redis', link: '/coding/Redis/Redis线程IO模型', hash: 'e9b4d08', date: '2026' }
             ].map(post =>
               h('li', { class: 'cyber-post-item' },
