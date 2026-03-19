@@ -189,6 +189,15 @@ export default withMermaid({
         ]
       },
       {
+        text: '▸ 安全实践',
+        collapsed: false,
+        items: [
+          { text: 'HashiCorp Vault 密钥管理实战', link: '/coding/安全/HashiCorp-Vault银行密钥管理实战' },
+          { text: '汇丰安全与合规实践', link: '/coding/HSBC/汇丰安全与合规实践' },
+          { text: 'Spring Security + OAuth 2.0', link: '/coding/架构心得/SpringSecurity与OAuth2银行级安全实战' }
+        ]
+      },
+      {
         text: '▸ BigData',
         collapsed: false,
         items: [
