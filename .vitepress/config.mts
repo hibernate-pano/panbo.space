@@ -202,6 +202,7 @@ export default withMermaid({
         collapsed: false,
         items: [
           { text: '大数据入门完全指南', link: '/coding/BigData/大数据入门完全指南' },
+          { text: '大数据基础概念', link: '/coding/BigData/大数据基础概念' },
           { text: 'Hadoop HDFS 分布式文件系统', link: '/coding/BigData/Hadoop-HDFS-分布式文件系统' },
           { text: 'MapReduce 分布式计算', link: '/coding/BigData/MapReduce-分布式计算' },
           { text: 'Spark 内存计算', link: '/coding/BigData/Spark-内存计算' },
@@ -219,7 +220,14 @@ export default withMermaid({
           { text: '汇丰业务线常识', link: '/coding/HSBC/汇丰业务线基本常识' },
           { text: '汇丰技术参考', link: '/coding/HSBC/汇丰技术参考' },
           { text: '汇丰技术栈与思考', link: '/coding/HSBC/汇丰Senior-FullStack-Developer技术栈与思考' },
-          { text: '汇丰项目开发流程', link: '/coding/HSBC/汇丰项目开发流程' }
+          { text: '汇丰项目开发流程', link: '/coding/HSBC/汇丰项目开发流程' },
+          { text: '汇丰安全与合规实践', link: '/coding/HSBC/汇丰安全与合规实践' },
+          { text: '汇丰内部工具与系统', link: '/coding/HSBC/汇丰内部工具与系统' },
+          { text: '零售银行及财富管理 RBWM', link: '/coding/HSBC/零售银行及财富管理RBWM技术详解' },
+          { text: '工商金融业务 CMB', link: '/coding/HSBC/工商金融业务CMB技术详解' },
+          { text: '环球银行及资本市场 GBM', link: '/coding/HSBC/环球银行及资本市场GBM技术详解' },
+          { text: '保险业务技术详解', link: '/coding/HSBC/保险业务技术详解' },
+          { text: '私人银行业务技术详解', link: '/coding/HSBC/私人银行业务技术详解' }
         ]
       },
       {
