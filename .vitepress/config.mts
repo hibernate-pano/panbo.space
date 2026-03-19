@@ -150,7 +150,8 @@ export default withMermaid({
             text: '微服务',
             collapsed: true,
             items: [
-              { text: 'Spring Cloud 完全指南', link: '/coding/SpringCloud/SpringCloud微服务入门完全指南' }
+              { text: 'Spring Cloud 完全指南', link: '/coding/SpringCloud/SpringCloud微服务入门完全指南' },
+              { text: 'Spring Cloud Gateway 银行网关实战', link: '/coding/SpringCloud/SpringCloud-Gateway银行流量网关实战' }
             ]
           },
           {
@@ -185,6 +186,20 @@ export default withMermaid({
         items: [
           { text: 'Docker 完全指南', link: '/coding/Docker/Docker快速入门完全指南' },
           { text: 'Kubernetes 完全指南', link: '/coding/Kubernetes/Kubernetes快速入门完全指南' }
+        ]
+      },
+      {
+        text: '▸ BigData',
+        collapsed: false,
+        items: [
+          { text: '大数据入门完全指南', link: '/coding/BigData/大数据入门完全指南' },
+          { text: 'Hadoop HDFS 分布式文件系统', link: '/coding/BigData/Hadoop-HDFS-分布式文件系统' },
+          { text: 'MapReduce 分布式计算', link: '/coding/BigData/MapReduce-分布式计算' },
+          { text: 'Spark 内存计算', link: '/coding/BigData/Spark-内存计算' },
+          { text: 'Hive 数据仓库', link: '/coding/BigData/Hive-数据仓库' },
+          { text: 'Kafka 消息队列', link: '/coding/BigData/Kafka-消息队列' },
+          { text: 'Flink 流处理', link: '/coding/BigData/Flink-流处理' },
+          { text: '实战项目-用户行为分析平台', link: '/coding/BigData/实战项目-用户行为分析平台' }
         ]
       },
       {
