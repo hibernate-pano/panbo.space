@@ -16,6 +16,21 @@ export default withMermaid({
     // Mermaid 配置
   },
 
+  // SEO Head Meta Tags
+  head: [
+    ['meta', { name: 'author', content: 'Panbo' }],
+    ['meta', { name: 'robots', content: 'index, follow' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: 'panbo.space' }],
+    ['meta', { property: 'og:title', content: 'panbo.space' }],
+    ['meta', { property: 'og:description', content: 'Coding && Thinking - 技术博客与思考记录' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:site', content: '@HibernatePano' }],
+    ['meta', { name: 'twitter:creator', content: '@HibernatePano' }],
+    ['link', { rel: 'canonical', href: 'https://www.panbo.space' }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+  ],
+
   // 主题配置
   themeConfig: {
     // 导航栏
@@ -244,6 +259,12 @@ export default withMermaid({
   vite: {
     server: {
       host: '0.0.0.0'
-    }
-  }
+    },
+    build: {
+      chunkSizeWarningLimit: 1500,
+    },
+    css: {
+      codeSplit: true,
+    },
+  },
 })

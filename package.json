@@ -2,6 +2,7 @@
   "private": true,
   "devDependencies": {
     "dayjs": "^1.11.19",
+    "mark.js": "8.11.1",
     "vitepress": "^1.3.4",
     "vitepress-plugin-mermaid": "^2.0.17"
   },
