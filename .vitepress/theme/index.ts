@@ -48,7 +48,7 @@ export default {
               h('div', { class: 'cyber-terminal-cmd' }, 'whoami'),
               h('div', { class: 'cyber-terminal-output' }, [
                 h('div', null, [h('span', { class: 'key' }, 'name'), ': ', h('span', { class: 'val' }, '"Panbo"')]),
-                h('div', null, [h('span', { class: 'key' }, 'role'), ': ', h('span', { class: 'val' }, '"Java && React Developer @ HSBC"')]),
+                h('div', null, [h('span', { class: 'key' }, 'role'), ': ', h('span', { class: 'val' }, '"Senior Full-Stack @ HSBC | Java && React"')]),
                 h('div', null, [h('span', { class: 'key' }, 'focus'), ': ', h('span', { class: 'val' }, '["System Design", "Backend", "Frontend"]')]),
                 h('div', null, [h('span', { class: 'key' }, 'motto'), ': ', h('span', { class: 'val' }, '"学而时习之，不亦说乎？"')])
               ]),
@@ -122,11 +122,11 @@ export default {
               ' git log --oneline -n 5'
             ]),
             h('ul', { class: 'cyber-post-list' }, [
-              { title: 'Spring Boot 连接池调优', category: 'Java', link: '/coding/Java/SpringBoot数据库连接池调优', hash: '225af32', date: '2026-03-19' },
-              { title: 'React + TypeScript 深度集成', category: 'React', link: '/coding/React/React与TypeScript深度集成实战', hash: 'c89c2f3', date: '2026-03-19' },
-              { title: '汇丰技术栈与思考', category: 'HSBC', link: '/coding/HSBC/汇丰Senior-FullStack-Developer技术栈与思考', hash: '60b974e', date: '2026-03-18' },
-              { title: '存在的重量——自由、荒谬与责任', category: 'Philosophy', link: '/philosophy/存在的重量-自由-荒谬与责任', hash: '77e8282', date: '2026-03-14' },
-              { title: 'Redis 线程 IO 模型', category: 'Redis', link: '/coding/Redis/Redis线程IO模型', hash: 'e9b4d08', date: '2026' }
+              { title: 'GitOps ArgoCD 银行级部署实战', category: 'DevOps', link: '/coding/DevOps/GitOps-ArgoCD银行级部署实战', hash: 'd2db137', date: '2026-03-20' },
+              { title: '幂等性设计：银行分布式系统资金安全', category: '架构', link: '/coding/架构心得/项目稳定性-幂等', hash: '597e5ca', date: '2026-03-20' },
+              { title: 'HashiCorp Vault 银行密钥管理实战', category: '安全', link: '/coding/安全/HashiCorp-Vault银行密钥管理实战', hash: 'bde7179', date: '2026-03-20' },
+              { title: 'Spring Cloud Gateway 银行网关实战', category: '微服务', link: '/coding/SpringCloud/SpringCloud-Gateway银行流量网关实战', hash: '8fc4096', date: '2026-03-20' },
+              { title: '限流方案全解析：四种算法与银行实践', category: '架构', link: '/coding/架构心得/项目稳定性-限流', hash: '597e5ca', date: '2026-03-20' }
             ].map(post =>
               h('li', { class: 'cyber-post-item' },
                 h('a', { href: post.link, class: 'cyber-post-link' }, [
