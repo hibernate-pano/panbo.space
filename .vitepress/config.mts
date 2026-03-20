@@ -185,7 +185,8 @@ export default withMermaid({
         collapsed: false,
         items: [
           { text: 'Docker 完全指南', link: '/coding/Docker/Docker快速入门完全指南' },
-          { text: 'Kubernetes 完全指南', link: '/coding/Kubernetes/Kubernetes快速入门完全指南' }
+          { text: 'Kubernetes 完全指南', link: '/coding/Kubernetes/Kubernetes快速入门完全指南' },
+          { text: 'GitOps ArgoCD 银行部署实战', link: '/coding/DevOps/GitOps-ArgoCD银行级部署实战' }
         ]
       },
       {
