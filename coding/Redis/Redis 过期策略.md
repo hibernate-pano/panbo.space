@@ -1,35 +1,258 @@
-#NoSQL #Redis #数据库
+---
+title: Redis 过期策略：LRU、LFU 与定时删除
+date: 2026-03-21
+description: 详解 Redis 的惰性删除、定期删除、内存淘汰策略（LRU/LFU/Random），以及 maxmemory-policy 配置与银行系统的内存管理实践。
+---
 
-## Redis 过期的 key 值如何删除
+# Redis 过期策略：惰性删除、定期删除与内存淘汰
 
-Redis 会将每个设置了过期时间的 key 放入一个独立的字典中，以后会**定时遍历**这个字段来删除到期的 key；
-除了上面这种方法，还有一种**惰性删除策略**，即在客户端访问这个 key 时，再判断这个 key 是否过期，如过期，立即删除；
+> "Redis 的过期不是'到点就删'，而是通过惰性删除 + 定期扫描的组合拳实现的。理解这套机制，才能避免内存溢出和缓存雪崩。"
 
-### 定期扫描策略
+## 前言
 
-Redis 默认每秒进行 10 次过期扫描，扫描不会扫描全部的 key 值，只会采用一种 <u>贪心策略</u>
+Redis 是一个内存数据库，当数据量接近 `maxmemory` 限制时，需要淘汰策略来决定保留哪些数据、删除哪些数据。配置不当，轻则导致 `OOM Killer` 杀死进程，重则导致线上故障。
 
-1. 从过期字典表（即设置了过期时间的所有 key 值单独放入的字典表）中，随机选出 20 个 key；
-2. 删除这 20 个 key 中过期的 key；
-3. 如果过期的 key 的比例超过 1/4，则重复步骤 1；
+## 1. 两套过期机制
 
-为了保证扫描不会出现循环过度，导致线程卡死的情况，Redis 设置了扫描时间的上限，**25ms**；
+Redis 有两套独立的机制处理 key 过期：
 
-### 假设一个问题
+### 1.1 惰性删除（Lazy Expiration）
 
-Q: 一个大型 Redis 实例中所有的 key 值在同一时间过期，会导致什么情况？
-
-A: Redis 会持续扫描过期字典表，并循环多次，直到满足贪心策略要求，即过期字典表中过期的 key 值所占比重变低，才会停止扫描；此操作会导致线上读写请求变得卡顿延迟，因为**Redis 是单线程服务，扫描会占用服务时间**，另一方面原因是**内存管理器需要频繁回收内存页，也会产生 CPU 消耗**；
-
-Redis 持续扫描过期字典表，并循环多次的情况下，还会导致查询服务暂停，假如查询过期时间 timeout 设置的比较短，比如 10ms，在此情况就会导致大量连接因超时而关闭，引发大量的服务请求异常；此情况还无法在 Redis 的 slowlog 中查询到记录，因为 slowlog 只记录查询逻辑处理比较慢的操作，不会记录等待超时的情况；
-
-当然，因大量缓存同时失效，在高并发业务场景中还会导致大量请求直接跨过 Redis 直接访问数据库，造成**缓存穿透**；
-
-所以，一定要注意 key 的过期时间，假如有大量 key 设置过期时间，做一个随机范围取值，保证不在同一时间过期，如下：
-
-```bash
-# 在目标过期时间上增加一天的随机时间
-redis.expire_at(key, random.randint(86400) + expire_ts);
+```
+客户端请求 key "order:123" 时，Redis 检查：
+  - 键是否已过期？
+  - 过期了 → 立即删除，返回 null
+  - 没过期 → 正常返回
 ```
 
-注意：因为 Redis 数据都保存在内存中，大量 key 可能会导致内存超过限定，会导致溢出问题。此处可以通过配置文件设置 `maxmemory` 大小以及设置 `maxmemory-policy` 策略进行内存淘汰优化；参考 Redis 的配置文件解析
+**优点**：对 CPU 友好，只在访问时检查，不用主动扫描
+**缺点**：过期的键如果一直没人访问，就永远不会被删除（内存泄漏）
+
+### 1.2 定期扫描（Active Expiration）
+
+Redis 每秒执行 10 次主动扫描：
+
+```bash
+# 定期扫描策略（server.c 中）
+# 每 100ms 执行一次 activeDefragSizeBased
+# 每次扫描流程：
+#   1. 随机选 20 个带过期时间的 key
+#   2. 删除已过期的 key
+#   3. 如果超过 25% 已过期 → 继续扫描下一批
+#   4. 扫描时间超过 25ms → 停止（保护主线程）
+```
+
+**为什么是 20 个随机 key，而不是全部扫描？**
+全部扫描 = O(N)，会阻塞主线程。随机采样 = O(1)，对性能无影响。
+
+## 2. 内存淘汰策略（maxmemory-policy）
+
+当 Redis 内存达到 `maxmemory` 上限时，触发内存淘汰：
+
+```bash
+# 查看当前配置
+CONFIG GET maxmemory
+# 1) "maxmemory"
+# 2) "4294967292" （约 4GB）
+
+# 设置 maxmemory（生产环境强烈建议设置）
+CONFIG SET maxmemory "8gb"
+CONFIG SET maxmemory-policy allkeys-lru
+```
+
+### 2.1 八种淘汰策略
+
+| 策略 | 说明 | 适用场景 |
+|------|------|----------|
+| **noeviction** | 不淘汰，返回错误 | 写多读少的持久化场景 |
+| **volatile-lru** | LRU 算法淘汰已设置过期时间的 key | 缓存 + 持久化混合 |
+| **allkeys-lru** | LRU 算法淘汰所有 key | 纯缓存场景（推荐） |
+| **volatile-lfu** | LFU 算法淘汰已设置过期时间的 key | 热点数据缓存 |
+| **allkeys-lfu** | LFU 算法淘汰所有 key | 热点数据缓存（推荐） |
+| **volatile-random** | 随机淘汰已设置过期时间的 key | 不推荐 |
+| **allkeys-random** | 随机淘汰所有 key | 不推荐 |
+| **volatile-ttl** | 淘汰 TTL 最小的 key（最快过期） | 临时缓存 |
+
+### 2.2 LRU vs LFU：如何选
+
+```
+LRU（Least Recently Used）：
+  - 按最近访问时间淘汰
+  - 适合：访问模式均匀，没有明显的冷热分层
+  - 问题：一次批量扫描会把冷数据变成"热数据"，导致热数据被淘汰
+
+LFU（Least Frequently Used）：
+  - 按访问频率淘汰（计数器 + 衰减机制）
+  - 适合：访问有明显热点，数据访问频率差异大
+  - 银行系统推荐用 LFU（支付接口、账户查询有明显热点）
+
+Redis LFU 实现：
+  - 16 位访问计数器（最大 65535）
+  - LRU 字段复用（Redis 4.0+）
+  - 每分钟衰减一次（counter × 0.99）
+  - 新访问 counter = max(1, counter × 衰减系数)
+```
+
+## 3. 内存淘汰配置
+
+```bash
+# 推荐生产配置
+maxmemory 8gb
+maxmemory-policy allkeys-lfu
+maxmemory-samples 10          # LRU/LFU 采样精度（越高越精确，但 CPU 开销越大）
+
+# 内存接近上限时的行为
+# Redis 7.x 可以设置 soft limits
+maxmemory-soft 6gb           # 软限制（达到后开始淘汰）
+maxmemory-soft-grace-seconds 60  # 60 秒内尝试降到 maxmemory 以下
+```
+
+## 4. 银行系统内存管理实战
+
+### 4.1 分层缓存策略
+
+```java
+@Service
+public class AccountCacheService {
+    private final RedisTemplate<String, String> redis;
+
+    // L1 缓存：热点账户（永久 + LFU 淘汰）
+    public void cacheHotAccount(String accountId, Account account) {
+        // 使用单独的 Redis 实例，专门存热点数据
+        // maxmemory-policy = allkeys-lfu
+        String key = "l1:account:" + accountId;
+        redis.opsForValue().set(key, JSON.toJSONString(account));
+    }
+
+    // L2 缓存：普通账户（TTL 2 小时 + 惰性删除）
+    public void cacheNormalAccount(String accountId, Account account) {
+        String key = "l2:account:" + accountId;
+        redis.opsForValue().set(key, JSON.toJSONString(account),
+            Duration.ofHours(2));
+    }
+}
+```
+
+### 4.2 内存水位监控
+
+```java
+@Service
+@Slf4j
+public class RedisMemoryMonitor {
+    private final RedisTemplate<String, String> redis;
+
+    @Scheduled(fixedRate = 30000)  // 每 30 秒
+    public void monitorMemory() {
+        Properties info = redis.getConnectionFactory()
+            .getConnection().serverCommands().info("memory");
+
+        long used = parse(info.getProperty("used_memory"));
+        long max = parse(info.getProperty("maxmemory"));
+        double ratio = (double) used / max;
+
+        String policy = info.getProperty("maxmemory_policy");
+        double evicted = parse(info.getProperty("evicted_keys")) / 1.0;
+        double hitRate = calculateHitRate(info);
+
+        log.info("Redis 内存: used={}MB, max={}MB, ratio={:.1f}%, " +
+                 "policy={}, evicted={}, hit_rate={:.2f}%",
+            used / 1024 / 1024, max / 1024 / 1024,
+            ratio * 100, policy, (long) evicted, hitRate);
+
+        // 告警阈值
+        if (ratio > 0.90) {
+            log.error("Redis 内存告警: 使用率 {}%", String.format("%.1f", ratio * 100));
+            alertService.sendAlert("Redis 内存使用率超过 90%");
+        }
+
+        if (evicted > 100) {
+            log.warn("Redis 淘汰告警: 每分钟淘汰 {} 个 key", (long) evicted);
+        }
+    }
+
+    private double calculateHitRate(Properties info) {
+        long hits = parse(info.getProperty("keyspace_hits"));
+        long misses = parse(info.getProperty("keyspace_misses"));
+        return hits * 100.0 / (hits + misses);
+    }
+}
+```
+
+## 5. 避免缓存雪崩
+
+**缓存雪崩**：大量 key 同时过期，导致大量请求击穿缓存直接打到数据库。
+
+```java
+@Service
+@Slf4j
+public class CacheService {
+    private final RedisTemplate<String, String> redis;
+    private final Random random = new Random();
+
+    /**
+     * 随机过期时间：基础 TTL + 随机抖动
+     * 防止大量 key 在同一秒过期
+     */
+    public void cacheWithJitter(String key, Object value,
+                                Duration baseTTL) {
+        // 基础 TTL 的 10% 作为随机抖动范围
+        long jitterMs = (long) (baseTTL.toMillis() * 0.1);
+        long actualTTL = baseTTL.toMillis() + random.nextLong(jitterMs);
+
+        redis.opsForValue().set(key, JSON.toJSONString(value),
+            Duration.ofMillis(actualTTL));
+
+        log.debug("缓存设置: key={}, baseTTL={}ms, actualTTL={}ms",
+            key, baseTTL.toMillis(), actualTTL);
+    }
+
+    /**
+     * 永不过期的 key + 主动刷新
+     * 适合：热点数据不怕内存满
+     */
+    public void cacheForever(String key, Object value) {
+        redis.opsForValue().set(key, JSON.toJSONString(value));
+        // 配合 LFU 策略，热点数据自然保留
+    }
+
+    /**
+     * 渐进式过期
+     * 适合：数据一致性要求不高
+     */
+    public void cacheWithGracePeriod(String key, Object value, Duration ttl) {
+        // 正常 TTL
+        redis.opsForValue().set(key, JSON.toJSONString(value), ttl);
+
+        // 过了一半时间后，延长 TTL（"宽限期"）
+        scheduleExtendTTL(key, ttl.multipliedBy(3));
+    }
+}
+```
+
+## 6. 过期策略选型指南
+
+```
+选型决策树：
+
+数据是否可以丢失（纯缓存）？
+  → 是 → maxmemory-policy = allkeys-lfu（推荐）
+        maxmemory-policy = allkeys-lru（备选）
+
+数据需要和 DB 严格一致（缓存+持久化）？
+  → 是 → maxmemory-policy = volatile-lru
+        + 设置合理的 TTL
+        + 监控 evicted_keys
+
+写请求远大于读请求？
+  → 是 → maxmemory-policy = noeviction
+        + 增加 Redis 内存
+        + 水平扩展分片
+
+数据有明显访问热点（银行系统典型场景）？
+  → 是 → maxmemory-policy = allkeys-lfu（强烈推荐）
+        LFU 能识别真正的热点数据，LRU 会被批量扫描污染
+```
+
+---
+
+*相关阅读：[Redis Scan 命令用法](/coding/Redis/Redis Scan 命令用法) · [Redis 使用规范](/coding/Redis/Redis 使用规范) · [Redis 配置文件解析](/coding/Redis/Redis 配置文件解析)*
