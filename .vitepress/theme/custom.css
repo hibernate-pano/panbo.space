@@ -258,7 +258,7 @@ body::after {
 
 /* Override VitePress default content width constraint */
 .VPDoc .content-container {
-  max-width: 100% !important;
+  max-width: 960px !important;
 }
 
 .VPDoc.has-aside .content {
@@ -284,7 +284,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .vp-doc h1 {
-  font-size: 1.5rem;
+  font-size: 1.875rem;
   font-weight: 700;
   border-bottom: 2px solid var(--vp-c-brand);
   padding-bottom: 0.6rem;
@@ -299,7 +299,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .vp-doc h2 {
-  font-size: 1.15rem;
+  font-size: 1.375rem;
   font-weight: 600;
   border-bottom: 1px solid var(--vp-c-border);
   padding-bottom: 0.4rem;
@@ -314,7 +314,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .vp-doc h3 {
-  font-size: 1rem;
+  font-size: 1.125rem;
   font-weight: 600;
   margin-top: 1.5rem;
   margin-bottom: 0.6rem;
@@ -328,15 +328,16 @@ h1, h2, h3, h4, h5, h6 {
 
 .vp-doc p {
   margin-bottom: 1rem;
-  font-size: 0.95rem;
-  line-height: 1.85;
+  font-size: 1rem;
+  line-height: 2;
   color: var(--vp-c-text-2);
 }
 
 /* First paragraph of article - larger */
 .vp-doc > div > p:first-of-type {
-  font-size: 1.05rem;
+  font-size: 1.125rem;
   color: var(--vp-c-text-1);
+  line-height: 1.9;
 }
 
 /* Links - glow hover */
@@ -437,8 +438,8 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid var(--vp-c-brand) !important;
   border-left: 3px solid var(--vp-c-brand) !important;
   font-family: 'Fira Code', var(--vp-font-family-mono) !important;
-  font-size: 0.8rem !important;
-  line-height: 1.6;
+  font-size: 0.875rem !important;
+  line-height: 1.7;
   margin: 1.2rem 0;
   box-shadow: 0 0 15px var(--cyber-glow);
   position: relative;
@@ -594,7 +595,7 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--vp-c-bg-soft) !important;
   color: var(--vp-c-brand) !important;
   padding: 0.15em 0.4em !important;
-  font-size: 0.85em;
+  font-size: 0.9em;
   border-radius: 3px !important;
   position: relative;
   transition: all 0.2s ease;
@@ -664,7 +665,7 @@ h1, h2, h3, h4, h5, h6 {
 .vp-doc table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   margin: 0;
   border: 1px solid var(--vp-c-brand);
   border-left: 3px solid var(--vp-c-brand);
@@ -680,7 +681,7 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--vp-c-bg-alt);
   border: 1px solid var(--vp-c-border);
   color: var(--vp-c-brand);
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   position: relative;
@@ -701,7 +702,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0.6rem 1rem;
   border: 1px solid var(--vp-c-border);
   color: var(--vp-c-text-2);
-  font-size: 0.82rem;
+  font-size: 0.875rem;
   transition: all 0.2s ease;
 }
 
@@ -743,7 +744,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 1rem 1.2rem;
   margin: 1.2rem 0;
   font-family: var(--vp-font-family-mono);
-  font-size: 0.85rem;
+  font-size: 0.9375rem;
   position: relative;
   box-shadow: 4px 0 12px var(--cyber-glow);
   transition: all 0.3s ease;
