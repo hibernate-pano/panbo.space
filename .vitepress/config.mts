@@ -134,7 +134,8 @@ export default withMermaid({
               { text: 'Redis 发布与订阅', link: '/coding/Redis/Redis 发布与订阅' },
               { text: 'Redis 配置文件解析', link: '/coding/Redis/Redis 配置文件解析' },
               { text: 'Redis Scan 命令用法', link: '/coding/Redis/Redis Scan 命令用法' },
-              { text: 'Redis 使用规范', link: '/coding/Redis/Redis 使用规范' }
+              { text: 'Redis 使用规范', link: '/coding/Redis/Redis 使用规范' },
+              { text: 'GeoHash 算法原理', link: '/coding/Redis/GeoHash 算法' }
             ]
           }
         ]
@@ -277,7 +278,8 @@ export default withMermaid({
               { text: '保险业务技术详解', link: '/coding/HSBC/保险业务技术详解' },
               { text: '私人银行业务技术详解', link: '/coding/HSBC/私人银行业务技术详解' }
             ]
-          }
+          },
+          { text: '知识宫殿规划', link: '/coding/知识宫殿规划' }
         ]
       }
     ],
