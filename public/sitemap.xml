@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://www.panbo.space/</loc></url>
+  <url><loc>https://www.panbo.space/about</loc></url>
   <url><loc>https://www.panbo.space/coding/BigData/Flink-流处理</loc></url>
   <url><loc>https://www.panbo.space/coding/BigData/Hadoop-HDFS-分布式文件系统</loc></url>
   <url><loc>https://www.panbo.space/coding/BigData/Hive-数据仓库</loc></url>
@@ -86,6 +87,8 @@
   <url><loc>https://www.panbo.space/coding/分布式系统/分布式通信-RPC与消息队列</loc></url>
   <url><loc>https://www.panbo.space/coding/分布式系统/服务治理-限流熔断与降级</loc></url>
   <url><loc>https://www.panbo.space/coding/安全/HashiCorp-Vault银行密钥管理实战</loc></url>
+  <url><loc>https://www.panbo.space/coding/工程实践/Git企业工作流与分支策略-银行科技团队协作实践</loc></url>
+  <url><loc>https://www.panbo.space/coding/工程实践/OpenTelemetry银行可观测性实战</loc></url>
   <url><loc>https://www.panbo.space/coding/架构心得/SpringSecurity与OAuth2银行级安全实战</loc></url>
   <url><loc>https://www.panbo.space/coding/架构心得/分布式系统可观测性实战</loc></url>
   <url><loc>https://www.panbo.space/coding/架构心得/银行科技CI-CD流水线设计</loc></url>
@@ -95,7 +98,6 @@
   <url><loc>https://www.panbo.space/coding/架构心得/项目稳定性-限流</loc></url>
   <url><loc>https://www.panbo.space/coding/架构心得/领域驱动设计DDD在银行系统的实战</loc></url>
   <url><loc>https://www.panbo.space/coding/知识宫殿规划</loc></url>
-  <url><loc>https://www.panbo.space/about</loc></url>
   <url><loc>https://www.panbo.space/thinking/关于人际关系</loc></url>
   <url><loc>https://www.panbo.space/thinking/关于学习</loc></url>
   <url><loc>https://www.panbo.space/thinking/关于时间</loc></url>
