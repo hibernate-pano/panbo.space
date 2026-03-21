@@ -190,6 +190,7 @@ export default withMermaid({
               { text: '分布式理论 CAP 与 BASE', link: '/coding/分布式系统/分布式理论-CAP与BASE' },
               { text: '分布式存储-数据分片与复制', link: '/coding/分布式系统/分布式存储-数据分片与复制' },
               { text: '分布式通信-RPC 与消息队列', link: '/coding/分布式系统/分布式通信-RPC与消息队列' },
+              { text: 'RabbitMQ 消息队列银行实战', link: '/coding/分布式系统/RabbitMQ消息队列-银行实战选型指南' },
               { text: '服务治理-限流熔断与降级', link: '/coding/分布式系统/服务治理-限流熔断与降级' },
               { text: '分布式协调-ZooKeeper 实战', link: '/coding/分布式系统/分布式协调-ZooKeeper实战' },
               { text: '分布式计算-MapReduce 与 Spark 入门', link: '/coding/分布式系统/分布式计算-MapReduce与Spark入门' },
