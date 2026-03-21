@@ -198,7 +198,8 @@ export default withMermaid({
               { text: '分布式基础-从单机到分布式的跨越', link: '/coding/分布式系统/分布式基础-从单机到分布式的跨越' },
               { text: '分布式系统设计原则与最佳实践', link: '/coding/分布式系统/分布式系统设计原则与最佳实践' },
               { text: '分布式系统入门完全指南', link: '/coding/分布式系统/分布式系统入门完全指南' },
-              { text: '分布式事务-2PC-TCC 与 Saga', link: '/coding/分布式系统/分布式事务-2PC-TCC与Saga' }
+              { text: '分布式事务-2PC-TCC 与 Saga', link: '/coding/分布式系统/分布式事务-2PC-TCC与Saga' },
+              { text: 'Seata 分布式事务实战', link: '/coding/分布式系统/Seata分布式事务实战-AT模式与TCC模式选型' }
             ]
           }
         ]
