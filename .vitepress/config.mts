@@ -215,6 +215,7 @@ export default withMermaid({
           { text: '分布式系统可观测性实战', link: '/coding/架构心得/分布式系统可观测性实战' },
           { text: 'OpenTelemetry 银行可观测性实战', link: '/coding/工程实践/OpenTelemetry银行可观测性实战' },
           { text: 'Git 企业工作流与分支策略', link: '/coding/工程实践/Git企业工作流与分支策略-银行科技团队协作实践' },
+          { text: 'REST API 版本管理策略', link: '/coding/工程实践/REST-API版本管理策略-银行系统演进实践' },
           { text: '银行科技 CI/CD 流水线设计', link: '/coding/架构心得/银行科技CI-CD流水线设计' },
           { text: '项目稳定性-限流方案全解析', link: '/coding/架构心得/项目稳定性-限流' },
           { text: '项目稳定性-幂等性设计', link: '/coding/架构心得/项目稳定性-幂等' },
