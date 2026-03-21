@@ -114,6 +114,7 @@ export default withMermaid({
               { text: 'MySQL 索引完全指南', link: '/coding/MySQL/MySQL索引完全指南' },
               { text: 'MySQL 事务与锁', link: '/coding/MySQL/MySQL事务与锁' },
               { text: 'MySQL SQL 优化实战', link: '/coding/MySQL/MySQLSQL优化实战' },
+              { text: 'MySQL EXPLAIN 执行计划完全解析', link: '/coding/MySQL/MySQL-EXPLAIN执行计划完全解析' },
               { text: 'MySQL 主从复制与读写分离', link: '/coding/MySQL/MySQL主从复制与读写分离' }
             ]
           },
@@ -224,6 +225,7 @@ export default withMermaid({
         collapsed: false,
         items: [
           { text: 'Docker 快速入门完全指南', link: '/coding/Docker/Docker快速入门完全指南' },
+          { text: 'Docker 容器安全加固实战', link: '/coding/Docker/Docker容器安全加固-银行生产环境实战' },
           { text: 'Kubernetes 快速入门完全指南', link: '/coding/Kubernetes/Kubernetes快速入门完全指南' },
           { text: 'GitOps ArgoCD 银行级部署实战', link: '/coding/DevOps/GitOps-ArgoCD银行级部署实战' },
           { text: 'Terraform 银行基础设施即代码实战', link: '/coding/DevOps/Terraform银行基础设施即代码实战' },
