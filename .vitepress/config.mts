@@ -231,6 +231,7 @@ export default withMermaid({
           { text: 'Kubernetes 快速入门完全指南', link: '/coding/Kubernetes/Kubernetes快速入门完全指南' },
           { text: 'Kubernetes 监控与告警银行生产实战', link: '/coding/Kubernetes/Kubernetes监控与告警-银行生产实战' },
           { text: 'Kubernetes 探针与健康检查实战', link: '/coding/Kubernetes/Kubernetes探针与健康检查-SpringBoot Actuator集成' },
+          { text: 'Kubernetes 网络与 Ingress 生产架构', link: '/coding/Kubernetes/Kubernetes网络与Ingress-银行K8s生产架构' },
           { text: 'GitOps ArgoCD 银行级部署实战', link: '/coding/DevOps/GitOps-ArgoCD银行级部署实战' },
           { text: 'Terraform 银行基础设施即代码实战', link: '/coding/DevOps/Terraform银行基础设施即代码实战' },
           { text: 'Istio Service Mesh 银行实战', link: '/coding/DevOps/Kubernetes-Istio银行ServiceMesh实战' }
