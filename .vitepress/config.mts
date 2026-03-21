@@ -229,6 +229,7 @@ export default withMermaid({
           { text: 'Docker 快速入门完全指南', link: '/coding/Docker/Docker快速入门完全指南' },
           { text: 'Docker 容器安全加固实战', link: '/coding/Docker/Docker容器安全加固-银行生产环境实战' },
           { text: 'Kubernetes 快速入门完全指南', link: '/coding/Kubernetes/Kubernetes快速入门完全指南' },
+          { text: 'Kubernetes 监控与告警银行生产实战', link: '/coding/Kubernetes/Kubernetes监控与告警-银行生产实战' },
           { text: 'GitOps ArgoCD 银行级部署实战', link: '/coding/DevOps/GitOps-ArgoCD银行级部署实战' },
           { text: 'Terraform 银行基础设施即代码实战', link: '/coding/DevOps/Terraform银行基础设施即代码实战' },
           { text: 'Istio Service Mesh 银行实战', link: '/coding/DevOps/Kubernetes-Istio银行ServiceMesh实战' }
