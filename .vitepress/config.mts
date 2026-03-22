@@ -115,7 +115,8 @@ export default withMermaid({
               { text: 'MySQL 事务与锁', link: '/coding/MySQL/MySQL事务与锁' },
               { text: 'MySQL SQL 优化实战', link: '/coding/MySQL/MySQLSQL优化实战' },
               { text: 'MySQL EXPLAIN 执行计划完全解析', link: '/coding/MySQL/MySQL-EXPLAIN执行计划完全解析' },
-              { text: 'MySQL 主从复制与读写分离', link: '/coding/MySQL/MySQL主从复制与读写分离' }
+              { text: 'MySQL 主从复制与读写分离', link: '/coding/MySQL/MySQL主从复制与读写分离' },
+              { text: 'ShardingSphere 分库分表实战', link: '/coding/MySQL/ShardingSphere分库分表-银行千万级数据水平扩展实战' }
             ]
           },
           {
@@ -220,6 +221,7 @@ export default withMermaid({
           { text: 'OpenTelemetry 银行可观测性实战', link: '/coding/工程实践/OpenTelemetry银行可观测性实战' },
           { text: 'Git 企业工作流与分支策略', link: '/coding/工程实践/Git企业工作流与分支策略-银行科技团队协作实践' },
           { text: 'REST API 版本管理策略', link: '/coding/工程实践/REST-API版本管理策略-银行系统演进实践' },
+          { text: 'Apollo 配置中心实战', link: '/coding/工程实践/Apollo配置中心-携程开源银行级配置管理实战' },
           { text: '银行科技 CI/CD 流水线设计', link: '/coding/架构心得/银行科技CI-CD流水线设计' },
           { text: '项目稳定性-限流方案全解析', link: '/coding/架构心得/项目稳定性-限流' },
           { text: '项目稳定性-幂等性设计', link: '/coding/架构心得/项目稳定性-幂等' },
