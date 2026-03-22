@@ -181,6 +181,10 @@
     <priority>1.2</priority>
   </url>
   <url>
+    <loc>https://www.panbo.space/MySQL/ShardingSphere分库分表-银行千万级数据水平扩展实战</loc>
+    <priority>1.2</priority>
+  </url>
+  <url>
     <loc>https://www.panbo.space/React/JSX-语法完全指南</loc>
     <priority>1.2</priority>
   </url>
@@ -374,6 +378,10 @@
   </url>
   <url>
     <loc>https://www.panbo.space/安全/HashiCorp-Vault银行密钥管理实战</loc>
+    <priority>1.2</priority>
+  </url>
+  <url>
+    <loc>https://www.panbo.space/工程实践/Apollo配置中心-携程开源银行级配置管理实战</loc>
     <priority>1.2</priority>
   </url>
   <url>
