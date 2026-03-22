@@ -122,11 +122,11 @@ export default {
               ' git log --oneline -n 5'
             ]),
             h('ul', { class: 'cyber-post-list' }, [
-              { title: 'GitOps ArgoCD 银行级部署实战', category: 'DevOps', link: '/coding/DevOps/GitOps-ArgoCD银行级部署实战', hash: 'd2db137', date: '2026-03-20' },
-              { title: '幂等性设计：银行分布式系统资金安全', category: '架构', link: '/coding/架构心得/项目稳定性-幂等', hash: '597e5ca', date: '2026-03-20' },
-              { title: 'HashiCorp Vault 银行密钥管理实战', category: '安全', link: '/coding/安全/HashiCorp-Vault银行密钥管理实战', hash: 'bde7179', date: '2026-03-20' },
-              { title: 'Spring Cloud Gateway 银行网关实战', category: '微服务', link: '/coding/SpringCloud/SpringCloud-Gateway银行流量网关实战', hash: '8fc4096', date: '2026-03-20' },
-              { title: '限流方案全解析：四种算法与银行实践', category: '架构', link: '/coding/架构心得/项目稳定性-限流', hash: '597e5ca', date: '2026-03-20' }
+              { title: 'React Router v6 完全指南', category: '前端', link: '/coding/React/React-Router-v6完全指南-银行系统实战', hash: '4bf9f49', date: '2026-03-22' },
+              { title: 'SkyWalking APM 链路追踪实战', category: '分布式', link: '/coding/分布式系统/SkyWalking银行APM链路追踪实战', hash: '8d4074e', date: '2026-03-22' },
+              { title: 'REST API 版本管理策略', category: '工程实践', link: '/coding/工程实践/REST-API版本管理策略-银行系统演进实践', hash: '62cdc1b', date: '2026-03-22' },
+              { title: 'Kubernetes 网络与 Ingress', category: 'DevOps', link: '/coding/Kubernetes/Kubernetes网络与Ingress-银行K8s生产架构', hash: '3c0d5a1', date: '2026-03-21' },
+              { title: 'Seata 分布式事务实战', category: '分布式', link: '/coding/分布式系统/Seata分布式事务实战-AT模式与TCC模式选型', hash: '9e2c8d3', date: '2026-03-21' }
             ].map(post =>
               h('li', { class: 'cyber-post-item' },
                 h('a', { href: post.link, class: 'cyber-post-link' }, [

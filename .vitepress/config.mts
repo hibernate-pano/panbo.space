@@ -149,10 +149,8 @@ export default withMermaid({
         collapsed: false,
         items: [
           { text: 'React 入门系列课程', link: '/coding/React/React 入门系列课程' },
-          { text: 'React Router v6 完全指南', link: '/coding/React/React-Router-v6完全指南-银行系统实战' },
-          { text: 'React 与 TypeScript 深度集成实战', link: '/coding/React/React与TypeScript深度集成实战' },
           {
-            text: 'React 基础',
+            text: 'React 基础系列',
             collapsed: true,
             items: [
               { text: 'React 简介与环境搭建', link: '/coding/React/React 简介与环境搭建' },
@@ -160,12 +158,14 @@ export default withMermaid({
               { text: '组件化开发思想', link: '/coding/React/组件化开发思想' },
               { text: 'Props 与 State - 数据流动', link: '/coding/React/Props 与 State - 数据流动' },
               { text: 'useState 状态管理', link: '/coding/React/useState 状态管理' },
-              { text: 'useEffect 副作用处理', link: '/coding/React/useEffect 副作用处理' }
+              { text: 'useEffect 副作用处理', link: '/coding/React/useEffect 副作用处理' },
+              { text: '条件渲染与列表渲染', link: '/coding/React/条件渲染与列表渲染' },
+              { text: '事件处理与状态更新', link: '/coding/React/事件处理与状态更新' },
+              { text: '自定义 Hook', link: '/coding/React/自定义 Hook' }
             ]
           },
-          { text: '条件渲染与列表渲染', link: '/coding/React/条件渲染与列表渲染' },
-          { text: '事件处理与状态更新', link: '/coding/React/事件处理与状态更新' },
-          { text: '自定义 Hook', link: '/coding/React/自定义 Hook' },
+          { text: 'React Router v6 完全指南', link: '/coding/React/React-Router-v6完全指南-银行系统实战' },
+          { text: 'React 与 TypeScript 深度集成实战', link: '/coding/React/React与TypeScript深度集成实战' },
           { text: 'TodoList 实战', link: '/coding/React/TodoList 实战' }
         ]
       },
