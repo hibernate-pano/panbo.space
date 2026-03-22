@@ -149,6 +149,7 @@ export default withMermaid({
         collapsed: false,
         items: [
           { text: 'React 入门系列课程', link: '/coding/React/React 入门系列课程' },
+          { text: 'React Router v6 完全指南', link: '/coding/React/React-Router-v6完全指南-银行系统实战' },
           { text: 'React 与 TypeScript 深度集成实战', link: '/coding/React/React与TypeScript深度集成实战' },
           {
             text: 'React 基础',
