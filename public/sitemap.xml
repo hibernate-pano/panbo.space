@@ -297,6 +297,10 @@
     <priority>1.2</priority>
   </url>
   <url>
+    <loc>https://www.panbo.space/SpringCloud/Nacos服务注册与配置中心-银行多环境实战</loc>
+    <priority>1.2</priority>
+  </url>
+  <url>
     <loc>https://www.panbo.space/SpringCloud/SpringCloud-Gateway银行流量网关实战</loc>
     <priority>1.2</priority>
   </url>
@@ -310,6 +314,10 @@
   </url>
   <url>
     <loc>https://www.panbo.space/分布式系统/Seata分布式事务实战-AT模式与TCC模式选型</loc>
+    <priority>1.2</priority>
+  </url>
+  <url>
+    <loc>https://www.panbo.space/分布式系统/Sentinel流量控制与熔断降级-银行高并发防护实战</loc>
     <priority>1.2</priority>
   </url>
   <url>
