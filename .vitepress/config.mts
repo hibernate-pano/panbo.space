@@ -194,6 +194,7 @@ export default withMermaid({
               { text: '分布式通信-RPC 与消息队列', link: '/coding/分布式系统/分布式通信-RPC与消息队列' },
               { text: 'RabbitMQ 消息队列银行实战', link: '/coding/分布式系统/RabbitMQ消息队列-银行实战选型指南' },
               { text: '服务治理-限流熔断与降级', link: '/coding/分布式系统/服务治理-限流熔断与降级' },
+              { text: 'Sentinel 流量控制与熔断降级实战', link: '/coding/分布式系统/Sentinel流量控制与熔断降级-银行高并发防护实战' },
               { text: '分布式协调-ZooKeeper 实战', link: '/coding/分布式系统/分布式协调-ZooKeeper实战' },
               { text: '分布式计算-MapReduce 与 Spark 入门', link: '/coding/分布式系统/分布式计算-MapReduce与Spark入门' },
               { text: '分布式实战-构建分布式订单系统', link: '/coding/分布式系统/分布式实战-构建分布式订单系统' },
