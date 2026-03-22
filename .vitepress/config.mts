@@ -180,6 +180,7 @@ export default withMermaid({
             collapsed: true,
             items: [
               { text: 'Spring Cloud 微服务入门完全指南', link: '/coding/SpringCloud/SpringCloud微服务入门完全指南' },
+              { text: 'Nacos 服务注册与配置中心实战', link: '/coding/SpringCloud/Nacos服务注册与配置中心-银行多环境实战' },
               { text: 'Spring Cloud Gateway 银行网关实战', link: '/coding/SpringCloud/SpringCloud-Gateway银行流量网关实战' }
             ]
           },
