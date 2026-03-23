@@ -2,6 +2,9 @@ import { h, onMounted, ref, computed } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import './custom.css'
 
+// Editorial theme CSS (loaded for theme switching)
+import '../theme-editorial/styles/editorial.css'
+
 // Reading time calculation
 function calculateReadingTime(text: string): number {
   const wordsPerMinute = 200
@@ -1344,5 +1347,66 @@ export default {
         }
         window.addEventListener('scroll', update, { passive: true })
       })
+
+    // ─── Theme Switcher (Fixed Position) ───────────────────────────
+    // Inject theme switcher as floating button - more reliable
+    const initThemeSwitcher = () => {
+      // Check if already injected
+      if (document.getElementById('theme-switcher-float')) return
+      
+      const btnCyber = document.createElement('button')
+      btnCyber.innerHTML = '◉ <b>CYBER</b>'
+      btnCyber.dataset.theme = 'cyber'
+      btnCyber.title = 'Cyberpunk 主题'
+      
+      const btnRead = document.createElement('button')
+      btnRead.innerHTML = '◎ <b>READ</b>'
+      btnRead.dataset.theme = 'editorial'
+      btnRead.title = 'Editorial 阅读主题'
+      
+      const container = document.createElement('div')
+      container.id = 'theme-switcher-float'
+      container.className = 'theme-switcher-float'
+      container.appendChild(btnCyber)
+      container.appendChild(btnRead)
+      
+      document.body.appendChild(container)
+      
+      // Add click handlers
+      const switchTheme = (theme) => {
+        localStorage.setItem('panbo-theme', theme)
+        if (theme === 'editorial') {
+          document.documentElement.classList.add('theme-editorial')
+        } else {
+          document.documentElement.classList.remove('theme-editorial')
+        }
+        updateButtons()
+      }
+      
+      const updateButtons = () => {
+        const saved = localStorage.getItem('panbo-theme') || 'cyber'
+        container.querySelectorAll('button').forEach(b => {
+          const isActive = b.dataset.theme === saved
+          b.classList.toggle('active', isActive)
+        })
+      }
+      
+      btnCyber.addEventListener('click', () => switchTheme('cyber'))
+      btnRead.addEventListener('click', () => switchTheme('editorial'))
+      
+      // Set initial state
+      updateButtons()
+    }
+
+    // Try to inject on mount and after delays
+    initThemeSwitcher()
+    setTimeout(initThemeSwitcher, 1500)
+    setTimeout(initThemeSwitcher, 4000)
+
+    // Restore saved theme on load
+    const savedTheme = localStorage.getItem('panbo-theme')
+    if (savedTheme === 'editorial') {
+      document.documentElement.classList.add('theme-editorial')
+    }
   }
 }

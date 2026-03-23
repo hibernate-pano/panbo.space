@@ -9783,3 +9783,42 @@ html {
 
 
 
+
+/* ─── Theme Switcher Floating Button ─── */
+.theme-switcher-float {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9998;
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 4px;
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.6rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.theme-switcher-float button {
+  padding: 6px 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--vp-c-text-3);
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+  border-radius: 2px;
+}
+
+.theme-switcher-float button:hover {
+  color: var(--vp-c-brand);
+}
+
+.theme-switcher-float button.active {
+  background: var(--vp-c-brand-dim);
+  color: var(--vp-c-brand);
+}
