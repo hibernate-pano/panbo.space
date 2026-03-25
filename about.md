@@ -1,44 +1,8 @@
 ---
 layout: page
 title: 关于
+description: 关于 Panbo、当前工作与写作主题。
 ---
-
-<style>
-.about-intro {
-  display: flex;
-  gap: 2rem;
-  align-items: flex-start;
-  margin: 2rem 0;
-}
-.about-intro-main {
-  flex: 1;
-}
-.tech-badges {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-top: 1rem;
-}
-.tech-badge {
-  padding: 0.25rem 0.75rem;
-  color: white;
-  border-radius: 4px;
-  font-size: 0.875rem;
-  font-family: var(--vp-font-family-mono, monospace);
-  font-weight: 500;
-}
-.tech-badge.java   { background: #c2410c; }  /* #F97316→dark #c2410c for WCAG 4.5:1 contrast */
-.tech-badge.react { background: #06B6D4; }
-.tech-badge.ts    { background: #3B82F6; }
-.tech-badge.spring{ background: #10B981; }
-.tech-badge.k8s   { background: #8B5CF6; }
-.tech-badge.mysql { background: #EF4444; }
-.tech-badge.redis { background: #DC2626; }
-.tech-badge.docker{ background: #c2410c; }  /* #EA580C→dark #c2410c for WCAG 4.5:1 contrast */
-@media (max-width: 640px) {
-  .about-intro { flex-direction: column; gap: 1rem; }
-}
-</style>
 
 # 关于我
 
@@ -58,26 +22,25 @@ title: 关于
 
 ### 这个博客
 
-记录我在银行科技领域的实战经验：
+这里主要记录两条线索：
 
-1. **技术深度**：Java 并发、MySQL 调优、Redis 高级特性
-2. **架构设计**：DDD、分布式事务、API 网关
-3. **DevOps**：Kubernetes、GitOps、CI/CD
-4. **安全合规**：PCI-DSS、OAuth2、密钥管理
-5. **生活思考**：技术之外的哲学与成长
+1. **技术沉淀**：Java 并发、MySQL 调优、Redis、分布式系统与工程实践
+2. **系统设计**：DDD、微服务治理、CI/CD、安全与可观测性
+3. **工作现场**：银行科技环境中的业务、流程与架构经验
+4. **长期思考**：技术之外关于成长、哲学与社会议题的写作
 
 ### 技术栈
 
 <div class="tech-badges">
 
-<span class="tech-badge java">Java 21</span>
-<span class="tech-badge react">React 18</span>
-<span class="tech-badge ts">TypeScript</span>
-<span class="tech-badge spring">Spring Cloud</span>
-<span class="tech-badge k8s">Kubernetes</span>
-<span class="tech-badge mysql">MySQL</span>
-<span class="tech-badge redis">Redis</span>
-<span class="tech-badge docker">Docker</span>
+<span class="tech-badge">Java 21</span>
+<span class="tech-badge">React 18</span>
+<span class="tech-badge">TypeScript</span>
+<span class="tech-badge">Spring Cloud</span>
+<span class="tech-badge">Kubernetes</span>
+<span class="tech-badge">MySQL</span>
+<span class="tech-badge">Redis</span>
+<span class="tech-badge">Docker</span>
 
 </div>
 

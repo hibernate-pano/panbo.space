@@ -1,15 +1,6 @@
 /**
- * Editorial Theme for panbo.space
- * Design: Warm magazine aesthetic, serif headings, paper-like palette
- * 
- * To activate this theme:
- * 1. Backup current .vitepress/config.mts if needed
- * 2. Edit .vitepress/config.mts and change:
- *    theme: './theme-editorial'  (instead of './theme')
- * 3. Run: pnpm docs:dev
- * 
- * To switch back:
- *    theme: './theme'  (restores cyberpunk theme)
+ * Editorial Theme for panbo.space — Enhanced Edition
+ * Warm Magazine Aesthetic with Full Dark Mode Support
  */
 import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
@@ -19,7 +10,6 @@ export default {
   extends: DefaultTheme,
   Layout() {
     return h(DefaultTheme.Layout, null, {
-      // Replace the entire home hero with editorial version
       'home-hero-info': () => null,
       'home-features-after': () => h('div', { class: 'editorial-home' }, [
         // Masthead
@@ -31,10 +21,10 @@ export default {
               h('span', { class: 'badge-text' }, 'Est. 2024'),
             ]),
             h('h1', { class: 'editorial-blog-title' }, 'panbo.space'),
-            h('p', { class: 'editorial-blog-subtitle' }, 
+            h('p', { class: 'editorial-blog-subtitle' },
               'Coding && Thinking · 技术博客与思考记录'
             ),
-            h('p', { class: 'editorial-blog-author' }, 
+            h('p', { class: 'editorial-blog-author' },
               'Full-Stack Developer @ HSBC · Java && React'
             ),
           ])
@@ -130,6 +120,7 @@ export default {
   },
   enhanceApp({ app }) {
     if (typeof window === 'undefined') return
+
     // Apply editorial class to root
     document.documentElement.classList.add('theme-editorial')
 
@@ -139,16 +130,33 @@ export default {
     bar.innerHTML = '<div class="editorial-progress-fill"></div>'
     Object.assign(bar.style, {
       position: 'fixed', top: 0, left: 0, right: 0, height: '2px',
-      background: 'var(--vp-c-bg-mute)', zIndex: 9999
+      background: 'transparent', zIndex: 9999
     })
     document.body.appendChild(bar)
+
     const fill = bar.querySelector('.editorial-progress-fill') as HTMLElement
     if (fill) {
-      fill.style.cssText = 'height:100%;background:var(--vp-c-brand-1);transition:width 0.1s linear'
+      fill.style.cssText = 'height:100%;background:linear-gradient(90deg, var(--vp-c-brand-1), var(--vp-c-brand-2));transition:width 0.08s linear'
       window.addEventListener('scroll', () => {
-        const h = document.documentElement.scrollHeight - window.innerHeight
+        const h = document.documentElement.scrollHeight - document.documentElement.clientHeight
         fill.style.width = h > 0 ? (window.scrollY / h * 100) + '%' : '0%'
       }, { passive: true })
     }
+
+    // Dark mode transition observer
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          // Trigger custom event for theme transitions
+          window.dispatchEvent(new CustomEvent('themeclasschange', {
+            detail: {
+              isDark: document.documentElement.classList.contains('dark')
+            }
+          }))
+        }
+      })
+    })
+
+    observer.observe(document.documentElement, { attributes: true })
   }
 }
