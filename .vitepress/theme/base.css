@@ -38,12 +38,26 @@ html.panbo-scrolled .VPNavBar {
 
 html.theme-editorial .panbo-home--editorial,
 html.theme-digest .panbo-home--digest,
+html.theme-newspaper .panbo-home--newspaper,
 html.theme-cyber .panbo-home--cyber {
   display: block;
 }
 
 .panbo-home-wrap {
   min-height: 100vh;
+}
+
+@media (min-width: 960px) {
+  html.theme-editorial .VPSidebar,
+  html.theme-digest .VPSidebar,
+  html.theme-newspaper .VPSidebar,
+  html.theme-cyber .VPSidebar {
+    position: fixed !important;
+    top: var(--vp-nav-height) !important;
+    bottom: 0;
+    left: 0;
+    z-index: var(--vp-z-index-sidebar);
+  }
 }
 
 .panbo-section-head {

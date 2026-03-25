@@ -4,11 +4,12 @@ import './base.css'
 import './custom.css'
 import '../theme-editorial/styles/editorial.css'
 import '../theme-digest/styles/digest.css'
+import '../theme-newspaper/styles/newspaper.css'
 import ArchiveIndex from './components/ArchiveIndex.vue'
 import ThemeHome from './components/ThemeHome.vue'
 import NavThemeSwitcher from './NavThemeSwitcher.vue'
 
-type ThemeId = 'editorial' | 'digest' | 'cyber'
+type ThemeId = 'editorial' | 'digest' | 'cyber' | 'newspaper'
 
 type WindowWithPanbo = Window & {
   __PANBO_RUNTIME__?: boolean
@@ -19,7 +20,7 @@ const DARK_STORAGE_KEY = 'panbo-dark-mode'
 
 function setThemeClass(theme: ThemeId, isDark: boolean): void {
   const root = document.documentElement
-  root.classList.remove('theme-editorial', 'theme-digest', 'theme-cyber')
+  root.classList.remove('theme-editorial', 'theme-digest', 'theme-cyber', 'theme-newspaper')
   root.classList.add(`theme-${theme}`)
   root.classList.toggle('dark', isDark)
   root.dataset.panboTheme = theme
@@ -31,7 +32,7 @@ function resolveInitialState(): { theme: ThemeId; isDark: boolean } {
   const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
 
   return {
-    theme: savedTheme === 'digest' || savedTheme === 'cyber' || savedTheme === 'editorial'
+    theme: savedTheme === 'digest' || savedTheme === 'cyber' || savedTheme === 'editorial' || savedTheme === 'newspaper'
       ? savedTheme
       : 'editorial',
     isDark: savedDark === null ? systemDark : savedDark === 'true',

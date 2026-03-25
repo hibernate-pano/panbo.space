@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 
-type Theme = 'cyber' | 'editorial' | 'digest'
+type Theme = 'cyber' | 'editorial' | 'digest' | 'newspaper'
 
 const props = defineProps<{
   currentTheme?: Theme
@@ -16,6 +16,7 @@ const activeTheme = ref<Theme>(props.currentTheme || 'editorial')
 const themes: { id: Theme; label: string; icon: string }[] = [
   { id: 'editorial', label: 'READ', icon: '◉' },
   { id: 'digest', label: 'DIGEST', icon: '◎' },
+  { id: 'newspaper', label: 'GAZETTE', icon: '◌' },
   { id: 'cyber', label: 'CYBER', icon: '◈' },
 ]
 

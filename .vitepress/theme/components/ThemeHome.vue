@@ -66,11 +66,12 @@ type ThemeData = {
   archive: ArchiveSection[]
 }
 
-const { theme } = useData()
+const { theme, frontmatter } = useData()
 
 const panbo = computed(() => theme.value.panbo as ThemeData)
 const home = computed(() => panbo.value.home)
 const archive = computed(() => panbo.value.archive)
+const isHomePage = computed(() => frontmatter.value.layout === 'home')
 
 const digestSections = computed(() =>
   archive.value.map((section) => ({
@@ -92,6 +93,23 @@ const digestBeats = computed(() => {
     sample: group.posts[0]?.title ?? '',
   })) ?? []
 })
+
+const newspaperEditorials = computed(() => home.value.secondaryFeatures.slice(0, 3))
+const newspaperLeadStories = computed(() => home.value.primaryFeatures.slice(0, 3))
+const newspaperClassifieds = computed(() => home.value.quickLinks.slice(0, 6))
+const newspaperDesk = computed(() => home.value.latest.slice(0, 6))
+const newspaperArchive = computed(() =>
+  archive.value
+    .flatMap((section) =>
+      section.groups.map((group) => ({
+        title: group.title,
+        count: group.count,
+        href: group.posts[0]?.path ?? '/archive',
+        sample: group.posts[0]?.title ?? section.description,
+      })),
+    )
+    .slice(0, 8),
+)
 
 const cyberNavItems = computed(() => {
   const links = [
@@ -131,7 +149,7 @@ const cyberSocialLinks = computed(() =>
 </script>
 
 <template>
-  <div class="panbo-home-wrap">
+  <div v-if="isHomePage" class="panbo-home-wrap">
     <section class="panbo-home panbo-home--editorial">
       <header class="editorial-hero">
         <p class="editorial-kicker">Issue 03 · Technical Essays</p>
@@ -476,6 +494,145 @@ const cyberSocialLinks = computed(() =>
           </footer>
         </div>
       </div>
+    </section>
+
+    <section class="panbo-home panbo-home--newspaper">
+      <header class="newspaper-frontpage">
+        <div class="newspaper-masthead">
+          <div class="newspaper-masthead__meta">
+            <span>Panbo Morning Edition</span>
+            <span>Shanghai</span>
+            <span>Est. 2024</span>
+          </div>
+          <p class="newspaper-masthead__kicker">editorials · feature stories · classifieds</p>
+          <h1>panbo.space</h1>
+          <p class="newspaper-masthead__deck">
+            一份放进现代浏览器里的旧报纸：技术、系统设计与长期思考，以泛黄纸页与沉稳排版重新排版。
+          </p>
+        </div>
+
+        <div class="newspaper-banner">
+          <div class="newspaper-banner__lead">
+            <p class="label">Feature Story</p>
+            <a :href="newspaperLeadStories[0]?.href ?? '/archive'">
+              <h2>{{ newspaperLeadStories[0]?.title ?? '持续记录技术实践与长期思考' }}</h2>
+            </a>
+            <p>
+              {{ newspaperLeadStories[0]?.description ?? '从后端、分布式到前端，把复杂系统拆成可以复用的经验。' }}
+            </p>
+          </div>
+
+          <div class="newspaper-banner__illustration" aria-hidden="true">
+            <div class="newspaper-illustration"></div>
+          </div>
+
+          <div class="newspaper-banner__bulletin">
+            <p class="label">Late Bulletin</p>
+            <ul>
+              <li v-for="post in newspaperDesk.slice(0, 3)" :key="post.path">
+                <a :href="post.path">
+                  <strong>{{ post.title }}</strong>
+                  <span>{{ post.updatedAt ?? 'recent' }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <div class="newspaper-sheet">
+        <section class="newspaper-column newspaper-column--editorials">
+          <div class="newspaper-heading">
+            <span>Editorials</span>
+            <h2>评论版</h2>
+          </div>
+          <a
+            v-for="feature in newspaperEditorials"
+            :key="feature.title"
+            :href="feature.href"
+            class="newspaper-editorial"
+          >
+            <strong>{{ feature.title }}</strong>
+            <p>{{ feature.description }}</p>
+          </a>
+        </section>
+
+        <section class="newspaper-column newspaper-column--features">
+          <div class="newspaper-heading">
+            <span>Feature Stories</span>
+            <h2>专题深读</h2>
+          </div>
+
+          <article
+            v-for="feature in newspaperLeadStories.slice(1)"
+            :key="feature.title"
+            class="newspaper-story"
+          >
+            <p class="eyebrow">{{ feature.eyebrow }}</p>
+            <a :href="feature.href">
+              <h3>{{ feature.title }}</h3>
+            </a>
+            <p>{{ feature.description }}</p>
+            <span>{{ feature.meta }}</span>
+          </article>
+
+          <div class="newspaper-heading newspaper-heading--wire">
+            <span>News Wire</span>
+            <h2>最新文章</h2>
+          </div>
+          <ul class="newspaper-wire">
+            <li v-for="post in newspaperDesk" :key="post.path">
+              <a :href="post.path">
+                <span class="group">{{ post.groupLabel }}</span>
+                <strong>{{ post.title }}</strong>
+                <span class="date">{{ post.updatedAt ?? 'recent' }}</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <aside class="newspaper-column newspaper-column--classifieds">
+          <div class="newspaper-heading">
+            <span>Classifieds</span>
+            <h2>分类广告</h2>
+          </div>
+          <div class="newspaper-classifieds">
+            <a
+              v-for="link in newspaperClassifieds"
+              :key="link.title"
+              :href="link.href"
+              :target="link.external ? '_blank' : undefined"
+              :rel="link.external ? 'noreferrer noopener' : undefined"
+              class="newspaper-classified"
+            >
+              <strong>{{ link.title }}</strong>
+              <span>{{ link.description }}</span>
+            </a>
+          </div>
+
+          <div class="newspaper-ledger">
+            <p class="newspaper-ledger__title">Edition Facts</p>
+            <div v-for="stat in home.stats" :key="stat.label" class="newspaper-ledger__row">
+              <span>{{ stat.label }}</span>
+              <strong>{{ stat.value }}</strong>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <section class="newspaper-index">
+        <div class="newspaper-heading">
+          <span>City Desk</span>
+          <h2>栏目索引</h2>
+        </div>
+        <div class="newspaper-index__grid">
+          <a v-for="item in newspaperArchive" :key="item.title" :href="item.href" class="newspaper-index__item">
+            <strong>{{ item.title }}</strong>
+            <p>{{ item.sample }}</p>
+            <span>{{ item.count }} 篇</span>
+          </a>
+        </div>
+      </section>
     </section>
   </div>
 </template>

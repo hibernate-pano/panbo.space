@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 
-type ThemeId = 'editorial' | 'digest' | 'cyber'
+type ThemeId = 'editorial' | 'digest' | 'cyber' | 'newspaper'
 
 const THEME_STORAGE_KEY = 'panbo-theme'
 const DARK_STORAGE_KEY = 'panbo-dark-mode'
@@ -9,6 +9,7 @@ const DARK_STORAGE_KEY = 'panbo-dark-mode'
 const themes: Array<{ id: ThemeId; label: string }> = [
   { id: 'editorial', label: 'Read' },
   { id: 'digest', label: 'Digest' },
+  { id: 'newspaper', label: 'Gazette' },
   { id: 'cyber', label: 'Cyber' },
 ]
 
@@ -17,7 +18,7 @@ const isDark = ref(false)
 
 function applyTheme(theme: ThemeId, darkMode: boolean): void {
   const root = document.documentElement
-  root.classList.remove('theme-editorial', 'theme-digest', 'theme-cyber')
+  root.classList.remove('theme-editorial', 'theme-digest', 'theme-cyber', 'theme-newspaper')
   root.classList.add(`theme-${theme}`)
   root.classList.toggle('dark', darkMode)
   root.dataset.panboTheme = theme
