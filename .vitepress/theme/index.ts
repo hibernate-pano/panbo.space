@@ -191,6 +191,9 @@ export default {
 
       const loader = document.createElement('div')
       loader.id = 'cyber-loader'
+      loader.setAttribute('role', 'status')
+      loader.setAttribute('aria-label', 'Page loading')
+      loader.setAttribute('aria-live', 'polite')
       loader.innerHTML = `
         <div class="loading-terminal">
           <div class="loading-line" style="--line-index: 0">> initializing...</div>
@@ -228,6 +231,9 @@ export default {
       const indicator = document.createElement('div')
       indicator.id = 'keyboard-nav-indicator'
       indicator.className = 'keyboard-nav-indicator'
+      indicator.setAttribute('role', 'region')
+      indicator.setAttribute('aria-label', 'Keyboard navigation hints')
+      indicator.setAttribute('aria-live', 'polite')
       indicator.innerHTML = `
         <span class="nav-hint">
           <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
@@ -364,7 +370,9 @@ export default {
         const showSwipeHint = () => {
           const hint = document.createElement('div')
           hint.className = 'swipe-up-hint'
-          hint.textContent = '↑ swipe up to top'
+          hint.setAttribute('role', 'status')
+          hint.setAttribute('aria-label', 'Swipe up hint')
+          hint.textContent = 'swipe up to top'
           document.body.appendChild(hint)
 
           setTimeout(() => hint.classList.add('visible'), 3000)
@@ -498,9 +506,10 @@ export default {
     })
 
     // 2. Back to top button
-    const backToTop = document.createElement('div')
+    const backToTop = document.createElement('button')
     backToTop.id = 'back-to-top'
-    backToTop.innerHTML = '↑ TOP'
+    backToTop.setAttribute('aria-label', 'Back to top')
+    backToTop.textContent = '↑ TOP'
     backToTop.style.cssText = `
       position: fixed;
       bottom: 24px;
@@ -553,12 +562,13 @@ export default {
     const initFAB = () => {
       const fabContainer = document.createElement('div')
       fabContainer.className = 'fab-container'
+      fabContainer.setAttribute('aria-label', 'Quick navigation')
 
       // Home button
       const homeBtn = document.createElement('button')
       homeBtn.className = 'fab-btn'
-      homeBtn.innerHTML = '⌂'
-      homeBtn.title = 'Home'
+      homeBtn.setAttribute('aria-label', 'Go to home')
+      homeBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`
       homeBtn.innerHTML += '<span class="tooltip">Home</span>'
       homeBtn.addEventListener('click', () => {
         window.location.href = '/'
@@ -567,7 +577,8 @@ export default {
       // Random article button
       const randomBtn = document.createElement('button')
       randomBtn.className = 'fab-btn'
-      randomBtn.innerHTML = '⚄'
+      randomBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><circle cx="8" cy="8" r="1.5" fill="currentColor"/><circle cx="16" cy="8" r="1.5" fill="currentColor"/><circle cx="8" cy="16" r="1.5" fill="currentColor"/><circle cx="16" cy="16" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>`
+      randomBtn.setAttribute('aria-label', 'Go to a random article')
       randomBtn.title = 'Random Article'
       randomBtn.innerHTML += '<span class="tooltip">Random</span>'
       randomBtn.addEventListener('click', () => {
@@ -588,6 +599,9 @@ export default {
     // 3. Image lightbox
     const lightbox = document.createElement('div')
     lightbox.id = 'image-lightbox'
+    lightbox.setAttribute('role', 'dialog')
+    lightbox.setAttribute('aria-modal', 'true')
+    lightbox.setAttribute('aria-label', 'Image lightbox — click or press Escape to close')
     lightbox.style.cssText = `
       position: fixed;
       inset: 0;
@@ -611,6 +625,7 @@ export default {
         const img = target as HTMLImageElement
         lightboxImg.src = img.src
         lightboxImg.alt = img.alt
+        lightbox.setAttribute('aria-label', `Image lightbox: ${img.alt || 'image'} — click or press Escape to close`)
         lightbox.style.display = 'flex'
         requestAnimationFrame(() => {
           lightbox.style.opacity = '1'
@@ -650,9 +665,13 @@ export default {
         if (!modal) {
           modal = document.createElement('div')
           modal.className = 'keyboard-shortcuts-modal'
+          modal.setAttribute('role', 'dialog')
+          modal.setAttribute('aria-modal', 'true')
+          modal.setAttribute('aria-label', 'Keyboard Shortcuts')
+          modal.setAttribute('aria-labelledby', 'shortcuts-title')
           modal.innerHTML = `
             <div class="modal-content">
-              <h3>⌨ Keyboard Shortcuts</h3>
+              <h3 id="shortcuts-title">Keyboard Shortcuts</h3>
               <div class="shortcut-row"><span>Search</span><kbd>g</kbd></div>
               <div class="shortcut-row"><span>Theme</span><kbd>t</kbd></div>
               <div class="shortcut-row"><span>Home</span><kbd>h</kbd></div>
@@ -728,6 +747,7 @@ export default {
     // Keyboard shortcuts hint
     const shortcutsHint = document.createElement('div')
     shortcutsHint.id = 'shortcuts-hint'
+    shortcutsHint.setAttribute('aria-label', 'Keyboard shortcuts: press t for theme, g for search, press ? for all shortcuts')
     shortcutsHint.style.cssText = `
       position: fixed;
       bottom: 24px;
@@ -738,7 +758,7 @@ export default {
       opacity: 0.5;
       z-index: 9997;
     `
-    shortcutsHint.innerHTML = '⌨ t:theme g:search'
+    shortcutsHint.textContent = 'kbd t:theme g:search'
     document.body.appendChild(shortcutsHint)
 
     // 5. Reading time display
@@ -752,6 +772,7 @@ export default {
 
       const timeDisplay = document.createElement('div')
       timeDisplay.id = 'reading-time'
+      timeDisplay.setAttribute('aria-label', `Estimated reading time: ${minutes} minutes`)
       timeDisplay.style.cssText = `
         position: fixed;
         top: 58px;
@@ -764,7 +785,7 @@ export default {
         border: 1px solid var(--vp-c-border);
         z-index: 9997;
       `
-      timeDisplay.innerHTML = `📖 ${minutes} min read`
+      timeDisplay.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> ${minutes} min read`
 
       const nav = document.querySelector('.VPNav')
       if (nav) {
@@ -780,6 +801,10 @@ export default {
 
       const progressDisplay = document.createElement('div')
       progressDisplay.id = 'reading-progress-percent'
+      progressDisplay.setAttribute('role', 'progressbar')
+      progressDisplay.setAttribute('aria-label', 'Reading progress')
+      progressDisplay.setAttribute('aria-valuemin', '0')
+      progressDisplay.setAttribute('aria-valuemax', '100')
       progressDisplay.innerHTML = `
         <div class="progress-bar" style="--progress: 0%"></div>
         <span class="percent">0%</span>
@@ -819,6 +844,7 @@ export default {
         if (percentText) {
           percentText.textContent = `${percent}%`
         }
+        progressDisplay.setAttribute('aria-valuenow', String(percent))
       }
 
       window.addEventListener('scroll', updateProgress, { passive: true })
@@ -838,7 +864,7 @@ export default {
 
         const fullscreenBtn = document.createElement('button')
         fullscreenBtn.className = 'fullscreen-btn'
-        fullscreenBtn.innerHTML = '⛶'
+        fullscreenBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>`
         fullscreenBtn.title = 'Fullscreen'
         fullscreenBtn.style.cssText = `
           position: absolute;
@@ -1172,7 +1198,7 @@ export default {
             overlay.className = 'konami-activated'
             overlay.innerHTML = `
               <div class="konami-message">
-                <h1>🎉 KONAMI CODE</h1>
+              <h1>KONAMI CODE</h1>
                 <p style="font-family: var(--vp-font-family-mono); color: var(--vp-c-text-2);">
                   You found the easter egg! <br>
                   <span style="color: var(--vp-c-brand);">> cd /cheatsheet && ./unlock_bonus.sh</span>
@@ -1398,15 +1424,40 @@ export default {
       updateButtons()
     }
 
-    // Try to inject on mount and after delays
+    // ─── Theme Initialization: OS Preference → localStorage → Default ───
+    // Respect OS prefers-color-scheme on first visit (before any user interaction)
+    ;(function initTheme() {
+      const savedTheme = localStorage.getItem('panbo-theme')
+      if (savedTheme) {
+        // User has explicitly chosen — respect it
+        if (savedTheme === 'editorial') {
+          document.documentElement.classList.add('theme-editorial')
+        } else if (savedTheme === 'dark') {
+          document.documentElement.classList.add('dark')
+        }
+      } else {
+        // First visit — respect OS preference for dark/light
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (prefersDark) {
+          document.documentElement.classList.add('dark')
+        }
+      }
+    })()
+
+    // Listen for OS theme changes and update if user hasn't set a preference
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('panbo-theme')) {
+        if (e.matches) {
+          document.documentElement.classList.add('dark')
+        } else {
+          document.documentElement.classList.remove('dark')
+        }
+      }
+    })
+
+    // Try to inject theme switcher on mount and after delays
     initThemeSwitcher()
     setTimeout(initThemeSwitcher, 1500)
     setTimeout(initThemeSwitcher, 4000)
-
-    // Restore saved theme on load
-    const savedTheme = localStorage.getItem('panbo-theme')
-    if (savedTheme === 'editorial') {
-      document.documentElement.classList.add('theme-editorial')
-    }
   }
 }
