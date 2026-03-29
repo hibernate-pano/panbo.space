@@ -22,10 +22,10 @@
 ```mermaid
 graph TB
     subgraph Collection["Collection 接口"]
-        List[List<br/>列表]
-        Set[Set<br/>集]
-        Queue[Queue<br/>队列]
-        Deque[Deque<br/>双端队列]
+        List[List\n列表]
+        Set[Set\n集]
+        Queue[Queue\n队列]
+        Deque[Deque\n双端队列]
     end
 
     subgraph ListImpl["List 实现类"]

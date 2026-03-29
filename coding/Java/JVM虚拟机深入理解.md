@@ -51,16 +51,16 @@ flowchart TB
         direction TB
 
         subgraph Components["核心组件"]
-            CL[类加载器<br/>ClassLoader] --> EE[执行引擎<br/>Execution Engine]
-            EE --> NI[本地库<br/>Native Interface]
+            CL[类加载器\nClassLoader] --> EE[执行引擎\nExecution Engine]
+            EE --> NI[本地库\nNative Interface]
         end
 
         subgraph Runtime["运行时数据区"]
-            PC[程序计数器<br/>PC Register]
-            VS[Java 虚拟机栈<br/>VM Stack]
-            NMS[本地方法栈<br/>Native Method Stack]
-            Heap[堆<br/>Heap]
-            MA[方法区<br/>Method Area]
+            PC[程序计数器\nPC Register]
+            VS[Java 虚拟机栈\nVM Stack]
+            NMS[本地方法栈\nNative Method Stack]
+            Heap[堆\nHeap]
+            MA[方法区\nMethod Area]
         end
 
         CL --> Runtime
@@ -113,7 +113,7 @@ flowchart TB
             end
         end
 
-        Old["Old Generation (老年代)<br/>Tenured"]
+        Old["Old Generation (老年代)\nTenured"]
     end
 
     E -->|"Minor GC"| S0x
@@ -139,17 +139,17 @@ flowchart TB
     subgraph Stack["Java 虚拟机栈"]
         direction TB
 
-        Frame3["栈帧 3 (当前活跃)<br/>Active Frame"]
+        Frame3["栈帧 3 (当前活跃)\nActive Frame"]
         Frame2["栈帧 2"]
         Frame1["栈帧 1"]
     end
 
     subgraph Frame3Details["栈帧结构"]
         direction LR
-        LV[局部变量表<br/>Local Variables]
-        OS[操作数栈<br/>Operand Stack]
-        DL[动态链接<br/>Dynamic Linking]
-        RA[方法返回地址<br/>Return Address]
+        LV[局部变量表\nLocal Variables]
+        OS[操作数栈\nOperand Stack]
+        DL[动态链接\nDynamic Linking]
+        RA[方法返回地址\nReturn Address]
     end
 
     Frame3 --- Frame3Details
@@ -310,16 +310,16 @@ flowchart LR
 ```mermaid
 flowchart TB
     subgraph Young["Young Generation (新生代)"]
-        Y1[Serial<br/>串行]
-        Y2[ParNew<br/>并行]
-        Y3[Parallel<br/>Scavenge]
+        Y1[Serial\n串行]
+        Y2[ParNew\n并行]
+        Y3[Parallel\nScavenge]
         Y4[G1]
     end
 
     subgraph Old["Old Generation (老年代)"]
-        O1[Serial Old<br/>串行]
-        O2[ParOld Gen<br/>并行]
-        O3[Parallel Old<br/>并行]
+        O1[Serial Old\n串行]
+        O2[ParOld Gen\n并行]
+        O3[Parallel Old\n并行]
         O4[CMS]
         O5[G1]
         O6[ZGC]
@@ -419,10 +419,10 @@ stateDiagram-v2
 
 ```mermaid
 flowchart TB
-    Custom[自定义 ClassLoader<br/>Custom ClassLoader]
-    App[应用类加载器<br/>Application<br/>AppClassLoader]
-    Ext[扩展类加载器<br/>Extension<br/>ExtClassLoader]
-    Bootstrap[启动类加载器<br/>Bootstrap<br/>C++实现]
+    Custom[自定义 ClassLoader\nCustom ClassLoader]
+    App[应用类加载器\nApplication\nAppClassLoader]
+    Ext[扩展类加载器\nExtension\nExtClassLoader]
+    Bootstrap[启动类加载器\nBootstrap\nC++实现]
 
     Custom --> App
     App --> Ext
@@ -438,14 +438,14 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-    Start["loadClass()"] --> Check{检查是否<br/>已加载}
+    Start["loadClass()"] --> Check{检查是否\n已加载}
     Check -->|已加载| Return["返回类"]
 
     Check -->|未加载| Delegate["委派给父加载器"]
 
-    Delegate --> Top{父加载器<br/>是否为空}
+    Delegate --> Top{父加载器\n是否为空}
 
-    Top -->|是| Load["自己加载<br/>(findClass)"]
+    Top -->|是| Load["自己加载\n(findClass)"]
 
     Top -->|否| Delegate
 

@@ -2,127 +2,127 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.panbo.space/BigData/Flink-流处理</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/BigData/Hadoop-HDFS-分布式文件系统</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/BigData/Hive-数据仓库</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/BigData/Kafka-消息队列</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/BigData/MapReduce-分布式计算</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/BigData/Spark-内存计算</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/BigData/大数据入门完全指南</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/BigData/大数据基础概念</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/BigData/实战项目-用户行为分析平台</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/DevOps/GitOps-ArgoCD银行级部署实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/DevOps/Kubernetes-Istio银行ServiceMesh实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/DevOps/Terraform银行基础设施即代码实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Docker/Docker容器安全加固-银行生产环境实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Docker/Docker快速入门完全指南</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/HSBC/保险业务技术详解</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/HSBC/工商金融业务CMB技术详解</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/HSBC/汇丰Senior-FullStack-Developer技术栈与思考</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/HSBC/汇丰业务线基本常识</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/HSBC/汇丰入职指南</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/HSBC/汇丰内部工具与系统</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/HSBC/汇丰安全与合规实践</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/HSBC/汇丰技术参考</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/HSBC/汇丰项目开发流程</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/HSBC/环球银行及资本市场GBM技术详解</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/HSBC/私人银行业务技术详解</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/HSBC/零售银行及财富管理RBWM技术详解</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Java/JVM虚拟机深入理解</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Java/Java并发编程完全指南</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Java/Java集合框架深入理解</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Java/SpringBoot参数校验与全局异常处理实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Java/SpringBoot数据库连接池调优</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Java/锁与并发控制/CountDownLatch与CyclicBarrier</loc>
@@ -146,287 +146,287 @@
   </url>
   <url>
     <loc>https://www.panbo.space/Kubernetes/Kubernetes快速入门完全指南</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Kubernetes/Kubernetes探针与健康检查-SpringBoot-Actuator集成</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Kubernetes/Kubernetes监控与告警-银行生产实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Kubernetes/Kubernetes网络与Ingress-银行K8s生产架构</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/MySQL/MySQL-EXPLAIN执行计划完全解析</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/MySQL/MySQLSQL优化实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/MySQL/MySQL主从复制与读写分离</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/MySQL/MySQL事务与锁</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/MySQL/MySQL索引完全指南</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/MySQL/ShardingSphere分库分表-银行千万级数据水平扩展实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/React/JSX-语法完全指南</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/React/Props-与-State---数据流动</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/React/React-Router-v6完全指南-银行系统实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/React/React-入门系列课程</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/React/React-简介与环境搭建</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/React/React与TypeScript深度集成实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/React/TodoList-实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/React/useEffect-副作用处理</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/React/useState-状态管理</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/React/事件处理与状态更新</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/React/条件渲染与列表渲染</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/React/组件化开发思想</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/React/自定义-Hook</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Redis/GeoHash-算法</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Redis/Redis-BloomFilter（布隆过滤器）</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Redis/Redis-Cell-限流模块</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Redis/Redis-GeoHash-地理位置模块</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Redis/Redis-HyperLogLog</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Redis/Redis-Scan-命令用法</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Redis/Redis-五种基本数据类型</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Redis/Redis-介绍和基本命令</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Redis/Redis-位图</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Redis/Redis-使用规范</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Redis/Redis-发布与订阅</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Redis/Redis-实现分布式锁</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Redis/Redis-实现消息队列</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Redis/Redis-线程-IO-模型</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Redis/Redis-过期策略</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/Redis/Redis-配置文件解析</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/SpringCloud/Nacos服务注册与配置中心-银行多环境实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/SpringCloud/SpringCloud-Gateway银行流量网关实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/SpringCloud/SpringCloud微服务入门完全指南</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/分布式系统/RabbitMQ消息队列-银行实战选型指南</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/分布式系统/Seata分布式事务实战-AT模式与TCC模式选型</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/分布式系统/Sentinel流量控制与熔断降级-银行高并发防护实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/分布式系统/SkyWalking银行APM链路追踪实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/分布式系统/分布式事务-2PC-TCC与Saga</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/分布式系统/分布式事务与Saga模式实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/分布式系统/分布式协调-ZooKeeper实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/分布式系统/分布式基础-从单机到分布式的跨越</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/分布式系统/分布式存储-数据分片与复制</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/分布式系统/分布式实战-构建分布式订单系统</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/分布式系统/分布式理论-CAP与BASE</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/分布式系统/分布式系统入门完全指南</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/分布式系统/分布式系统设计原则与最佳实践</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/分布式系统/分布式计算-MapReduce与Spark入门</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/分布式系统/分布式通信-RPC与消息队列</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/分布式系统/服务治理-限流熔断与降级</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/安全/HashiCorp-Vault银行密钥管理实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/工程实践/Apollo配置中心-携程开源银行级配置管理实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/工程实践/Git企业工作流与分支策略-银行科技团队协作实践</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/工程实践/OpenTelemetry银行可观测性实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/工程实践/REST-API版本管理策略-银行系统演进实践</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/架构心得/SpringSecurity与OAuth2银行级安全实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/架构心得/分布式系统可观测性实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/架构心得/银行科技CI-CD流水线设计</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/架构心得/项目可用性-集群</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/架构心得/项目安全性-鉴权和授权</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/架构心得/项目稳定性-幂等</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/架构心得/项目稳定性-限流</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/架构心得/领域驱动设计DDD在银行系统的实战</loc>
-    <priority>1.2</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.panbo.space/知识宫殿规划</loc>

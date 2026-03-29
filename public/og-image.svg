@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <!-- Subtle grid pattern -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#00ff41" stroke-width="0.5" opacity="0.12"/>
+    </pattern>
+    <!-- Glow filter for text -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0a0a0f"/>
+
+  <!-- Grid overlay -->
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <!-- Top accent line -->
+  <rect x="0" y="0" width="1200" height="3" fill="#00ff41"/>
+
+  <!-- Left decorative bar -->
+  <rect x="0" y="0" width="6" height="630" fill="#00ff41" opacity="0.3"/>
+
+  <!-- Logo mark -->
+  <rect x="80" y="200" width="72" height="72" rx="8" fill="#0a0a0f" stroke="#00ff41" stroke-width="2"/>
+  <text x="116" y="243" dominant-baseline="central" text-anchor="middle"
+        font-family="monospace" font-size="36" font-weight="bold" fill="#00ff41">P</text>
+
+  <!-- Site name -->
+  <text x="176" y="238" font-family="monospace, monospace" font-size="52" font-weight="bold"
+        fill="#ffffff" letter-spacing="-1">panbo.space</text>
+
+  <!-- Tagline -->
+  <text x="178" y="278" font-family="monospace, monospace" font-size="18"
+        fill="#00ff41" letter-spacing="3" opacity="0.9">CODING &amp;&amp; THINKING</text>
+
+  <!-- Horizontal divider -->
+  <line x1="80" y1="320" x2="1120" y2="320" stroke="#00ff41" stroke-width="0.5" opacity="0.3"/>
+
+  <!-- Category tags -->
+  <g font-family="monospace, monospace" font-size="13" fill="#00ff41">
+    <!-- Tag 1 -->
+    <rect x="80" y="360" width="96" height="28" rx="4" fill="none" stroke="#00ff41" stroke-width="1" opacity="0.5"/>
+    <text x="128" y="379" dominant-baseline="central" text-anchor="middle" opacity="0.7">JAVA</text>
+
+    <!-- Tag 2 -->
+    <rect x="192" y="360" width="96" height="28" rx="4" fill="none" stroke="#00ff41" stroke-width="1" opacity="0.5"/>
+    <text x="240" y="379" dominant-baseline="central" text-anchor="middle" opacity="0.7">MYSQL</text>
+
+    <!-- Tag 3 -->
+    <rect x="304" y="360" width="96" height="28" rx="4" fill="none" stroke="#00ff41" stroke-width="1" opacity="0.5"/>
+    <text x="352" y="379" dominant-baseline="central" text-anchor="middle" opacity="0.7">REDIS</text>
+
+    <!-- Tag 4 -->
+    <rect x="416" y="360" width="112" height="28" rx="4" fill="none" stroke="#00ff41" stroke-width="1" opacity="0.5"/>
+    <text x="472" y="379" dominant-baseline="central" text-anchor="middle" opacity="0.7">REACT</text>
+
+    <!-- Tag 5 -->
+    <rect x="544" y="360" width="96" height="28" rx="4" fill="none" stroke="#00ff41" stroke-width="1" opacity="0.5"/>
+    <text x="592" y="379" dominant-baseline="central" text-anchor="middle" opacity="0.7">K8S</text>
+
+    <!-- Tag 6 -->
+    <rect x="656" y="360" width="112" height="28" rx="4" fill="none" stroke="#00ff41" stroke-width="1" opacity="0.5"/>
+    <text x="712" y="379" dominant-baseline="central" text-anchor="middle" opacity="0.7">DDD</text>
+  </g>
+
+  <!-- Code snippet decoration -->
+  <g font-family="monospace, monospace" font-size="12" opacity="0.35">
+    <text x="80" y="440" fill="#00ff41">public class Panbo {'{'}</text>
+    <text x="80" y="462" fill="#00ff41">  private static final String TAG = "panbo";</text>
+    <text x="80" y="484" fill="#00ff41">  // 保持学习，保持思考</text>
+    <text x="80" y="506" fill="#00ff41">{'}'}</text>
+  </g>
+
+  <!-- Bottom bar -->
+  <rect x="0" y="590" width="1200" height="40" fill="#00ff41" opacity="0.06"/>
+  <text x="80" y="616" font-family="monospace, monospace" font-size="13"
+        fill="#00ff41" opacity="0.5" letter-spacing="1">HTTPS://WWW.PANBO.SPACE</text>
+
+  <!-- Scanline overlay for depth -->
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.3"/>
+</svg>
