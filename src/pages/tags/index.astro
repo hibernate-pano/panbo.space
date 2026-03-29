@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { formatTagLabel, toTagPath } from '../../lib/post-tags'
+import { getTagDirectory } from '../../lib/posts'
+
+const tagDirectory = await getTagDirectory()
+---
+
+<BaseLayout title="Tags" description="按自动识别与人工补充后的标签浏览 panbo.space 的文章网络。">
+  <section class="page-shell">
+    <header class="page-header">
+      <p class="page-header__eyebrow">Tag register</p>
+      <h1>标签档案</h1>
+      <p>标签来自 frontmatter、正文中的 #标签，以及受控关键词推断。它不是第二套 topic，而是跨主题的交叉索引。</p>
+    </header>
+
+    <div class="tag-directory">
+      {tagDirectory.map((item) => (
+        <a class="tag-directory__item" href={toTagPath(item.tag)}>
+          <span>Cross-index</span>
+          <strong>{formatTagLabel(item.tag)}</strong>
+          <p>{item.count} 篇文章落在这个标签下，适合横向浏览同一问题域。</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

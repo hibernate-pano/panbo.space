@@ -3,12 +3,13 @@ import { siteConfig } from '../data/site'
 
 const currentPath = Astro.url.pathname
 const navItems = [
-  { href: '/archive', label: 'Archive', match: '/archive' },
-  { href: '/topics/java', label: 'Coverage', match: '/topics/' },
-  { href: '/about', label: 'Profile', match: '/about' },
+  { href: '/archive', label: 'Archive', matches: ['/archive'] },
+  { href: '/tags', label: 'Coverage', matches: ['/topics/', '/tags'] },
+  { href: '/about', label: 'Profile', matches: ['/about'] },
 ]
 
-const isActive = (match: string, href: string) => currentPath === href || currentPath.startsWith(match)
+const isActive = (matches: string[], href: string) =>
+  currentPath === href || matches.some((match) => currentPath === match || currentPath.startsWith(match))
 ---
 
 <header class="site-header">
@@ -26,9 +27,9 @@ const isActive = (match: string, href: string) => currentPath === href || curren
         <a
           href={item.href}
           data-nav-link
-          data-match={item.match}
-          class:list={[isActive(item.match, item.href) && 'is-active']}
-          aria-current={isActive(item.match, item.href) ? 'page' : undefined}
+          data-match={item.matches.join(',')}
+          class:list={[isActive(item.matches, item.href) && 'is-active']}
+          aria-current={isActive(item.matches, item.href) ? 'page' : undefined}
         >
           {item.label}
         </a>
@@ -47,6 +48,10 @@ const isActive = (match: string, href: string) => currentPath === href || curren
         Search
         <span>⌘K</span>
       </a>
+
+      <button class="site-header__utility site-header__theme-toggle" type="button" data-theme-toggle>
+        <span data-theme-toggle-label>Light</span>
+      </button>
 
       <a class="site-header__utility" href="/rss.xml">RSS</a>
     </div>

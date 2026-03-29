@@ -26,6 +26,7 @@ type Props = {
   showProgress?: boolean
   publishedAt?: Date
   updatedAt?: Date
+  tags?: string[]
 }
 
 const {
@@ -37,15 +38,37 @@ const {
   showProgress = false,
   publishedAt,
   updatedAt,
+  tags = [],
 } = Astro.props as Props
 
 const pageTitle = title === siteConfig.title ? siteConfig.title : `${title} · ${siteConfig.title}`
 const canonicalUrl = new URL(canonicalPath, siteConfig.site).toString()
 const imageUrl = image.startsWith('http') ? image : new URL(image, siteConfig.site).toString()
 
+const themeBootstrapScript = `
+  (() => {
+    const storageKey = 'panbo-theme';
+    const root = document.documentElement;
+    try {
+      const saved = localStorage.getItem(storageKey);
+      const theme = saved === 'dark' || saved === 'light'
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      root.dataset.theme = theme;
+      root.style.colorScheme = theme;
+    } catch {
+      const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.dataset.theme = theme;
+      root.style.colorScheme = theme;
+    }
+  })();
+`
+
 const runtimeScript = `
   (() => {
     let tocObserver;
+    const themeStorageKey = 'panbo-theme';
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
     const syncProgress = () => {
       const progress = document.querySelector('[data-reading-progress]');
@@ -65,8 +88,11 @@ const runtimeScript = `
       const pathname = window.location.pathname;
       document.querySelectorAll('[data-nav-link]').forEach((link) => {
         const href = link.getAttribute('href') || '/';
-        const match = link.getAttribute('data-match') || href;
-        const active = pathname === href || (match !== '/' && pathname.startsWith(match));
+        const matches = (link.getAttribute('data-match') || href)
+          .split(',')
+          .map((value) => value.trim())
+          .filter(Boolean);
+        const active = pathname === href || matches.some((match) => pathname === match || (match !== '/' && pathname.startsWith(match)));
         link.classList.toggle('is-active', active);
 
         if (active) {
@@ -129,11 +155,64 @@ const runtimeScript = `
       window.location.href = '/search';
     };
 
+    const getStoredTheme = () => {
+      try {
+        const value = localStorage.getItem(themeStorageKey);
+        return value === 'light' || value === 'dark' ? value : null;
+      } catch {
+        return null;
+      }
+    };
+
+    const applyTheme = (theme, persist = false) => {
+      const root = document.documentElement;
+      root.dataset.theme = theme;
+      root.style.colorScheme = theme;
+
+      if (persist) {
+        try {
+          localStorage.setItem(themeStorageKey, theme);
+        } catch {}
+      }
+
+      const toggle = document.querySelector('[data-theme-toggle]');
+      const label = document.querySelector('[data-theme-toggle-label]');
+      if (toggle instanceof HTMLElement) {
+        toggle.setAttribute('aria-label', theme === 'dark' ? '切换到浅色主题' : '切换到暗色主题');
+        toggle.setAttribute('title', theme === 'dark' ? '切换到浅色主题' : '切换到暗色主题');
+      }
+      if (label) {
+        label.textContent = theme === 'dark' ? 'Dark' : 'Light';
+      }
+
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#0f141b' : '#da0011');
+      window.dispatchEvent(new CustomEvent('panbo:theme-change', { detail: { theme } }));
+    };
+
+    const setupThemeToggle = () => {
+      const toggle = document.querySelector('[data-theme-toggle]');
+      if (!(toggle instanceof HTMLButtonElement) || toggle.dataset.bound === 'true') return;
+
+      toggle.dataset.bound = 'true';
+      toggle.addEventListener('click', () => {
+        const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        applyTheme(nextTheme, true);
+      });
+    };
+
+    const syncTheme = () => {
+      const storedTheme = getStoredTheme();
+      const theme = storedTheme ?? (prefersDark.matches ? 'dark' : 'light');
+      applyTheme(theme);
+    };
+
     const initPage = () => {
       syncProgress();
       syncHeaderState();
       syncActiveNav();
       setupToc();
+      setupThemeToggle();
+      syncTheme();
     };
 
     window.addEventListener('scroll', () => {
@@ -145,6 +224,10 @@ const runtimeScript = `
       setupToc();
     });
     window.addEventListener('keydown', handleKeydown);
+    prefersDark.addEventListener('change', () => {
+      if (getStoredTheme()) return;
+      syncTheme();
+    });
     document.addEventListener('astro:page-load', initPage);
 
     initPage();
@@ -172,10 +255,14 @@ const runtimeScript = `
     <meta name="twitter:image" content={imageUrl} />
     <meta name="twitter:creator" content="@HibernatePano" />
     <meta name="theme-color" content="#da0011" />
+    <script is:inline set:html={themeBootstrapScript}></script>
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {tags.length > 0 && <meta name="keywords" content={tags.join(', ')} />}
     {publishedAt && <meta property="article:published_time" content={publishedAt.toISOString()} />}
     {updatedAt && <meta property="article:modified_time" content={updatedAt.toISOString()} />}
+    {type === 'article' &&
+      tags.map((tag) => <meta property="article:tag" content={tag} />)}
   </head>
   <body class:list={[type === 'article' && 'page-article']}>
     {showProgress && (

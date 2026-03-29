@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import PostCard from '../../components/PostCard.astro'
+import { formatTagLabel, toTagPath } from '../../lib/post-tags'
+import { getRelatedTags, getTagBySlug, getTagDirectory } from '../../lib/posts'
+
+export const getStaticPaths = async () => {
+  const tagDirectory = await getTagDirectory()
+  return tagDirectory.map((item) => ({
+    params: { tag: item.slug },
+  }))
+}
+
+const tagPage = await getTagBySlug(Astro.params.tag ?? '')
+
+if (!tagPage) {
+  throw new Error(`Unknown tag: ${Astro.params.tag}`)
+}
+
+const relatedTags = await getRelatedTags(tagPage.tag)
+---
+
+<BaseLayout
+  title={formatTagLabel(tagPage.tag)}
+  description={`${formatTagLabel(tagPage.tag)} 标签下的全部文章。`}
+  canonicalPath={toTagPath(tagPage.tag)}
+  tags={[tagPage.tag]}
+>
+  <section class="page-shell">
+    <header class="page-header">
+      <p class="page-header__eyebrow">Tag</p>
+      <h1>{formatTagLabel(tagPage.tag)}</h1>
+      <p>{tagPage.posts.length} 篇文章通过这个标签被串起来，适合跨 topic 回看同一类问题。</p>
+    </header>
+
+    {relatedTags.length > 0 && (
+      <div class="tag-rail">
+        <p class="tag-rail__eyebrow">Adjacent tags</p>
+        <div class="tag-rail__list">
+          {relatedTags.map((item) => (
+            <a class="chip chip--tag" href={toTagPath(item.tag)}>
+              {formatTagLabel(item.tag)}
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <div class="post-grid">
+      {tagPage.posts.map((post) => (
+        <PostCard post={post} />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

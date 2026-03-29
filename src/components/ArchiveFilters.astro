@@ -1,14 +1,21 @@
 ---
 import type { PostEntry, TrackKey } from '../lib/posts'
 import { formatDate, getReadingTime, toPostPath, trackLabels } from '../lib/posts'
+import { formatTagLabel, getPostTags, getVisiblePostTags, toTagPath } from '../lib/post-tags'
 
 type Props = {
   posts: PostEntry[]
   topics: string[]
+  tags: string[]
   years: string[]
+  popularTags: Array<{
+    tag: string
+    slug: string
+    count: number
+  }>
 }
 
-const { posts, topics, years } = Astro.props as Props
+const { posts, topics, tags, years, popularTags } = Astro.props as Props
 const trackOptions: TrackKey[] = ['engineering', 'thinking', 'philosophy', 'work']
 ---
 
@@ -53,6 +60,16 @@ const trackOptions: TrackKey[] = ['engineering', 'thinking', 'philosophy', 'work
         </select>
       </label>
 
+      <label>
+        <span>Tag</span>
+        <select data-filter="tag">
+          <option value="">全部标签</option>
+          {tags.map((tag) => (
+            <option value={tag}>{formatTagLabel(tag)}</option>
+          ))}
+        </select>
+      </label>
+
       <div class="archive-toolbar__actions">
         <button type="button" class="archive-toolbar__reset" data-archive-reset>重置</button>
         <a class="archive-toolbar__search" href="/search">全文检索</a>
@@ -70,6 +87,16 @@ const trackOptions: TrackKey[] = ['engineering', 'thinking', 'philosophy', 'work
       ))}
     </div>
 
+    {popularTags.length > 0 && (
+      <div class="archive-tag-pills" aria-label="Tag shortcuts">
+        {popularTags.map((tag) => (
+          <button type="button" class="archive-track-pill archive-tag-pill" data-tag-shortcut={tag.tag}>
+            {formatTagLabel(tag.tag)}
+          </button>
+        ))}
+      </div>
+    )}
+
     <div class="archive-active" data-archive-active hidden></div>
   </div>
 
@@ -83,6 +110,7 @@ const trackOptions: TrackKey[] = ['engineering', 'thinking', 'philosophy', 'work
         data-track={post.data.track}
         data-topic={post.data.topic ?? ''}
         data-year={String(post.data.publishedAt.getFullYear())}
+        data-tags={getPostTags(post).join('||')}
       >
         <a class="archive-item__link" href={toPostPath(post)}>
           <div class="archive-item__primary">
@@ -102,6 +130,11 @@ const trackOptions: TrackKey[] = ['engineering', 'thinking', 'philosophy', 'work
                 <span class="chip">{post.data.topic}</span>
               )}
               {post.data.series && <span class="chip">{post.data.series}</span>}
+              {getVisiblePostTags(post, 2).map((tag) => (
+                <a class="chip chip--tag" href={toTagPath(tag)}>
+                  {formatTagLabel(tag)}
+                </a>
+              ))}
             </div>
             <span class="archive-item__cta">Open brief</span>
           </div>
@@ -121,6 +154,7 @@ const trackOptions: TrackKey[] = ['engineering', 'thinking', 'philosophy', 'work
       track: shell.querySelector<HTMLSelectElement>('[data-filter="track"]'),
       topic: shell.querySelector<HTMLSelectElement>('[data-filter="topic"]'),
       year: shell.querySelector<HTMLSelectElement>('[data-filter="year"]'),
+      tag: shell.querySelector<HTMLSelectElement>('[data-filter="tag"]'),
     }
     const items = [...shell.querySelectorAll<HTMLElement>('.archive-item')]
     const count = shell.querySelector<HTMLElement>('[data-archive-count]')
@@ -128,6 +162,7 @@ const trackOptions: TrackKey[] = ['engineering', 'thinking', 'philosophy', 'work
     const reset = shell.querySelector<HTMLButtonElement>('[data-archive-reset]')
     const active = shell.querySelector<HTMLElement>('[data-archive-active]')
     const trackShortcuts = [...shell.querySelectorAll<HTMLButtonElement>('[data-track-shortcut]')]
+    const tagShortcuts = [...shell.querySelectorAll<HTMLButtonElement>('[data-tag-shortcut]')]
 
     const syncFiltersFromUrl = () => {
       const params = new URLSearchParams(window.location.search)
@@ -141,6 +176,15 @@ const trackOptions: TrackKey[] = ['engineering', 'thinking', 'philosophy', 'work
       for (const shortcut of trackShortcuts) {
         const value = shortcut.dataset.trackShortcut ?? ''
         const selected = (filters.track?.value ?? '') === value
+        shortcut.classList.toggle('is-active', selected)
+        shortcut.setAttribute('aria-pressed', String(selected))
+      }
+    }
+
+    const syncTagShortcuts = () => {
+      for (const shortcut of tagShortcuts) {
+        const value = shortcut.dataset.tagShortcut ?? ''
+        const selected = (filters.tag?.value ?? '') === value
         shortcut.classList.toggle('is-active', selected)
         shortcut.setAttribute('aria-pressed', String(selected))
       }
@@ -174,7 +218,8 @@ const trackOptions: TrackKey[] = ['engineering', 'thinking', 'philosophy', 'work
         const matches =
           (!filters.track?.value || item.dataset.track === filters.track.value) &&
           (!filters.topic?.value || item.dataset.topic === filters.topic.value) &&
-          (!filters.year?.value || item.dataset.year === filters.year.value)
+          (!filters.year?.value || item.dataset.year === filters.year.value) &&
+          (!filters.tag?.value || (item.dataset.tags ?? '').split('||').includes(filters.tag.value))
 
         item.hidden = !matches
         if (matches) visible += 1
@@ -198,6 +243,7 @@ const trackOptions: TrackKey[] = ['engineering', 'thinking', 'philosophy', 'work
       }
 
       syncTrackShortcuts()
+      syncTagShortcuts()
       renderActiveFilters()
     }
 
@@ -219,6 +265,15 @@ const trackOptions: TrackKey[] = ['engineering', 'thinking', 'philosophy', 'work
       shortcut.addEventListener('click', () => {
         if (filters.track) {
           filters.track.value = shortcut.dataset.trackShortcut ?? ''
+        }
+        applyFilters()
+      })
+    }
+
+    for (const shortcut of tagShortcuts) {
+      shortcut.addEventListener('click', () => {
+        if (filters.tag) {
+          filters.tag.value = shortcut.dataset.tagShortcut ?? ''
         }
         applyFilters()
       })

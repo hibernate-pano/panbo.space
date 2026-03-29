@@ -1,5 +1,6 @@
 import { getCollection } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
+import { getPostTags, toTagSlug } from './post-tags'
 import { toTopicSlug } from './slug'
 
 export type PostEntry = CollectionEntry<'posts'>
@@ -112,6 +113,84 @@ export const getTopicBySlug = async (
   return null
 }
 
+export const getTagMap = async (): Promise<Map<string, PostEntry[]>> => {
+  const posts = await getAllPosts()
+  const tagMap = new Map<string, PostEntry[]>()
+
+  for (const post of posts) {
+    for (const tag of getPostTags(post)) {
+      const bucket = tagMap.get(tag) ?? []
+      bucket.push(post)
+      tagMap.set(tag, bucket)
+    }
+  }
+
+  return new Map(
+    [...tagMap.entries()]
+      .sort((left, right) => collator.compare(left[0], right[0]))
+      .map(([tag, tagPosts]) => [tag, tagPosts.sort(comparePosts)]),
+  )
+}
+
+export const getTagDirectory = async (limit?: number) => {
+  const tagMap = await getTagMap()
+  const directory = [...tagMap.entries()]
+    .map(([tag, posts]) => ({
+      tag,
+      slug: toTagSlug(tag),
+      count: posts.length,
+    }))
+    .sort((left, right) => {
+      if (left.count !== right.count) return right.count - left.count
+      return collator.compare(left.tag, right.tag)
+    })
+
+  return typeof limit === 'number' ? directory.slice(0, limit) : directory
+}
+
+export const getTagBySlug = async (
+  tagSlug: string,
+): Promise<{ tag: string; posts: PostEntry[] } | null> => {
+  const tagMap = await getTagMap()
+
+  for (const [tag, posts] of tagMap.entries()) {
+    if (toTagSlug(tag) === tagSlug) {
+      return { tag, posts }
+    }
+  }
+
+  return null
+}
+
+export const getRelatedTags = async (
+  currentTag: string,
+  limit = 8,
+): Promise<Array<{ tag: string; slug: string; count: number }>> => {
+  const current = await getTagBySlug(toTagSlug(currentTag))
+  if (!current) return []
+
+  const relatedCounts = new Map<string, number>()
+
+  for (const post of current.posts) {
+    for (const tag of getPostTags(post)) {
+      if (tag === current.tag) continue
+      relatedCounts.set(tag, (relatedCounts.get(tag) ?? 0) + 1)
+    }
+  }
+
+  return [...relatedCounts.entries()]
+    .map(([tag, count]) => ({
+      tag,
+      slug: toTagSlug(tag),
+      count,
+    }))
+    .sort((left, right) => {
+      if (left.count !== right.count) return right.count - left.count
+      return collator.compare(left.tag, right.tag)
+    })
+    .slice(0, limit)
+}
+
 export const getAvailableFilters = async () => {
   const posts = await getAllPosts()
   const topics = [
@@ -121,10 +200,12 @@ export const getAvailableFilters = async () => {
         .filter((topic): topic is string => Boolean(topic)),
     ),
   ].sort((left, right) => collator.compare(left, right))
+  const tags = [...new Set(posts.flatMap((post) => getPostTags(post)))].sort((left, right) => collator.compare(left, right))
   const years = [...new Set(posts.map((post) => String(post.data.publishedAt.getFullYear())))].sort().reverse()
 
   return {
     topics,
+    tags,
     years,
   }
 }

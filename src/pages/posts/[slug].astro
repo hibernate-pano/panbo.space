@@ -4,6 +4,7 @@ import MermaidRuntime from '../../components/MermaidRuntime.astro'
 import TableOfContents from '../../components/TableOfContents.astro'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { formatDate, getAllPosts, getReadingTime, toPostPath, trackLabels } from '../../lib/posts'
+import { formatTagLabel, getPostTags, toTagPath } from '../../lib/post-tags'
 import { toTopicSlug } from '../../lib/slug'
 
 export const getStaticPaths = async () => {
@@ -20,6 +21,8 @@ const readingTime = getReadingTime(post.body ?? '')
 const ogImage = `/og/${post.data.slug}.svg`
 const sectionCount = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3).length
 const hasToc = sectionCount >= 3
+const tags = getPostTags(post)
+const metaTags = [post.data.topic, ...tags].filter((value): value is string => Boolean(value))
 ---
 
 <BaseLayout
@@ -31,6 +34,7 @@ const hasToc = sectionCount >= 3
   showProgress
   publishedAt={post.data.publishedAt}
   updatedAt={post.data.updatedAt}
+  tags={metaTags}
 >
   <section class="post-shell">
     <article class="post-article">
@@ -58,6 +62,25 @@ const hasToc = sectionCount >= 3
           <div class="prose">
             <Content />
           </div>
+
+          {(post.data.topic || post.data.series || tags.length > 0) && (
+            <footer class="post-taxonomy">
+              <p class="toc__eyebrow">Cross references</p>
+              <div class="post-taxonomy__chips">
+                {post.data.topic && (
+                  <a href={`/topics/${toTopicSlug(post.data.topic)}`} class="chip">
+                    {post.data.topic}
+                  </a>
+                )}
+                {post.data.series && <span class="chip">{post.data.series}</span>}
+                {tags.map((tag) => (
+                  <a href={toTagPath(tag)} class="chip chip--tag">
+                    {formatTagLabel(tag)}
+                  </a>
+                ))}
+              </div>
+            </footer>
+          )}
         </div>
         {hasToc && (
           <div class="post-content-rail">
@@ -86,6 +109,16 @@ const hasToc = sectionCount >= 3
                 <a class="reading-brief__link" href={`/topics/${toTopicSlug(post.data.topic)}`}>
                   查看 {post.data.topic} 主题
                 </a>
+              )}
+
+              {tags.length > 0 && (
+                <div class="reading-brief__tags">
+                  {tags.slice(0, 4).map((tag) => (
+                    <a href={toTagPath(tag)} class="chip chip--tag">
+                      {formatTagLabel(tag)}
+                    </a>
+                  ))}
+                </div>
               )}
             </aside>
             <TableOfContents headings={headings} />

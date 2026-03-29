@@ -168,10 +168,10 @@ flowchart TB
     style Frame3 fill:#e1f5fe,stroke:#01579b
     style Frame2 fill:#f5f5f5,stroke:#616161
     style Frame1 fill:#f5f5f5,stroke:#616161
+```
 
 ### 2.4 常见内存溢出
 
-```
 1. Java 堆溢出
    - 原因：对象创建过多，GC 后仍不足
    - 解决：增加堆大小、检查内存泄漏
@@ -187,7 +187,6 @@ flowchart TB
 4. 本地直接内存溢出
    - 原因：NIO 使用 DirectByteBuffer 过多
    - 解决：合理使用 NIO、及时释放内存
-```
 
 ---
 
@@ -414,16 +413,16 @@ G1 的工作流程：
 ### 4.1 类加载过程
 
 ```mermaid
-stateDiagram-v2
-    [*] --> 加载: 读取 .class 文件
-    加载 --> 验证: 验证字节码安全性
-    验证 --> 准备: 分配内存、设置默认值
-    准备 --> 解析: 符号引用→直接引用
-    解析 --> 初始化: <new> 对象时
-    初始化 --> 使用
-    使用 --> 卸载: 类不再被引用
-    使用 --> [*]
-    卸载 --> [*]
+flowchart TB
+    Start([开始]) --> L["加载<br/>读取 .class 文件"]
+    L --> V["验证<br/>验证字节码安全性"]
+    V --> P["准备<br/>分配内存并设置默认值"]
+    P --> R["解析<br/>符号引用 -> 直接引用"]
+    R --> I["初始化<br/>new 对象时触发"]
+    I --> U["使用"]
+    U --> X["卸载<br/>类不再被引用"]
+    U --> End([结束])
+    X --> End
 ```
 
 ### 4.2 类加载器层次
@@ -473,32 +472,21 @@ flowchart TB
     A -.-> B
     B -.-> C
 
-    目的:
-    目的 -.-> 防止类的重复加载
-    目的 -.-> 保证Java核心类库的安全性
+    Goal["目的"]
+    Goal -.-> G1["防止类的重复加载"]
+    Goal -.-> G2["保证 Java 核心类库的安全性"]
 
     style Start fill:#e3f2fd,stroke:#1565c0
     style Check fill:#fff3e0,stroke:#e65100
     style Return fill:#e8f5e9,stroke:#2e7d32
     style Delegate fill:#fce4ec,stroke:#c2185b
     style Load fill:#e1bee7,stroke:#7b1fa2
-│           ▼                            │
-│  ┌─────────────────┐                   │
-│  │ 父类加载器.loadClass()              │
-│  └────────┬────────┘                   │
-│           │                            │
-│           ▼ (递归向上)                 │
-│     ┌─────────────┐                    │
-│     │ Bootstrap   │                    │
-│     │ ClassLoader │                    │
-│     └──────┬──────┘                    │
-│            │ 无法加载                   │
-│            ▼                           │
-│  ┌─────────────────┐                   │
-│  │ 自己加载        │                   │
-│  │ (findClass)    │                   │
-│  └─────────────────┘                   │
-└─────────────────────────────────────────┘
+```
+
+```text
+双亲委派调用路径（文本示意）：
+自定义加载器 → AppClassLoader → ExtClassLoader → Bootstrap
+Bootstrap 无法加载时，再逐层返回由下层加载器执行 findClass()。
 ```
 
 ### 4.4 打破双亲委派
