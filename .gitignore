@@ -3,11 +3,9 @@
 
 ## 构建目录
 node_modules
-
-## vitePress 缓存和临时文件
-.vitepress/cache
-.vitepress/temp
-.vitepress/dist
+dist
+.astro
+pagefind
 
 ## Claude Code
 .claude/
@@ -16,3 +14,4 @@ node_modules
 *.tmp
 *.tmp.*
 .vercel
+src/generated

@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import PostCard from '../../components/PostCard.astro'
+import { getTopicMap, getTopicBySlug } from '../../lib/posts'
+import { toTopicSlug } from '../../lib/slug'
+
+export const getStaticPaths = async () => {
+  const topicMap = await getTopicMap()
+  return [...topicMap.keys()].map((topic) => ({
+    params: { topic: toTopicSlug(topic) },
+  }))
+}
+
+const topicPage = await getTopicBySlug(Astro.params.topic ?? '')
+
+if (!topicPage) {
+  throw new Error(`Unknown topic: ${Astro.params.topic}`)
+}
+---
+
+<BaseLayout
+  title={topicPage.topic}
+  description={`${topicPage.topic} 主题下的全部文章。`}
+  canonicalPath={`/topics/${Astro.params.topic}`}
+>
+  <section class="page-shell">
+    <header class="page-header">
+      <p class="page-header__eyebrow">Topic</p>
+      <h1>{topicPage.topic}</h1>
+      <p>{topicPage.posts.length} 篇文章，像一份单独的主题档案，按最近更新时间倒序整理。</p>
+    </header>
+
+    <div class="post-grid">
+      {topicPage.posts.map((post) => (
+        <PostCard post={post} />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,54 @@
+---
+import { siteConfig } from '../data/site'
+
+const currentPath = Astro.url.pathname
+const navItems = [
+  { href: '/archive', label: 'Archive', match: '/archive' },
+  { href: '/topics/java', label: 'Coverage', match: '/topics/' },
+  { href: '/about', label: 'Profile', match: '/about' },
+]
+
+const isActive = (match: string, href: string) => currentPath === href || currentPath.startsWith(match)
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__brand-mark" aria-hidden="true"></span>
+      <span class="site-header__brand-copy">
+        <small>{siteConfig.hero.eyebrow}</small>
+        <strong>panbo.space</strong>
+      </span>
+    </a>
+
+    <nav class="site-header__nav" aria-label="Primary">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          data-nav-link
+          data-match={item.match}
+          class:list={[isActive(item.match, item.href) && 'is-active']}
+          aria-current={isActive(item.match, item.href) ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="site-header__actions">
+      <a
+        class:list={['site-header__search', currentPath === '/search' && 'is-active']}
+        href="/search"
+        aria-label="打开搜索"
+        data-nav-link
+        data-match="/search"
+        aria-current={currentPath === '/search' ? 'page' : undefined}
+      >
+        Search
+        <span>⌘K</span>
+      </a>
+
+      <a class="site-header__utility" href="/rss.xml">RSS</a>
+    </div>
+  </div>
+</header>

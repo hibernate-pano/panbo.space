@@ -1,0 +1,27 @@
+---
+type Heading = {
+  depth: number
+  slug: string
+  text: string
+}
+
+const { headings } = Astro.props as { headings: Heading[] }
+const visibleHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3)
+---
+
+{
+  visibleHeadings.length >= 3 && (
+    <aside class="toc">
+      <p class="toc__eyebrow">Page index</p>
+      <ol>
+        {visibleHeadings.map((heading) => (
+          <li class:list={[heading.depth === 3 && 'is-child']}>
+            <a href={`#${heading.slug}`} data-toc-link={heading.slug}>
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </aside>
+  )
+}

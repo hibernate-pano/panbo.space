@@ -1,0 +1,33 @@
+---
+import { siteConfig } from '../data/site'
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__lead">
+      <p class="site-footer__eyebrow">Panbo Space / Independent Research Archive</p>
+      <p class="site-footer__title">记录工程判断、工作现场与技术之外的长期思考。</p>
+      <p class="site-footer__copy">借用机构化的阅读语言，让内容本身成为站点的主产品。</p>
+    </div>
+
+    <div class="site-footer__columns">
+      <div class="site-footer__column">
+        <span>Navigate</span>
+        <div class="site-footer__links">
+          <a href="/archive">Archive</a>
+          <a href="/search">Search</a>
+          <a href="/about">Profile</a>
+        </div>
+      </div>
+
+      <div class="site-footer__column">
+        <span>External</span>
+        <div class="site-footer__links">
+          <a href="/rss.xml">RSS</a>
+          <a href={siteConfig.social.github} target="_blank" rel="noreferrer">GitHub</a>
+          <a href={siteConfig.social.x} target="_blank" rel="noreferrer">X</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

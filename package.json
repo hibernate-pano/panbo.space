@@ -1,14 +1,30 @@
 {
   "private": true,
-  "devDependencies": {
-    "dayjs": "^1.11.19",
-    "mark.js": "8.11.1",
-    "vitepress": "^1.3.4",
-    "vitepress-plugin-mermaid": "^2.0.17"
-  },
+  "type": "module",
   "scripts": {
-    "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "dev": "astro dev",
+    "build": "pnpm run route:sync && astro build && pagefind --site dist",
+    "preview": "astro preview",
+    "check": "astro check",
+    "content:migrate": "node scripts/migrate-content.mjs",
+    "route:sync": "node scripts/generate-route-manifest.mjs"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^5.0.3",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.2",
+    "@fontsource/ibm-plex-mono": "^5.2.7",
+    "@fontsource/noto-sans-sc": "^5.2.9",
+    "@fontsource/noto-serif-sc": "^5.2.8",
+    "@fontsource/source-sans-3": "^5.2.9",
+    "@fontsource/source-serif-4": "^5.2.9",
+    "astro": "^6.1.1",
+    "gray-matter": "^4.0.3",
+    "mermaid": "^11.13.0",
+    "pagefind": "^1.4.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.8",
+    "typescript": "^5.9.3"
   }
 }

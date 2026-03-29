@@ -1,0 +1,130 @@
+import { getCollection } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
+import { toTopicSlug } from './slug'
+
+export type PostEntry = CollectionEntry<'posts'>
+
+export type TrackKey = PostEntry['data']['track']
+
+export const trackLabels: Record<TrackKey, string> = {
+  engineering: '工程实践',
+  thinking: '思考',
+  philosophy: '哲学',
+  work: '工作现场',
+}
+
+const collator = new Intl.Collator('zh-CN')
+
+const stripMarkdown = (input: string): string =>
+  input
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/`[^`]+`/g, ' ')
+    .replace(/!\[[^\]]*]\([^)]+\)/g, ' ')
+    .replace(/\[([^\]]+)]\([^)]+\)/g, '$1')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+
+export const getReadingTime = (body: string): number => {
+  const cleaned = stripMarkdown(body)
+  const hanCount = (cleaned.match(/[\p{Script=Han}]/gu) ?? []).length
+  const latinWords = (
+    cleaned.replace(/[\p{Script=Han}]/gu, ' ').match(/\b[\p{Letter}\p{Number}]+\b/gu) ?? []
+  ).length
+
+  return Math.max(1, Math.round((hanCount + latinWords) / 320))
+}
+
+export const formatDate = (value: Date): string =>
+  new Intl.DateTimeFormat('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(value)
+
+export const comparePosts = (left: PostEntry, right: PostEntry): number => {
+  const updatedLeft = left.data.updatedAt ?? left.data.publishedAt
+  const updatedRight = right.data.updatedAt ?? right.data.publishedAt
+
+  if (updatedLeft.getTime() !== updatedRight.getTime()) {
+    return updatedRight.getTime() - updatedLeft.getTime()
+  }
+
+  if (left.data.featured !== right.data.featured) {
+    return left.data.featured ? -1 : 1
+  }
+
+  return collator.compare(left.data.title, right.data.title)
+}
+
+export const getAllPosts = async (): Promise<PostEntry[]> => {
+  const posts = await getCollection('posts', ({ data }) => (import.meta.env.PROD ? !data.draft : true))
+  return posts.sort(comparePosts)
+}
+
+export const toPostPath = (post: PostEntry): string => `/posts/${post.data.slug}`
+
+export const getLatestPosts = async (limit = 6): Promise<PostEntry[]> => {
+  const posts = await getAllPosts()
+  return posts.slice(0, limit)
+}
+
+export const getFeaturedPosts = async (limit = 6): Promise<PostEntry[]> => {
+  const posts = await getAllPosts()
+  const featured = posts.filter((post) => post.data.featured)
+  return featured.slice(0, limit)
+}
+
+export const getPostsByTrack = async (track: TrackKey): Promise<PostEntry[]> => {
+  const posts = await getAllPosts()
+  return posts.filter((post) => post.data.track === track)
+}
+
+export const getTopicMap = async (): Promise<Map<string, PostEntry[]>> => {
+  const posts = await getAllPosts()
+  const topicMap = new Map<string, PostEntry[]>()
+
+  for (const post of posts) {
+    if (!post.data.topic) continue
+    const bucket = topicMap.get(post.data.topic) ?? []
+    bucket.push(post)
+    topicMap.set(post.data.topic, bucket)
+  }
+
+  return new Map(
+    [...topicMap.entries()]
+      .sort((left, right) => collator.compare(left[0], right[0]))
+      .map(([topic, topicPosts]) => [topic, topicPosts.sort(comparePosts)]),
+  )
+}
+
+export const getTopicBySlug = async (
+  topicSlug: string,
+): Promise<{ topic: string; posts: PostEntry[] } | null> => {
+  const topicMap = await getTopicMap()
+
+  for (const [topic, posts] of topicMap.entries()) {
+    if (toTopicSlug(topic) === topicSlug) {
+      return { topic, posts }
+    }
+  }
+
+  return null
+}
+
+export const getAvailableFilters = async () => {
+  const posts = await getAllPosts()
+  const topics = [
+    ...new Set(
+      posts
+        .map((post) => post.data.topic)
+        .filter((topic): topic is string => Boolean(topic)),
+    ),
+  ].sort((left, right) => collator.compare(left, right))
+  const years = [...new Set(posts.map((post) => String(post.data.publishedAt.getFullYear())))].sort().reverse()
+
+  return {
+    topics,
+    years,
+  }
+}

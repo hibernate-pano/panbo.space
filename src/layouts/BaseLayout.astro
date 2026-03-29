@@ -1,0 +1,199 @@
+---
+import '@fontsource/ibm-plex-mono/400.css'
+import '@fontsource/ibm-plex-mono/500.css'
+import '@fontsource/noto-sans-sc/400.css'
+import '@fontsource/noto-sans-sc/500.css'
+import '@fontsource/noto-sans-sc/700.css'
+import '@fontsource/noto-serif-sc/400.css'
+import '@fontsource/noto-serif-sc/600.css'
+import '@fontsource/source-sans-3/400.css'
+import '@fontsource/source-sans-3/500.css'
+import '@fontsource/source-sans-3/600.css'
+import '@fontsource/source-serif-4/400.css'
+import '@fontsource/source-serif-4/600.css'
+import '@fontsource/source-serif-4/700.css'
+import '../styles/global.css'
+import { siteConfig } from '../data/site'
+import SiteFooter from '../components/SiteFooter.astro'
+import SiteHeader from '../components/SiteHeader.astro'
+
+type Props = {
+  title?: string
+  description?: string
+  image?: string
+  canonicalPath?: string
+  type?: 'website' | 'article'
+  showProgress?: boolean
+  publishedAt?: Date
+  updatedAt?: Date
+}
+
+const {
+  title = siteConfig.title,
+  description = siteConfig.description,
+  image = '/og/home.svg',
+  canonicalPath = Astro.url.pathname,
+  type = 'website',
+  showProgress = false,
+  publishedAt,
+  updatedAt,
+} = Astro.props as Props
+
+const pageTitle = title === siteConfig.title ? siteConfig.title : `${title} · ${siteConfig.title}`
+const canonicalUrl = new URL(canonicalPath, siteConfig.site).toString()
+const imageUrl = image.startsWith('http') ? image : new URL(image, siteConfig.site).toString()
+
+const runtimeScript = `
+  (() => {
+    let tocObserver;
+
+    const syncProgress = () => {
+      const progress = document.querySelector('[data-reading-progress]');
+      if (!progress) return;
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const ratio = scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0;
+      progress.style.transform = 'scaleX(' + ratio + ')';
+    };
+
+    const syncHeaderState = () => {
+      const header = document.querySelector('.site-header');
+      if (!header) return;
+      header.classList.toggle('site-header--scrolled', window.scrollY > 12);
+    };
+
+    const syncActiveNav = () => {
+      const pathname = window.location.pathname;
+      document.querySelectorAll('[data-nav-link]').forEach((link) => {
+        const href = link.getAttribute('href') || '/';
+        const match = link.getAttribute('data-match') || href;
+        const active = pathname === href || (match !== '/' && pathname.startsWith(match));
+        link.classList.toggle('is-active', active);
+
+        if (active) {
+          link.setAttribute('aria-current', 'page');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+    };
+
+    const setupToc = () => {
+      tocObserver?.disconnect();
+
+      const links = [...document.querySelectorAll('[data-toc-link]')];
+      const headings = links
+        .map((link) => document.getElementById(link.getAttribute('data-toc-link') || ''))
+        .filter((heading) => heading instanceof HTMLElement);
+
+      if (!links.length || !headings.length) return;
+
+      const updateActiveHeading = () => {
+        const currentHeading = [...headings].reverse().find((heading) => heading.getBoundingClientRect().top <= 160) || headings[0];
+
+        links.forEach((link) => {
+          link.classList.toggle('is-active', link.getAttribute('data-toc-link') === currentHeading.id);
+        });
+      };
+
+      tocObserver = new IntersectionObserver(updateActiveHeading, {
+        rootMargin: '-96px 0px -60% 0px',
+        threshold: [0, 1],
+      });
+
+      headings.forEach((heading) => tocObserver.observe(heading));
+      updateActiveHeading();
+    };
+
+    const focusSearchInput = () => {
+      document.querySelector('[data-search-input]')?.focus();
+    };
+
+    const isEditableTarget = (event) => {
+      const target = event.target;
+      return (
+        target instanceof HTMLElement &&
+        (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName))
+      );
+    };
+
+    const handleKeydown = (event) => {
+      if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== 'k') return;
+      if (isEditableTarget(event) && window.location.pathname !== '/search') return;
+
+      event.preventDefault();
+      if (window.location.pathname === '/search') {
+        focusSearchInput();
+        return;
+      }
+
+      window.location.href = '/search';
+    };
+
+    const initPage = () => {
+      syncProgress();
+      syncHeaderState();
+      syncActiveNav();
+      setupToc();
+    };
+
+    window.addEventListener('scroll', () => {
+      syncProgress();
+      syncHeaderState();
+    }, { passive: true });
+    window.addEventListener('resize', () => {
+      syncProgress();
+      setupToc();
+    });
+    window.addEventListener('keydown', handleKeydown);
+    document.addEventListener('astro:page-load', initPage);
+
+    initPage();
+  })();
+`
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={siteConfig.author.name} />
+    <meta property="og:site_name" content={siteConfig.name} />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:creator" content="@HibernatePano" />
+    <meta name="theme-color" content="#da0011" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {publishedAt && <meta property="article:published_time" content={publishedAt.toISOString()} />}
+    {updatedAt && <meta property="article:modified_time" content={updatedAt.toISOString()} />}
+  </head>
+  <body class:list={[type === 'article' && 'page-article']}>
+    {showProgress && (
+      <div class="reading-progress">
+        <div data-reading-progress></div>
+      </div>
+    )}
+
+    <a href="#main" class="skip-link">跳到正文</a>
+
+    <div class="site-shell">
+      <SiteHeader />
+      <main id="main" class="site-main" data-pagefind-body>
+        <slot />
+      </main>
+      <SiteFooter />
+    </div>
+
+    <script is:inline set:html={runtimeScript}></script>
+  </body>
+</html>

@@ -1,0 +1,99 @@
+---
+import { render } from 'astro:content'
+import MermaidRuntime from '../../components/MermaidRuntime.astro'
+import TableOfContents from '../../components/TableOfContents.astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { formatDate, getAllPosts, getReadingTime, toPostPath, trackLabels } from '../../lib/posts'
+import { toTopicSlug } from '../../lib/slug'
+
+export const getStaticPaths = async () => {
+  const posts = await getAllPosts()
+  return posts.map((post) => ({
+    params: { slug: post.data.slug },
+    props: { post },
+  }))
+}
+
+const { post } = Astro.props
+const { Content, headings } = await render(post)
+const readingTime = getReadingTime(post.body ?? '')
+const ogImage = `/og/${post.data.slug}.svg`
+const sectionCount = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3).length
+const hasToc = sectionCount >= 3
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.summary}
+  image={ogImage}
+  canonicalPath={toPostPath(post)}
+  type="article"
+  showProgress
+  publishedAt={post.data.publishedAt}
+  updatedAt={post.data.updatedAt}
+>
+  <section class="post-shell">
+    <article class="post-article">
+      <header class="post-hero">
+        <div class="post-hero__meta">
+          <span>{trackLabels[post.data.track]}</span>
+          {post.data.topic && (
+            <a href={`/topics/${toTopicSlug(post.data.topic)}`}>{post.data.topic}</a>
+          )}
+          {post.data.series && <span>{post.data.series}</span>}
+        </div>
+
+        <h1>{post.data.title}</h1>
+        <p class="post-hero__summary">{post.data.summary}</p>
+
+        <div class="post-hero__facts">
+          <span>发布于 {formatDate(post.data.publishedAt)}</span>
+          {post.data.updatedAt && <span>更新于 {formatDate(post.data.updatedAt)}</span>}
+          <span>{readingTime} 分钟</span>
+        </div>
+      </header>
+
+      <div class:list={['post-content-grid', hasToc && 'post-content-grid--with-toc']}>
+        <div class="post-content-main">
+          <div class="prose">
+            <Content />
+          </div>
+        </div>
+        {hasToc && (
+          <div class="post-content-rail">
+            <aside class="reading-brief">
+              <p class="toc__eyebrow">Reading brief</p>
+              <dl class="reading-brief__facts">
+                <div>
+                  <dt>Track</dt>
+                  <dd>{trackLabels[post.data.track]}</dd>
+                </div>
+                <div>
+                  <dt>Sections</dt>
+                  <dd>{sectionCount}</dd>
+                </div>
+                <div>
+                  <dt>Read</dt>
+                  <dd>{readingTime} min</dd>
+                </div>
+                <div>
+                  <dt>Updated</dt>
+                  <dd>{formatDate(post.data.updatedAt ?? post.data.publishedAt)}</dd>
+                </div>
+              </dl>
+
+              {post.data.topic && (
+                <a class="reading-brief__link" href={`/topics/${toTopicSlug(post.data.topic)}`}>
+                  查看 {post.data.topic} 主题
+                </a>
+              )}
+            </aside>
+            <TableOfContents headings={headings} />
+          </div>
+        )}
+      </div>
+    </article>
+  </section>
+
+  <MermaidRuntime />
+</BaseLayout>

@@ -1,0 +1,12 @@
+---
+import ArchiveFilters from '../components/ArchiveFilters.astro'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { getAllPosts, getAvailableFilters } from '../lib/posts'
+
+const posts = await getAllPosts()
+const { topics, years } = await getAvailableFilters()
+---
+
+<BaseLayout title="Archive" description="按栏目、主题和年份筛选 panbo.space 的全部文章。">
+  <ArchiveFilters posts={posts} topics={topics} years={years} />
+</BaseLayout>

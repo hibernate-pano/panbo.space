@@ -1,0 +1,58 @@
+<script>
+  import mermaid from 'mermaid'
+
+  const upgradeBlocks = () => {
+    const blocks = document.querySelectorAll('pre[data-language="mermaid"], pre > code.language-mermaid')
+
+    for (const block of blocks) {
+      const pre = block instanceof HTMLElement && block.matches('pre') ? block : block.closest('pre')
+      if (!pre) continue
+
+      const wrapper = document.createElement('figure')
+      wrapper.className = 'mermaid-block'
+      wrapper.dataset.source = (pre.textContent ?? '').trim()
+      pre.replaceWith(wrapper)
+    }
+  }
+
+  const renderMermaid = async () => {
+    upgradeBlocks()
+
+    const wrappers = [...document.querySelectorAll<HTMLElement>('.mermaid-block')]
+    if (!wrappers.length) return
+
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'neutral',
+      securityLevel: 'loose',
+    })
+
+    for (const wrapper of wrappers) {
+      wrapper.innerHTML = ''
+      const node = document.createElement('div')
+      node.className = 'mermaid'
+      node.textContent = wrapper.dataset.source ?? ''
+      wrapper.append(node)
+    }
+
+    const nodes = wrappers
+      .map((wrapper) => wrapper.querySelector('.mermaid'))
+      .filter((node) => node instanceof HTMLElement)
+
+    await mermaid.run({ nodes })
+  }
+
+  const safeRender = () => {
+    renderMermaid().catch((error) => {
+      console.error('Failed to render Mermaid diagrams.', error)
+    })
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', safeRender, { once: true })
+  } else {
+    safeRender()
+  }
+
+  document.addEventListener('astro:page-load', safeRender)
+</script>

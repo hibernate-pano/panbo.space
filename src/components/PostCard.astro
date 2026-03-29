@@ -1,0 +1,43 @@
+---
+import type { PostEntry } from '../lib/posts'
+import { formatDate, getReadingTime, toPostPath, trackLabels } from '../lib/posts'
+import { toTopicSlug } from '../lib/slug'
+
+type Props = {
+  post: PostEntry
+  compact?: boolean
+}
+
+const { post, compact = false } = Astro.props
+const postPath = toPostPath(post)
+const readingTime = getReadingTime(post.body ?? '')
+---
+
+<article class:list={['post-card', compact && 'post-card--compact']}>
+  <a class="post-card__link" href={postPath}>
+    <div class="post-card__meta">
+      <span>{trackLabels[post.data.track]}</span>
+      {post.data.topic && <span>{post.data.topic}</span>}
+      <span>{formatDate(post.data.publishedAt)}</span>
+      <span>{readingTime} 分钟</span>
+    </div>
+
+    <h3>{post.data.title}</h3>
+    <p>{post.data.summary}</p>
+  </a>
+
+  <div class="post-card__footer">
+    <div class="post-card__tags">
+      {post.data.topic && (
+        <a href={`/topics/${toTopicSlug(post.data.topic)}`} class="chip">
+          {post.data.topic}
+        </a>
+      )}
+      {post.data.series && <span class="chip">{post.data.series}</span>}
+    </div>
+
+    <a class="post-card__readmore" href={postPath}>
+      阅读全文
+    </a>
+  </div>
+</article>

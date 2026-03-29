@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { siteConfig } from '../data/site'
+---
+
+<BaseLayout title="About" description="关于 Panbo 的工作、写作主题与这个博客的取向。">
+  <section class="page-shell">
+    <header class="page-header">
+      <p class="page-header__eyebrow">Profile</p>
+      <h1>关于我</h1>
+      <p>
+        我叫 {siteConfig.author.name}，目前在 {siteConfig.author.company} 从事 {siteConfig.author.role}
+        工作。这个站点不是个人能力清单，而是一套持续维护的研究档案，用来把复杂问题写成可复读、可沉淀、可回查的文章。
+      </p>
+    </header>
+
+    <div class="about-grid">
+      <article class="about-card">
+        <p class="about-card__eyebrow">Current remit</p>
+        <h2>当前工作</h2>
+        <ul>
+          <li>技术栈：Java / Spring Boot / React / TypeScript</li>
+          <li>场景：银行核心系统、支付清算、微服务架构</li>
+          <li>关注：分布式系统、平台工程、安全与合规</li>
+        </ul>
+      </article>
+
+      <article class="about-card">
+        <p class="about-card__eyebrow">Coverage</p>
+        <h2>写作范围</h2>
+        <ul>
+          <li>工程实践：后端、分布式、数据库、DevOps</li>
+          <li>工作现场：复杂组织中的流程、系统与经验</li>
+          <li>长期思考：学习、成长、关系、哲学</li>
+        </ul>
+      </article>
+    </div>
+
+    <article class="essay-card">
+      <p class="about-card__eyebrow">Editorial note</p>
+      <h2>这个站点的判断</h2>
+      <p>
+        博客最重要的是内容，不是主题特效，也不是花哨的结构。这次改版只保留一套阅读节奏、一套信息架构和一套明确的品牌语言，让文章本身成为主角。
+      </p>
+      <p>
+        如果你想直接开始，可以从 <a href="/archive">Archive</a> 进入，也可以用 <a href="/search">Search</a> 按问题检索。
+      </p>
+    </article>
+  </section>
+</BaseLayout>

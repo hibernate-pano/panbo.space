@@ -1,9 +1,1258 @@
 {
-  "framework": "vitepress",
-  "buildCommand": "pnpm docs:build",
-  "outputDirectory": ".vitepress/dist",
-  "installCommand": "pnpm install",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+  "framework": "astro",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "buildCommand": "pnpm build",
+  "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/coding/安全/HashiCorp-Vault银行密钥管理实战",
+      "destination": "/posts/hashicorp-vault银行密钥管理实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/安全/HashiCorp-Vault银行密钥管理实战/",
+      "destination": "/posts/hashicorp-vault银行密钥管理实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式存储-数据分片与复制",
+      "destination": "/posts/分布式存储-数据分片与复制",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式存储-数据分片与复制/",
+      "destination": "/posts/分布式存储-数据分片与复制",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式基础-从单机到分布式的跨越",
+      "destination": "/posts/分布式基础-从单机到分布式的跨越",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式基础-从单机到分布式的跨越/",
+      "destination": "/posts/分布式基础-从单机到分布式的跨越",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式计算-MapReduce与Spark入门",
+      "destination": "/posts/分布式计算-mapreduce与spark入门",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式计算-MapReduce与Spark入门/",
+      "destination": "/posts/分布式计算-mapreduce与spark入门",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式理论-CAP与BASE",
+      "destination": "/posts/分布式理论-cap与base",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式理论-CAP与BASE/",
+      "destination": "/posts/分布式理论-cap与base",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式实战-构建分布式订单系统",
+      "destination": "/posts/分布式实战-构建分布式订单系统",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式实战-构建分布式订单系统/",
+      "destination": "/posts/分布式实战-构建分布式订单系统",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式事务-2PC-TCC与Saga",
+      "destination": "/posts/分布式事务-2pc-tcc与saga",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式事务-2PC-TCC与Saga/",
+      "destination": "/posts/分布式事务-2pc-tcc与saga",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式事务与Saga模式实战",
+      "destination": "/posts/分布式事务与saga模式实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式事务与Saga模式实战/",
+      "destination": "/posts/分布式事务与saga模式实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式通信-RPC与消息队列",
+      "destination": "/posts/分布式通信-rpc与消息队列",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式通信-RPC与消息队列/",
+      "destination": "/posts/分布式通信-rpc与消息队列",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式系统入门完全指南",
+      "destination": "/posts/分布式系统入门完全指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式系统入门完全指南/",
+      "destination": "/posts/分布式系统入门完全指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式系统设计原则与最佳实践",
+      "destination": "/posts/分布式系统设计原则与最佳实践",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式系统设计原则与最佳实践/",
+      "destination": "/posts/分布式系统设计原则与最佳实践",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式协调-ZooKeeper实战",
+      "destination": "/posts/分布式协调-zookeeper实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/分布式协调-ZooKeeper实战/",
+      "destination": "/posts/分布式协调-zookeeper实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/服务治理-限流熔断与降级",
+      "destination": "/posts/服务治理-限流熔断与降级",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/服务治理-限流熔断与降级/",
+      "destination": "/posts/服务治理-限流熔断与降级",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/RabbitMQ消息队列-银行实战选型指南",
+      "destination": "/posts/rabbitmq消息队列-银行实战选型指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/RabbitMQ消息队列-银行实战选型指南/",
+      "destination": "/posts/rabbitmq消息队列-银行实战选型指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/Seata分布式事务实战-AT模式与TCC模式选型",
+      "destination": "/posts/seata分布式事务实战-at模式与tcc模式选型",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/Seata分布式事务实战-AT模式与TCC模式选型/",
+      "destination": "/posts/seata分布式事务实战-at模式与tcc模式选型",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/Sentinel流量控制与熔断降级-银行高并发防护实战",
+      "destination": "/posts/sentinel流量控制与熔断降级-银行高并发防护实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/Sentinel流量控制与熔断降级-银行高并发防护实战/",
+      "destination": "/posts/sentinel流量控制与熔断降级-银行高并发防护实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/SkyWalking银行APM链路追踪实战",
+      "destination": "/posts/skywalking银行apm链路追踪实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/分布式系统/SkyWalking银行APM链路追踪实战/",
+      "destination": "/posts/skywalking银行apm链路追踪实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/工程实践/Apollo配置中心-携程开源银行级配置管理实战",
+      "destination": "/posts/apollo配置中心-携程开源银行级配置管理实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/工程实践/Apollo配置中心-携程开源银行级配置管理实战/",
+      "destination": "/posts/apollo配置中心-携程开源银行级配置管理实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/工程实践/Git企业工作流与分支策略-银行科技团队协作实践",
+      "destination": "/posts/git企业工作流与分支策略-银行科技团队协作实践",
+      "permanent": true
+    },
+    {
+      "source": "/coding/工程实践/Git企业工作流与分支策略-银行科技团队协作实践/",
+      "destination": "/posts/git企业工作流与分支策略-银行科技团队协作实践",
+      "permanent": true
+    },
+    {
+      "source": "/coding/工程实践/OpenTelemetry银行可观测性实战",
+      "destination": "/posts/opentelemetry银行可观测性实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/工程实践/OpenTelemetry银行可观测性实战/",
+      "destination": "/posts/opentelemetry银行可观测性实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/工程实践/REST-API版本管理策略-银行系统演进实践",
+      "destination": "/posts/rest-api版本管理策略-银行系统演进实践",
+      "permanent": true
+    },
+    {
+      "source": "/coding/工程实践/REST-API版本管理策略-银行系统演进实践/",
+      "destination": "/posts/rest-api版本管理策略-银行系统演进实践",
+      "permanent": true
+    },
+    {
+      "source": "/coding/架构心得/分布式系统可观测性实战",
+      "destination": "/posts/分布式系统可观测性实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/架构心得/分布式系统可观测性实战/",
+      "destination": "/posts/分布式系统可观测性实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/架构心得/领域驱动设计DDD在银行系统的实战",
+      "destination": "/posts/领域驱动设计ddd在银行系统的实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/架构心得/领域驱动设计DDD在银行系统的实战/",
+      "destination": "/posts/领域驱动设计ddd在银行系统的实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/架构心得/项目安全性-鉴权和授权",
+      "destination": "/posts/项目安全性-鉴权和授权",
+      "permanent": true
+    },
+    {
+      "source": "/coding/架构心得/项目安全性-鉴权和授权/",
+      "destination": "/posts/项目安全性-鉴权和授权",
+      "permanent": true
+    },
+    {
+      "source": "/coding/架构心得/项目可用性-集群",
+      "destination": "/posts/项目可用性-集群",
+      "permanent": true
+    },
+    {
+      "source": "/coding/架构心得/项目可用性-集群/",
+      "destination": "/posts/项目可用性-集群",
+      "permanent": true
+    },
+    {
+      "source": "/coding/架构心得/项目稳定性-幂等",
+      "destination": "/posts/项目稳定性-幂等",
+      "permanent": true
+    },
+    {
+      "source": "/coding/架构心得/项目稳定性-幂等/",
+      "destination": "/posts/项目稳定性-幂等",
+      "permanent": true
+    },
+    {
+      "source": "/coding/架构心得/项目稳定性-限流",
+      "destination": "/posts/项目稳定性-限流",
+      "permanent": true
+    },
+    {
+      "source": "/coding/架构心得/项目稳定性-限流/",
+      "destination": "/posts/项目稳定性-限流",
+      "permanent": true
+    },
+    {
+      "source": "/coding/架构心得/银行科技CI-CD流水线设计",
+      "destination": "/posts/银行科技ci-cd流水线设计",
+      "permanent": true
+    },
+    {
+      "source": "/coding/架构心得/银行科技CI-CD流水线设计/",
+      "destination": "/posts/银行科技ci-cd流水线设计",
+      "permanent": true
+    },
+    {
+      "source": "/coding/架构心得/SpringSecurity与OAuth2银行级安全实战",
+      "destination": "/posts/springsecurity与oauth2银行级安全实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/架构心得/SpringSecurity与OAuth2银行级安全实战/",
+      "destination": "/posts/springsecurity与oauth2银行级安全实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/知识宫殿规划",
+      "destination": "/posts/知识宫殿规划",
+      "permanent": true
+    },
+    {
+      "source": "/coding/知识宫殿规划/",
+      "destination": "/posts/知识宫殿规划",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/大数据基础概念",
+      "destination": "/posts/大数据基础概念",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/大数据基础概念/",
+      "destination": "/posts/大数据基础概念",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/大数据入门完全指南",
+      "destination": "/posts/大数据入门完全指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/大数据入门完全指南/",
+      "destination": "/posts/大数据入门完全指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/实战项目-用户行为分析平台",
+      "destination": "/posts/实战项目-用户行为分析平台",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/实战项目-用户行为分析平台/",
+      "destination": "/posts/实战项目-用户行为分析平台",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/Flink-流处理",
+      "destination": "/posts/flink-流处理",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/Flink-流处理/",
+      "destination": "/posts/flink-流处理",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/Hadoop-HDFS-分布式文件系统",
+      "destination": "/posts/hadoop-hdfs-分布式文件系统",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/Hadoop-HDFS-分布式文件系统/",
+      "destination": "/posts/hadoop-hdfs-分布式文件系统",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/Hive-数据仓库",
+      "destination": "/posts/hive-数据仓库",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/Hive-数据仓库/",
+      "destination": "/posts/hive-数据仓库",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/Kafka-消息队列",
+      "destination": "/posts/kafka-消息队列",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/Kafka-消息队列/",
+      "destination": "/posts/kafka-消息队列",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/MapReduce-分布式计算",
+      "destination": "/posts/mapreduce-分布式计算",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/MapReduce-分布式计算/",
+      "destination": "/posts/mapreduce-分布式计算",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/Spark-内存计算",
+      "destination": "/posts/spark-内存计算",
+      "permanent": true
+    },
+    {
+      "source": "/coding/BigData/Spark-内存计算/",
+      "destination": "/posts/spark-内存计算",
+      "permanent": true
+    },
+    {
+      "source": "/coding/DevOps/GitOps-ArgoCD银行级部署实战",
+      "destination": "/posts/gitops-argocd银行级部署实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/DevOps/GitOps-ArgoCD银行级部署实战/",
+      "destination": "/posts/gitops-argocd银行级部署实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/DevOps/Kubernetes-Istio银行ServiceMesh实战",
+      "destination": "/posts/kubernetes-istio银行servicemesh实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/DevOps/Kubernetes-Istio银行ServiceMesh实战/",
+      "destination": "/posts/kubernetes-istio银行servicemesh实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/DevOps/Terraform银行基础设施即代码实战",
+      "destination": "/posts/terraform银行基础设施即代码实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/DevOps/Terraform银行基础设施即代码实战/",
+      "destination": "/posts/terraform银行基础设施即代码实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Docker/Docker快速入门完全指南",
+      "destination": "/posts/docker快速入门完全指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Docker/Docker快速入门完全指南/",
+      "destination": "/posts/docker快速入门完全指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Docker/Docker容器安全加固-银行生产环境实战",
+      "destination": "/posts/docker容器安全加固-银行生产环境实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Docker/Docker容器安全加固-银行生产环境实战/",
+      "destination": "/posts/docker容器安全加固-银行生产环境实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/锁与并发控制/读写锁ReadWriteLock",
+      "destination": "/posts/读写锁readwritelock",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/锁与并发控制/读写锁ReadWriteLock/",
+      "destination": "/posts/读写锁readwritelock",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/锁与并发控制/CountDownLatch与CyclicBarrier",
+      "destination": "/posts/countdownlatch与cyclicbarrier",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/锁与并发控制/CountDownLatch与CyclicBarrier/",
+      "destination": "/posts/countdownlatch与cyclicbarrier",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/锁与并发控制/ReentrantLock详解",
+      "destination": "/posts/reentrantlock详解",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/锁与并发控制/ReentrantLock详解/",
+      "destination": "/posts/reentrantlock详解",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/锁与并发控制/Semaphore信号量",
+      "destination": "/posts/semaphore信号量",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/锁与并发控制/Semaphore信号量/",
+      "destination": "/posts/semaphore信号量",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/锁与并发控制/synchronized深入理解",
+      "destination": "/posts/synchronized深入理解",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/锁与并发控制/synchronized深入理解/",
+      "destination": "/posts/synchronized深入理解",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/Java并发编程完全指南",
+      "destination": "/posts/java并发编程完全指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/Java并发编程完全指南/",
+      "destination": "/posts/java并发编程完全指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/Java集合框架深入理解",
+      "destination": "/posts/java集合框架深入理解",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/Java集合框架深入理解/",
+      "destination": "/posts/java集合框架深入理解",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/JVM虚拟机深入理解",
+      "destination": "/posts/jvm虚拟机深入理解",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/JVM虚拟机深入理解/",
+      "destination": "/posts/jvm虚拟机深入理解",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/SpringBoot参数校验与全局异常处理实战",
+      "destination": "/posts/springboot参数校验与全局异常处理实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/SpringBoot参数校验与全局异常处理实战/",
+      "destination": "/posts/springboot参数校验与全局异常处理实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/SpringBoot数据库连接池调优",
+      "destination": "/posts/springboot数据库连接池调优",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Java/SpringBoot数据库连接池调优/",
+      "destination": "/posts/springboot数据库连接池调优",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Kubernetes/Kubernetes监控与告警-银行生产实战",
+      "destination": "/posts/kubernetes监控与告警-银行生产实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Kubernetes/Kubernetes监控与告警-银行生产实战/",
+      "destination": "/posts/kubernetes监控与告警-银行生产实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Kubernetes/Kubernetes快速入门完全指南",
+      "destination": "/posts/kubernetes快速入门完全指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Kubernetes/Kubernetes快速入门完全指南/",
+      "destination": "/posts/kubernetes快速入门完全指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Kubernetes/Kubernetes探针与健康检查-SpringBoot Actuator集成",
+      "destination": "/posts/kubernetes探针与健康检查-springboot-actuator集成",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Kubernetes/Kubernetes探针与健康检查-SpringBoot Actuator集成/",
+      "destination": "/posts/kubernetes探针与健康检查-springboot-actuator集成",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Kubernetes/Kubernetes网络与Ingress-银行K8s生产架构",
+      "destination": "/posts/kubernetes网络与ingress-银行k8s生产架构",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Kubernetes/Kubernetes网络与Ingress-银行K8s生产架构/",
+      "destination": "/posts/kubernetes网络与ingress-银行k8s生产架构",
+      "permanent": true
+    },
+    {
+      "source": "/coding/MySQL/MySQL-EXPLAIN执行计划完全解析",
+      "destination": "/posts/mysql-explain执行计划完全解析",
+      "permanent": true
+    },
+    {
+      "source": "/coding/MySQL/MySQL-EXPLAIN执行计划完全解析/",
+      "destination": "/posts/mysql-explain执行计划完全解析",
+      "permanent": true
+    },
+    {
+      "source": "/coding/MySQL/MySQL事务与锁",
+      "destination": "/posts/mysql事务与锁",
+      "permanent": true
+    },
+    {
+      "source": "/coding/MySQL/MySQL事务与锁/",
+      "destination": "/posts/mysql事务与锁",
+      "permanent": true
+    },
+    {
+      "source": "/coding/MySQL/MySQL索引完全指南",
+      "destination": "/posts/mysql索引完全指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/MySQL/MySQL索引完全指南/",
+      "destination": "/posts/mysql索引完全指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/MySQL/MySQL主从复制与读写分离",
+      "destination": "/posts/mysql主从复制与读写分离",
+      "permanent": true
+    },
+    {
+      "source": "/coding/MySQL/MySQL主从复制与读写分离/",
+      "destination": "/posts/mysql主从复制与读写分离",
+      "permanent": true
+    },
+    {
+      "source": "/coding/MySQL/MySQLSQL优化实战",
+      "destination": "/posts/mysqlsql优化实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/MySQL/MySQLSQL优化实战/",
+      "destination": "/posts/mysqlsql优化实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/MySQL/ShardingSphere分库分表-银行千万级数据水平扩展实战",
+      "destination": "/posts/shardingsphere分库分表-银行千万级数据水平扩展实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/MySQL/ShardingSphere分库分表-银行千万级数据水平扩展实战/",
+      "destination": "/posts/shardingsphere分库分表-银行千万级数据水平扩展实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/事件处理与状态更新",
+      "destination": "/posts/事件处理与状态更新",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/事件处理与状态更新/",
+      "destination": "/posts/事件处理与状态更新",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/条件渲染与列表渲染",
+      "destination": "/posts/条件渲染与列表渲染",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/条件渲染与列表渲染/",
+      "destination": "/posts/条件渲染与列表渲染",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/自定义 Hook",
+      "destination": "/posts/自定义-hook",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/自定义 Hook/",
+      "destination": "/posts/自定义-hook",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/组件化开发思想",
+      "destination": "/posts/组件化开发思想",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/组件化开发思想/",
+      "destination": "/posts/组件化开发思想",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/JSX 语法完全指南",
+      "destination": "/posts/jsx-语法完全指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/JSX 语法完全指南/",
+      "destination": "/posts/jsx-语法完全指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/Props 与 State - 数据流动",
+      "destination": "/posts/props-与-state-数据流动",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/Props 与 State - 数据流动/",
+      "destination": "/posts/props-与-state-数据流动",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/React 简介与环境搭建",
+      "destination": "/posts/react-简介与环境搭建",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/React 简介与环境搭建/",
+      "destination": "/posts/react-简介与环境搭建",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/React 入门系列课程",
+      "destination": "/posts/react-入门系列课程",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/React 入门系列课程/",
+      "destination": "/posts/react-入门系列课程",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/React-Router-v6完全指南-银行系统实战",
+      "destination": "/posts/react-router-v6完全指南-银行系统实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/React-Router-v6完全指南-银行系统实战/",
+      "destination": "/posts/react-router-v6完全指南-银行系统实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/React与TypeScript深度集成实战",
+      "destination": "/posts/react与typescript深度集成实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/React与TypeScript深度集成实战/",
+      "destination": "/posts/react与typescript深度集成实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/TodoList 实战",
+      "destination": "/posts/todolist-实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/TodoList 实战/",
+      "destination": "/posts/todolist-实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/useEffect 副作用处理",
+      "destination": "/posts/useeffect-副作用处理",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/useEffect 副作用处理/",
+      "destination": "/posts/useeffect-副作用处理",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/useState 状态管理",
+      "destination": "/posts/usestate-状态管理",
+      "permanent": true
+    },
+    {
+      "source": "/coding/React/useState 状态管理/",
+      "destination": "/posts/usestate-状态管理",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/GeoHash 算法",
+      "destination": "/posts/geohash-算法",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/GeoHash 算法/",
+      "destination": "/posts/geohash-算法",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 发布与订阅",
+      "destination": "/posts/redis-发布与订阅",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 发布与订阅/",
+      "destination": "/posts/redis-发布与订阅",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 过期策略",
+      "destination": "/posts/redis-过期策略",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 过期策略/",
+      "destination": "/posts/redis-过期策略",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 介绍和基本命令",
+      "destination": "/posts/redis-介绍和基本命令",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 介绍和基本命令/",
+      "destination": "/posts/redis-介绍和基本命令",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 配置文件解析",
+      "destination": "/posts/redis-配置文件解析",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 配置文件解析/",
+      "destination": "/posts/redis-配置文件解析",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 实现分布式锁",
+      "destination": "/posts/redis-实现分布式锁",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 实现分布式锁/",
+      "destination": "/posts/redis-实现分布式锁",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 实现消息队列",
+      "destination": "/posts/redis-实现消息队列",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 实现消息队列/",
+      "destination": "/posts/redis-实现消息队列",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 使用规范",
+      "destination": "/posts/redis-使用规范",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 使用规范/",
+      "destination": "/posts/redis-使用规范",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 位图",
+      "destination": "/posts/redis-位图",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 位图/",
+      "destination": "/posts/redis-位图",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 五种基本数据类型",
+      "destination": "/posts/redis-五种基本数据类型",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 五种基本数据类型/",
+      "destination": "/posts/redis-五种基本数据类型",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 线程 IO 模型",
+      "destination": "/posts/redis-线程-io-模型",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis 线程 IO 模型/",
+      "destination": "/posts/redis-线程-io-模型",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis-BloomFilter（布隆过滤器）",
+      "destination": "/posts/redis-bloomfilter-布隆过滤器",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis-BloomFilter（布隆过滤器）/",
+      "destination": "/posts/redis-bloomfilter-布隆过滤器",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis-Cell 限流模块",
+      "destination": "/posts/redis-cell-限流模块",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis-Cell 限流模块/",
+      "destination": "/posts/redis-cell-限流模块",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis-GeoHash 地理位置模块",
+      "destination": "/posts/redis-geohash-地理位置模块",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis-GeoHash 地理位置模块/",
+      "destination": "/posts/redis-geohash-地理位置模块",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis HyperLogLog",
+      "destination": "/posts/redis-hyperloglog",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis HyperLogLog/",
+      "destination": "/posts/redis-hyperloglog",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis Scan 命令用法",
+      "destination": "/posts/redis-scan-命令用法",
+      "permanent": true
+    },
+    {
+      "source": "/coding/Redis/Redis Scan 命令用法/",
+      "destination": "/posts/redis-scan-命令用法",
+      "permanent": true
+    },
+    {
+      "source": "/coding/SpringCloud/Nacos服务注册与配置中心-银行多环境实战",
+      "destination": "/posts/nacos服务注册与配置中心-银行多环境实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/SpringCloud/Nacos服务注册与配置中心-银行多环境实战/",
+      "destination": "/posts/nacos服务注册与配置中心-银行多环境实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/SpringCloud/SpringCloud-Gateway银行流量网关实战",
+      "destination": "/posts/springcloud-gateway银行流量网关实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/SpringCloud/SpringCloud-Gateway银行流量网关实战/",
+      "destination": "/posts/springcloud-gateway银行流量网关实战",
+      "permanent": true
+    },
+    {
+      "source": "/coding/SpringCloud/SpringCloud微服务入门完全指南",
+      "destination": "/posts/springcloud微服务入门完全指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/SpringCloud/SpringCloud微服务入门完全指南/",
+      "destination": "/posts/springcloud微服务入门完全指南",
+      "permanent": true
+    },
+    {
+      "source": "/philosophy/存在的重量-自由-荒谬与责任",
+      "destination": "/posts/存在的重量-自由-荒谬与责任",
+      "permanent": true
+    },
+    {
+      "source": "/philosophy/存在的重量-自由-荒谬与责任/",
+      "destination": "/posts/存在的重量-自由-荒谬与责任",
+      "permanent": true
+    },
+    {
+      "source": "/philosophy/尼采",
+      "destination": "/posts/尼采",
+      "permanent": true
+    },
+    {
+      "source": "/philosophy/尼采/",
+      "destination": "/posts/尼采",
+      "permanent": true
+    },
+    {
+      "source": "/philosophy/叔本华",
+      "destination": "/posts/叔本华",
+      "permanent": true
+    },
+    {
+      "source": "/philosophy/叔本华/",
+      "destination": "/posts/叔本华",
+      "permanent": true
+    },
+    {
+      "source": "/philosophy/叔本华与东方哲学",
+      "destination": "/posts/叔本华与东方哲学",
+      "permanent": true
+    },
+    {
+      "source": "/philosophy/叔本华与东方哲学/",
+      "destination": "/posts/叔本华与东方哲学",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/01-老龄化不是问题，是重新理解消费",
+      "destination": "/posts/01-老龄化不是问题-是重新理解消费",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/01-老龄化不是问题，是重新理解消费/",
+      "destination": "/posts/01-老龄化不是问题-是重新理解消费",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/02-退休不是终点，是一场重新设计人生的开题",
+      "destination": "/posts/02-退休不是终点-是一场重新设计人生的开题",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/02-退休不是终点，是一场重新设计人生的开题/",
+      "destination": "/posts/02-退休不是终点-是一场重新设计人生的开题",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/02-退休是工业时代的遗产，我们正在发明新的生命阶段",
+      "destination": "/posts/02-退休是工业时代的遗产-我们正在发明新的生命阶段",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/02-退休是工业时代的遗产，我们正在发明新的生命阶段/",
+      "destination": "/posts/02-退休是工业时代的遗产-我们正在发明新的生命阶段",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/03-老年人拥有现代社会最稀缺的资源，却被我们完全忽略了",
+      "destination": "/posts/03-老年人拥有现代社会最稀缺的资源-却被我们完全忽略了",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/03-老年人拥有现代社会最稀缺的资源，却被我们完全忽略了/",
+      "destination": "/posts/03-老年人拥有现代社会最稀缺的资源-却被我们完全忽略了",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/04-银发经济的下一个十年：不是为老人设计，而是与老人共创",
+      "destination": "/posts/04-银发经济的下一个十年-不是为老人设计-而是与老人共创",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/04-银发经济的下一个十年：不是为老人设计，而是与老人共创/",
+      "destination": "/posts/04-银发经济的下一个十年-不是为老人设计-而是与老人共创",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/05-老年人的低欲望是误解，那是对无效供给的理性拒绝",
+      "destination": "/posts/05-老年人的低欲望是误解-那是对无效供给的理性拒绝",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/05-老年人的低欲望是误解，那是对无效供给的理性拒绝/",
+      "destination": "/posts/05-老年人的低欲望是误解-那是对无效供给的理性拒绝",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/06-时间财富：银发族拥有现代社会最后的经济蓝海",
+      "destination": "/posts/06-时间财富-银发族拥有现代社会最后的经济蓝海",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/06-时间财富：银发族拥有现代社会最后的经济蓝海/",
+      "destination": "/posts/06-时间财富-银发族拥有现代社会最后的经济蓝海",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/07-老年人不是消费者，而是整个社会关系网络的超级节点",
+      "destination": "/posts/07-老年人不是消费者-而是整个社会关系网络的超级节点",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/07-老年人不是消费者，而是整个社会关系网络的超级节点/",
+      "destination": "/posts/07-老年人不是消费者-而是整个社会关系网络的超级节点",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/08-时间银行与银发经济的下一个主线：从时间贫困到时间富有",
+      "destination": "/posts/08-时间银行与银发经济的下一个主线-从时间贫困到时间富有",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/08-时间银行与银发经济的下一个主线：从时间贫困到时间富有/",
+      "destination": "/posts/08-时间银行与银发经济的下一个主线-从时间贫困到时间富有",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/关于贫穷",
+      "destination": "/posts/关于贫穷",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/关于贫穷/",
+      "destination": "/posts/关于贫穷",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/关于人际关系",
+      "destination": "/posts/关于人际关系",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/关于人际关系/",
+      "destination": "/posts/关于人际关系",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/关于时间",
+      "destination": "/posts/关于时间",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/关于时间/",
+      "destination": "/posts/关于时间",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/关于学习",
+      "destination": "/posts/关于学习",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/关于学习/",
+      "destination": "/posts/关于学习",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/保险业务技术详解",
+      "destination": "/posts/保险业务技术详解",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/保险业务技术详解/",
+      "destination": "/posts/保险业务技术详解",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/工商金融业务CMB技术详解",
+      "destination": "/posts/工商金融业务cmb技术详解",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/工商金融业务CMB技术详解/",
+      "destination": "/posts/工商金融业务cmb技术详解",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/环球银行及资本市场GBM技术详解",
+      "destination": "/posts/环球银行及资本市场gbm技术详解",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/环球银行及资本市场GBM技术详解/",
+      "destination": "/posts/环球银行及资本市场gbm技术详解",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/汇丰安全与合规实践",
+      "destination": "/posts/汇丰安全与合规实践",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/汇丰安全与合规实践/",
+      "destination": "/posts/汇丰安全与合规实践",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/汇丰技术参考",
+      "destination": "/posts/汇丰技术参考",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/汇丰技术参考/",
+      "destination": "/posts/汇丰技术参考",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/汇丰内部工具与系统",
+      "destination": "/posts/汇丰内部工具与系统",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/汇丰内部工具与系统/",
+      "destination": "/posts/汇丰内部工具与系统",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/汇丰入职指南",
+      "destination": "/posts/汇丰入职指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/汇丰入职指南/",
+      "destination": "/posts/汇丰入职指南",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/汇丰项目开发流程",
+      "destination": "/posts/汇丰项目开发流程",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/汇丰项目开发流程/",
+      "destination": "/posts/汇丰项目开发流程",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/汇丰业务线基本常识",
+      "destination": "/posts/汇丰业务线基本常识",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/汇丰业务线基本常识/",
+      "destination": "/posts/汇丰业务线基本常识",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/汇丰Senior-FullStack-Developer技术栈与思考",
+      "destination": "/posts/汇丰senior-fullstack-developer技术栈与思考",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/汇丰Senior-FullStack-Developer技术栈与思考/",
+      "destination": "/posts/汇丰senior-fullstack-developer技术栈与思考",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/零售银行及财富管理RBWM技术详解",
+      "destination": "/posts/零售银行及财富管理rbwm技术详解",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/零售银行及财富管理RBWM技术详解/",
+      "destination": "/posts/零售银行及财富管理rbwm技术详解",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/私人银行业务技术详解",
+      "destination": "/posts/私人银行业务技术详解",
+      "permanent": true
+    },
+    {
+      "source": "/coding/HSBC/私人银行业务技术详解/",
+      "destination": "/posts/私人银行业务技术详解",
+      "permanent": true
+    }
   ]
 }

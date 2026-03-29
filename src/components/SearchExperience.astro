@@ -1,0 +1,184 @@
+<section class="search-shell" data-search-shell>
+  <header class="page-header">
+    <p class="page-header__eyebrow">Research search</p>
+    <h1>全文检索</h1>
+    <p>索引只在真正搜索时加载。适合按概念、问题和关键词直接切进这套研究档案。</p>
+  </header>
+
+  <div class="search-panel">
+    <label class="search-panel__input-wrap">
+      <span class="sr-only">搜索文章</span>
+      <input
+        class="search-panel__input"
+        type="search"
+        placeholder="试试：幂等 / 叔本华 / React Router"
+        autocomplete="off"
+        data-search-input
+      />
+    </label>
+
+    <p class="search-panel__status" data-search-status aria-live="polite">输入至少 1 个关键词开始搜索。</p>
+    <p class="search-panel__hint">按 <kbd>Enter</kbd> 打开第一条结果，按 <kbd>⌘K</kbd> / <kbd>Ctrl+K</kbd> 回到搜索框。</p>
+  </div>
+
+  <div class="search-results" data-search-results></div>
+</section>
+
+<script type="module" is:inline>
+  const shell = document.querySelector('[data-search-shell]')
+
+  if (shell && shell.dataset.ready !== 'true') {
+    shell.dataset.ready = 'true'
+
+    const input = shell.querySelector('[data-search-input]')
+    const status = shell.querySelector('[data-search-status]')
+    const results = shell.querySelector('[data-search-results]')
+    const params = new URLSearchParams(window.location.search)
+    const MAX_RESULTS = 10
+    let pagefindModule
+    let pagefindPromise
+    let debounceId
+    let searchToken = 0
+
+    const escapeHtml = (value) =>
+      value
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;')
+
+    const loadPagefind = async ({ silent = false } = {}) => {
+      if (pagefindModule) return pagefindModule
+      if (pagefindPromise) return pagefindPromise
+
+      pagefindPromise = import('/pagefind/pagefind.js')
+        .then((module) => {
+          pagefindModule = module
+          return module
+        })
+        .catch((error) => {
+          pagefindPromise = undefined
+          if (!silent) {
+            status.textContent = '搜索索引会在执行 pnpm build 后生成。'
+          }
+          throw error
+        })
+
+      try {
+        return await pagefindPromise
+      } catch {
+        return null
+      }
+    }
+
+    const renderEmpty = (message) => {
+      status.textContent = message
+      results.innerHTML = ''
+    }
+
+    const preloadPagefind = () => {
+      const warm = () => {
+        loadPagefind({ silent: true }).catch(() => {})
+      }
+
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(warm, { timeout: 1200 })
+      } else {
+        window.setTimeout(warm, 250)
+      }
+    }
+
+    const runSearch = async () => {
+      const currentToken = ++searchToken
+      const query = input.value.trim()
+      const nextParams = new URLSearchParams(window.location.search)
+
+      if (query) {
+        nextParams.set('q', query)
+      } else {
+        nextParams.delete('q')
+      }
+
+      history.replaceState({}, '', nextParams.toString() ? `?${nextParams.toString()}` : window.location.pathname)
+
+      if (!query) {
+        renderEmpty('输入至少 1 个关键词开始搜索。')
+        return
+      }
+
+      status.textContent = pagefindModule ? '正在搜索…' : '正在加载搜索索引…'
+      const api = await loadPagefind()
+      if (!api || currentToken !== searchToken) return
+
+      status.textContent = '正在整理结果…'
+      const search = await api.search(query)
+      if (currentToken !== searchToken) return
+
+      if (!search.results.length) {
+        renderEmpty('没有找到匹配结果。')
+        return
+      }
+
+      const data = await Promise.all(search.results.slice(0, MAX_RESULTS).map((result) => result.data()))
+      if (currentToken !== searchToken) return
+
+      status.textContent =
+        search.results.length > data.length
+          ? `找到 ${search.results.length} 条结果，当前展示前 ${data.length} 条。`
+          : `找到 ${data.length} 条结果。`
+      results.innerHTML = data
+        .map(
+          (item) => `
+            <article class="search-result">
+              <a href="${item.url}" class="search-result__link">
+                <h2>${escapeHtml(item.meta?.title || item.url)}</h2>
+                <p>${item.excerpt}</p>
+                <span>${escapeHtml(item.url)}</span>
+              </a>
+            </article>
+          `,
+        )
+        .join('')
+    }
+
+    const scheduleSearch = () => {
+      window.clearTimeout(debounceId)
+      debounceId = window.setTimeout(() => {
+        runSearch().catch((error) => {
+          console.error('Search failed.', error)
+          status.textContent = '搜索失败，请稍后重试。'
+        })
+      }, 120)
+    }
+
+    input.value = params.get('q') ?? ''
+    preloadPagefind()
+
+    input.addEventListener('input', scheduleSearch)
+    input.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter') return
+      const firstResult = results.querySelector('.search-result__link')
+      if (!(firstResult instanceof HTMLAnchorElement)) return
+      event.preventDefault()
+      window.location.href = firstResult.href
+    })
+
+    window.addEventListener('keydown', (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault()
+        input.focus()
+      }
+    })
+
+    if (!window.matchMedia('(pointer: coarse)').matches) {
+      requestAnimationFrame(() => input.focus())
+    }
+
+    if (input.value) {
+      runSearch().catch((error) => {
+        console.error('Search failed.', error)
+      })
+    }
+  }
+</script>

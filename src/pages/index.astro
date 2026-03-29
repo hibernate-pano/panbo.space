@@ -1,0 +1,238 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import PostCard from '../components/PostCard.astro'
+import { siteConfig } from '../data/site'
+import { getAllPosts, getLatestPosts, getPostsByTrack, trackLabels } from '../lib/posts'
+
+const allPosts = await getAllPosts()
+const latestPosts = await getLatestPosts(6)
+const allThinkingPosts = await getPostsByTrack('thinking')
+const allPhilosophyPosts = await getPostsByTrack('philosophy')
+const allWorkPosts = await getPostsByTrack('work')
+const thinkingPosts = allThinkingPosts.slice(0, 2)
+const philosophyPosts = allPhilosophyPosts.slice(0, 1)
+const workPosts = allWorkPosts.slice(0, 3)
+const leadPost = latestPosts[0]
+const secondaryLatest = latestPosts.slice(1, 5)
+const perspectivePosts = [...thinkingPosts, ...philosophyPosts]
+const leadPerspective = perspectivePosts[0]
+const secondaryPerspective = perspectivePosts.slice(1)
+
+const engineeringPosts = allPosts.filter((post) => post.data.track === 'engineering')
+const featuredTopics = ['架构心得', 'Java', '分布式系统']
+const topicGroups = featuredTopics
+  .map((topic) => ({
+    topic,
+    posts: engineeringPosts.filter((post) => post.data.topic === topic).slice(0, 2),
+  }))
+  .filter((group) => group.posts.length > 0)
+
+const stats = [
+  {
+    label: 'Archive',
+    value: allPosts.length,
+    note: '完整浏览全部文章与更新记录',
+    href: '/archive',
+  },
+  {
+    label: 'Engineering',
+    value: engineeringPosts.length,
+    note: '后端、分布式、数据库与平台工程',
+    href: '/archive?track=engineering',
+  },
+  {
+    label: 'Perspective',
+    value: allThinkingPosts.length + allPhilosophyPosts.length,
+    note: '技术之外的判断、学习与哲学',
+    href: '/archive?track=thinking',
+  },
+  {
+    label: 'Work Notes',
+    value: allWorkPosts.length,
+    note: '银行组织、业务线与协作现场',
+    href: '/archive?track=work',
+  },
+]
+
+const heroPoints = [
+  '后端工程师，长期工作在银行复杂系统与跨团队交付环境。',
+  '主轴覆盖 Java、Spring、分布式系统、平台工程与工程治理。',
+  '也写学习、关系与哲学，把技术之外的判断放进同一套知识档案。',
+]
+---
+
+<BaseLayout>
+  <section class="hero">
+    <div class="hero__copy">
+      <p class="hero__eyebrow">HSBC-inspired research archive</p>
+      <div class="hero__frame">
+        <span class="hero__index">01</span>
+        <div>
+          <h1>把工程经验、工作现场与长期思考，写成一份可反复查阅的研究档案。</h1>
+          <p class="hero__summary">
+            这次重做借用了 HSBC 常见的品牌语言: 红白黑对比、几何切面、机构化层级与高可读性。它不是银行官网，而是一座更克制、更可信、更像研究门户的个人知识系统。
+          </p>
+        </div>
+      </div>
+
+      <div class="hero__cta">
+        <a class="button button--primary" href={siteConfig.hero.primaryCta.href}>
+          {siteConfig.hero.primaryCta.label}
+        </a>
+        <a class="button" href={siteConfig.hero.secondaryCta.href}>
+          {siteConfig.hero.secondaryCta.label}
+        </a>
+      </div>
+    </div>
+
+    <aside class="hero__aside">
+      <p class="hero__aside-label">Editorial position</p>
+      <div class="hero__signal">
+        <strong>{siteConfig.hero.eyebrow}</strong>
+        <span>工程文章写成备忘录，非技术文章写成观察报告，统一收束为一个长期可维护的阅读系统。</span>
+      </div>
+      <ul>
+        {heroPoints.map((point) => (
+          <li>{point}</li>
+        ))}
+      </ul>
+    </aside>
+  </section>
+
+  <section class="coverage-ledger" aria-label="Coverage overview">
+    {stats.map((stat) => (
+      <a class="ledger-card" href={stat.href}>
+        <span>{stat.label}</span>
+        <strong>{stat.value}</strong>
+        <p>{stat.note}</p>
+      </a>
+    ))}
+  </section>
+
+  <section class="section-block">
+    <div class="section-block__head">
+      <p>Latest writing</p>
+      <div>
+        <h2>最近更新</h2>
+        <span>按最近维护时间排序，优先看到仍在演化和持续打磨的文章。</span>
+      </div>
+    </div>
+
+    <div class="feature-cluster">
+      {leadPost && (
+        <article class="feature-lead">
+          <a class="feature-lead__link" href={`/posts/${leadPost.data.slug}`}>
+            <p class="feature-lead__eyebrow">Lead update</p>
+            <h3>{leadPost.data.title}</h3>
+            <p>{leadPost.data.summary}</p>
+            <div class="feature-lead__meta">
+              <span>{trackLabels[leadPost.data.track]}</span>
+              {leadPost.data.topic && <span>{leadPost.data.topic}</span>}
+            </div>
+          </a>
+        </article>
+      )}
+
+      <div class="feature-stack">
+        {secondaryLatest.map((post) => (
+          <a class="feature-stack__item" href={`/posts/${post.data.slug}`}>
+            <div>
+              <span>{trackLabels[post.data.track]}</span>
+              <strong>{post.data.title}</strong>
+            </div>
+            <p>{post.data.summary}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-block__head">
+      <p>Coverage map</p>
+      <div>
+        <h2>技术主线</h2>
+        <span>把最稳定的几个工程方向抽出来，像业务条线一样单独组织入口。</span>
+      </div>
+    </div>
+
+    <div class="topic-grid">
+      {topicGroups.map((group) => (
+        <article class="topic-card">
+          <div class="topic-card__head">
+            <span>{trackLabels.engineering}</span>
+            <h3>{group.topic}</h3>
+            <p>从该主题中抽出最近的 2 篇文章，作为进入这条主线的起点。</p>
+          </div>
+
+          <div class="topic-card__list">
+            {group.posts.map((post) => (
+              <a href={`/posts/${post.data.slug}`}>
+                <strong>{post.data.title}</strong>
+                <span>{post.data.summary}</span>
+              </a>
+            ))}
+          </div>
+
+          <a class="topic-card__link" href={`/archive?track=engineering&topic=${encodeURIComponent(group.topic)}`}>
+            浏览 {group.topic}
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-block__head">
+      <p>Perspective</p>
+      <div>
+        <h2>技术之外</h2>
+        <span>不把非技术写作当附录，而是让它与工程判断共享同样严肃的版面。</span>
+      </div>
+    </div>
+
+    <div class="perspective-shell">
+      {leadPerspective && (
+        <article class="perspective-lead">
+          <a class="perspective-lead__link" href={`/posts/${leadPerspective.data.slug}`}>
+            <p class="feature-lead__eyebrow">Featured perspective</p>
+            <h3>{leadPerspective.data.title}</h3>
+            <p>{leadPerspective.data.summary}</p>
+          </a>
+        </article>
+      )}
+
+      <div class="perspective-list">
+        {secondaryPerspective.map((post) => (
+          <PostCard post={post} compact />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block section-block--secondary">
+    <div class="section-block__head">
+      <p>Work notes</p>
+      <div>
+        <h2>工作现场</h2>
+        <span>记录银行组织、流程与系统协作中的真实约束，而不只写抽象技术。</span>
+      </div>
+    </div>
+
+    <div class="work-register">
+      {workPosts.map((post) => (
+        <article class="work-register__item">
+          <a class="work-register__link" href={`/posts/${post.data.slug}`}>
+            <div class="work-register__meta">
+              <span>{post.data.topic ?? trackLabels[post.data.track]}</span>
+              <span>{post.data.series ?? 'Working brief'}</span>
+            </div>
+            <h3>{post.data.title}</h3>
+            <p>{post.data.summary}</p>
+            <span class="work-register__cta">进入条目</span>
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
