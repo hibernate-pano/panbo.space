@@ -8,7 +8,7 @@ track: work
 topic: HSBC
 tags: []
 featured: false
-draft: false
+draft: true
 slug: 环球银行及资本市场gbm技术详解
 legacyPaths:
   - /coding/HSBC/环球银行及资本市场GBM技术详解

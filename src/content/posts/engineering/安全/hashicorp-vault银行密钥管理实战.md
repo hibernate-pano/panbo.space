@@ -1,6 +1,6 @@
 ---
-title: HashiCorp Vault 银行密钥管理实战
-summary: 从架构设计到生产部署，详解 HashiCorp Vault 在银行系统中的密钥管理、动态凭证、PKI 自动化实战经验。
+title: HashiCorp Vault 密钥管理实践
+summary: 从架构设计到生产部署，介绍 HashiCorp Vault 在高合规场景中的密钥管理、动态凭证与 PKI 自动化思路。
 publishedAt: 'Fri Mar 20 2026 08:00:00 GMT+0800 (China Standard Time)'
 updatedAt: '2026-03-20'
 track: engineering
@@ -22,7 +22,7 @@ legacyPaths:
 2. **最小权限原则**：每个应用只访问它需要的密钥，且有过期时间
 3. **审计全覆盖**：谁在什么时间访问了什么密钥，所有操作均可追溯
 
-HashiCorp Vault 是解决这三个问题的事实标准。我在 HSBC 的项目里用 Vault 管理了从数据库凭证到 API Key 的所有敏感数据，本文是我在生产环境中的实战经验。
+HashiCorp Vault 是这一类问题的常见方案。本文按高合规场景整理一套较稳妥的做法，重点放在架构思路、配置方式和落地时容易踩到的坑。
 
 ## 1. Vault 架构：银行高可用部署
 
@@ -56,8 +56,8 @@ Vault 本身不存储数据，状态存储在后端。银行生产环境推荐�
 ```hcl
 # /etc/vault.d/vault.hcl
 ui = true
-cluster_addr = "https://vault-node-1.hsbctech.internal:8201"
-api_addr     = "https://vault.hsbctech.internal:8200"
+cluster_addr = "https://vault-node-1.example.internal:8201"
+api_addr     = "https://vault.example.internal:8200"
 
 storage "consul" {
   address = "127.0.0.1:8500"
@@ -324,13 +324,13 @@ vault secrets tune -max-lease-ttl=87600h pki_int  # 10年
 
 # 生成中间 CA（生产规范：根 CA 离线存储，中间 CA 在 Vault）
 vault write pki_int/intermediate/generate/internal \
-  common_name="HSBC Payment Intermediate CA" \
+  common_name="Payment Intermediate CA" \
   ttl=8760h \
   --format=pem_bundle > intermediate.csr
 
 vault issue pki_int/root/generate/sign \
   csr=@intermediate.csr \
-  common_name="HSBC Payment Intermediate CA" \
+  common_name="Payment Intermediate CA" \
   ttl=8760h > intermediate.cert.pem
 
 vault write pki_int/intermediate/set-signed \

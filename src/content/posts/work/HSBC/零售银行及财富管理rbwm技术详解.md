@@ -8,7 +8,7 @@ track: work
 topic: HSBC
 tags: []
 featured: false
-draft: false
+draft: true
 slug: 零售银行及财富管理rbwm技术详解
 legacyPaths:
   - /coding/HSBC/零售银行及财富管理RBWM技术详解

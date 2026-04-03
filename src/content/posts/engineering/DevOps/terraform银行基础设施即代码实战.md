@@ -1,6 +1,6 @@
 ---
-title: Terraform 银行基础设施即代码：IaC 在 HSBC 生产环境实战
-summary: 从模块化架构到生产环境 Terraform 工作流，详解 Terraform 在银行多账户、多环境基础设施管理中的实战经验与避坑指南。
+title: Terraform 基础设施即代码实践
+summary: 从模块化架构到 Terraform 工作流，介绍 IaC 在多账户、多环境基础设施管理中的常见做法与避坑点。
 publishedAt: 'Fri Mar 20 2026 08:00:00 GMT+0800 (China Standard Time)'
 updatedAt: '2026-03-20'
 track: engineering
@@ -22,7 +22,7 @@ legacyPaths:
 2. **环境一致性**：开发、测试、生产的配置不能有差异——差异就是隐患
 3. **最小权限**：每个环境、每个团队能操作的资源必须精确限定
 
-Terraform + IaC 解决了这三个问题。我在 HSBC 的平台团队用 Terraform 管理了覆盖 3 个 AWS 账户、5 个环境的基础设施。本文是生产级 Terraform 实践总结。
+Terraform + IaC 能比较系统地解决这三个问题。本文按多账户、多环境团队的常见需求，整理一套相对稳妥的实践方式。
 
 ## 1. 银行 Terraform 架构：多账户 + 多环境
 
@@ -31,7 +31,7 @@ Terraform + IaC 解决了这三个问题。我在 HSBC 的平台团队用 Terraf
 银行 AWS 环境典型结构：
 
 ```
-Organization: hsbc-banking
+Organization: example-banking
 │
 ├── Master Account (root)
 │   └── 财务、计费、审计（不做日常操作）
@@ -65,12 +65,12 @@ Organization: hsbc-banking
 # backend.hcl
 terraform {
   backend "s3" {
-    bucket         = "hsbc-terraform-state-prod"
+    bucket         = "example-terraform-state-prod"
     key            = "payment-service/terraform.tfstate"
     region         = "eu-west-1"
     encrypt        = true                    # 静态加密（银行合规）
-    dynamodb_table = "hsbc-terraform-locks" # 状态锁，防止并发操作
-    profile        = "hsbc-prod"
+    dynamodb_table = "example-terraform-locks" # 状态锁，防止并发操作
+    profile        = "prod"
 
     # 启用版本控制（审计回滚）
     versioning = true
@@ -83,7 +83,7 @@ terraform {
 ```bash
 # DynamoDB 表创建（先于 Terraform 运行）
 aws dynamodb create-table \
-  --table-name hsbc-terraform-locks \
+  --table-name example-terraform-locks \
   --attribute-definitions AttributeName=LockID,AttributeType=S \
   --key-schema AttributeName=LockID,KeyType=HASH \
   --billing-mode PAY_PER_REQUEST \
@@ -348,11 +348,11 @@ remote_state {
     if_exists = "overwrite"
   }
   config = {
-    bucket = "hsbc-terraform-state-prod"
+    bucket = "example-terraform-state-prod"
     key         = "payment-service/prod/eks/terraform.tfstate"
     region      = "eu-west-1"
     encrypt     = true
-    dynamodb_table = "hsbc-terraform-locks"
+    dynamodb_table = "example-terraform-locks"
   }
 }
 
@@ -418,7 +418,7 @@ fi
 ```hcl
 # global-require-tags/main.tf
 variable "required_tags" {
-  description = "Tags required by HSBC PCI-DSS compliance"
+  description = "Tags required by internal PCI-DSS compliance rules"
   type        = map(string)
   default = {
     Environment = ""   # 非空
@@ -504,7 +504,7 @@ shared-infra/terraform.tfstate          → VPC + IAM（所有服务依赖）
 data "terraform_remote_state" "network" {
   backend = "s3"
   config = {
-    bucket = "hsbc-terraform-state-prod"
+    bucket = "example-terraform-state-prod"
     key    = "shared/vpc/terraform.tfstate"
   }
 }
@@ -523,10 +523,10 @@ resource "aws_eks_cluster" "main" {
 
 ```bash
 # plan 时用只读角色（防止意外修改）
-AWS_PROFILE=hsbc-plan terragrunt run-all plan
+AWS_PROFILE=plan terragrunt run-all plan
 
 # apply 时用写角色
-AWS_PROFILE=hsbc-apply terragrunt run-all apply --auto-approve
+AWS_PROFILE=apply terragrunt run-all apply --auto-approve
 ```
 
 ### 坑2：循环依赖

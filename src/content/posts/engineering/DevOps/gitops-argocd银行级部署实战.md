@@ -1,6 +1,6 @@
 ---
-title: GitOps 银行级部署：ArgoCD + Helm 在 HSBC 的落地实践
-summary: 详解 GitOps 理念、ArgoCD 安装配置、Helm Chart 管理多环境、银行 Vault 密钥注入，以及金丝雀发布与回滚策略。
+title: GitOps 部署实践：ArgoCD + Helm
+summary: 介绍 GitOps 理念、ArgoCD 安装配置、Helm 多环境管理、密钥注入，以及金丝雀发布与回滚策略。
 publishedAt: 'Fri Mar 20 2026 08:00:00 GMT+0800 (China Standard Time)'
 updatedAt: '2026-03-20'
 track: engineering
@@ -28,7 +28,7 @@ legacyPaths:
 
 GitOps 的核心思想：**Git 是唯一的真相来源（Single Source of Truth）**。集群的 desired state 存在 Git 里，Git 变了你就知道要改什么，实际状态和 Git 不一致就报警。
 
-我在 HSBC 的项目里用 ArgoCD 替代了传统的 Jenkins 部署流水线，本文是实战经验总结。
+在需要审计、回滚和环境一致性的团队里，ArgoCD 常被用来替代以脚本和人工操作为主的部署方式。本文按这种场景整理一套常见做法。
 
 ## 1. GitOps 核心概念
 
@@ -108,7 +108,7 @@ server:
   rbacConfig: |
     policy.default: role:readonly
     policy.csv: |
-      g, hsbc-platform-team, role:admin
+      g, platform-team, role:admin
       g, payment-dev-team, role:deploy
       g, payment-qa-team, role:deploy
       g, auditors, role:readonly
@@ -167,7 +167,7 @@ infrastructure/
 # Chart.yaml
 apiVersion: v2
 name: payment-service
-description: HSBC Payment Microservice
+description: Payment Microservice
 version: 2.1.4
 appVersion: "2.1.4"
 keywords:
@@ -175,10 +175,10 @@ keywords:
   - hsbc
   - banking
 sources:
-  - https://github.com/hibernate-pano/hsbc-payment-service
+  - https://github.com/example/payment-service
 maintainers:
-  - name: HSBC Platform Team
-    email: platform@hsbc.com
+  - name: Platform Team
+    email: platform@example.com
 ```
 
 ### 4.2 values-prod.yaml（生产环境）
@@ -296,7 +296,7 @@ metadata:
 spec:
   project: payment-prod                         # 隔离的项目空间
   source:
-    repoURL: https://github.com/hibernate-pano/hsbc-infra.git
+    repoURL: https://github.com/example/platform-infra.git
     targetRevision: main
     path: environments/prod/payment-service
     helm:
@@ -345,8 +345,8 @@ metadata:
 spec:
   description: Payment Service Production
   sourceRepos:
-    - https://github.com/hibernate-pano/hsbc-infra.git
-    - https://github.com/hibernate-pano/hsbc-payment-service.git
+    - https://github.com/example/platform-infra.git
+    - https://github.com/example/payment-service.git
   destinations:
     - server: https://kubernetes.default.svc
       namespace: payment-prod
@@ -373,7 +373,7 @@ spec:
       policies:
         - p, proj:payment-prod:deployer,applications,*,payment-prod/payment-service-prod,allow
       groups:
-        - hsbc-payment-devs@hsbc.com
+        - payment-devs@example.com
 
     # SRE：完整权限
     - name: sre-admin
@@ -381,7 +381,7 @@ spec:
       policies:
         - p, proj:payment-prod:sre-admin,*,*,*,allow
       groups:
-        - hsbc-sre-team@hsbc.com
+        - sre-team@example.com
 ```
 
 ## 6. Vault 密钥注入：App of Apps 模式
@@ -448,7 +448,7 @@ metadata:
 spec:
   project: payment-prod
   source:
-    repoURL: https://github.com/hibernate-pano/hsbc-infra.git
+    repoURL: https://github.com/example/platform-infra.git
     targetRevision: main
     path: environments/prod/payment-apps  # 这个目录下所有 application.yaml
   destination:

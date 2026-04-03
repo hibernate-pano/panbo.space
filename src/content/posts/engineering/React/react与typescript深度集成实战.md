@@ -290,7 +290,7 @@ function paymentReducer(state: PaymentState, action: PaymentAction): PaymentStat
 
 ## 4. Discriminated Unions：复杂状态建模
 
-这是 TypeScript + React 中我认为**最重要的模式**。在 HSBC 开发金融仪表盘时，几乎每个涉及异步数据的组件都用这个模式。
+这是 TypeScript + React 中很常用的一种模式。凡是涉及异步数据加载、错误处理和空状态展示的组件，通常都能从中受益。
 
 ### 4.1 问题：嵌套的 if-else 和 null 检查
 
@@ -753,7 +753,7 @@ const { values, handleChange, reset } = useForm<AccountFormData>({
 
 ## 8. TanStack Query：类型安全的数据获取
 
-TanStack Query（原 React Query）是我在 HSBC 项目中最常用的数据获取库。配合 TypeScript 使用，体验极佳。
+TanStack Query（原 React Query）是 React 生态里很成熟的数据获取库。配合 TypeScript 使用，类型约束会清晰很多。
 
 ### 8.1 类型安全的 queryFn
 
@@ -1084,4 +1084,4 @@ React + TypeScript 的组合，本质上是**让类型系统在运行时之前�
 2. **让 TypeScript 收窄类型**：多用 `switch`/`if` 的分支收窄，少用 `as` 强制断言
 3. **类型即文档**：好的类型标注本身就是最好的代码注释
 
-*Bobot 🦐 | 汇丰科技园 | 2026-03-19*
+*Bobot | 2026-03-19*

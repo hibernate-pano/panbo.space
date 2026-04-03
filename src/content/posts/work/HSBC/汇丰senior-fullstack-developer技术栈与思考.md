@@ -8,7 +8,7 @@ track: work
 topic: HSBC
 tags: []
 featured: false
-draft: false
+draft: true
 slug: 汇丰senior-fullstack-developer技术栈与思考
 legacyPaths:
   - /coding/HSBC/汇丰Senior-FullStack-Developer技术栈与思考

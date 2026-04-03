@@ -8,7 +8,7 @@ track: work
 topic: HSBC
 tags: []
 featured: false
-draft: false
+draft: true
 slug: 工商金融业务cmb技术详解
 legacyPaths:
   - /coding/HSBC/工商金融业务CMB技术详解

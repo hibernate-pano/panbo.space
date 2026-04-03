@@ -1,6 +1,6 @@
 ---
 title: Spring Cloud Gateway 银行系统流量网关实战
-summary: 深入讲解 Spring Cloud Gateway 在银行系统中的路由、鉴权、限流、熔断最佳实践，结合 HSBC 真实场景代码示例。
+summary: 深入讲解 Spring Cloud Gateway 在高合规业务中的路由、鉴权、限流与熔断实践，并配合可复用的代码示例说明。
 publishedAt: 'Fri Mar 20 2026 08:00:00 GMT+0800 (China Standard Time)'
 updatedAt: '2026-03-20'
 track: engineering
@@ -22,7 +22,7 @@ legacyPaths:
 - **横切关注点**：认证鉴权、限流熔断、日志审计、协议转换在网关层统一处理
 - **安全屏障**：在网关层拦截未授权请求、恶意流量，比在每个微服务中重复实现要高效得多
 
-本文基于 Spring Cloud Gateway (SCG) 2023.x，结合我在 HSBC 真实项目的实践经验，讲解银行场景下的网关配置与踩坑。
+本文基于 Spring Cloud Gateway (SCG) 2023.x，结合常见的高合规业务场景，讲解网关配置思路和常见问题。
 
 ## 1. 网关核心概念：Route、Predicate、Filter
 
@@ -245,7 +245,7 @@ public class AuthorizationFilter implements GatewayFilterFactory<AuthorizationFi
 
 ### 3.3 银行特殊需求：Token 轮转与 Account Takeover 检测
 
-HSBC 这类银行有额外的合规要求：
+高合规行业通常还有额外的要求：
 
 ```java
 // 场景1：检测 Token 是否被其他设备使用（Account Takeover）
