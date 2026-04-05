@@ -27,6 +27,8 @@ type Props = {
   publishedAt?: Date
   updatedAt?: Date
   tags?: string[]
+  /** Extra class on `<main>` for page-scoped styles (e.g. `page-home`, `page-browse`). */
+  mainClass?: string
 }
 
 const {
@@ -39,6 +41,7 @@ const {
   publishedAt,
   updatedAt,
   tags = [],
+  mainClass,
 } = Astro.props as Props
 
 const pageTitle = title === siteConfig.title ? siteConfig.title : `${title} · ${siteConfig.title}`
@@ -275,7 +278,7 @@ const runtimeScript = `
 
     <div class="site-shell">
       <SiteHeader />
-      <main id="main" class="site-main" data-pagefind-body>
+      <main id="main" class:list={['site-main', mainClass]} data-pagefind-body>
         <slot />
       </main>
       <SiteFooter />

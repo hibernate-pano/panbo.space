@@ -6,7 +6,11 @@ import { getTagDirectory } from '../../lib/posts'
 const tagDirectory = await getTagDirectory()
 ---
 
-<BaseLayout title="Tags" description="按自动识别与人工补充后的标签浏览 panbo.space 的文章网络。">
+<BaseLayout
+  title="Tags"
+  description="按自动识别与人工补充后的标签浏览 panbo.space 的文章网络。"
+  mainClass="page-browse"
+>
   <section class="page-shell">
     <header class="page-header">
       <p class="page-header__eyebrow">Tag register</p>

@@ -25,6 +25,7 @@ const relatedTags = await getRelatedTags(tagPage.tag)
   description={`${formatTagLabel(tagPage.tag)} 标签下的全部文章。`}
   canonicalPath={toTagPath(tagPage.tag)}
   tags={[tagPage.tag]}
+  mainClass="page-browse"
 >
   <section class="page-shell">
     <header class="page-header">

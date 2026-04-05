@@ -8,6 +8,10 @@ const { topics, tags, years } = await getAvailableFilters()
 const popularTags = await getTagDirectory(10)
 ---
 
-<BaseLayout title="Archive" description="按栏目、主题和年份筛选 panbo.space 的全部文章。">
+<BaseLayout
+  title="Archive"
+  description="按栏目、主题和年份筛选 panbo.space 的全部文章。"
+  mainClass="page-browse"
+>
   <ArchiveFilters posts={posts} topics={topics} tags={tags} years={years} popularTags={popularTags} />
 </BaseLayout>
