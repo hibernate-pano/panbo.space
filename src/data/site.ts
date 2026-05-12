@@ -1,11 +1,11 @@
 export const siteConfig = {
   name: 'panbo.space',
   title: 'Panbo Space',
-  description: '程序员与思考者的内容花园，记录工程实践、工作现场与长期思考。',
+  description: '程序员与思考者的内容档案。记录工程实践、技术判断与长期思考。',
   site: 'https://www.panbo.space',
   author: {
     name: 'Panbo',
-    role: 'Senior Full-Stack Developer',
+    role: 'Senior Full-Stack Engineer',
     company: 'HSBC',
   },
   social: {
@@ -13,17 +13,17 @@ export const siteConfig = {
     x: 'https://x.com/HibernatePano',
   },
   hero: {
-    eyebrow: 'Programmer + Thinker',
-    title: '把工程经验与长期思考写成可反复阅读的文章。',
+    eyebrow: 'Independent Research Archive',
+    title: '把工程经验写成档案，把长期思考写成文字。',
     summary:
-      '这里不做资讯流，不追热点。它更像一套持续演化的个人知识系统，记录银行级工程实践、技术判断，以及技术之外的思考。',
+      '不追热点，不做资讯流。这里是一套持续演化的个人知识系统——关于银行系统、分布式架构、技术判断，以及技术之外的思考。',
     primaryCta: {
-      label: '开始阅读',
+      label: '浏览全部',
       href: '/archive',
     },
     secondaryCta: {
-      label: '浏览主题',
-      href: '/topics/java',
+      label: '了解更多',
+      href: '/about',
     },
   },
 } as const
