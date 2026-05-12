@@ -15,3 +15,4 @@ pagefind
 *.tmp.*
 .vercel
 src/generated
+.vitepress/cache
