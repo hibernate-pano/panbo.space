@@ -12,6 +12,7 @@ export const trackLabels: Record<TrackKey, string> = {
   thinking: '思考',
   philosophy: '哲学',
   work: '工作现场',
+  games: 'Games',
 }
 
 const collator = new Intl.Collator('zh-CN')
