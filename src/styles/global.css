@@ -46,7 +46,7 @@
   --radius-xl: 24px;
 
   --content-width: min(1200px, calc(100vw - 3rem));
-  --reading-width: min(100%, 900px);
+  --reading-width: min(100%, 1000px);
 }
 
 /* Dark mode — Warm charcoal */
@@ -962,47 +962,74 @@ code:not(pre code) {
 /* ── 15. Post Article / Content ─────────────────────────────── */
 
 .post-article {
+  /* Layout container — max-width constrains reading width */
   max-width: var(--reading-width);
-  font-size: 1.08rem;
-  line-height: 1.85;
-  font-family: var(--font-serif);
 }
 
-.post-article h2 {
+/* ── 16. Post Content Grid — Left sticky TOC ──────────────── */
+
+/* Non-TOC grid: centered single column */
+.post-content-grid {
+  position: relative;
+  width: 100%;
+}
+
+/* TOC layout: CSS grid, TOC fixed left, prose on right */
+.post-content-grid--with-toc {
+  display: grid;
+  grid-template-columns: 280px 720px;
+  gap: 0;
+  align-items: start;
+  /* Total 1000px = article's max-width, no overflow */
+}
+
+.post-content-main {
+  min-width: 0;
+  /* Prose column — 720px fixed */
+}
+
+/* Prose — article body content */
+.prose {
+  width: 720px;
+  font-size: 1.08rem;
+  line-height: 1.85;
+}
+
+.prose h2 {
   margin: 2.8em 0 0.9em;
   font-size: 1.6rem;
   letter-spacing: -0.015em;
+  line-height: 1.25;
+  color: var(--ink);
 }
 
-.post-article h3 {
+.prose h3 {
   margin: 2.2em 0 0.7em;
   font-size: 1.2rem;
   letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: var(--ink);
 }
 
-.post-article p {
+.prose p {
   margin-bottom: 1.4em;
   color: var(--ink-soft);
 }
 
-.post-article > p:first-of-type {
+.prose > p:first-of-type {
   color: var(--ink);
   font-size: 1.12rem;
   line-height: 1.8;
 }
 
-.post-article > p:first-of-type::first-letter {
-  /* keep first letter normal — Chinese doesn't use drop-cap */
-}
-
-.post-article strong {
+.prose strong {
   color: var(--ink);
   font-weight: 700;
   border-bottom: 2px solid var(--red);
   padding-bottom: 0.05em;
 }
 
-.post-article pre {
+.prose pre {
   border: 1px solid var(--border) !important;
   border-left: 3px solid var(--red) !important;
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
@@ -1012,7 +1039,7 @@ code:not(pre code) {
   overflow-x: auto;
 }
 
-.post-article pre code {
+.prose pre code {
   background: none !important;
   padding: 0 !important;
   font-size: 0.855rem;
@@ -1020,22 +1047,84 @@ code:not(pre code) {
   font-family: var(--font-mono) !important;
 }
 
-/* ── 16. Post Content Grid — Left sticky TOC ──────────────── */
-/* Post content grid with TOC — Claude-style layout */
-.post-content-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0;
-  position: relative;
-  max-width: 984px;
-  margin: 0 auto;
+.prose blockquote {
+  border-left: 3px solid var(--red);
+  margin: 2rem 0;
+  padding: 1rem 1.5rem;
+  background: var(--red-faint);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-style: italic;
+  color: var(--ink-soft);
 }
 
-.post-content-grid--with-toc {
-  padding-left: 0;
-  display: flex;
-  align-items: flex-start;
-  gap: 0;
+.prose blockquote p {
+  margin-bottom: 0;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+
+.prose ul, .prose ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.4em;
+  color: var(--ink-soft);
+}
+
+.prose li {
+  margin-bottom: 0.5em;
+  line-height: 1.7;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.9rem;
+}
+
+.prose th {
+  text-align: left;
+  padding: 0.6rem 0.9rem;
+  background: var(--surface-plain);
+  border-bottom: 2px solid var(--border-strong);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.prose td {
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.prose tr:last-child td {
+  border-bottom: none;
+}
+
+.prose a {
+  color: var(--red);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose a:hover {
+  opacity: 0.8;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 3rem 0;
+}
+
+.prose img {
+  max-width: 100%;
+  border-radius: var(--radius-md);
+  margin: 1.5rem 0;
 }
 
 .post-content-rail {
