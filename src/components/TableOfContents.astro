@@ -6,22 +6,55 @@ type Heading = {
 }
 
 const { headings } = Astro.props as { headings: Heading[] }
-const visibleHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3)
+const outlineHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3 && heading.text !== '目录')
+const visibleHeadings =
+  outlineHeadings.length > 18
+    ? outlineHeadings.filter((heading) => heading.depth === 2)
+    : outlineHeadings
 ---
 
-{
-  visibleHeadings.length >= 3 && (
-    <aside class="toc">
-      <p class="toc__eyebrow">Page index</p>
-      <ol>
-        {visibleHeadings.map((heading) => (
-          <li class:list={[heading.depth === 3 && 'is-child']}>
-            <a href={`#${heading.slug}`} data-toc-link={heading.slug}>
-              {heading.text}
-            </a>
-          </li>
-        ))}
-      </ol>
-    </aside>
-  )
-}
+{visibleHeadings.length >= 3 && (
+  <nav class="toc">
+    {visibleHeadings.map((heading) => (
+      <a
+        href={`#${heading.slug}`}
+        data-toc-link={heading.slug}
+        class:list={['toc__link', heading.depth === 3 && 'toc__link--child']}
+      >
+        {heading.text}
+      </a>
+    ))}
+  </nav>
+)}
+
+<style>
+  .toc {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .toc__link {
+    display: block;
+    padding: 0.42rem 0.55rem;
+    font-size: 0.82rem;
+    line-height: 1.42;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    border-radius: var(--radius-sm);
+    transition: color var(--duration-fast), background var(--duration-fast), border-color var(--duration-fast);
+  }
+
+  .toc__link:hover,
+  .toc__link.is-active {
+    color: var(--color-accent);
+    background: var(--color-accent-subtle);
+    border-left-color: var(--color-accent);
+  }
+
+  .toc__link--child {
+    padding-left: 1.05rem;
+    font-size: 0.76rem;
+  }
+</style>

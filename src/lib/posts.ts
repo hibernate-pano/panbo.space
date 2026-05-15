@@ -8,10 +8,10 @@ export type PostEntry = CollectionEntry<'posts'>
 export type TrackKey = PostEntry['data']['track']
 
 export const trackLabels: Record<TrackKey, string> = {
-  engineering: '工程实践',
-  thinking: '思考',
-  philosophy: '哲学',
-  work: '工作现场',
+  engineering: 'Engineering',
+  thinking: 'Thinking',
+  philosophy: 'Philosophy',
+  work: 'Work Notes',
   games: 'Games',
 }
 

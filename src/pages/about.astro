@@ -3,48 +3,131 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 import { siteConfig } from '../data/site'
 ---
 
-<BaseLayout title="About" description="关于 Panbo 的工作、写作主题与这个博客的取向。" mainClass="page-browse">
-  <section class="page-shell">
-    <header class="page-header">
-      <p class="page-header__eyebrow">Profile</p>
-      <h1>关于我</h1>
-      <p>
-        我叫 {siteConfig.author.name}，目前在 {siteConfig.author.company} 从事 {siteConfig.author.role}
-        工作。这个站点不是个人能力清单，而是一套持续维护的研究档案，用来把复杂问题写成可复读、可沉淀、可回查的文章。
+<BaseLayout title="About" description="About Panbo's work, writing topics, and the direction of this blog.">
+  <div class="about-page">
+    <header class="about-header">
+      <p class="hero__eyebrow">About</p>
+      <h1 class="about-header__title">{siteConfig.author.name}</h1>
+      <p class="about-header__intro">
+        {siteConfig.author.role} at {siteConfig.author.company}. This site is a personal research archive —
+        a place for writing that is worth revisiting, worth building on, and worth searching when you need it.
       </p>
     </header>
 
-    <div class="about-grid">
-      <article class="about-card">
-        <p class="about-card__eyebrow">Current remit</p>
-        <h2>当前工作</h2>
-        <ul>
-          <li>技术栈：Java / Spring Boot / React / TypeScript</li>
-          <li>场景：银行核心系统、支付清算、微服务架构</li>
-          <li>关注：分布式系统、平台工程、安全与合规</li>
-        </ul>
-      </article>
+    <section class="about-section">
+      <h2 class="about-section__title">Current Work</h2>
+      <div class="about-section__content">
+        <p>Working on enterprise systems with a focus on backend architecture, distributed systems, and platform engineering. Tech stack includes Java, Spring Boot, React, and TypeScript in a banking environment.</p>
+      </div>
+    </section>
 
-      <article class="about-card">
-        <p class="about-card__eyebrow">Coverage</p>
-        <h2>写作范围</h2>
-        <ul>
-          <li>工程实践：后端、分布式、数据库、DevOps</li>
-          <li>工作现场：复杂组织中的流程、系统与经验</li>
-          <li>长期思考：学习、成长、关系、哲学</li>
-        </ul>
-      </article>
-    </div>
+    <section class="about-section">
+      <h2 class="about-section__title">Writing</h2>
+      <div class="about-section__content">
+        <p>This archive covers three main tracks:</p>
+        <p><strong>Engineering</strong> — System design, architecture decisions, and technical depth. The kind of writing that tries to explain why something works, not just how.</p>
+        <p><strong>Work Notes</strong> — Real observations from working in complex organizations. Process, people, and the unwritten rules that actually matter.</p>
+        <p><strong>Thinking</strong> — Long-form thinking on learning, growth, and the mental models that shape decisions.</p>
+      </div>
+    </section>
 
-    <article class="essay-card">
-      <p class="about-card__eyebrow">Editorial note</p>
-      <h2>这个站点的判断</h2>
-      <p>
-        博客最重要的是内容，不是主题特效，也不是花哨的结构。这次改版只保留一套阅读节奏、一套信息架构和一套明确的品牌语言，让文章本身成为主角。
-      </p>
-      <p>
-        如果你想直接开始，可以从 <a href="/archive">Archive</a> 进入，也可以用 <a href="/search">Search</a> 按问题检索。
-      </p>
-    </article>
-  </section>
+    <section class="about-section">
+      <h2 class="about-section__title">This Site</h2>
+      <div class="about-section__content">
+        <p>Not a blog in the traditional sense — more like a personal wiki that grows over time. The goal is to write things worth reading years later, not chasing trends or optimizing for metrics.</p>
+        <p>Start at the <a href="/archive">Archive</a> to browse by topic, or use <a href="/search">Search</a> to find something specific.</p>
+      </div>
+    </section>
+
+    <section class="about-section">
+      <h2 class="about-section__title">Connect</h2>
+      <div class="about-section__content">
+        <p>
+          <a href={siteConfig.social.github} target="_blank" rel="noreferrer">GitHub</a> ·
+          <a href={siteConfig.social.x} target="_blank" rel="noreferrer">X / Twitter</a> ·
+          <a href="/rss.xml">RSS Feed</a>
+        </p>
+      </div>
+    </section>
+  </div>
 </BaseLayout>
+
+<style>
+  .about-page {
+    padding: var(--space-8) 0;
+    max-width: var(--reading-width);
+  }
+
+  .about-header {
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-7);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .about-header__title {
+    font-size: clamp(2.25rem, 4vw, 3rem);
+    font-weight: 600;
+    margin-bottom: var(--space-5);
+  }
+
+  .about-header__intro {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+  }
+
+  .about-section {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1fr);
+    gap: var(--space-6);
+    margin-bottom: var(--space-7);
+    padding-bottom: var(--space-7);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .about-section:last-child {
+    border-bottom: none;
+  }
+
+  .about-section__title {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    padding-top: 0.25rem;
+  }
+
+  .about-section__content {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+  }
+
+  .about-section__content p + p {
+    margin-top: var(--space-4);
+  }
+
+  .about-section__content strong {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  .about-section__content a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-accent) 34%, transparent);
+    transition: text-decoration-color var(--duration-fast);
+  }
+
+  .about-section__content a:hover {
+    text-decoration-color: var(--color-accent);
+  }
+
+  @media (max-width: 768px) {
+    .about-section {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+  }
+</style>

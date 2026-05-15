@@ -965,76 +965,6 @@
       "permanent": true
     },
     {
-      "source": "/philosophy/存在的重量-自由-荒谬与责任",
-      "destination": "/posts/存在的重量-自由-荒谬与责任",
-      "permanent": true
-    },
-    {
-      "source": "/philosophy/存在的重量-自由-荒谬与责任/",
-      "destination": "/posts/存在的重量-自由-荒谬与责任",
-      "permanent": true
-    },
-    {
-      "source": "/philosophy/尼采",
-      "destination": "/posts/尼采",
-      "permanent": true
-    },
-    {
-      "source": "/philosophy/尼采/",
-      "destination": "/posts/尼采",
-      "permanent": true
-    },
-    {
-      "source": "/philosophy/叔本华",
-      "destination": "/posts/叔本华",
-      "permanent": true
-    },
-    {
-      "source": "/philosophy/叔本华/",
-      "destination": "/posts/叔本华",
-      "permanent": true
-    },
-    {
-      "source": "/philosophy/叔本华与东方哲学",
-      "destination": "/posts/叔本华与东方哲学",
-      "permanent": true
-    },
-    {
-      "source": "/philosophy/叔本华与东方哲学/",
-      "destination": "/posts/叔本华与东方哲学",
-      "permanent": true
-    },
-    {
-      "source": "/thinking/银发经济/01-老龄化不是问题，是重新理解消费",
-      "destination": "/posts/01-老龄化不是问题-是重新理解消费",
-      "permanent": true
-    },
-    {
-      "source": "/thinking/银发经济/01-老龄化不是问题，是重新理解消费/",
-      "destination": "/posts/01-老龄化不是问题-是重新理解消费",
-      "permanent": true
-    },
-    {
-      "source": "/thinking/银发经济/02-退休不是终点，是一场重新设计人生的开题",
-      "destination": "/posts/02-退休不是终点-是一场重新设计人生的开题",
-      "permanent": true
-    },
-    {
-      "source": "/thinking/银发经济/02-退休不是终点，是一场重新设计人生的开题/",
-      "destination": "/posts/02-退休不是终点-是一场重新设计人生的开题",
-      "permanent": true
-    },
-    {
-      "source": "/thinking/银发经济/02-退休是工业时代的遗产，我们正在发明新的生命阶段",
-      "destination": "/posts/02-退休是工业时代的遗产-我们正在发明新的生命阶段",
-      "permanent": true
-    },
-    {
-      "source": "/thinking/银发经济/02-退休是工业时代的遗产，我们正在发明新的生命阶段/",
-      "destination": "/posts/02-退休是工业时代的遗产-我们正在发明新的生命阶段",
-      "permanent": true
-    },
-    {
       "source": "/thinking/银发经济/03-老年人拥有现代社会最稀缺的资源，却被我们完全忽略了",
       "destination": "/posts/03-老年人拥有现代社会最稀缺的资源-却被我们完全忽略了",
       "permanent": true
@@ -1132,6 +1062,76 @@
     {
       "source": "/thinking/关于学习/",
       "destination": "/posts/关于学习",
+      "permanent": true
+    },
+    {
+      "source": "/philosophy/存在的重量-自由-荒谬与责任",
+      "destination": "/posts/存在的重量-自由-荒谬与责任",
+      "permanent": true
+    },
+    {
+      "source": "/philosophy/存在的重量-自由-荒谬与责任/",
+      "destination": "/posts/存在的重量-自由-荒谬与责任",
+      "permanent": true
+    },
+    {
+      "source": "/philosophy/尼采",
+      "destination": "/posts/尼采",
+      "permanent": true
+    },
+    {
+      "source": "/philosophy/尼采/",
+      "destination": "/posts/尼采",
+      "permanent": true
+    },
+    {
+      "source": "/philosophy/叔本华",
+      "destination": "/posts/叔本华",
+      "permanent": true
+    },
+    {
+      "source": "/philosophy/叔本华/",
+      "destination": "/posts/叔本华",
+      "permanent": true
+    },
+    {
+      "source": "/philosophy/叔本华与东方哲学",
+      "destination": "/posts/叔本华与东方哲学",
+      "permanent": true
+    },
+    {
+      "source": "/philosophy/叔本华与东方哲学/",
+      "destination": "/posts/叔本华与东方哲学",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/01-老龄化不是问题，是重新理解消费",
+      "destination": "/posts/01-老龄化不是问题-是重新理解消费",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/01-老龄化不是问题，是重新理解消费/",
+      "destination": "/posts/01-老龄化不是问题-是重新理解消费",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/02-退休不是终点，是一场重新设计人生的开题",
+      "destination": "/posts/02-退休不是终点-是一场重新设计人生的开题",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/02-退休不是终点，是一场重新设计人生的开题/",
+      "destination": "/posts/02-退休不是终点-是一场重新设计人生的开题",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/02-退休是工业时代的遗产，我们正在发明新的生命阶段",
+      "destination": "/posts/02-退休是工业时代的遗产-我们正在发明新的生命阶段",
+      "permanent": true
+    },
+    {
+      "source": "/thinking/银发经济/02-退休是工业时代的遗产，我们正在发明新的生命阶段/",
+      "destination": "/posts/02-退休是工业时代的遗产-我们正在发明新的生命阶段",
       "permanent": true
     },
     {

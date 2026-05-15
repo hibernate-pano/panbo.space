@@ -19,7 +19,7 @@ const { post } = Astro.props
 const { Content, headings } = await render(post)
 const readingTime = getReadingTime(post.body ?? '')
 const ogImage = `/og/${post.data.slug}.svg`
-const sectionCount = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3).length
+const sectionCount = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3 && heading.text !== '目录').length
 const hasToc = sectionCount >= 3
 const tags = getPostTags(post)
 const metaTags = [post.data.topic, ...tags].filter((value): value is string => Boolean(value))
@@ -36,97 +36,107 @@ const metaTags = [post.data.topic, ...tags].filter((value): value is string => B
   updatedAt={post.data.updatedAt}
   tags={metaTags}
 >
-  <section class="post-shell">
-    <article class="post-article">
-      <header class="post-hero">
-        <div class="post-hero__meta">
-          <span>{trackLabels[post.data.track]}</span>
-          {post.data.topic && (
-            <a href={`/topics/${toTopicSlug(post.data.topic)}`}>{post.data.topic}</a>
-          )}
-          {post.data.series && <span>{post.data.series}</span>}
+  <div class="post-page">
+    <header class="post-header">
+      <div class="post-header__meta">
+        <span>{trackLabels[post.data.track]}</span>
+        {post.data.topic && (
+          <a href={`/topics/${toTopicSlug(post.data.topic)}`}>{post.data.topic}</a>
+        )}
+        <span>{formatDate(post.data.publishedAt)}</span>
+      </div>
+
+      <h1 class="post-header__title">{post.data.title}</h1>
+      <p class="post-header__summary">{post.data.summary}</p>
+
+      <div class="post-header__facts">
+        <div class="post-header__fact">
+          <span class="post-header__fact-label">Published</span>
+          <span class="post-header__fact-value">{formatDate(post.data.publishedAt)}</span>
         </div>
-
-        <h1>{post.data.title}</h1>
-        <p class="post-hero__summary">{post.data.summary}</p>
-
-        <div class="post-hero__facts">
-          <span>发布于 {formatDate(post.data.publishedAt)}</span>
-          {post.data.updatedAt && <span>更新于 {formatDate(post.data.updatedAt)}</span>}
-          <span>{readingTime} 分钟</span>
-        </div>
-      </header>
-
-      <div class:list={['post-content-grid', hasToc && 'post-content-grid--with-toc']}>
-        <div class="post-content-main">
-          <div class="prose">
-            <Content />
-          </div>
-
-          {(post.data.topic || post.data.series || tags.length > 0) && (
-            <footer class="post-taxonomy">
-              <p class="toc__eyebrow">Cross references</p>
-              <div class="post-taxonomy__chips">
-                {post.data.topic && (
-                  <a href={`/topics/${toTopicSlug(post.data.topic)}`} class="chip">
-                    {post.data.topic}
-                  </a>
-                )}
-                {post.data.series && <span class="chip">{post.data.series}</span>}
-                {tags.map((tag) => (
-                  <a href={toTagPath(tag)} class="chip chip--tag">
-                    {formatTagLabel(tag)}
-                  </a>
-                ))}
-              </div>
-            </footer>
-          )}
-        </div>
-        {hasToc && (
-          <div class="post-content-rail">
-            <aside class="reading-brief">
-              <p class="toc__eyebrow">Reading brief</p>
-              <dl class="reading-brief__facts">
-                <div>
-                  <dt>Track</dt>
-                  <dd>{trackLabels[post.data.track]}</dd>
-                </div>
-                <div>
-                  <dt>Sections</dt>
-                  <dd>{sectionCount}</dd>
-                </div>
-                <div>
-                  <dt>Read</dt>
-                  <dd>{readingTime} min</dd>
-                </div>
-                <div>
-                  <dt>Updated</dt>
-                  <dd>{formatDate(post.data.updatedAt ?? post.data.publishedAt)}</dd>
-                </div>
-              </dl>
-
-              {post.data.topic && (
-                <a class="reading-brief__link" href={`/topics/${toTopicSlug(post.data.topic)}`}>
-                  查看 {post.data.topic} 主题
-                </a>
-              )}
-
-              {tags.length > 0 && (
-                <div class="reading-brief__tags">
-                  {tags.slice(0, 4).map((tag) => (
-                    <a href={toTagPath(tag)} class="chip chip--tag">
-                      {formatTagLabel(tag)}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </aside>
-            <TableOfContents headings={headings} />
+        {post.data.updatedAt && (
+          <div class="post-header__fact">
+            <span class="post-header__fact-label">Updated</span>
+            <span class="post-header__fact-value">{formatDate(post.data.updatedAt)}</span>
           </div>
         )}
+        <div class="post-header__fact">
+          <span class="post-header__fact-label">Read time</span>
+          <span class="post-header__fact-value">{readingTime} min</span>
+        </div>
       </div>
-    </article>
-  </section>
+    </header>
+
+    <div class:list={['post-layout', hasToc ? 'post-layout--with-toc' : '']}>
+      <article class="post-content">
+        <div class="prose">
+          <Content />
+        </div>
+
+        {(post.data.topic || post.data.series || tags.length > 0) && (
+          <footer class="post-taxonomy">
+            <div class="post-taxonomy__chips">
+              {post.data.topic && (
+                <a href={`/topics/${toTopicSlug(post.data.topic)}`} class="tag">
+                  {post.data.topic}
+                </a>
+              )}
+              {post.data.series && <span class="tag">{post.data.series}</span>}
+              {tags.map((tag) => (
+                <a href={toTagPath(tag)} class="tag">
+                  {formatTagLabel(tag)}
+                </a>
+              ))}
+            </div>
+          </footer>
+        )}
+      </article>
+
+      {hasToc && (
+        <aside class="post-sidebar">
+          <div class="sidebar-section">
+            <p class="sidebar-section__title">On this page</p>
+            <TableOfContents headings={headings} />
+          </div>
+        </aside>
+      )}
+    </div>
+  </div>
 
   <MermaidRuntime />
 </BaseLayout>
+
+<style>
+  .post-layout--with-toc {
+    display: grid;
+    grid-template-columns: minmax(0, var(--reading-width)) 240px;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  .post-taxonomy {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .post-taxonomy__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  @media (max-width: 1024px) {
+    .post-layout--with-toc {
+      grid-template-columns: 1fr;
+    }
+
+    .post-sidebar {
+      position: static;
+      display: block;
+      border-top: 1px solid var(--color-border);
+      padding-top: var(--space-5);
+      max-height: none;
+    }
+  }
+</style>

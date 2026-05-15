@@ -2,6 +2,7 @@
 import type { PostEntry, TrackKey } from '../lib/posts'
 import { formatDate, getReadingTime, toPostPath, trackLabels } from '../lib/posts'
 import { formatTagLabel, getPostTags, getVisiblePostTags, toTagPath } from '../lib/post-tags'
+import { toTopicSlug } from '../lib/slug'
 
 type Props = {
   posts: PostEntry[]
@@ -15,134 +16,131 @@ type Props = {
   }>
 }
 
-const { posts, topics, tags, years, popularTags } = Astro.props as Props
-const trackOptions: TrackKey[] = ['engineering', 'thinking', 'philosophy', 'work']
+const { posts, topics, years } = Astro.props as Props
+const trackOptions = (['engineering', 'thinking', 'philosophy', 'work', 'games'] as TrackKey[]).filter((track) =>
+  posts.some((post) => post.data.track === track),
+)
+const postsByYear = years
+  .map((year) => ({
+    year,
+    posts: posts.filter((post) => String(post.data.publishedAt.getFullYear()) === year),
+  }))
+  .filter((group) => group.posts.length > 0)
 ---
 
-<section class="archive-shell" data-archive-shell>
-  <header class="page-header">
-    <p class="page-header__eyebrow">Archive register</p>
-    <h1>完整归档</h1>
-    <p>
-      先按主题与时间缩小范围，再进入文章。这个页面承担的是“浏览整个知识系统”，而不是把信息堆成一整面侧边栏。
-    </p>
+<section class="archive-page" data-archive-shell>
+  <header class="archive-header">
+    <h1 class="archive-header__title">Archive</h1>
+    <p class="archive-header__summary">Browse the complete archive by track, topic, and year.</p>
   </header>
 
-  <div class="archive-shell__controls">
-    <div class="archive-toolbar">
-      <label>
-        <span>Track</span>
-        <select data-filter="track">
-          <option value="">全部栏目</option>
-          {trackOptions.map((track) => (
-            <option value={track}>{trackLabels[track]}</option>
-          ))}
-        </select>
-      </label>
-
-      <label>
-        <span>Topic</span>
-        <select data-filter="topic">
-          <option value="">全部主题</option>
-          {topics.map((topic) => (
-            <option value={topic}>{topic}</option>
-          ))}
-        </select>
-      </label>
-
-      <label>
-        <span>Year</span>
-        <select data-filter="year">
-          <option value="">全部年份</option>
-          {years.map((year) => (
-            <option value={year}>{year}</option>
-          ))}
-        </select>
-      </label>
-
-      <label>
-        <span>Tag</span>
-        <select data-filter="tag">
-          <option value="">全部标签</option>
-          {tags.map((tag) => (
-            <option value={tag}>{formatTagLabel(tag)}</option>
-          ))}
-        </select>
-      </label>
-
-      <div class="archive-toolbar__actions">
-        <button type="button" class="archive-toolbar__reset" data-archive-reset>重置</button>
-        <a class="archive-toolbar__search" href="/search">全文检索</a>
-      </div>
-    </div>
-
-    <div class="archive-track-pills" aria-label="Track shortcuts">
-      <button type="button" class="archive-track-pill is-active" data-track-shortcut="">
-        全部
+  <!-- Track Filter Pills -->
+  <div class="archive-filters">
+    <button type="button" class="filter-pill is-active" data-track-shortcut="">
+      All
+    </button>
+    {trackOptions.map((track) => (
+      <button type="button" class="filter-pill" data-track-shortcut={track}>
+        {trackLabels[track]}
       </button>
-      {trackOptions.map((track) => (
-        <button type="button" class="archive-track-pill" data-track-shortcut={track}>
-          {trackLabels[track]}
+    ))}
+  </div>
+
+  <!-- Topic Filter Pills -->
+  {topics.length > 0 && (
+    <div class="archive-filters">
+      {topics.slice(0, 8).map((topic) => (
+        <button type="button" class="filter-pill" data-topic-shortcut={topic}>
+          {topic}
         </button>
       ))}
     </div>
+  )}
 
-    {popularTags.length > 0 && (
-      <div class="archive-tag-pills" aria-label="Tag shortcuts">
-        {popularTags.map((tag) => (
-          <button type="button" class="archive-track-pill archive-tag-pill" data-tag-shortcut={tag.tag}>
-            {formatTagLabel(tag.tag)}
-          </button>
-        ))}
-      </div>
-    )}
+  <!-- Year Filter Pills -->
+  {years.length > 1 && (
+    <div class="archive-filters archive-filters--years">
+      {years.map((year) => (
+        <button type="button" class="filter-pill" data-year-shortcut={year}>
+          {year}
+        </button>
+      ))}
+    </div>
+  )}
 
-    <div class="archive-active" data-archive-active hidden></div>
-  </div>
+  <!-- Results -->
+  <div class="archive-results">
+    <p class="archive-count" data-archive-count aria-live="polite">{posts.length} notes</p>
+    <p class="archive-empty" data-archive-empty hidden>No notes match the current filters.</p>
 
-  <p class="archive-count" data-archive-count aria-live="polite">{posts.length} 篇文章</p>
-  <p class="archive-empty" data-archive-empty hidden>没有符合当前筛选条件的文章。</p>
+    <div data-archive-list>
+      {postsByYear.map((group) => (
+        <section class="archive-year" data-archive-year>
+          <header class="archive-year__head">
+            <span class="mono">{group.year}</span>
+          </header>
 
-  <div class="archive-grid" data-archive-list>
-    {posts.map((post) => (
-      <article
-        class="archive-item"
-        data-track={post.data.track}
-        data-topic={post.data.topic ?? ''}
-        data-year={String(post.data.publishedAt.getFullYear())}
-        data-tags={getPostTags(post).join('||')}
-      >
-        <a class="archive-item__link" href={toPostPath(post)}>
-          <div class="archive-item__primary">
-            <div class="archive-item__meta">
-              <span>{trackLabels[post.data.track]}</span>
-              {post.data.topic && <span>{post.data.topic}</span>}
-              <span>{formatDate(post.data.publishedAt)}</span>
-              <span>{getReadingTime(post.body ?? '')} 分钟</span>
-            </div>
-            <h2>{post.data.title}</h2>
-            <p>{post.data.summary}</p>
-          </div>
-
-          <div class="archive-item__side">
-            <div class="archive-item__chips">
-              {post.data.topic && (
-                <span class="chip">{post.data.topic}</span>
-              )}
-              {post.data.series && <span class="chip">{post.data.series}</span>}
-              {getVisiblePostTags(post, 2).map((tag) => (
-                <a class="chip chip--tag" href={toTagPath(tag)}>
-                  {formatTagLabel(tag)}
+          <div class="archive-year__list">
+            {group.posts.map((post) => (
+              <article
+                class="post-card"
+                data-track={post.data.track}
+                data-topic={post.data.topic ?? ''}
+                data-year={String(post.data.publishedAt.getFullYear())}
+                data-tags={getPostTags(post).join('||')}
+              >
+                <a class="post-card__link" href={toPostPath(post)}>
+                  <div class="post-card__meta">
+                    <span>{trackLabels[post.data.track]}</span>
+                    {post.data.topic && <span>{post.data.topic}</span>}
+                    <span>{formatDate(post.data.publishedAt)}</span>
+                    <span>{getReadingTime(post.body ?? '')} min</span>
+                  </div>
+                  <h3 class="post-card__title">{post.data.title}</h3>
+                  <p class="post-card__summary">{post.data.summary}</p>
                 </a>
-              ))}
-            </div>
-            <span class="archive-item__cta">Open brief</span>
+
+                <div class="post-card__footer">
+                  <div class="post-card__tags">
+                    {post.data.topic && (
+                      <a href={`/topics/${toTopicSlug(post.data.topic)}`} class="tag">
+                        {post.data.topic}
+                      </a>
+                    )}
+                    {getVisiblePostTags(post, 2).map((tag) => (
+                      <a href={toTagPath(tag)} class="tag">
+                        {formatTagLabel(tag)}
+                      </a>
+                    ))}
+                  </div>
+                  <a class="post-card__readmore" href={toPostPath(post)}>
+                    Read →
+                  </a>
+                </div>
+              </article>
+            ))}
           </div>
-        </a>
-      </article>
-    ))}
+        </section>
+      ))}
+    </div>
   </div>
 </section>
+
+<style>
+  .archive-year {
+    margin-bottom: var(--space-7);
+  }
+
+  .archive-year__head {
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
+  }
+
+  .archive-year__list {
+    display: flex;
+    flex-direction: column;
+  }
+</style>
 
 <script>
   const shell = document.querySelector<HTMLElement>('[data-archive-shell]')
@@ -150,144 +148,94 @@ const trackOptions: TrackKey[] = ['engineering', 'thinking', 'philosophy', 'work
   if (shell && shell.dataset.ready !== 'true') {
     shell.dataset.ready = 'true'
 
-    const filters = {
-      track: shell.querySelector<HTMLSelectElement>('[data-filter="track"]'),
-      topic: shell.querySelector<HTMLSelectElement>('[data-filter="topic"]'),
-      year: shell.querySelector<HTMLSelectElement>('[data-filter="year"]'),
-      tag: shell.querySelector<HTMLSelectElement>('[data-filter="tag"]'),
-    }
-    const items = [...shell.querySelectorAll<HTMLElement>('.archive-item')]
+    const items = [...shell.querySelectorAll<HTMLElement>('.post-card')]
     const count = shell.querySelector<HTMLElement>('[data-archive-count]')
     const empty = shell.querySelector<HTMLElement>('[data-archive-empty]')
-    const reset = shell.querySelector<HTMLButtonElement>('[data-archive-reset]')
-    const active = shell.querySelector<HTMLElement>('[data-archive-active]')
+    const yearSections = [...shell.querySelectorAll<HTMLElement>('[data-archive-year]')]
     const trackShortcuts = [...shell.querySelectorAll<HTMLButtonElement>('[data-track-shortcut]')]
-    const tagShortcuts = [...shell.querySelectorAll<HTMLButtonElement>('[data-tag-shortcut]')]
+    const topicShortcuts = [...shell.querySelectorAll<HTMLButtonElement>('[data-topic-shortcut]')]
+    const yearShortcuts = [...shell.querySelectorAll<HTMLButtonElement>('[data-year-shortcut]')]
+    const params = new URLSearchParams(window.location.search)
 
-    const syncFiltersFromUrl = () => {
-      const params = new URLSearchParams(window.location.search)
-      for (const [key, input] of Object.entries(filters)) {
-        if (!input) continue
-        input.value = params.get(key) ?? ''
-      }
-    }
-
-    const syncTrackShortcuts = () => {
-      for (const shortcut of trackShortcuts) {
-        const value = shortcut.dataset.trackShortcut ?? ''
-        const selected = (filters.track?.value ?? '') === value
-        shortcut.classList.toggle('is-active', selected)
-        shortcut.setAttribute('aria-pressed', String(selected))
-      }
-    }
-
-    const syncTagShortcuts = () => {
-      for (const shortcut of tagShortcuts) {
-        const value = shortcut.dataset.tagShortcut ?? ''
-        const selected = (filters.tag?.value ?? '') === value
-        shortcut.classList.toggle('is-active', selected)
-        shortcut.setAttribute('aria-pressed', String(selected))
-      }
-    }
-
-    const renderActiveFilters = () => {
-      if (!active) return
-
-      const activeEntries = Object.entries(filters).filter(([, input]) => Boolean(input?.value))
-
-      if (!activeEntries.length) {
-        active.hidden = true
-        active.innerHTML = ''
-        return
-      }
-
-      active.hidden = false
-      active.innerHTML = activeEntries
-        .map(([key, input]) => {
-          const label = input?.selectedOptions?.[0]?.textContent?.trim() ?? input?.value ?? key
-          return `<button type="button" class="archive-active__chip" data-clear-filter="${key}">${label}</button>`
-        })
-        .join('')
+    let activeFilters = {
+      track: params.get('track') ?? '',
+      topic: params.get('topic') ?? '',
+      year: params.get('year') ?? '',
     }
 
     const applyFilters = () => {
-      const nextParams = new URLSearchParams()
       let visible = 0
 
       for (const item of items) {
         const matches =
-          (!filters.track?.value || item.dataset.track === filters.track.value) &&
-          (!filters.topic?.value || item.dataset.topic === filters.topic.value) &&
-          (!filters.year?.value || item.dataset.year === filters.year.value) &&
-          (!filters.tag?.value || (item.dataset.tags ?? '').split('||').includes(filters.tag.value))
+          (!activeFilters.track || item.dataset.track === activeFilters.track) &&
+          (!activeFilters.topic || item.dataset.topic === activeFilters.topic) &&
+          (!activeFilters.year || item.dataset.year === activeFilters.year)
 
-        item.hidden = !matches
+        item.style.display = matches ? '' : 'none'
         if (matches) visible += 1
       }
 
-      for (const [key, input] of Object.entries(filters)) {
-        if (input?.value) {
-          nextParams.set(key, input.value)
-        }
-      }
-
-      const nextSearch = nextParams.toString()
-      history.replaceState({}, '', nextSearch ? `?${nextSearch}` : window.location.pathname)
-
       if (count) {
-        count.textContent = `${visible} 篇文章`
+        count.textContent = `${visible} notes`
       }
 
       if (empty) {
         empty.hidden = visible > 0
       }
 
-      syncTrackShortcuts()
-      syncTagShortcuts()
-      renderActiveFilters()
-    }
-
-    syncFiltersFromUrl()
-    applyFilters()
-
-    for (const input of Object.values(filters)) {
-      input?.addEventListener('change', applyFilters)
-    }
-
-    reset?.addEventListener('click', () => {
-      for (const input of Object.values(filters)) {
-        if (input) input.value = ''
+      for (const section of yearSections) {
+        const visibleItems = [...section.querySelectorAll<HTMLElement>('.post-card')].some((item) => item.style.display !== 'none')
+        section.style.display = visibleItems ? '' : 'none'
       }
-      applyFilters()
-    })
+
+      // Update shortcut states
+      for (const shortcut of trackShortcuts) {
+        const value = shortcut.dataset.trackShortcut ?? ''
+        shortcut.classList.toggle('is-active', activeFilters.track === value)
+      }
+
+      for (const shortcut of topicShortcuts) {
+        const value = shortcut.dataset.topicShortcut ?? ''
+        shortcut.classList.toggle('is-active', activeFilters.topic === value)
+      }
+
+      for (const shortcut of yearShortcuts) {
+        const value = shortcut.dataset.yearShortcut ?? ''
+        shortcut.classList.toggle('is-active', activeFilters.year === value)
+      }
+
+      const nextParams = new URLSearchParams()
+      if (activeFilters.track) nextParams.set('track', activeFilters.track)
+      if (activeFilters.topic) nextParams.set('topic', activeFilters.topic)
+      if (activeFilters.year) nextParams.set('year', activeFilters.year)
+      const nextUrl = nextParams.toString() ? `${window.location.pathname}?${nextParams.toString()}` : window.location.pathname
+      window.history.replaceState({}, '', nextUrl)
+    }
 
     for (const shortcut of trackShortcuts) {
       shortcut.addEventListener('click', () => {
-        if (filters.track) {
-          filters.track.value = shortcut.dataset.trackShortcut ?? ''
-        }
+        activeFilters.track = shortcut.dataset.trackShortcut ?? ''
         applyFilters()
       })
     }
 
-    for (const shortcut of tagShortcuts) {
+    for (const shortcut of topicShortcuts) {
       shortcut.addEventListener('click', () => {
-        if (filters.tag) {
-          filters.tag.value = shortcut.dataset.tagShortcut ?? ''
-        }
+        const value = shortcut.dataset.topicShortcut ?? ''
+        activeFilters.topic = activeFilters.topic === value ? '' : value
         applyFilters()
       })
     }
 
-    active?.addEventListener('click', (event) => {
-      const button = event.target instanceof HTMLElement ? event.target.closest<HTMLButtonElement>('[data-clear-filter]') : null
-      if (!button) return
-      const key = button.dataset.clearFilter as keyof typeof filters
-      const input = filters[key]
-      if (input) {
-        input.value = ''
+    for (const shortcut of yearShortcuts) {
+      shortcut.addEventListener('click', () => {
+        const value = shortcut.dataset.yearShortcut ?? ''
+        activeFilters.year = activeFilters.year === value ? '' : value
         applyFilters()
-      }
-    })
+      })
+    }
+
+    applyFilters()
   }
 </script>

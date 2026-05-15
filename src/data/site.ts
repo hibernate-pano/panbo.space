@@ -16,7 +16,7 @@ export const siteConfig = {
     eyebrow: 'Independent Research Archive',
     title: '把工程经验写成档案，把长期思考写成文字。',
     summary:
-      '不追热点，不做资讯流。这里是一套持续演化的个人知识系统——关于银行系统、分布式架构、技术判断，以及技术之外的思考。',
+      '不追热点，不做资讯流。这里记录工程判断、工作现场，以及技术之外仍值得反复回看的问题。',
     primaryCta: {
       label: '浏览全部',
       href: '/archive',

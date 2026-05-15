@@ -1,25 +1,23 @@
-<section class="search-shell" data-search-shell>
-  <header class="page-header">
-    <p class="page-header__eyebrow">Research search</p>
-    <h1>全文检索</h1>
-    <p>索引只在真正搜索时加载。适合按概念、问题和关键词直接切进这套研究档案。</p>
+<section class="search-page" data-search-shell>
+  <header class="search-header">
+    <h1 class="search-header__title">Search</h1>
+    <p class="search-header__summary">
+      Search across the archive by title, topic, tag, or phrase.
+    </p>
   </header>
 
-  <div class="search-panel">
-    <label class="search-panel__input-wrap">
-      <span class="sr-only">搜索文章</span>
-      <input
-        class="search-panel__input"
-        type="search"
-        placeholder="试试：幂等 / 叔本华 / React Router"
-        autocomplete="off"
-        data-search-input
-      />
-    </label>
-
-    <p class="search-panel__status" data-search-status aria-live="polite">输入至少 1 个关键词开始搜索。</p>
-    <p class="search-panel__hint">按 <kbd>Enter</kbd> 打开第一条结果，按 <kbd>⌘K</kbd> / <kbd>Ctrl+K</kbd> 回到搜索框。</p>
+  <div class="search-form">
+    <input
+      class="search-input"
+      type="search"
+      placeholder="Search notes..."
+      autocomplete="off"
+      data-search-input
+    />
+    <p class="search-hint">Press <kbd>⌘K</kbd> anytime to focus</p>
   </div>
+
+  <p class="search-status" data-search-status aria-live="polite">Enter at least 1 keyword to search.</p>
 
   <div class="search-results" data-search-results></div>
 </section>
@@ -60,7 +58,7 @@
         .catch((error) => {
           pagefindPromise = undefined
           if (!silent) {
-            status.textContent = '搜索索引会在执行 pnpm build 后生成。'
+            status.textContent = 'Search index will be available after build.'
           }
           throw error
         })
@@ -103,20 +101,20 @@
       history.replaceState({}, '', nextParams.toString() ? `?${nextParams.toString()}` : window.location.pathname)
 
       if (!query) {
-        renderEmpty('输入至少 1 个关键词开始搜索。')
+        renderEmpty('Enter at least 1 keyword to search.')
         return
       }
 
-      status.textContent = pagefindModule ? '正在搜索…' : '正在加载搜索索引…'
+      status.textContent = pagefindModule ? 'Searching...' : 'Loading search index...'
       const api = await loadPagefind()
       if (!api || currentToken !== searchToken) return
 
-      status.textContent = '正在整理结果…'
+      status.textContent = 'Processing results...'
       const search = await api.search(query)
       if (currentToken !== searchToken) return
 
       if (!search.results.length) {
-        renderEmpty('没有找到匹配结果。')
+        renderEmpty('No results found.')
         return
       }
 
@@ -125,16 +123,18 @@
 
       status.textContent =
         search.results.length > data.length
-          ? `找到 ${search.results.length} 条结果，当前展示前 ${data.length} 条。`
-          : `找到 ${data.length} 条结果。`
+          ? `Found ${search.results.length} results, showing first ${data.length}.`
+          : `Found ${data.length} results.`
       results.innerHTML = data
         .map(
           (item) => `
             <article class="search-result">
               <a href="${item.url}" class="search-result__link">
-                <h2>${escapeHtml(item.meta?.title || item.url)}</h2>
-                <p>${item.excerpt}</p>
-                <span>${escapeHtml(item.url)}</span>
+                <h2 class="search-result__title">${escapeHtml(item.meta?.title || item.url)}</h2>
+                <p class="search-result__excerpt">${item.excerpt}</p>
+                <div class="search-result__meta">
+                  <span>${escapeHtml(item.url)}</span>
+                </div>
               </a>
             </article>
           `,
@@ -147,7 +147,7 @@
       debounceId = window.setTimeout(() => {
         runSearch().catch((error) => {
           console.error('Search failed.', error)
-          status.textContent = '搜索失败，请稍后重试。'
+          status.textContent = 'Search failed. Please try again.'
         })
       }, 120)
     }
@@ -182,3 +182,142 @@
     }
   }
 </script>
+
+<style>
+  .search-page {
+    padding: var(--space-8) 0 var(--space-9);
+    max-width: var(--reading-width);
+  }
+
+  .search-header {
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .search-header__title {
+    font-size: clamp(2.25rem, 4vw, 3rem);
+    font-weight: 600;
+    margin-bottom: var(--space-4);
+  }
+
+  .search-header__summary {
+    max-width: 54ch;
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  .search-form {
+    max-width: 640px;
+    margin-bottom: var(--space-5);
+  }
+
+  .search-input {
+    width: 100%;
+    height: 58px;
+    padding: 0 var(--space-5);
+    font-family: var(--font-body);
+    font-size: 1.08rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-elevated) 72%, transparent);
+    color: var(--color-text);
+    transition: all var(--duration-fast);
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-subtle);
+  }
+
+  .search-input::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  .search-hint {
+    margin-top: var(--space-3);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .search-hint kbd {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    padding: 2px 6px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--color-elevated) 78%, transparent);
+  }
+
+  .search-status {
+    margin: var(--space-5) 0;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .search-results {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search-result {
+    padding: var(--space-5) 0;
+    border-bottom: 1px solid var(--color-border);
+    transition: border-color var(--duration-fast), transform var(--duration-fast);
+  }
+
+  .search-result:hover {
+    border-color: var(--color-border-hover);
+    transform: translateX(4px);
+  }
+
+  .search-result:last-child {
+    border-bottom: none;
+  }
+
+  .search-result__link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    text-decoration: none;
+  }
+
+  .search-result__title {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-text);
+    transition: color var(--duration-fast);
+  }
+
+  .search-result__link:hover .search-result__title {
+    color: var(--color-accent);
+  }
+
+  .search-result__excerpt {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+  }
+
+  .search-result__excerpt mark {
+    color: var(--color-text);
+    background: var(--color-accent-subtle);
+    border-radius: 3px;
+    padding: 0 0.18em;
+  }
+
+  .search-result__meta {
+    display: flex;
+    gap: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-top: var(--space-2);
+  }
+</style>

@@ -1,17 +1,16 @@
 ---
-import '@fontsource/ibm-plex-mono/400.css'
-import '@fontsource/ibm-plex-mono/500.css'
-import '@fontsource/noto-sans-sc/400.css'
-import '@fontsource/noto-sans-sc/500.css'
-import '@fontsource/noto-sans-sc/700.css'
+import '@fontsource/source-serif-4/400.css'
+import '@fontsource/source-serif-4/600.css'
 import '@fontsource/noto-serif-sc/400.css'
 import '@fontsource/noto-serif-sc/600.css'
 import '@fontsource/source-sans-3/400.css'
 import '@fontsource/source-sans-3/500.css'
 import '@fontsource/source-sans-3/600.css'
-import '@fontsource/source-serif-4/400.css'
-import '@fontsource/source-serif-4/600.css'
-import '@fontsource/source-serif-4/700.css'
+import '@fontsource/noto-sans-sc/400.css'
+import '@fontsource/noto-sans-sc/500.css'
+import '@fontsource/noto-sans-sc/600.css'
+import '@fontsource/ibm-plex-mono/400.css'
+import '@fontsource/ibm-plex-mono/500.css'
 import '../styles/global.css'
 import { siteConfig } from '../data/site'
 import SiteFooter from '../components/SiteFooter.astro'
@@ -27,7 +26,6 @@ type Props = {
   publishedAt?: Date
   updatedAt?: Date
   tags?: string[]
-  /** Extra class on `<main>` for page-scoped styles (e.g. `page-home`, `page-browse`). */
   mainClass?: string
 }
 
@@ -58,11 +56,9 @@ const themeBootstrapScript = `
         ? saved
         : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       root.dataset.theme = theme;
-      root.style.colorScheme = theme;
     } catch {
       const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       root.dataset.theme = theme;
-      root.style.colorScheme = theme;
     }
   })();
 `
@@ -73,6 +69,7 @@ const runtimeScript = `
     const themeStorageKey = 'panbo-theme';
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
+    // Reading progress
     const syncProgress = () => {
       const progress = document.querySelector('[data-reading-progress]');
       if (!progress) return;
@@ -81,12 +78,14 @@ const runtimeScript = `
       progress.style.transform = 'scaleX(' + ratio + ')';
     };
 
+    // Header scroll state
     const syncHeaderState = () => {
       const header = document.querySelector('.site-header');
       if (!header) return;
-      header.classList.toggle('site-header--scrolled', window.scrollY > 12);
+      header.classList.toggle('site-header--scrolled', window.scrollY > 8);
     };
 
+    // Active nav link
     const syncActiveNav = () => {
       const pathname = window.location.pathname;
       document.querySelectorAll('[data-nav-link]').forEach((link) => {
@@ -97,15 +96,11 @@ const runtimeScript = `
           .filter(Boolean);
         const active = pathname === href || matches.some((match) => pathname === match || (match !== '/' && pathname.startsWith(match)));
         link.classList.toggle('is-active', active);
-
-        if (active) {
-          link.setAttribute('aria-current', 'page');
-        } else {
-          link.removeAttribute('aria-current');
-        }
+        link.setAttribute('aria-current', active ? 'page' : 'false');
       });
     };
 
+    // Table of contents
     const setupToc = () => {
       tocObserver?.disconnect();
 
@@ -117,7 +112,7 @@ const runtimeScript = `
       if (!links.length || !headings.length) return;
 
       const updateActiveHeading = () => {
-        const currentHeading = [...headings].reverse().find((heading) => heading.getBoundingClientRect().top <= 160) || headings[0];
+        const currentHeading = [...headings].reverse().find((heading) => heading.getBoundingClientRect().top <= 120) || headings[0];
 
         links.forEach((link) => {
           link.classList.toggle('is-active', link.getAttribute('data-toc-link') === currentHeading.id);
@@ -125,7 +120,7 @@ const runtimeScript = `
       };
 
       tocObserver = new IntersectionObserver(updateActiveHeading, {
-        rootMargin: '-96px 0px -60% 0px',
+        rootMargin: '-80px 0px -70% 0px',
         threshold: [0, 1],
       });
 
@@ -133,6 +128,7 @@ const runtimeScript = `
       updateActiveHeading();
     };
 
+    // Search focus
     const focusSearchInput = () => {
       document.querySelector('[data-search-input]')?.focus();
     };
@@ -158,6 +154,7 @@ const runtimeScript = `
       window.location.href = '/search';
     };
 
+    // Theme
     const getStoredTheme = () => {
       try {
         const value = localStorage.getItem(themeStorageKey);
@@ -170,7 +167,6 @@ const runtimeScript = `
     const applyTheme = (theme, persist = false) => {
       const root = document.documentElement;
       root.dataset.theme = theme;
-      root.style.colorScheme = theme;
 
       if (persist) {
         try {
@@ -179,17 +175,12 @@ const runtimeScript = `
       }
 
       const toggle = document.querySelector('[data-theme-toggle]');
-      const label = document.querySelector('[data-theme-toggle-label]');
       if (toggle instanceof HTMLElement) {
-        toggle.setAttribute('aria-label', theme === 'dark' ? '切换到浅色主题' : '切换到暗色主题');
-        toggle.setAttribute('title', theme === 'dark' ? '切换到浅色主题' : '切换到暗色主题');
+        toggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+        toggle.innerHTML = theme === 'dark'
+          ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+          : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
       }
-      if (label) {
-        label.textContent = theme === 'dark' ? 'Dark' : 'Light';
-      }
-
-      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#0f141b' : '#da0011');
-      window.dispatchEvent(new CustomEvent('panbo:theme-change', { detail: { theme } }));
     };
 
     const setupThemeToggle = () => {
@@ -209,6 +200,26 @@ const runtimeScript = `
       applyTheme(theme);
     };
 
+    // Scroll animations
+    const setupScrollAnimations = () => {
+      const elements = document.querySelectorAll('.animate-on-scroll');
+      if (!elements.length) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      );
+
+      elements.forEach((el) => observer.observe(el));
+    };
+
     const initPage = () => {
       syncProgress();
       syncHeaderState();
@@ -216,21 +227,27 @@ const runtimeScript = `
       setupToc();
       setupThemeToggle();
       syncTheme();
+      setupScrollAnimations();
     };
 
+    // Event listeners
     window.addEventListener('scroll', () => {
       syncProgress();
       syncHeaderState();
     }, { passive: true });
+
     window.addEventListener('resize', () => {
       syncProgress();
       setupToc();
     });
+
     window.addEventListener('keydown', handleKeydown);
+
     prefersDark.addEventListener('change', () => {
       if (getStoredTheme()) return;
       syncTheme();
     });
+
     document.addEventListener('astro:page-load', initPage);
 
     initPage();
@@ -257,7 +274,7 @@ const runtimeScript = `
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
     <meta name="twitter:creator" content="@HibernatePano" />
-    <meta name="theme-color" content="#da0011" />
+    <meta name="theme-color" content="#f6f0e6" />
     <script is:inline set:html={themeBootstrapScript}></script>
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -267,14 +284,14 @@ const runtimeScript = `
     {type === 'article' &&
       tags.map((tag) => <meta property="article:tag" content={tag} />)}
   </head>
-  <body class:list={[type === 'article' && 'page-article']}>
+  <body>
     {showProgress && (
       <div class="reading-progress">
-        <div data-reading-progress></div>
+        <div class="reading-progress__bar" data-reading-progress></div>
       </div>
     )}
 
-    <a href="#main" class="skip-link">跳到正文</a>
+    <a href="#main" class="skip-link">Skip to content</a>
 
     <div class="site-shell">
       <SiteHeader />

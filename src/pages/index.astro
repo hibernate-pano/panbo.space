@@ -1,219 +1,137 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
-import PostCard from '../components/PostCard.astro'
 import { siteConfig } from '../data/site'
 import { getAllPosts, getLatestPosts, getPostsByTrack, trackLabels } from '../lib/posts'
 
 const allPosts = await getAllPosts()
 const latestPosts = await getLatestPosts(6)
 const allThinkingPosts = await getPostsByTrack('thinking')
-const allPhilosophyPosts = await getPostsByTrack('philosophy')
 const allWorkPosts = await getPostsByTrack('work')
-const thinkingPosts = allThinkingPosts.slice(0, 2)
-const philosophyPosts = allPhilosophyPosts.slice(0, 1)
-const workPosts = allWorkPosts.slice(0, 3)
-const leadPost = latestPosts[0]
-const secondaryLatest = latestPosts.slice(1, 5)
-const perspectivePosts = [...thinkingPosts, ...philosophyPosts]
-const leadPerspective = perspectivePosts[0]
-const secondaryPerspective = perspectivePosts.slice(1)
-
-const engineeringPosts = allPosts.filter((post) => post.data.track === 'engineering')
-const featuredTopics = ['架构心得', 'Java', '分布式系统']
-const topicGroups = featuredTopics
-  .map((topic) => ({
-    topic,
-    posts: engineeringPosts.filter((post) => post.data.topic === topic).slice(0, 2),
-  }))
-  .filter((group) => group.posts.length > 0)
+const allEngineeringPosts = await getPostsByTrack('engineering')
+const allGamesPosts = await getPostsByTrack('games')
 
 const stats = [
-  {
-    label: 'Archive',
-    value: allPosts.length,
-    note: '完整浏览全部文章与更新记录',
-    href: '/archive',
-  },
-  {
-    label: 'Thinking',
-    value: allThinkingPosts.length,
-    note: '技术之外的判断、学习与哲学',
-    href: '/archive?track=thinking',
-  },
-  {
-    label: 'Work Notes',
-    value: allWorkPosts.length,
-    note: '银行组织、业务线与协作现场',
-    href: '/archive?track=work',
-  },
-  {
-    label: 'Games',
-    value: allPosts.filter((p) => p.data.track === 'games').length,
-    note: '独立游戏开发与卡牌游戏设计',
-    href: '/archive?track=games',
-  },
+  { label: 'Archive', value: allPosts.length, href: '/archive' },
+  { label: 'Thinking', value: allThinkingPosts.length, href: '/archive?track=thinking' },
+  { label: 'Work', value: allWorkPosts.length, href: '/archive?track=work' },
+  { label: 'Games', value: allGamesPosts.length, href: '/archive?track=games' },
+]
+
+const tracks = [
+  { name: 'Engineering', desc: '系统、架构与工程判断', count: allEngineeringPosts.length, href: '/archive?track=engineering' },
+  { name: 'Thinking', desc: '职业判断、长期主义与个人系统', count: allThinkingPosts.length, href: '/archive?track=thinking' },
+  { name: 'Work Notes', desc: '组织约束、项目推进与真实现场', count: allWorkPosts.length, href: '/archive?track=work' },
+]
+
+const topics = [
+  { name: '架构心得', post: allEngineeringPosts[0]?.data.title, href: '/archive?track=engineering&topic=架构心得' },
+  { name: 'Java', post: allEngineeringPosts.find(p => p.data.topic === 'Java')?.data.title, href: '/archive?track=engineering&topic=Java' },
+  { name: '分布式系统', post: allEngineeringPosts.find(p => p.data.topic === '分布式系统')?.data.title, href: '/archive?track=engineering&topic=分布式系统' },
 ]
 ---
 
-<BaseLayout mainClass="page-home page-browse">
-  <!-- Hero -->
+<BaseLayout mainClass="page-home">
+  <!-- Hero Section -->
   <section class="hero">
     <div class="hero__inner">
       <p class="hero__eyebrow">{siteConfig.hero.eyebrow}</p>
-      <h1>{siteConfig.hero.title}</h1>
+      <h1 class="hero__title">{siteConfig.hero.title}</h1>
       <p class="hero__summary">{siteConfig.hero.summary}</p>
       <div class="hero__cta">
-        <a class="button button--primary" href={siteConfig.hero.primaryCta.href}>
+        <a class="btn btn--primary" href={siteConfig.hero.primaryCta.href}>
           {siteConfig.hero.primaryCta.label}
         </a>
-        <a class="button button--secondary" href={siteConfig.hero.secondaryCta.href}>
+        <a class="btn btn--ghost" href={siteConfig.hero.secondaryCta.href}>
           {siteConfig.hero.secondaryCta.label}
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Stats -->
-  <div class="coverage-ledger">
-    {stats.map((stat) => (
-      <a class="ledger-card" href={stat.href}>
-        <span>{stat.label}</span>
-        <strong>{stat.value}</strong>
-        <p>{stat.note}</p>
+  <!-- Stats Section -->
+  <section class="stats">
+    {stats.map((stat, index) => (
+      <a
+        class="stats__item"
+        href={stat.href}
+        style={`animation-delay: ${320 + index * 60}ms`}
+      >
+        <span class="stats__value">{stat.value}</span>
+        <span class="stats__label">{stat.label}</span>
       </a>
     ))}
-  </div>
+  </section>
 
-  <!-- Latest -->
-  <section class="section-block">
-    <div class="section-block__head">
-      <p>Latest</p>
-      <div>
-        <h2>最近更新</h2>
-        <span>按最近维护时间排序，优先看到仍在演化的文章。</span>
-      </div>
+  <!-- Latest Posts Section -->
+  <section class="section">
+    <div class="section__header">
+      <h2 class="section__title">Latest</h2>
+      <a class="section__link" href="/archive">View all →</a>
     </div>
-
-    <div class="feature-cluster">
-      {leadPost && (
-        <article class="feature-lead">
-          <a class="feature-lead__link" href={`/posts/${leadPost.data.slug}`}>
-            <p class="feature-lead__eyebrow">Featured</p>
-            <h3>{leadPost.data.title}</h3>
-            <p>{leadPost.data.summary}</p>
-            <div class="feature-lead__meta">
-              <span>{trackLabels[leadPost.data.track]}</span>
-              {leadPost.data.topic && <span>{leadPost.data.topic}</span>}
+    <div class="post-list">
+      {latestPosts.map((post, index) => (
+        <a
+          class="post-item animate-on-scroll"
+          href={`/posts/${post.data.slug}`}
+          style={`animation-delay: ${index * 60}ms`}
+        >
+          <span class="post-item__date">
+            {post.data.publishedAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+          </span>
+          <div class="post-item__content">
+            <span class="post-item__track">{trackLabels[post.data.track]}</span>
+            <span class="post-item__title">{post.data.title}</span>
+            <p class="post-item__summary">{post.data.summary}</p>
+            <div class="post-item__meta">
+              {post.data.topic && <span>{post.data.topic}</span>}
+              <span>{Math.ceil((post.body ?? '').length / 1500)} min read</span>
             </div>
-          </a>
-        </article>
-      )}
-
-      <div class="feature-stack">
-        {secondaryLatest.map((post) => (
-          <a class="feature-stack__item" href={`/posts/${post.data.slug}`}>
-            <div>
-              <span>{trackLabels[post.data.track]}</span>
-              <strong>{post.data.title}</strong>
-            </div>
-            <p>{post.data.summary}</p>
-          </a>
-        ))}
-      </div>
+          </div>
+        </a>
+      ))}
     </div>
   </section>
 
-  <!-- Topics -->
-  {topicGroups.length > 0 && (
-    <section class="section-block">
-      <div class="section-block__head">
-        <p>Coverage</p>
-        <div>
-          <h2>技术主线</h2>
-          <span>把最稳定的几个工程方向抽出来，像业务条线一样单独组织入口。</span>
-        </div>
-      </div>
-
-      <div class="topic-grid">
-        {topicGroups.map((group) => (
-          <article class="topic-card">
-            <div class="topic-card__head">
-              <span>{trackLabels.engineering}</span>
-              <h3>{group.topic}</h3>
-              <p>从该主题中抽出最近的 2 篇文章，作为进入这条主线的起点。</p>
-            </div>
-
-            <div class="topic-card__list">
-              {group.posts.map((post) => (
-                <a href={`/posts/${post.data.slug}`}>
-                  <strong>{post.data.title}</strong>
-                  <span>{post.data.summary}</span>
-                </a>
-              ))}
-            </div>
-
-            <a class="topic-card__link" href={`/archive?track=engineering&topic=${encodeURIComponent(group.topic)}`}>
-              浏览 {group.topic}
-            </a>
-          </article>
-        ))}
-      </div>
-    </section>
-  )}
-
-  <!-- Perspective -->
-  <section class="section-block">
-    <div class="section-block__head">
-      <p>Perspective</p>
-      <div>
-        <h2>技术之外</h2>
-        <span>不把非技术写作当附录，而是让它与工程判断共享同样严肃的版面。</span>
-      </div>
+  <!-- Tracks Section -->
+  <section class="section section--bordered">
+    <div class="section__header">
+      <h2 class="section__title">Tracks</h2>
+      <a class="section__link" href="/archive">Browse →</a>
     </div>
-
-    <div class="perspective-shell">
-      {leadPerspective && (
-        <article class="perspective-lead">
-          <a class="perspective-lead__link" href={`/posts/${leadPerspective.data.slug}`}>
-            <p class="feature-lead__eyebrow">Featured</p>
-            <h3>{leadPerspective.data.title}</h3>
-            <p>{leadPerspective.data.summary}</p>
-          </a>
-        </article>
-      )}
-
-      <div class="perspective-list">
-        {secondaryPerspective.map((post) => (
-          <PostCard post={post} compact />
-        ))}
-      </div>
+    <div class="track-grid">
+      {tracks.map((track, index) => (
+        <a
+          class="track-card animate-on-scroll"
+          href={track.href}
+          style={`animation-delay: ${index * 80}ms`}
+        >
+          <span class="track-card__name">{track.name}</span>
+          <span class="track-card__desc">{track.desc}</span>
+          <span class="track-card__count">{track.count} notes</span>
+        </a>
+      ))}
     </div>
   </section>
 
-  <!-- Work Notes -->
-  {workPosts.length > 0 && (
-    <section class="section-block section-block--secondary">
-      <div class="section-block__head">
-        <p>Work Notes</p>
-        <div>
-          <h2>工作现场</h2>
-          <span>记录银行组织、流程与系统协作中的真实约束，而不只写抽象技术。</span>
-        </div>
+  <!-- Topics Section -->
+  {topics.some(t => t.post) && (
+    <section class="section">
+      <div class="section__header">
+        <h2 class="section__title">Topics</h2>
       </div>
-
-      <div class="work-register">
-        {workPosts.map((post) => (
-          <article class="work-register__item">
-            <a class="work-register__link" href={`/posts/${post.data.slug}`}>
-              <div class="work-register__meta">
-                <span>{post.data.topic ?? trackLabels[post.data.track]}</span>
-                <span>{post.data.series ?? 'Working brief'}</span>
-              </div>
-              <h3>{post.data.title}</h3>
-              <p>{post.data.summary}</p>
-              <span class="work-register__cta">进入条目 →</span>
-            </a>
-          </article>
+      <div class="topic-list">
+        {topics.filter(t => t.post).map((topic, index) => (
+          <a
+            class="topic-item animate-on-scroll"
+            href={topic.href}
+            style={`animation-delay: ${index * 60}ms`}
+          >
+            <div class="topic-item__left">
+              <span class="topic-item__name">{topic.name}</span>
+              <span class="topic-item__post">{topic.post}</span>
+            </div>
+            <span class="topic-item__count">→</span>
+          </a>
         ))}
       </div>
     </section>
