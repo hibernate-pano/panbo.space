@@ -50,15 +50,21 @@ const themeBootstrapScript = `
   (() => {
     const storageKey = 'panbo-theme';
     const root = document.documentElement;
+    const setThemeColor = (theme) => {
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', theme === 'dark' ? '#201d18' : '#f6f0e6');
+    };
     try {
       const saved = localStorage.getItem(storageKey);
       const theme = saved === 'dark' || saved === 'light'
         ? saved
         : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       root.dataset.theme = theme;
+      setThemeColor(theme);
     } catch {
       const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       root.dataset.theme = theme;
+      setThemeColor(theme);
     }
   })();
 `
@@ -167,6 +173,7 @@ const runtimeScript = `
     const applyTheme = (theme, persist = false) => {
       const root = document.documentElement;
       root.dataset.theme = theme;
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#201d18' : '#f6f0e6');
 
       if (persist) {
         try {
