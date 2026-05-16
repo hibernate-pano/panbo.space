@@ -47,17 +47,76 @@ const isActive = (matches: string[], href: string) =>
         <kbd>⌘K</kbd>
       </a>
 
-      <button
-        class="site-header__action"
-        type="button"
-        data-theme-toggle
-        aria-label="Toggle theme"
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5"/>
-          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-        </svg>
-      </button>
+      <div class="theme-selector" data-theme-selector>
+        <button
+          class="theme-selector__trigger"
+          type="button"
+          data-theme-toggle
+          aria-label="Select theme"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+          <svg class="theme-selector__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+
+        <div class="theme-selector__dropdown" role="menu">
+          <div class="theme-selector__options">
+            <button class="theme-selector__option theme-selector__option--original" data-theme-option="light" role="menuitem">
+              <span class="theme-selector__option-icon"></span>
+              <span class="theme-selector__option-label">
+                <span class="theme-selector__option-name">Original Light</span>
+                <span class="theme-selector__option-desc">Warm editorial</span>
+              </span>
+              <span class="theme-selector__option-kbd">1</span>
+              <svg class="theme-selector__option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </button>
+            <button class="theme-selector__option theme-selector__option--original" data-theme-option="dark" role="menuitem">
+              <span class="theme-selector__option-icon"></span>
+              <span class="theme-selector__option-label">
+                <span class="theme-selector__option-name">Original Dark</span>
+                <span class="theme-selector__option-desc">Reading room</span>
+              </span>
+              <span class="theme-selector__option-kbd">2</span>
+              <svg class="theme-selector__option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </button>
+            
+            <div class="theme-selector__divider" role="separator"></div>
+            
+            <button class="theme-selector__option theme-selector__option--hsbc-light" data-theme-option="hsbc-light" role="menuitem">
+              <span class="theme-selector__option-icon"></span>
+              <span class="theme-selector__option-label">
+                <span class="theme-selector__option-name">HSBC Light</span>
+                <span class="theme-selector__option-desc">Professional minimal</span>
+              </span>
+              <span class="theme-selector__option-kbd">3</span>
+              <svg class="theme-selector__option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </button>
+            <button class="theme-selector__option theme-selector__option--hsbc-dark" data-theme-option="hsbc-dark" role="menuitem">
+              <span class="theme-selector__option-icon"></span>
+              <span class="theme-selector__option-label">
+                <span class="theme-selector__option-name">HSBC Dark</span>
+                <span class="theme-selector__option-desc">Finance blue-black</span>
+              </span>
+              <span class="theme-selector__option-kbd">4</span>
+              <svg class="theme-selector__option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
 
       <a
         class="site-header__action"
@@ -73,3 +132,12 @@ const isActive = (matches: string[], href: string) =>
     </div>
   </div>
 </header>
+
+<style>
+  /* 保留分隔线样式 */
+  .theme-selector__divider {
+    height: 1px;
+    margin: 6px 0;
+    background: var(--color-border);
+  }
+</style>

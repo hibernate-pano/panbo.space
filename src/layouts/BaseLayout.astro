@@ -12,6 +12,7 @@ import '@fontsource/noto-sans-sc/600.css'
 import '@fontsource/ibm-plex-mono/400.css'
 import '@fontsource/ibm-plex-mono/500.css'
 import '../styles/global.css'
+import '../styles/theme-hsbc.css'
 import { siteConfig } from '../data/site'
 import SiteFooter from '../components/SiteFooter.astro'
 import SiteHeader from '../components/SiteHeader.astro'
@@ -50,15 +51,20 @@ const themeBootstrapScript = `
   (() => {
     const storageKey = 'panbo-theme';
     const root = document.documentElement;
+    const themeMetaColors = {
+      'light': '#f6f0e6',
+      'dark': '#201d18',
+      'hsbc-light': '#FFFFFF',
+      'hsbc-dark': '#0D1117'
+    };
     const setThemeColor = (theme) => {
       const meta = document.querySelector('meta[name="theme-color"]');
-      if (meta) meta.setAttribute('content', theme === 'dark' ? '#201d18' : '#f6f0e6');
+      if (meta) meta.setAttribute('content', themeMetaColors[theme] || themeMetaColors['light']);
     };
     try {
       const saved = localStorage.getItem(storageKey);
-      const theme = saved === 'dark' || saved === 'light'
-        ? saved
-        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const validThemes = ['light', 'dark', 'hsbc-light', 'hsbc-dark'];
+      const theme = validThemes.includes(saved) ? saved : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       root.dataset.theme = theme;
       setThemeColor(theme);
     } catch {
@@ -161,10 +167,18 @@ const runtimeScript = `
     };
 
     // Theme
+    const validThemes = ['light', 'dark', 'hsbc-light', 'hsbc-dark'];
+    const themeMetaColors = {
+      'light': '#f6f0e6',
+      'dark': '#201d18',
+      'hsbc-light': '#FFFFFF',
+      'hsbc-dark': '#0D1117'
+    };
+
     const getStoredTheme = () => {
       try {
         const value = localStorage.getItem(themeStorageKey);
-        return value === 'light' || value === 'dark' ? value : null;
+        return validThemes.includes(value) ? value : null;
       } catch {
         return null;
       }
@@ -173,7 +187,7 @@ const runtimeScript = `
     const applyTheme = (theme, persist = false) => {
       const root = document.documentElement;
       root.dataset.theme = theme;
-      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#201d18' : '#f6f0e6');
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', themeMetaColors[theme] || themeMetaColors['light']);
 
       if (persist) {
         try {
@@ -181,24 +195,123 @@ const runtimeScript = `
         } catch {}
       }
 
-      const toggle = document.querySelector('[data-theme-toggle]');
-      if (toggle instanceof HTMLElement) {
-        toggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
-        toggle.innerHTML = theme === 'dark'
-          ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
-          : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-      }
+      updateThemeSelectorUI(theme);
+      updateThemeIcon(theme);
     };
 
     const setupThemeToggle = () => {
-      const toggle = document.querySelector('[data-theme-toggle]');
-      if (!(toggle instanceof HTMLButtonElement) || toggle.dataset.bound === 'true') return;
+      // Theme selector dropdown
+      const selector = document.querySelector('[data-theme-selector]');
+      const trigger = document.querySelector('[data-theme-toggle]');
+      const options = document.querySelectorAll('[data-theme-option]');
+      const validThemes = ['light', 'dark', 'hsbc-light', 'hsbc-dark'];
 
-      toggle.dataset.bound = 'true';
-      toggle.addEventListener('click', () => {
-        const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-        applyTheme(nextTheme, true);
+      if (selector && trigger) {
+        // Toggle dropdown
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          selector.classList.toggle('is-open');
+          trigger.setAttribute('aria-expanded', selector.classList.contains('is-open') ? 'true' : 'false');
+        });
+
+        // Close on outside click
+        document.addEventListener('click', () => {
+          selector.classList.remove('is-open');
+          trigger.setAttribute('aria-expanded', 'false');
+        });
+
+        // Prevent dropdown close when clicking inside
+        selector.addEventListener('click', (e) => e.stopPropagation());
+
+        // Theme option selection
+        options.forEach((option) => {
+          option.addEventListener('click', () => {
+            const theme = option.getAttribute('data-theme-option') || 'light';
+            if (validThemes.includes(theme)) {
+              applyTheme(theme, true);
+              updateThemeSelectorUI(theme);
+              selector.classList.remove('is-open');
+              trigger.setAttribute('aria-expanded', 'false');
+            }
+          });
+        });
+
+        // Keyboard shortcut for theme switching (Cmd/Ctrl + number)
+        document.addEventListener('keydown', (e) => {
+          // Skip if in input/textarea
+          if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+          
+          // Cmd/Ctrl + 1-4 for theme switching
+          if ((e.metaKey || e.ctrlKey) && ['1', '2', '3', '4'].includes(e.key)) {
+            e.preventDefault();
+            const themeMap = { '1': 'light', '2': 'dark', '3': 'hsbc-light', '4': 'hsbc-dark' };
+            const theme = themeMap[e.key];
+            if (theme) {
+              applyTheme(theme, true);
+              updateThemeSelectorUI(theme);
+            }
+          }
+        });
+
+        // Keyboard navigation
+        trigger.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            selector.classList.remove('is-open');
+            trigger.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+    };
+
+    const updateThemeSelectorUI = (currentTheme) => {
+      const options = document.querySelectorAll('[data-theme-option]');
+      options.forEach((option) => {
+        const theme = option.getAttribute('data-theme-option');
+        option.classList.toggle('is-active', theme === currentTheme);
       });
+    };
+
+    const updateThemeIcon = (theme) => {
+      const trigger = document.querySelector('[data-theme-toggle]');
+      if (trigger) {
+        const isDark = theme.includes('dark');
+        trigger.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+        
+        // Create main icon SVG
+        const iconSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        iconSvg.setAttribute('width', '14');
+        iconSvg.setAttribute('height', '14');
+        iconSvg.setAttribute('viewBox', '0 0 24 24');
+        iconSvg.setAttribute('fill', 'none');
+        iconSvg.setAttribute('stroke', 'currentColor');
+        iconSvg.setAttribute('stroke-width', '2');
+        iconSvg.setAttribute('stroke-linecap', 'round');
+        iconSvg.setAttribute('stroke-linejoin', 'round');
+        
+        if (isDark) {
+          iconSvg.innerHTML = '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
+        } else {
+          iconSvg.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+        }
+
+        // Create chevron SVG
+        const chevronSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        chevronSvg.setAttribute('class', 'theme-selector__chevron');
+        chevronSvg.setAttribute('width', '12');
+        chevronSvg.setAttribute('height', '12');
+        chevronSvg.setAttribute('viewBox', '0 0 24 24');
+        chevronSvg.setAttribute('fill', 'none');
+        chevronSvg.setAttribute('stroke', 'currentColor');
+        chevronSvg.setAttribute('stroke-width', '2');
+        chevronSvg.setAttribute('stroke-linecap', 'round');
+        chevronSvg.setAttribute('stroke-linejoin', 'round');
+        chevronSvg.innerHTML = '<polyline points="6 9 12 15 18 9"/>';
+
+        // Clear and rebuild trigger content
+        trigger.innerHTML = '';
+        trigger.appendChild(iconSvg);
+        trigger.appendChild(chevronSvg);
+      }
     };
 
     const syncTheme = () => {
@@ -235,6 +348,9 @@ const runtimeScript = `
       setupThemeToggle();
       syncTheme();
       setupScrollAnimations();
+      // Update theme selector UI based on current theme
+      const currentTheme = document.documentElement.dataset.theme;
+      updateThemeSelectorUI(currentTheme);
     };
 
     // Event listeners
