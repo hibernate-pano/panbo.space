@@ -216,6 +216,18 @@ a:hover {
   text-decoration-color: var(--color-accent);
 }
 
+/* Keyboard navigation focus ring — matches accent, not browser default */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Remove outline from mouse clicks */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -255,6 +267,11 @@ a:hover {
 .btn--ghost:hover {
   border-color: var(--color-border-hover);
   background: var(--color-surface);
+}
+
+.btn:active {
+  transform: scale(0.98);
+  transition-duration: 50ms;
 }
 
 /* ============================================================
@@ -1402,6 +1419,14 @@ a:hover {
   color: var(--color-text);
   background: var(--color-elevated);
   transform: translateY(-1px);
+  box-shadow: 0 2px 8px var(--color-border-hover);
+}
+
+.chip.is-active,
+.tag.is-active {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background: var(--color-accent-subtle);
 }
 
 .post-grid {
@@ -1459,22 +1484,19 @@ a:hover {
   transition: color var(--duration-fast), border-color var(--duration-fast), background var(--duration-fast), transform var(--duration-fast);
 }
 
-.filter-pill:hover,
-.filter-pill.is-active {
+.filter-pill:hover {
   color: var(--color-text);
   border-color: var(--color-border-hover);
   background: color-mix(in srgb, var(--color-elevated) 72%, transparent);
+  transform: translateY(-1px);
 }
 
 .filter-pill.is-active {
   color: var(--color-accent);
   border-color: var(--color-accent);
   background: var(--color-accent-subtle);
-}
-
-:root[data-theme='dark'] .filter-pill:hover,
-:root[data-theme='dark'] .filter-pill.is-active {
   transform: translateY(-1px);
+  box-shadow: 0 2px 8px var(--color-accent-subtle);
 }
 
 .archive-results {
@@ -1804,6 +1826,12 @@ a:hover {
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.6; }
+}
+
+/* Shimmer — for skeleton loading states */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 /* ============================================================
