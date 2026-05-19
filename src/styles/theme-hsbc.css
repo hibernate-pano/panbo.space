@@ -7,11 +7,11 @@
    1. LIGHT MODE - 白色基调，简洁专业
    ============================================================ */
 :root[data-theme='hsbc-light'] {
-  /* 品牌色彩 - HSBC Red */
-  --hsbc-red: #DB0011;
-  --hsbc-red-hover: #B8000D;
-  --hsbc-red-subtle: rgba(219, 0, 17, 0.08);
-  --hsbc-red-deep: #8B0009;
+  /* 品牌色彩 - HSBC Red（降饱和版本，不刺眼但保留品牌感） */
+  --hsbc-red: #B8001C;
+  --hsbc-red-hover: #960018;
+  --hsbc-red-subtle: rgba(184, 0, 28, 0.08);
+  --hsbc-red-deep: #7A0015;
   
   /* 基础色彩 */
   --color-bg: #FFFFFF;
@@ -37,7 +37,7 @@
   /* 网格与背景 */
   --color-grid-line: rgba(0, 0, 0, 0.03);
   --color-grid-line-strong: rgba(0, 0, 0, 0.05);
-  --color-selection: rgba(219, 0, 17, 0.15);
+  --color-selection: rgba(184, 0, 28, 0.15);
   
   /* 背景氛围 - 微妙的渐变 */
   --background-atmosphere:
@@ -49,10 +49,10 @@
   --shadow-elevated: 0 8px 32px rgba(0, 0, 0, 0.08);
   --shadow-accent: 0 4px 16px rgba(219, 0, 17, 0.2);
   
-  /* 圆角 - 更精致的小圆角 */
+  /* 圆角 — 与 Original 主题统一 */
   --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
   
   /* 过渡 */
   --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -68,11 +68,11 @@
    2. DARK MODE - 深邃金融蓝黑，专业沉稳
    ============================================================ */
 :root[data-theme='hsbc-dark'] {
-  /* 品牌色彩 - 深红 */
-  --hsbc-red: #E53935;
-  --hsbc-red-hover: #FF5252;
-  --hsbc-red-subtle: rgba(229, 57, 53, 0.12);
-  --hsbc-red-deep: #B71C1C;
+  /* 品牌色彩 - 深红（降饱和版本） */
+  --hsbc-red: #C4161A;
+  --hsbc-red-hover: #D43535;
+  --hsbc-red-subtle: rgba(196, 22, 26, 0.12);
+  --hsbc-red-deep: #A31415;
   
   /* 基础色彩 - 深蓝黑 */
   --color-bg: #0D1117;
@@ -98,7 +98,7 @@
   /* 网格与背景 */
   --color-grid-line: rgba(255, 255, 255, 0.02);
   --color-grid-line-strong: rgba(255, 255, 255, 0.03);
-  --color-selection: rgba(229, 57, 53, 0.3);
+  --color-selection: rgba(196, 22, 26, 0.3);
   
   /* 背景氛围 */
   --background-atmosphere:
@@ -110,10 +110,10 @@
   --shadow-elevated: 0 8px 40px rgba(0, 0, 0, 0.4);
   --shadow-accent: 0 4px 20px rgba(229, 57, 53, 0.25);
   
-  /* 圆角 */
+  /* 圆角 — 与 Original 主题统一 */
   --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
   
   color-scheme: dark;
 }
@@ -221,6 +221,7 @@
   border-color: var(--hsbc-red);
   color: var(--hsbc-red);
   transform: translateY(-1px);
+  box-shadow: 0 2px 8px var(--hsbc-red-subtle);
 }
 
 /* ============================================================
@@ -322,6 +323,7 @@
   color: var(--hsbc-red);
   border-color: var(--hsbc-red);
   background: var(--hsbc-red-subtle);
+  box-shadow: none;
 }
 
 /* ============================================================
@@ -440,6 +442,7 @@
 .theme-selector__trigger:hover {
   border-color: var(--hsbc-red);
   color: var(--hsbc-red);
+  transform: scale(1.04);
 }
 
 .theme-selector__trigger:hover::before {
@@ -555,28 +558,20 @@
   flex-shrink: 0;
 }
 
-.theme-selector__option--original .theme-selector__option-icon {
+/* Original 主题的图标 — 暖色对半渐变 */
+.theme-selector__option--light .theme-selector__option-icon {
   background: linear-gradient(135deg, #f6f0e6 50%, #201d18 50%);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
+/* HSBC 主题的图标 — 白/深底 + 红色半圆 */
 .theme-selector__option--hsbc-light .theme-selector__option-icon {
-  background: linear-gradient(135deg, #FFFFFF 50%, #DB0011 50%);
+  background: linear-gradient(135deg, #FFFFFF 50%, #B8001C 50%);
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .theme-selector__option--hsbc-dark .theme-selector__option-icon {
-  background: linear-gradient(135deg, #0D1117 50%, #E53935 50%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.theme-selector__option--light .theme-selector__option-icon {
-  background: #FFFFFF;
-  border: 1px solid var(--color-border);
-}
-
-.theme-selector__option--dark .theme-selector__option-icon {
-  background: #1A1A1A;
+  background: linear-gradient(135deg, #0D1117 50%, #C4161A 50%);
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
@@ -616,14 +611,16 @@
   width: 16px;
   height: 16px;
   opacity: 0;
-  transform: scale(0.5);
-  transition: all var(--duration-fast) var(--ease-spring);
+  transform: scale(0.6) rotate(-10deg);
+  transition: opacity var(--duration-fast) var(--ease-spring),
+              transform var(--duration-normal) var(--ease-spring);
   color: var(--hsbc-red);
+  flex-shrink: 0;
 }
 
 .theme-selector__option.is-active .theme-selector__option-check {
   opacity: 1;
-  transform: scale(1);
+  transform: scale(1) rotate(0deg);
 }
 
 /* 快捷键提示 */
@@ -642,131 +639,16 @@
 .theme-selector__option:hover .theme-selector__option-kbd,
 .theme-selector__option.is-active .theme-selector__option-kbd {
   opacity: 1;
-}
-
-/* 当前主题指示器 */
-.theme-selector__current-indicator {
-  position: absolute;
-  bottom: -2px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
-  background: var(--hsbc-red);
-  border-radius: 50%;
-  opacity: 0;
-  transition: opacity var(--duration-fast);
-}
-
-.theme-selector__trigger:has(+ .theme-selector__dropdown .is-active) .theme-selector__current-indicator {
-  opacity: 1;
-}
-
-/* ============================================================
-   17. PRELOADER - 加载动画
-   ============================================================ */
-
-.hsbc-loader {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-}
-
-.hsbc-loader__dot {
-  width: 4px;
-  height: 4px;
-  background: var(--hsbc-red);
-  border-radius: 50%;
-  animation: hsbcPulse 1.2s infinite ease-in-out;
-}
-
-.hsbc-loader__dot:nth-child(2) {
-  animation-delay: 0.15s;
-}
-
-.hsbc-loader__dot:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-@keyframes hsbcPulse {
-  0%, 80%, 100% {
-    transform: scale(0.6);
-    opacity: 0.5;
-  }
-  40% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* ============================================================
-   18. DECORATIVE ELEMENTS
-   ============================================================ */
-
-/* HSBC 风格的分隔线 */
-.hsbc-divider {
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--hsbc-red) 20%,
-    var(--hsbc-red) 80%,
-    transparent 100%
-  );
-  opacity: 0.3;
-}
-
-/* 红色标记 */
-.hsbc-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
-  background: var(--hsbc-red-subtle);
-  color: var(--hsbc-red);
-  font-size: 0.6875rem;
-  font-family: var(--font-mono);
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  border-radius: var(--radius-sm);
-}
-
-/* ============================================================
-   19. HOVER EFFECTS
-   ============================================================ */
-
-/* 链接下划线动画 */
-.hsbc-link {
-  position: relative;
-  color: var(--color-text);
-  text-decoration: none;
-}
-
-.hsbc-link::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: var(--hsbc-red);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform var(--duration-normal) var(--ease-out);
-}
-
-.hsbc-link:hover {
+  border-color: var(--hsbc-red);
   color: var(--hsbc-red);
 }
 
-.hsbc-link:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
+/* ============================================================
+   17. DECORATIVE ELEMENTS
+   ============================================================ */
 
 /* ============================================================
-   21. ADVANCED INTERACTIONS - 高级交互细节
+   18. ADVANCED INTERACTIONS
    ============================================================ */
 
 /* 全局过渡优化 */
@@ -787,265 +669,8 @@
   outline-offset: 2px;
 }
 
-/* 按钮点击反馈 */
-:root[data-theme='hsbc-light'] .btn:active,
-:root[data-theme='hsbc-dark'] .btn:active {
-  transform: scale(0.98);
-}
-
-/* 链接涟漪效果（HSBC 风格） */
-.hsbc-ripple {
-  position: relative;
-  overflow: hidden;
-}
-
-.hsbc-ripple::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle, var(--hsbc-red-subtle) 0%, transparent 70%);
-  opacity: 0;
-  transform: scale(0);
-  transition: all var(--duration-normal) var(--ease-out);
-}
-
-.hsbc-ripple:active::after {
-  opacity: 1;
-  transform: scale(2);
-}
-
-/* 拖拽排序手柄 */
-.hsbc-handle {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 4px;
-  cursor: grab;
-  opacity: 0.4;
-  transition: opacity var(--duration-fast);
-}
-
-.hsbc-handle:hover {
-  opacity: 1;
-}
-
-.hsbc-handle::before,
-.hsbc-handle::after {
-  content: '';
-  width: 12px;
-  height: 2px;
-  background: currentColor;
-  border-radius: 1px;
-}
-
-/* 加载骨架屏 */
-.hsbc-skeleton {
-  position: relative;
-  overflow: hidden;
-  background: var(--color-surface);
-}
-
-.hsbc-skeleton::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.1) 50%,
-    transparent 100%
-  );
-  animation: hsbcShimmer 1.5s infinite;
-}
-
-:root[data-theme='hsbc-dark'] .hsbc-skeleton::after {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.05) 50%,
-    transparent 100%
-  );
-}
-
-@keyframes hsbcShimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-/* 工具提示 */
-.hsbc-tooltip {
-  position: relative;
-}
-
-.hsbc-tooltip::before {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-4px);
-  padding: 6px 10px;
-  background: var(--color-text);
-  color: var(--color-bg);
-  font-size: 0.75rem;
-  font-family: var(--font-mono);
-  white-space: nowrap;
-  border-radius: var(--radius-sm);
-  opacity: 0;
-  visibility: hidden;
-  transition: all var(--duration-fast) var(--ease-out);
-  pointer-events: none;
-  z-index: 1000;
-}
-
-:root[data-theme='hsbc-dark'] .hsbc-tooltip::before {
-  background: var(--color-elevated);
-  color: var(--color-text);
-  border: 1px solid var(--color-border);
-}
-
-.hsbc-tooltip:hover::before {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(-8px);
-}
-
-/* 通知徽章 */
-.hsbc-badge-dot {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  width: 6px;
-  height: 6px;
-  background: var(--hsbc-red);
-  border-radius: 50%;
-  animation: hsbcPulse 2s infinite;
-}
-
-/* 滑动删除指示器 */
-.hsbc-swipe-delete {
-  position: relative;
-}
-
-.hsbc-swipe-delete::after {
-  content: 'Delete';
-  position: absolute;
-  top: 0;
-  right: -100%;
-  height: 100%;
-  padding: 0 20px;
-  background: var(--hsbc-red);
-  color: white;
-  display: flex;
-  align-items: center;
-  transition: right var(--duration-normal) var(--ease-out);
-}
-
-.hsbc-swipe-delete:hover::after {
-  right: 0;
-}
-
-/* 无限滚动加载指示器 */
-.hsbc-scroll-trigger {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
-
-.hsbc-scroll-trigger .hsbc-loader__dot {
-  width: 6px;
-  height: 6px;
-}
-
-/* 选中高亮 */
-.hsbc-highlight {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--hsbc-red-subtle) 40%,
-    var(--hsbc-red-subtle) 60%,
-    transparent 100%
-  );
-  padding: 2px 0;
-  border-radius: 2px;
-}
-
 /* ============================================================
-   22. ANIMATIONS - 动画增强
-   ============================================================ */
-
-/* 入场动画增强 */
-@keyframes hsbcFadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes hsbcFadeInScale {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes hsbcSlideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* 页面切换过渡 */
-.page-transition-enter {
-  animation: hsbcFadeInUp var(--duration-slow) var(--ease-out) forwards;
-}
-
-.page-transition-exit {
-  animation: hsbcFadeInScale var(--duration-normal) var(--ease-out) forwards;
-  opacity: 0;
-}
-
-/* 模态框入场 */
-.hsbc-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  z-index: 1000;
-  opacity: 0;
-  animation: hsbcFadeIn var(--duration-normal) var(--ease-out) forwards;
-}
-
-.hsbc-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.9);
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-elevated);
-  z-index: 1001;
-  opacity: 0;
-  animation: hsbcFadeInScale var(--duration-normal) var(--ease-spring) forwards;
-  animation-delay: 50ms;
-}
-
-/* ============================================================
-   23. SCROLLBAR - 滚动条美化
+   22. SCROLLBAR - 滚动条美化
    ============================================================ */
 
 :root[data-theme='hsbc-light'] ::-webkit-scrollbar {
