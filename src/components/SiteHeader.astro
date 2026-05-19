@@ -8,7 +8,23 @@ const navItems = [
 ]
 
 const isActive = (matches: string[], href: string) =>
-  currentPath === href || matches.some((match) => currentPath === match || currentPath.startsWith(match))
+  currentPath === href || matches.some((match) => match === href || currentPath.startsWith(match))
+
+// Theme color palettes — used for the color strip preview in the dropdown
+// Each array: [bg, surface, text, accent, coolAccent]
+const themePalettes: Record<string, string[]> = {
+  'light': ['#f6f0e6', '#fffcf6', '#30261f', '#b45f38', '#5f536d'],
+  'dark': ['#201d18', '#2d281f', '#eee7dc', '#d98d63', '#9fb8ae'],
+  'hsbc-light': ['#FFFFFF', '#FAFAFA', '#1A1A1A', '#B8001C', '#003366'],
+  'hsbc-dark': ['#0D1117', '#21262D', '#F0F6FC', '#C4161A', '#58A6FF'],
+}
+
+const themes = [
+  { id: 'light', name: 'Original', desc: 'Warm editorial', family: 'original' },
+  { id: 'dark', name: 'Original', desc: 'Reading room', family: 'original' },
+  { id: 'hsbc-light', name: 'HSBC', desc: 'Professional', family: 'hsbc' },
+  { id: 'hsbc-dark', name: 'HSBC', desc: 'Blue-black', family: 'hsbc' },
+]
 ---
 
 <header class="site-header">
@@ -56,7 +72,7 @@ const isActive = (matches: string[], href: string) =>
           aria-haspopup="true"
           aria-expanded="false"
         >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="theme-selector__trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"/>
             <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
           </svg>
@@ -65,55 +81,43 @@ const isActive = (matches: string[], href: string) =>
           </svg>
         </button>
 
-        <div class="theme-selector__dropdown" role="menu">
-          <div class="theme-selector__options">
-            <button class="theme-selector__option theme-selector__option--original" data-theme-option="light" role="menuitem">
-              <span class="theme-selector__option-icon"></span>
-              <span class="theme-selector__option-label">
-                <span class="theme-selector__option-name">Original Light</span>
-                <span class="theme-selector__option-desc">Warm editorial</span>
-              </span>
-              <span class="theme-selector__option-kbd">1</span>
-              <svg class="theme-selector__option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </button>
-            <button class="theme-selector__option theme-selector__option--original" data-theme-option="dark" role="menuitem">
-              <span class="theme-selector__option-icon"></span>
-              <span class="theme-selector__option-label">
-                <span class="theme-selector__option-name">Original Dark</span>
-                <span class="theme-selector__option-desc">Reading room</span>
-              </span>
-              <span class="theme-selector__option-kbd">2</span>
-              <svg class="theme-selector__option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </button>
-            
-            <div class="theme-selector__divider" role="separator"></div>
-            
-            <button class="theme-selector__option theme-selector__option--hsbc-light" data-theme-option="hsbc-light" role="menuitem">
-              <span class="theme-selector__option-icon"></span>
-              <span class="theme-selector__option-label">
-                <span class="theme-selector__option-name">HSBC Light</span>
-                <span class="theme-selector__option-desc">Professional minimal</span>
-              </span>
-              <span class="theme-selector__option-kbd">3</span>
-              <svg class="theme-selector__option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </button>
-            <button class="theme-selector__option theme-selector__option--hsbc-dark" data-theme-option="hsbc-dark" role="menuitem">
-              <span class="theme-selector__option-icon"></span>
-              <span class="theme-selector__option-label">
-                <span class="theme-selector__option-name">HSBC Dark</span>
-                <span class="theme-selector__option-desc">Finance blue-black</span>
-              </span>
-              <span class="theme-selector__option-kbd">4</span>
-              <svg class="theme-selector__option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </button>
+        <div class="theme-selector__dropdown" role="menu" aria-label="Theme options">
+          <p class="theme-selector__label">Theme</p>
+          <div class="theme-selector__grid">
+            {themes.map((theme) => (
+              <button
+                class={`theme-selector__card`}
+                data-theme-option={theme.id}
+                data-theme-family={theme.family}
+                role="menuitem"
+                aria-label={`${theme.name} ${theme.desc}`}
+              >
+                <span
+                  class="theme-selector__palette"
+                  aria-hidden="true"
+                >
+                  {themePalettes[theme.id].map((color) => (
+                    <span
+                      class="theme-selector__swatch"
+                      style={`background: ${color}`}
+                    />
+                  ))}
+                </span>
+                <span class="theme-selector__card-info">
+                  <span class="theme-selector__card-name">{theme.name}</span>
+                  <span class="theme-selector__card-desc">{theme.desc}</span>
+                </span>
+                <svg class="theme-selector__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </button>
+            ))}
+          </div>
+          <div class="theme-selector__footer">
+            <span class="theme-selector__hint">
+              <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd>
+              to switch
+            </span>
           </div>
         </div>
       </div>
@@ -134,10 +138,57 @@ const isActive = (matches: string[], href: string) =>
 </header>
 
 <style>
-  /* 保留分隔线样式 */
-  .theme-selector__divider {
-    height: 1px;
-    margin: 6px 0;
-    background: var(--color-border);
+  /* Trigger: compact icon button */
+  .theme-selector__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition:
+      color var(--duration-fast),
+      border-color var(--duration-fast),
+      background var(--duration-fast),
+      transform var(--duration-fast) var(--ease-spring);
+    gap: 4px;
+  }
+
+  .theme-selector__trigger:hover {
+    color: var(--color-text);
+    border-color: var(--color-border-hover);
+    background: var(--color-surface);
+  }
+
+  .theme-selector__trigger:active {
+    transform: scale(0.94);
+    transition-duration: 50ms;
+  }
+
+  .theme-selector__trigger-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  .theme-selector__chevron {
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+    transition: transform var(--duration-fast) var(--ease-spring);
+  }
+
+  .theme-selector.is-open .theme-selector__chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Dark mode trigger: subtle inner ring on hover */
+  :root[data-theme='dark'] .theme-selector__trigger:hover {
+    box-shadow: inset 0 0 0 1px var(--color-border);
   }
 </style>

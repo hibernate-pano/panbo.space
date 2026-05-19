@@ -277,8 +277,9 @@ const runtimeScript = `
         const isDark = theme.includes('dark');
         trigger.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
         
-        // Create main icon SVG
+        // Create main icon SVG (keep chevron as-is — it's in the template)
         const iconSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        iconSvg.classList.add('theme-selector__trigger-icon');
         iconSvg.setAttribute('width', '14');
         iconSvg.setAttribute('height', '14');
         iconSvg.setAttribute('viewBox', '0 0 24 24');
@@ -294,23 +295,13 @@ const runtimeScript = `
           iconSvg.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
         }
 
-        // Create chevron SVG
-        const chevronSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        chevronSvg.setAttribute('class', 'theme-selector__chevron');
-        chevronSvg.setAttribute('width', '12');
-        chevronSvg.setAttribute('height', '12');
-        chevronSvg.setAttribute('viewBox', '0 0 24 24');
-        chevronSvg.setAttribute('fill', 'none');
-        chevronSvg.setAttribute('stroke', 'currentColor');
-        chevronSvg.setAttribute('stroke-width', '2');
-        chevronSvg.setAttribute('stroke-linecap', 'round');
-        chevronSvg.setAttribute('stroke-linejoin', 'round');
-        chevronSvg.innerHTML = '<polyline points="6 9 12 15 18 9"/>';
-
-        // Clear and rebuild trigger content
-        trigger.innerHTML = '';
-        trigger.appendChild(iconSvg);
-        trigger.appendChild(chevronSvg);
+        // Only replace the icon, keep chevron from template
+        const existingIcon = trigger.querySelector('.theme-selector__trigger-icon');
+        if (existingIcon) {
+          trigger.replaceChild(iconSvg, existingIcon);
+        } else {
+          trigger.insertBefore(iconSvg, trigger.querySelector('.theme-selector__chevron'));
+        }
       }
     };
 
