@@ -16,3 +16,6 @@ pagefind
 .vercel
 src/generated
 .vitepress/cache
+.gstack/
+.worktrees/
+scratchpad.md

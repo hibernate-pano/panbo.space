@@ -23,7 +23,7 @@
 
     mermaid.initialize({
       startOnLoad: false,
-      theme: 'neutral',
+      theme: 'dark',
       securityLevel: 'loose',
     })
 
@@ -55,5 +55,4 @@
   }
 
   document.addEventListener('astro:page-load', safeRender)
-  window.addEventListener('panbo:theme-change', safeRender)
 </script>

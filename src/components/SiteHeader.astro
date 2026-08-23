@@ -1,10 +1,23 @@
 ---
 const currentPath = Astro.url.pathname
+const currentTrack = Astro.url.searchParams.get('track') ?? 'all'
 
+// Band 2 nav — HN: READ / TOP BLOGS / WRITE NOW / ABOUT
 const navItems = [
   { href: '/archive', label: 'Archive', matches: ['/archive'] },
   { href: '/tags', label: 'Index', matches: ['/topics/', '/tags'] },
   { href: '/about', label: 'About', matches: ['/about'] },
+  { href: '/search', label: 'Search', matches: ['/search'] },
+]
+
+// Band 3 track tabs — replaces HN's category bar
+const tracks = [
+  { key: 'all', label: 'All', href: '/archive' },
+  { key: 'thinking', label: 'Thinking', href: '/archive?track=thinking' },
+  { key: 'work', label: 'Work Notes', href: '/archive?track=work' },
+  { key: 'philosophy', label: 'Philosophy', href: '/archive?track=philosophy' },
+  { key: 'engineering', label: 'Engineering', href: '/archive?track=engineering' },
+  { key: 'games', label: 'Games', href: '/archive?track=games' },
 ]
 
 const isActive = (matches: string[], href: string) =>
@@ -12,12 +25,52 @@ const isActive = (matches: string[], href: string) =>
 ---
 
 <header class="site-header">
-  <div class="site-header__inner">
-    <a class="site-header__brand" href="/">
-      <span class="site-header__brand-mark" aria-hidden="true"></span>
-      <span class="site-header__brand-name">panbo.space</span>
-    </a>
+  <!-- Band 1: bright green brand bar -->
+  <div class="site-header__bar">
+    <div class="site-header__inner">
+      <a class="site-header__discover" href="/search" aria-label="Discover anything — search">
+        Discover Anything
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+      </a>
 
+      <a class="site-header__brand" href="/" aria-label="panbo.space home">
+        <svg class="site-header__brand-mark" width="19" height="22" viewBox="0 0 7 8" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="0" y="0" width="3" height="1"/>
+          <rect x="0" y="1" width="1" height="1"/>
+          <rect x="2" y="1" width="1" height="1"/>
+          <rect x="0" y="2" width="1" height="1"/>
+          <rect x="2" y="2" width="1" height="1"/>
+          <rect x="0" y="3" width="3" height="1"/>
+          <rect x="0" y="4" width="1" height="4"/>
+        </svg>
+        <span class="site-header__brand-name">panbo<span class="site-header__brand-dot">.</span>space</span>
+        <span class="site-header__cursor" aria-hidden="true"></span>
+      </a>
+
+      <div class="site-header__actions">
+        <a class="site-header__action" href="/search" aria-label="Search (Ctrl K)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+            <circle cx="11" cy="11" r="7"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+          <kbd>Ctrl K</kbd>
+        </a>
+        <a class="site-header__action" href="/rss.xml" aria-label="RSS Feed" title="RSS">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+            <path d="M4 11a9 9 0 0 1 9 9"/>
+            <path d="M4 4a16 16 0 0 1 16 16"/>
+            <circle cx="5" cy="19" r="1.6"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Band 2: mid-green nav bar (uppercase, centered — HN style) -->
+  <div class="site-header__navbar">
     <nav class="site-header__nav" aria-label="Primary">
       {navItems.map((item) => (
         <a
@@ -31,113 +84,41 @@ const isActive = (matches: string[], href: string) =>
         </a>
       ))}
     </nav>
+  </div>
 
-    <div class="site-header__actions">
-      <a
-        class="site-header__action"
-        href="/search"
-        aria-label="Search"
-        data-nav-link
-        data-match="/search"
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"/>
-          <path d="m21 21-4.35-4.35"/>
-        </svg>
-        <kbd>⌘K</kbd>
-      </a>
-
-      <div class="theme-selector" data-theme-selector>
-        <button
-          class="theme-selector__trigger"
-          type="button"
-          data-theme-toggle
-          aria-label="Select theme"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"/>
-            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-          </svg>
-          <svg class="theme-selector__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"/>
-          </svg>
-        </button>
-
-        <div class="theme-selector__dropdown" role="menu">
-          <div class="theme-selector__options">
-            <button class="theme-selector__option theme-selector__option--original" data-theme-option="light" role="menuitem">
-              <span class="theme-selector__option-icon"></span>
-              <span class="theme-selector__option-label">
-                <span class="theme-selector__option-name">Original Light</span>
-                <span class="theme-selector__option-desc">Warm editorial</span>
-              </span>
-              <span class="theme-selector__option-kbd">1</span>
-              <svg class="theme-selector__option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </button>
-            <button class="theme-selector__option theme-selector__option--original" data-theme-option="dark" role="menuitem">
-              <span class="theme-selector__option-icon"></span>
-              <span class="theme-selector__option-label">
-                <span class="theme-selector__option-name">Original Dark</span>
-                <span class="theme-selector__option-desc">Reading room</span>
-              </span>
-              <span class="theme-selector__option-kbd">2</span>
-              <svg class="theme-selector__option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </button>
-            
-            <div class="theme-selector__divider" role="separator"></div>
-            
-            <button class="theme-selector__option theme-selector__option--hsbc-light" data-theme-option="hsbc-light" role="menuitem">
-              <span class="theme-selector__option-icon"></span>
-              <span class="theme-selector__option-label">
-                <span class="theme-selector__option-name">HSBC Light</span>
-                <span class="theme-selector__option-desc">Professional minimal</span>
-              </span>
-              <span class="theme-selector__option-kbd">3</span>
-              <svg class="theme-selector__option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </button>
-            <button class="theme-selector__option theme-selector__option--hsbc-dark" data-theme-option="hsbc-dark" role="menuitem">
-              <span class="theme-selector__option-icon"></span>
-              <span class="theme-selector__option-label">
-                <span class="theme-selector__option-name">HSBC Dark</span>
-                <span class="theme-selector__option-desc">Finance blue-black</span>
-              </span>
-              <span class="theme-selector__option-kbd">4</span>
-              <svg class="theme-selector__option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <a
-        class="site-header__action"
-        href="/rss.xml"
-        aria-label="RSS Feed"
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 11a9 9 0 0 1 9 9"/>
-          <path d="M4 4a16 16 0 0 1 16 16"/>
-          <circle cx="5" cy="19" r="1"/>
-        </svg>
-      </a>
+  <!-- Band 3: deep teal track bar -->
+  <div class="site-header__trackbar">
+    <div class="site-header__inner">
+      <nav class="site-header__tracks" aria-label="Tracks">
+        {tracks.map((track) => (
+          <a
+            href={track.href}
+            class:list={['track-chip', currentTrack === track.key && 'is-active']}
+            data-track-link
+            data-track={track.key}
+            aria-current={currentTrack === track.key ? 'page' : undefined}
+          >
+            {track.label}
+          </a>
+        ))}
+      </nav>
+      <span class="site-header__prompt" aria-hidden="true">$ panbo --archive --all</span>
     </div>
   </div>
 </header>
 
 <style>
-  /* 保留分隔线样式 */
-  .theme-selector__divider {
-    height: 1px;
-    margin: 6px 0;
-    background: var(--color-border);
+  @media (max-width: 768px) {
+    .site-header__tracks {
+      height: 56px;
+    }
+    .track-chip {
+      font-size: 0.88rem;
+      padding: 7px 12px;
+    }
+    .site-header__prompt,
+    .site-header__discover {
+      display: none;
+    }
   }
 </style>

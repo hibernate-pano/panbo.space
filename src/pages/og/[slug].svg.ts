@@ -9,7 +9,7 @@ const escapeXml = (value: string): string =>
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&apos;')
 
-const measureUnit = (char: string): number => (/[\u0000-\u00ff]/.test(char) ? 0.58 : 1)
+const measureUnit = (char: string): number => (char.charCodeAt(0) < 256 ? 0.58 : 1)
 
 const wrapText = (value: string, maxUnits: number, maxLines: number): string[] => {
   const chars = [...value.trim()]
@@ -66,22 +66,19 @@ export const GET: APIRoute = async ({ params }) => {
 
   const svg = `
     <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="1200" height="630" fill="#f7f3eb"/>
-      <rect x="38" y="38" width="1124" height="554" rx="30" fill="#fffdf9" stroke="#dfd4c4"/>
-      <rect x="72" y="72" width="160" height="32" rx="16" fill="#f1ebe1" stroke="#e2d7c8"/>
-      <text x="94" y="93" fill="#a85a39" font-family="IBM Plex Mono, monospace" font-size="16" letter-spacing="2.2">${track}</text>
-      <path d="M914 38H1162V210C1110 286 1028 362 916 438H736C832 332 892 199 914 38Z" fill="#c26b47" opacity="0.08"/>
-      <path d="M794 94H1088" stroke="#dfd4c4"/>
-      <path d="M794 136H1044" stroke="#dfd4c4"/>
-      <path d="M794 178H1008" stroke="#dfd4c4"/>
-      <text x="72" y="158" fill="#8a7966" font-family="IBM Plex Mono, monospace" font-size="18" letter-spacing="4">PANBO.SPACE</text>
-      <text x="72" y="254" fill="#2f241b" font-family="Source Serif 4, Noto Serif SC, serif" font-size="62" font-weight="600">
-        ${titleLines.map((line, index) => `<tspan x="72" dy="${index === 0 ? 0 : 76}">${line}</tspan>`).join('')}
+      <rect width="1200" height="630" fill="#061F19"/>
+      <rect x="0" y="0" width="1200" height="76" fill="#61FF83"/>
+      <text x="60" y="50" fill="#1D6854" font-family="IBM Plex Mono, monospace" font-size="32" font-weight="700" letter-spacing="2">PANBO</text>
+      <text x="236" y="50" fill="#1D6854" font-family="IBM Plex Mono, monospace" font-size="32" font-weight="700" letter-spacing="2">.SPACE</text>
+      <text x="66" y="166" fill="#63FF86" font-family="IBM Plex Mono, monospace" font-size="21" font-weight="600" letter-spacing="3">> ${track}</text>
+      <text x="66" y="330" fill="#B9FFD0" font-family="IBM Plex Mono, Noto Sans SC, sans-serif" font-size="64" font-weight="700">
+        ${titleLines.map((line, index) => `<tspan x="66" dy="${index === 0 ? 0 : 84}">${line}</tspan>`).join('')}
       </text>
-      <text x="72" y="474" fill="#61513f" font-family="Source Sans 3, Noto Sans SC, sans-serif" font-size="28">
-        ${summaryLines.map((line, index) => `<tspan x="72" dy="${index === 0 ? 0 : 40}">${line}</tspan>`).join('')}
+      <text x="66" y="452" fill="#B7DCC8" font-family="IBM Plex Mono, Noto Sans SC, sans-serif" font-size="27">
+        ${summaryLines.map((line, index) => `<tspan x="66" dy="${index === 0 ? 0 : 40}">${line}</tspan>`).join('')}
       </text>
-      <text x="72" y="548" fill="#8a7966" font-family="Source Sans 3, Noto Sans SC, sans-serif" font-size="22">A quiet archive for engineering judgment and long-form thinking.</text>
+      <rect x="66" y="526" width="420" height="44" rx="8" fill="#1D6854"/>
+      <text x="86" y="553" fill="#B9FFD0" font-family="IBM Plex Mono, monospace" font-size="20" font-weight="700" letter-spacing="3">// PANBO.SPACE</text>
     </svg>
   `
 

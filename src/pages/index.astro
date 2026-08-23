@@ -1,14 +1,25 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { siteConfig } from '../data/site'
-import { getAllPosts, getLatestPosts, getPostsByTrack, trackLabels } from '../lib/posts'
+import {
+  formatDate,
+  getAllPosts,
+  getLatestPosts,
+  getPostsByTrack,
+  getReadingTime,
+  getTopicMap,
+  toPostPath,
+  trackLabels,
+} from '../lib/posts'
 
 const allPosts = await getAllPosts()
 const latestPosts = await getLatestPosts(6)
 const allThinkingPosts = await getPostsByTrack('thinking')
 const allWorkPosts = await getPostsByTrack('work')
 const allEngineeringPosts = await getPostsByTrack('engineering')
+const allPhilosophyPosts = await getPostsByTrack('philosophy')
 const allGamesPosts = await getPostsByTrack('games')
+const topicMap = await getTopicMap()
 
 const stats = [
   { label: 'Archive', value: allPosts.length, href: '/archive' },
@@ -17,17 +28,25 @@ const stats = [
   { label: 'Games', value: allGamesPosts.length, href: '/archive?track=games' },
 ]
 
+// 只展示有真实内容的栏目，避免"0 NOTES"空壳卡片
 const tracks = [
-  { name: 'Engineering', desc: '系统、架构与工程判断', count: allEngineeringPosts.length, href: '/archive?track=engineering' },
   { name: 'Thinking', desc: '职业判断、长期主义与个人系统', count: allThinkingPosts.length, href: '/archive?track=thinking' },
   { name: 'Work Notes', desc: '组织约束、项目推进与真实现场', count: allWorkPosts.length, href: '/archive?track=work' },
+  { name: 'Philosophy', desc: '哲学思辨、存在与意义的长期阅读', count: allPhilosophyPosts.length, href: '/archive?track=philosophy' },
+  ...(allEngineeringPosts.length
+    ? [{ name: 'Engineering', desc: '系统、架构与工程判断', count: allEngineeringPosts.length, href: '/archive?track=engineering' }]
+    : []),
 ]
 
-const topics = [
-  { name: '架构心得', post: allEngineeringPosts[0]?.data.title, href: '/archive?track=engineering&topic=架构心得' },
-  { name: 'Java', post: allEngineeringPosts.find(p => p.data.topic === 'Java')?.data.title, href: '/archive?track=engineering&topic=Java' },
-  { name: '分布式系统', post: allEngineeringPosts.find(p => p.data.topic === '分布式系统')?.data.title, href: '/archive?track=engineering&topic=分布式系统' },
-]
+// 按真实内容动态展示主题，无内容的主题不出现
+const topics = [...topicMap.entries()]
+  .sort((left, right) => right[1].length - left[1].length)
+  .slice(0, 5)
+  .map(([topic, posts]) => ({
+    name: topic,
+    post: posts[0]?.data.title ?? '',
+    href: `/archive?topic=${encodeURIComponent(topic)}`,
+  }))
 ---
 
 <BaseLayout mainClass="page-home">
@@ -62,31 +81,44 @@ const topics = [
     ))}
   </section>
 
-  <!-- Latest Posts Section -->
+  <!-- Latest Stories — HN feed cards with OG cover thumbnails -->
   <section class="section">
     <div class="section__header">
-      <h2 class="section__title">Latest</h2>
+      <h2 class="section__title">Latest Stories</h2>
       <a class="section__link" href="/archive">View all →</a>
     </div>
-    <div class="post-list">
-      {latestPosts.map((post, index) => (
-        <a
-          class="post-item animate-on-scroll"
-          href={`/posts/${post.data.slug}`}
-          style={`animation-delay: ${index * 60}ms`}
-        >
-          <span class="post-item__date">
-            {post.data.publishedAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+    <div class="feed-list">
+      {latestPosts.map((post) => (
+        <a class="feed-card animate-on-scroll" href={toPostPath(post)}>
+          <span class="feed-card__media">
+            <img
+              src={`/og/${post.data.slug}.svg`}
+              alt=""
+              loading="lazy"
+              width="1200"
+              height="630"
+            />
           </span>
-          <div class="post-item__content">
-            <span class="post-item__track">{trackLabels[post.data.track]}</span>
-            <span class="post-item__title">{post.data.title}</span>
-            <p class="post-item__summary">{post.data.summary}</p>
-            <div class="post-item__meta">
-              {post.data.topic && <span>{post.data.topic}</span>}
-              <span>{Math.ceil((post.body ?? '').length / 1500)} min read</span>
-            </div>
-          </div>
+          <span class="feed-card__body">
+            <span class="feed-card__meta">
+              <span class="feed-card__track">{trackLabels[post.data.track]}</span>
+              <span>{formatDate(post.data.publishedAt)}</span>
+              <span>{getReadingTime(post.body ?? '')} min read</span>
+            </span>
+            <span class="feed-card__title">{post.data.title}</span>
+            <span class="feed-card__summary">{post.data.summary}</span>
+            <span class="feed-card__footer">
+              <span class="feed-card__byline">
+                <span class="feed-card__avatar" aria-hidden="true">
+                  <svg width="12" height="14" viewBox="0 0 7 8" shape-rendering="crispEdges">
+                    <rect x="0" y="0" width="3" height="1"/><rect x="0" y="1" width="1" height="1"/><rect x="2" y="1" width="1" height="1"/><rect x="0" y="2" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="0" y="3" width="3" height="1"/><rect x="0" y="4" width="1" height="4"/>
+                  </svg>
+                </span>
+                by&nbsp;<strong>{siteConfig.author.name}</strong>
+              </span>
+              {post.data.topic && <span class="tag tag--green">{post.data.topic}</span>}
+            </span>
+          </span>
         </a>
       ))}
     </div>
@@ -99,12 +131,8 @@ const topics = [
       <a class="section__link" href="/archive">Browse →</a>
     </div>
     <div class="track-grid">
-      {tracks.map((track, index) => (
-        <a
-          class="track-card animate-on-scroll"
-          href={track.href}
-          style={`animation-delay: ${index * 80}ms`}
-        >
+      {tracks.map((track) => (
+        <a class="track-card animate-on-scroll" href={track.href}>
           <span class="track-card__name">{track.name}</span>
           <span class="track-card__desc">{track.desc}</span>
           <span class="track-card__count">{track.count} notes</span>
@@ -114,18 +142,14 @@ const topics = [
   </section>
 
   <!-- Topics Section -->
-  {topics.some(t => t.post) && (
+  {topics.length > 0 && (
     <section class="section">
       <div class="section__header">
         <h2 class="section__title">Topics</h2>
       </div>
       <div class="topic-list">
-        {topics.filter(t => t.post).map((topic, index) => (
-          <a
-            class="topic-item animate-on-scroll"
-            href={topic.href}
-            style={`animation-delay: ${index * 60}ms`}
-          >
+        {topics.map((topic) => (
+          <a class="topic-item animate-on-scroll" href={topic.href}>
             <div class="topic-item__left">
               <span class="topic-item__name">{topic.name}</span>
               <span class="topic-item__post">{topic.post}</span>

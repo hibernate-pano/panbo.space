@@ -4,7 +4,8 @@ import MermaidRuntime from '../../components/MermaidRuntime.astro'
 import TableOfContents from '../../components/TableOfContents.astro'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { formatDate, getAllPosts, getReadingTime, toPostPath, trackLabels } from '../../lib/posts'
-import { formatTagLabel, getPostTags, toTagPath } from '../../lib/post-tags'
+import { formatTagLabel, getPostTags, getVisiblePostTags, toTagPath } from '../../lib/post-tags'
+import { siteConfig } from '../../data/site'
 import { toTopicSlug } from '../../lib/slug'
 
 export const getStaticPaths = async () => {
@@ -22,7 +23,14 @@ const ogImage = `/og/${post.data.slug}.svg`
 const sectionCount = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3 && heading.text !== '目录').length
 const hasToc = sectionCount >= 3
 const tags = getPostTags(post)
+const visibleTags = getVisiblePostTags(post, 4)
 const metaTags = [post.data.topic, ...tags].filter((value): value is string => Boolean(value))
+
+// Related stories: same track first, backfill with latest
+const allPosts = await getAllPosts()
+const sameTrack = allPosts.filter((entry) => entry.data.slug !== post.data.slug && entry.data.track === post.data.track)
+const fallback = allPosts.filter((entry) => entry.data.slug !== post.data.slug && entry.data.track !== post.data.track)
+const related = [...sameTrack, ...fallback].slice(0, 3)
 ---
 
 <BaseLayout
@@ -38,33 +46,68 @@ const metaTags = [post.data.topic, ...tags].filter((value): value is string => B
 >
   <div class="post-page">
     <header class="post-header">
-      <div class="post-header__meta">
-        <span>{trackLabels[post.data.track]}</span>
-        {post.data.topic && (
-          <a href={`/topics/${toTopicSlug(post.data.topic)}`}>{post.data.topic}</a>
-        )}
-        <span>{formatDate(post.data.publishedAt)}</span>
+      <!-- HN badge row: New Story · read time · track -->
+      <div class="post-header__badges">
+        <span class="badge-pill">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg>
+          New Story
+        </span>
+        <span class="badge-pill">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          {readingTime} min read
+        </span>
+        <a class="badge-pill" href={`/archive?track=${post.data.track}`}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.59 13.41 13.42 20.6a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82zM7 7h.01" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="fill:none;stroke:var(--color-accent)"/></svg>
+          {trackLabels[post.data.track]}
+        </a>
       </div>
 
       <h1 class="post-header__title">{post.data.title}</h1>
-      <p class="post-header__summary">{post.data.summary}</p>
 
-      <div class="post-header__facts">
-        <div class="post-header__fact">
-          <span class="post-header__fact-label">Published</span>
-          <span class="post-header__fact-value">{formatDate(post.data.publishedAt)}</span>
-        </div>
-        {post.data.updatedAt && (
-          <div class="post-header__fact">
-            <span class="post-header__fact-label">Updated</span>
-            <span class="post-header__fact-value">{formatDate(post.data.updatedAt)}</span>
-          </div>
-        )}
-        <div class="post-header__fact">
-          <span class="post-header__fact-label">Read time</span>
-          <span class="post-header__fact-value">{readingTime} min</span>
-        </div>
+      <!-- HN byline: "by author · date" with border top+bottom, tools right -->
+      <div class="post-header__byline">
+        <span class="post-header__byline-author">
+          by <strong>{siteConfig.author.name}</strong>
+          <span class="post-header__byline-dot" aria-hidden="true"></span>
+          <time datetime={post.data.publishedAt.toISOString()}>{formatDate(post.data.publishedAt)}</time>
+          {post.data.updatedAt && (
+            <>
+              <span class="post-header__byline-dot" aria-hidden="true"></span>
+              <span>updated {formatDate(post.data.updatedAt)}</span>
+            </>
+          )}
+        </span>
+        <span class="post-header__tools">
+          <button type="button" class="badge-pill" data-copy-link data-tip="Copy link" aria-label="Copy link">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" style="fill:none"/></svg>
+          </button>
+          <a class="badge-pill tip-left" href="/rss.xml" data-tip="RSS" aria-label="RSS feed">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" style="fill:none"/><circle cx="5" cy="19" r="1.6"/></svg>
+          </a>
+        </span>
       </div>
+
+      <!-- Featured image — HN story cover -->
+      <div class="post-header__cover">
+        <img
+          src={ogImage}
+          alt={`Cover — ${post.data.title}`}
+          width="1200"
+          height="630"
+          fetchpriority="high"
+        />
+      </div>
+
+      <!-- TLDR fold — HN signature interaction -->
+      {post.data.summary && (
+        <details class="tldr">
+          <summary>
+            TLDR
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round" style="fill:none"/></svg>
+          </summary>
+          <p class="tldr__panel">{post.data.summary}</p>
+        </details>
+      )}
     </header>
 
     <div class:list={['post-layout', hasToc ? 'post-layout--with-toc' : '']}>
@@ -73,22 +116,63 @@ const metaTags = [post.data.topic, ...tags].filter((value): value is string => B
           <Content />
         </div>
 
-        {(post.data.topic || post.data.series || tags.length > 0) && (
+        {(post.data.topic || post.data.series || visibleTags.length > 0) && (
           <footer class="post-taxonomy">
             <div class="post-taxonomy__chips">
               {post.data.topic && (
-                <a href={`/topics/${toTopicSlug(post.data.topic)}`} class="tag">
+                <a href={`/topics/${toTopicSlug(post.data.topic)}`} class="tag tag--green">
                   {post.data.topic}
                 </a>
               )}
               {post.data.series && <span class="tag">{post.data.series}</span>}
-              {tags.map((tag) => (
+              {visibleTags.map((tag) => (
                 <a href={toTagPath(tag)} class="tag">
                   {formatTagLabel(tag)}
                 </a>
               ))}
             </div>
           </footer>
+        )}
+
+        {related.length > 0 && (
+          <section class="post-related">
+            <h2 class="post-related__title">Read Next</h2>
+            <div class="feed-list">
+              {related.map((entry) => (
+                <a class="feed-card" href={toPostPath(entry)}>
+                  <span class="feed-card__media">
+                    <img
+                      src={`/og/${entry.data.slug}.svg`}
+                      alt=""
+                      loading="lazy"
+                      width="1200"
+                      height="630"
+                    />
+                  </span>
+                  <span class="feed-card__body">
+                    <span class="feed-card__meta">
+                      <span class="feed-card__track">{trackLabels[entry.data.track]}</span>
+                      <span>{formatDate(entry.data.publishedAt)}</span>
+                      <span>{getReadingTime(entry.body ?? '')} min read</span>
+                    </span>
+                    <span class="feed-card__title">{entry.data.title}</span>
+                    <span class="feed-card__summary">{entry.data.summary}</span>
+                    <span class="feed-card__footer">
+                      <span class="feed-card__byline">
+                        <span class="feed-card__avatar" aria-hidden="true">
+                          <svg width="12" height="14" viewBox="0 0 7 8" shape-rendering="crispEdges">
+                            <rect x="0" y="0" width="3" height="1"/><rect x="0" y="1" width="1" height="1"/><rect x="2" y="1" width="1" height="1"/><rect x="0" y="2" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="0" y="3" width="3" height="1"/><rect x="0" y="4" width="1" height="4"/>
+                          </svg>
+                        </span>
+                        by&nbsp;<strong>{siteConfig.author.name}</strong>
+                      </span>
+                      {entry.data.topic && <span class="tag tag--green">{entry.data.topic}</span>}
+                    </span>
+                  </span>
+                </a>
+              ))}
+            </div>
+          </section>
         )}
       </article>
 
@@ -114,18 +198,6 @@ const metaTags = [post.data.topic, ...tags].filter((value): value is string => B
     align-items: start;
   }
 
-  .post-taxonomy {
-    margin-top: var(--space-8);
-    padding-top: var(--space-6);
-    border-top: 1px solid var(--color-border);
-  }
-
-  .post-taxonomy__chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-  }
-
   @media (max-width: 1024px) {
     .post-layout--with-toc {
       grid-template-columns: 1fr;
@@ -140,3 +212,20 @@ const metaTags = [post.data.topic, ...tags].filter((value): value is string => B
     }
   }
 </style>
+
+<script>
+  const copyButtons = document.querySelectorAll<HTMLButtonElement>('[data-copy-link]')
+
+  for (const button of copyButtons) {
+    button.addEventListener('click', async () => {
+      const url = window.location.href
+      try {
+        await navigator.clipboard.writeText(url)
+        button.setAttribute('data-tip', 'Copied!')
+      } catch {
+        button.setAttribute('data-tip', url)
+      }
+      window.setTimeout(() => button.setAttribute('data-tip', 'Copy link'), 1600)
+    })
+  }
+</script>
