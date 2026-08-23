@@ -75,8 +75,8 @@
   --space-9: 96px;
 
   /* Layout */
-  --content-width: 1200px;
-  --reading-width: 800px;
+  --content-width: 1300px;
+  --reading-width: 960px;
   --header-height: 208px;
 
   /* Motion */
@@ -92,6 +92,11 @@
   --radius-lg: 12px;
 
   --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 30px rgba(0, 0, 0, 0.28);
+
+  /* Paper grain — drawn as an ultra-subtle SVG noise tile blended over solid
+     block fills, so cards read as paper rather than flat UI panels */
+  --paper-noise: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http://www.w3.org/2000/svg'%20width%3D'220'%20height%3D'220'%3E%3Cfilter%20id%3D'n'%3E%3CfeTurbulence%20type%3D'fractalNoise'%20baseFrequency%3D'0.62'%20numOctaves%3D'2'%20seed%3D'7'%20stitchTiles%3D'stitch'/%3E%3CfeColorMatrix%20type%3D'saturate'%20values%3D'0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA%20type%3D'linear'%20slope%3D'0.08'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect%20width%3D'100%25'%20height%3D'100%25'%20filter%3D'url(%23n)'/%3E%3C/svg%3E");
+  --paper-grain-size: 220px;
 
   color-scheme: dark;
 }
@@ -1392,7 +1397,9 @@ a:hover {
   margin: 2rem 0;
   padding: var(--space-5) var(--space-6);
   border-left: 3px solid var(--color-green);
-  background: linear-gradient(180deg, rgba(14, 63, 50, 0.55), rgba(10, 46, 36, 0.9));
+  background-color: #0e3f32;
+  background-image: var(--paper-noise);
+  background-size: var(--paper-grain-size);
   border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
   color: var(--color-text-muted);
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
@@ -1404,9 +1411,9 @@ a:hover {
 
 .prose code {
   font-family: var(--font-mono);
-  font-size: 0.82em;
+  font-size: 0.9em;
   padding: 0.12em 0.4em;
-  background: linear-gradient(180deg, rgba(97, 255, 131, 0.09), rgba(97, 255, 131, 0.05));
+  background: rgba(97, 255, 131, 0.07);
   border: 1px solid rgba(21, 81, 68, 0.85);
   border-radius: 5px;
   color: var(--color-accent);
@@ -1416,7 +1423,9 @@ a:hover {
   position: relative;
   margin: 2rem 0;
   padding: 2.7rem var(--space-5) var(--space-5);
-  background: linear-gradient(180deg, #0b2f24 0%, #04150f 100%) !important;
+  background-color: #0b2f24 !important;
+  background-image: var(--paper-noise) !important;
+  background-size: var(--paper-grain-size);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow-x: auto;
@@ -1486,7 +1495,7 @@ a:hover {
   padding: 0;
   background: none;
   border: none;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   line-height: 1.75;
   color: #d8f7e6;
   white-space: pre;
@@ -1506,7 +1515,7 @@ a:hover {
   margin: 2rem 0;
   border-collapse: collapse;
   border-spacing: 0;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   line-height: 1.6;
   table-layout: auto;
   border: 1px solid var(--color-border);
@@ -1533,11 +1542,11 @@ a:hover {
 .prose th {
   color: var(--color-text-strong);
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  background: linear-gradient(180deg, #0e3f32, #0a2e24);
+  background: #0e3f32;
 }
 
 .prose td {
@@ -1568,7 +1577,7 @@ a:hover {
 }
 
 .post-header {
-  max-width: var(--reading-width);
+  max-width: min(var(--reading-width), calc(100% - 240px - var(--space-6)));
   padding-bottom: var(--space-5);
   margin-bottom: var(--space-7);
 }
@@ -1713,12 +1722,14 @@ a:hover {
 .tldr__panel {
   margin-top: var(--space-3);
   padding: var(--space-5) var(--space-6);
-  background: linear-gradient(180deg, rgba(14, 63, 50, 0.5), rgba(10, 46, 36, 0.92));
+  background-color: #0e3f32;
+  background-image: var(--paper-noise);
+  background-size: var(--paper-grain-size);
   border: 1px solid var(--color-border);
   border-left: 3px solid var(--color-green);
   border-radius: var(--radius-lg);
   font-family: var(--font-sans);
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   line-height: 1.8;
   color: var(--color-text-muted);
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
@@ -1728,7 +1739,7 @@ a:hover {
 .post-layout {
   display: grid;
   grid-template-columns: minmax(0, var(--reading-width)) 240px;
-  gap: var(--space-8);
+  gap: var(--space-6);
   align-items: start;
 }
 
@@ -1931,7 +1942,6 @@ a:hover {
   font-size: 0.85rem;
   line-height: 1.55;
   color: var(--color-text-faint);
-}
 }
 
 /* ============================================================
@@ -2370,6 +2380,10 @@ a:hover {
     display: none;
   }
 
+  .post-header {
+    max-width: none;
+  }
+
   .track-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -2548,7 +2562,9 @@ a:hover {
   border-radius: var(--radius-lg);
   overflow-x: auto;
   text-align: center;
-  background: linear-gradient(180deg, rgba(14, 63, 50, 0.45), rgba(8, 34, 27, 0.9));
+  background-color: #0e3f32;
+  background-image: var(--paper-noise);
+  background-size: var(--paper-grain-size);
   box-shadow: inset 0 1px 0 rgba(185, 255, 208, 0.05), 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
