@@ -75,8 +75,8 @@
   --space-9: 96px;
 
   /* Layout */
-  --content-width: 1300px;
-  --reading-width: 960px;
+  --content-width: 1368px;
+  --reading-width: 1000px;
   --header-height: 208px;
 
   /* Motion */
@@ -1577,7 +1577,6 @@ a:hover {
 }
 
 .post-header {
-  max-width: min(var(--reading-width), calc(100% - 240px - var(--space-6)));
   padding-bottom: var(--space-5);
   margin-bottom: var(--space-7);
 }
@@ -1741,8 +1740,15 @@ a:hover {
   grid-template-columns: minmax(0, var(--reading-width)) 240px;
   gap: var(--space-6);
   align-items: start;
+  justify-content: center;
 }
 
+/* Posts without a TOC get a single centered reading column — wide + centered */
+.post-layout:not(.post-layout--with-toc) {
+  grid-template-columns: minmax(0, var(--reading-width));
+}
+
+.post-column,
 .post-content {
   min-width: 0;
 }
@@ -2378,10 +2384,6 @@ a:hover {
 @media (max-width: 1024px) {
   .hero::after {
     display: none;
-  }
-
-  .post-header {
-    max-width: none;
   }
 
   .track-grid {

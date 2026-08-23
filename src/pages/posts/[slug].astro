@@ -44,8 +44,10 @@ const related = [...sameTrack, ...fallback].slice(0, 3)
   updatedAt={post.data.updatedAt}
   tags={metaTags}
 >
-  <div class="post-page">
-    <header class="post-header">
+  <div class:list={['post-page', hasToc ? 'post-page--with-toc' : 'post-page--no-toc']}>
+    <div class:list={['post-layout', hasToc ? 'post-layout--with-toc' : '']}>
+      <div class="post-column">
+        <header class="post-header">
       <!-- HN badge row: New Story · read time · track -->
       <div class="post-header__badges">
         <span class="badge-pill">
@@ -108,10 +110,9 @@ const related = [...sameTrack, ...fallback].slice(0, 3)
           <p class="tldr__panel">{post.data.summary}</p>
         </details>
       )}
-    </header>
+        </header>
 
-    <div class:list={['post-layout', hasToc ? 'post-layout--with-toc' : '']}>
-      <article class="post-content">
+        <article class="post-content">
         <div class="prose">
           <Content />
         </div>
@@ -174,7 +175,8 @@ const related = [...sameTrack, ...fallback].slice(0, 3)
             </div>
           </section>
         )}
-      </article>
+        </article>
+      </div>
 
       {hasToc && (
         <aside class="post-sidebar">
