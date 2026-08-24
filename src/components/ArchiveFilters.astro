@@ -1,6 +1,6 @@
 ---
-import type { PostEntry, TrackKey } from '../lib/posts'
-import { formatDate, getReadingTime, toPostPath, trackLabels } from '../lib/posts'
+import type { PostEntry } from '../lib/posts'
+import { formatDate, getAvailableTracks, getReadingTime, toPostPath, trackLabels } from '../lib/posts'
 import { formatTagLabel, getPostTags, getVisiblePostTags, toTagPath } from '../lib/post-tags'
 import { toTopicSlug } from '../lib/slug'
 
@@ -17,9 +17,7 @@ type Props = {
 }
 
 const { posts, topics, years } = Astro.props as Props
-const trackOptions = (['engineering', 'thinking', 'philosophy', 'work', 'games'] as TrackKey[]).filter((track) =>
-  posts.some((post) => post.data.track === track),
-)
+const trackOptions = await getAvailableTracks()
 const postsByYear = years
   .map((year) => ({
     year,
@@ -34,15 +32,17 @@ const postsByYear = years
     <p class="archive-header__summary">Browse the complete archive by track, topic, and year.</p>
   </header>
 
-  <!-- Track Filter Pills -->
-  <div class="archive-filters">
-    <button type="button" class="filter-pill is-active" data-track-shortcut="">
-      All
-    </button>
-    {trackOptions.map((track) => (
-      <button type="button" class="filter-pill" data-track-shortcut={track}>
-        {trackLabels[track]}
-      </button>
+  <!-- Current Track Indicator (hidden by default; JS toggles based on ?track= URL) -->
+  <div class="archive-track-indicator" data-track-indicator hidden>
+    <span class="archive-track-indicator__label">Filtering by</span>
+    <strong class="archive-track-indicator__value" data-track-indicator-label></strong>
+    <a class="archive-track-indicator__clear" href="/archive" aria-label="Clear track filter">× clear</a>
+  </div>
+
+  <!-- Hidden track-label map for the indicator -->
+  <div class="archive-track-labels" hidden aria-hidden="true">
+    {trackOptions.map(key => (
+      <span data-track-label={key}>{trackLabels[key]}</span>
     ))}
   </div>
 
@@ -152,9 +152,15 @@ const postsByYear = years
     const count = shell.querySelector<HTMLElement>('[data-archive-count]')
     const empty = shell.querySelector<HTMLElement>('[data-archive-empty]')
     const yearSections = [...shell.querySelectorAll<HTMLElement>('[data-archive-year]')]
-    const trackShortcuts = [...shell.querySelectorAll<HTMLButtonElement>('[data-track-shortcut]')]
     const topicShortcuts = [...shell.querySelectorAll<HTMLButtonElement>('[data-topic-shortcut]')]
     const yearShortcuts = [...shell.querySelectorAll<HTMLButtonElement>('[data-year-shortcut]')]
+    const trackLabelMap: Record<string, string> = {}
+    shell.querySelectorAll<HTMLElement>('[data-track-label]').forEach(el => {
+      const key = el.dataset.trackLabel
+      if (key) trackLabelMap[key] = el.textContent ?? ''
+    })
+    const trackIndicator = shell.querySelector<HTMLElement>('[data-track-indicator]')
+    const trackIndicatorLabel = shell.querySelector<HTMLElement>('[data-track-indicator-label]')
     const params = new URLSearchParams(window.location.search)
 
     let activeFilters = {
@@ -184,17 +190,22 @@ const postsByYear = years
         empty.hidden = visible > 0
       }
 
+      // Toggle the track indicator based on the active track filter
+      if (trackIndicator && trackIndicatorLabel) {
+        if (activeFilters.track && trackLabelMap[activeFilters.track]) {
+          trackIndicatorLabel.textContent = trackLabelMap[activeFilters.track]
+          trackIndicator.hidden = false
+        } else {
+          trackIndicator.hidden = true
+        }
+      }
+
       for (const section of yearSections) {
         const visibleItems = [...section.querySelectorAll<HTMLElement>('.post-card')].some((item) => item.style.display !== 'none')
         section.style.display = visibleItems ? '' : 'none'
       }
 
       // Update shortcut states
-      for (const shortcut of trackShortcuts) {
-        const value = shortcut.dataset.trackShortcut ?? ''
-        shortcut.classList.toggle('is-active', activeFilters.track === value)
-      }
-
       for (const shortcut of topicShortcuts) {
         const value = shortcut.dataset.topicShortcut ?? ''
         shortcut.classList.toggle('is-active', activeFilters.topic === value)
@@ -211,13 +222,6 @@ const postsByYear = years
       if (activeFilters.year) nextParams.set('year', activeFilters.year)
       const nextUrl = nextParams.toString() ? `${window.location.pathname}?${nextParams.toString()}` : window.location.pathname
       window.history.replaceState({}, '', nextUrl)
-    }
-
-    for (const shortcut of trackShortcuts) {
-      shortcut.addEventListener('click', () => {
-        activeFilters.track = shortcut.dataset.trackShortcut ?? ''
-        applyFilters()
-      })
     }
 
     for (const shortcut of topicShortcuts) {

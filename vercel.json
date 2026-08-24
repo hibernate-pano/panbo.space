@@ -1065,6 +1065,16 @@
       "permanent": true
     },
     {
+      "source": "/philosophy/柏拉图",
+      "destination": "/posts/柏拉图",
+      "permanent": true
+    },
+    {
+      "source": "/philosophy/柏拉图/",
+      "destination": "/posts/柏拉图",
+      "permanent": true
+    },
+    {
       "source": "/philosophy/存在的重量-自由-荒谬与责任",
       "destination": "/posts/存在的重量-自由-荒谬与责任",
       "permanent": true
@@ -1102,6 +1112,26 @@
     {
       "source": "/philosophy/叔本华与东方哲学/",
       "destination": "/posts/叔本华与东方哲学",
+      "permanent": true
+    },
+    {
+      "source": "/psychology/阿德勒",
+      "destination": "/posts/阿德勒",
+      "permanent": true
+    },
+    {
+      "source": "/psychology/阿德勒/",
+      "destination": "/posts/阿德勒",
+      "permanent": true
+    },
+    {
+      "source": "/psychology/弗洛伊德",
+      "destination": "/posts/弗洛伊德",
+      "permanent": true
+    },
+    {
+      "source": "/psychology/弗洛伊德/",
+      "destination": "/posts/弗洛伊德",
       "permanent": true
     },
     {

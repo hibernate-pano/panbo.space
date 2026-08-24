@@ -1,23 +1,26 @@
 ---
+import { getAvailableTracks, trackLabels } from '../lib/posts'
+
 const currentPath = Astro.url.pathname
 const currentTrack = Astro.url.searchParams.get('track') ?? 'all'
 
 // Band 2 nav — HN: READ / TOP BLOGS / WRITE NOW / ABOUT
 const navItems = [
   { href: '/archive', label: 'Archive', matches: ['/archive'] },
-  { href: '/tags', label: 'Index', matches: ['/topics/', '/tags'] },
+  { href: '/topics', label: 'Topics', matches: ['/topics/'] },
+  { href: '/tags', label: 'Tags', matches: ['/tags/'] },
   { href: '/about', label: 'About', matches: ['/about'] },
   { href: '/search', label: 'Search', matches: ['/search'] },
 ]
 
-// Band 3 track tabs — replaces HN's category bar
+// Band 3 track tabs — derived from single source of truth (lib/posts.getAvailableTracks)
 const tracks = [
   { key: 'all', label: 'All', href: '/archive' },
-  { key: 'thinking', label: 'Thinking', href: '/archive?track=thinking' },
-  { key: 'work', label: 'Work Notes', href: '/archive?track=work' },
-  { key: 'philosophy', label: 'Philosophy', href: '/archive?track=philosophy' },
-  { key: 'engineering', label: 'Engineering', href: '/archive?track=engineering' },
-  { key: 'games', label: 'Games', href: '/archive?track=games' },
+  ...(await getAvailableTracks()).map(key => ({
+    key,
+    label: trackLabels[key],
+    href: `/archive?track=${key}`,
+  })),
 ]
 
 const isActive = (matches: string[], href: string) =>

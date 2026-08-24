@@ -18,6 +18,7 @@ const allThinkingPosts = await getPostsByTrack('thinking')
 const allWorkPosts = await getPostsByTrack('work')
 const allEngineeringPosts = await getPostsByTrack('engineering')
 const allPhilosophyPosts = await getPostsByTrack('philosophy')
+const allPsychologyPosts = await getPostsByTrack('psychology')
 const allGamesPosts = await getPostsByTrack('games')
 const topicMap = await getTopicMap()
 
@@ -33,6 +34,9 @@ const tracks = [
   { name: 'Thinking', desc: '职业判断、长期主义与个人系统', count: allThinkingPosts.length, href: '/archive?track=thinking' },
   { name: 'Work Notes', desc: '组织约束、项目推进与真实现场', count: allWorkPosts.length, href: '/archive?track=work' },
   { name: 'Philosophy', desc: '哲学思辨、存在与意义的长期阅读', count: allPhilosophyPosts.length, href: '/archive?track=philosophy' },
+  ...(allPsychologyPosts.length
+    ? [{ name: 'Psychology', desc: '人格、潜意识与心灵的现代解读', count: allPsychologyPosts.length, href: '/archive?track=psychology' }]
+    : []),
   ...(allEngineeringPosts.length
     ? [{ name: 'Engineering', desc: '系统、架构与工程判断', count: allEngineeringPosts.length, href: '/archive?track=engineering' }]
     : []),

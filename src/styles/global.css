@@ -76,7 +76,7 @@
 
   /* Layout */
   --content-width: 1368px;
-  --reading-width: 1000px;
+  --reading-width: 1060px;
   --header-height: 208px;
 
   /* Motion */
@@ -1865,11 +1865,10 @@ a:hover {
 
 /* ============================================================
    21. BROWSE / PAGE HEADERS
+   ============================================================
+   Archive page reuses the site-main canvas so its post-card list
+   matches the width of the homepage Latest Stories (1304px content area).
    ============================================================ */
-.page-browse {
-  max-width: 980px;
-}
-
 .page-shell {
   padding: var(--space-8) 0;
 }
@@ -2029,6 +2028,43 @@ a:hover {
   text-transform: uppercase;
   color: var(--color-text-muted);
   margin-bottom: var(--space-5);
+}
+
+/* Compact indicator shown when URL has ?track=xx (header Band 3 owns the switch) */
+.archive-track-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  margin: 0 0 var(--space-4) 0;
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.archive-track-indicator__value {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.archive-track-indicator__clear {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  margin-left: 4px;
+  padding: 0 4px;
+  border-radius: 3px;
+  transition: color var(--duration-fast), background var(--duration-fast);
+}
+
+.archive-track-indicator__clear:hover {
+  color: var(--color-accent);
+  background: rgba(97, 255, 131, 0.08);
 }
 
 .archive-count::before {

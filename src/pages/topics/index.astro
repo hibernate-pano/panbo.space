@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { getTopicMap } from '../../lib/posts'
+import { toTopicSlug } from '../../lib/slug'
+
+const topicMap = await getTopicMap()
+const topicDirectory = [...topicMap.entries()]
+  .map(([topic, posts]) => ({ topic, count: posts.length }))
+  .sort((left, right) => {
+    if (left.count !== right.count) return right.count - left.count
+    return left.topic.localeCompare(right.topic, 'zh-CN')
+  })
+
+const formatCount = (count: number) => `${count} 篇`
+---
+
+<BaseLayout
+  title="Topics"
+  description="按主题浏览 panbo.space 的文章系列归档。"
+  mainClass="page-browse"
+>
+  <section class="page-shell">
+    <header class="page-header">
+      <p class="page-header__eyebrow">Topic register</p>
+      <h1>主题档案</h1>
+      <p>
+        Topic 由作者在每篇文章的 frontmatter <code>topic</code> 字段指定。它比 tag 更聚焦——一个 topic 通常代表一个完整系列，
+        适合顺着阅读。Tag 是跨主题的横向交叉索引（见 <a href="/tags">Tags</a>）。
+      </p>
+    </header>
+
+    <div class="tag-directory">
+      {topicDirectory.map((item) => (
+        <a class="tag-directory__item" href={`/topics/${toTopicSlug(item.topic)}`}>
+          <span>Series</span>
+          <strong>{item.topic}</strong>
+          <p>{formatCount(item.count)} 文章落在这个主题下，按最近更新时间倒序排列。</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

@@ -11,6 +11,7 @@ export const trackLabels: Record<TrackKey, string> = {
   engineering: 'Engineering',
   thinking: 'Thinking',
   philosophy: 'Philosophy',
+  psychology: 'Psychology',
   work: 'Work Notes',
   games: 'Games',
 }
@@ -80,6 +81,17 @@ export const getFeaturedPosts = async (limit = 6): Promise<PostEntry[]> => {
 export const getPostsByTrack = async (track: TrackKey): Promise<PostEntry[]> => {
   const posts = await getAllPosts()
   return posts.filter((post) => post.data.track === track)
+}
+
+// Canonical track display order — single source of truth for SiteHeader and ArchiveFilters.
+// Order encodes an editorial progression: practical reflection → abstract (philosophy, psychology)
+// → operational (work, engineering) → leisure.
+const trackOrder: TrackKey[] = ['thinking', 'philosophy', 'psychology', 'work', 'engineering', 'games']
+
+export const getAvailableTracks = async (): Promise<TrackKey[]> => {
+  const posts = await getAllPosts()
+  const present = new Set(posts.map(post => post.data.track))
+  return trackOrder.filter(track => present.has(track))
 }
 
 export const getTopicMap = async (): Promise<Map<string, PostEntry[]>> => {
