@@ -1,5 +1,6 @@
 ---
 import type { PostEntry } from '../lib/posts'
+import type { TrackKey } from '../lib/posts'
 import { formatDate, getAvailableTracks, getReadingTime, toPostPath, trackHue, trackLabels } from '../lib/posts'
 import { formatTagLabel, getPostTags, getVisiblePostTags, toTagPath } from '../lib/post-tags'
 import { toTopicSlug } from '../lib/slug'
@@ -17,7 +18,9 @@ type Props = {
 }
 
 const { posts, topics, years } = Astro.props as Props
+
 const trackOptions = await getAvailableTracks()
+const trackCount = (key: string) => posts.filter((post) => post.data.track === key).length
 const postsByYear = years
   .map((year) => ({
     year,
@@ -32,6 +35,22 @@ const postsByYear = years
     <h1 class="archive-header__title">全部归档</h1>
     <p class="archive-header__summary">按栏目、主题和年份浏览这个档案里的每一篇笔记。</p>
   </header>
+
+  <!-- Track switcher: local tabs, mirrors ?track= URL state -->
+  <div class="archive-tracks" role="group" aria-label="按栏目筛选">
+    <button type="button" class="archive-track-btn" data-archive-track="" style="--track-hue: var(--accent)">
+      <span class="archive-track-btn__dot" aria-hidden="true"></span>
+      全部
+      <span class="archive-track-btn__count">{posts.length}</span>
+    </button>
+    {trackOptions.map((key) => (
+      <button type="button" class="archive-track-btn" data-archive-track={key} style={`--track-hue: ${trackHue[key as TrackKey]}`}>
+        <span class="archive-track-btn__dot" aria-hidden="true"></span>
+        {trackLabels[key as TrackKey]}
+        <span class="archive-track-btn__count">{trackCount(key)}</span>
+      </button>
+    ))}
+  </div>
 
   <!-- Current Track Indicator (hidden by default; JS toggles based on ?track= URL) -->
   <div class="archive-track-indicator" data-track-indicator hidden>
@@ -78,7 +97,8 @@ const postsByYear = years
       {postsByYear.map((group) => (
         <section class="archive-year" data-archive-year>
           <header class="archive-year__head">
-            <span class="mono">{group.year}</span>
+            <span class="archive-year__year">{group.year}</span>
+            <span class="archive-year__count">{group.posts.length} 篇</span>
           </header>
 
           <div class="archive-year__list">
@@ -144,6 +164,7 @@ const postsByYear = years
     const yearSections = [...shell.querySelectorAll<HTMLElement>('[data-archive-year]')]
     const topicShortcuts = [...shell.querySelectorAll<HTMLButtonElement>('[data-topic-shortcut]')]
     const yearShortcuts = [...shell.querySelectorAll<HTMLButtonElement>('[data-year-shortcut]')]
+    const trackButtons = [...shell.querySelectorAll<HTMLButtonElement>('[data-archive-track]')]
     const trackLabelMap: Record<string, string> = {}
     shell.querySelectorAll<HTMLElement>('[data-track-label]').forEach(el => {
       const key = el.dataset.trackLabel
@@ -195,8 +216,21 @@ const postsByYear = years
         section.style.display = visibleItems ? '' : 'none'
       }
 
+      // Update track switcher active state
+      for (const btn of trackButtons) {
+        btn.classList.toggle('is-active', (btn.dataset.archiveTrack ?? '') === activeFilters.track)
+      }
+
       // Update shortcut states
-      for (const shortcut of topicShortcuts) {
+      for (const btn of trackButtons) {
+      btn.addEventListener('click', () => {
+        const value = btn.dataset.archiveTrack ?? ''
+        activeFilters.track = activeFilters.track === value ? '' : value
+        applyFilters()
+      })
+    }
+
+    for (const shortcut of topicShortcuts) {
         const value = shortcut.dataset.topicShortcut ?? ''
         shortcut.classList.toggle('is-active', activeFilters.topic === value)
       }

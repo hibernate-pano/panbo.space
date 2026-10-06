@@ -166,6 +166,7 @@ body {
   background: var(--bg);
   min-height: 100vh;
   overflow-x: hidden;
+  transition: background-color var(--duration-normal) ease, color var(--duration-normal) ease;
 }
 
 /* Warm paper grain — fixed so it never scrolls with content */
@@ -343,7 +344,7 @@ a:hover {
   width: 100%;
   max-width: var(--content-width);
   margin: 0 auto;
-  padding: var(--space-8) var(--space-6) var(--space-9);
+  padding: var(--space-8) var(--space-6) var(--space-8);
 }
 
 /* ============================================================
@@ -533,7 +534,6 @@ a:hover {
    7. FOOTER
    ============================================================ */
 .site-footer {
-  margin-top: var(--space-9);
   border-top: 1px solid var(--border);
   background: var(--bg-tint);
 }
@@ -670,6 +670,45 @@ a:hover {
   flex-wrap: wrap;
 }
 
+/* Quick access to every shelf — small, hue-coded pills under the CTA */
+.hero__tracks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: var(--space-5);
+}
+
+.hero__track {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 30px;
+  padding: 0 13px;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--track-hue, var(--accent));
+  background: color-mix(in srgb, var(--track-hue, var(--accent)) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--track-hue, var(--accent)) 24%, transparent);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  transition: background var(--duration-fast) var(--ease-soft),
+              color var(--duration-fast) var(--ease-soft),
+              border-color var(--duration-fast) var(--ease-soft);
+}
+
+.hero__track:hover {
+  background: color-mix(in srgb, var(--track-hue, var(--accent)) 15%, transparent);
+  border-color: color-mix(in srgb, var(--track-hue, var(--accent)) 40%, transparent);
+}
+
+.hero__track-count {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
+}
+
 /* ============================================================
    9. STATS — quiet inline ledger
    ============================================================ */
@@ -719,8 +758,8 @@ a:hover {
   padding: var(--space-8) 0;
 }
 
-.section--bordered {
-  border-bottom: 1px solid var(--border);
+.section + .section {
+  border-top: 1px solid var(--border);
 }
 
 .section__header {
@@ -977,8 +1016,9 @@ a:hover {
    13. TOPIC LIST
    ============================================================ */
 .topic-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--space-7);
 }
 
 .topic-item {
@@ -994,10 +1034,6 @@ a:hover {
   text-decoration: none;
   transition: background var(--duration-fast) var(--ease-soft),
               padding-left var(--duration-fast) var(--ease-soft);
-}
-
-.topic-item:last-child {
-  border-bottom: none;
 }
 
 .topic-item:hover {
@@ -1916,6 +1952,16 @@ a.badge-pill:hover svg {
   margin-bottom: var(--space-5);
 }
 
+/* Inside the reading column the cards go compact: narrower thumb, smaller title */
+.post-related .feed-card {
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+.post-related .feed-card__title {
+  font-size: 1.15rem;
+}
+
 /* ============================================================
    19. TOOLTIP
    ============================================================ */
@@ -2227,6 +2273,10 @@ a.badge-pill:hover svg {
   position: sticky;
   top: var(--header-height);
   z-index: 2;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
   margin-bottom: var(--space-3);
   padding: var(--space-2) 0;
   background: color-mix(in srgb, var(--bg) 88%, transparent);
@@ -2237,6 +2287,18 @@ a.badge-pill:hover svg {
   font-weight: 500;
   letter-spacing: -0.02em;
   color: var(--text-strong);
+}
+
+.archive-year__year {
+  color: var(--text-strong);
+}
+
+.archive-year__count {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 450;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
 }
 
 .archive-year__list {
@@ -2570,6 +2632,7 @@ a.badge-pill:hover svg {
 .rise:nth-child(2) { animation-delay: 70ms; }
 .rise:nth-child(3) { animation-delay: 140ms; }
 .rise:nth-child(4) { animation-delay: 210ms; }
+.rise:nth-child(5) { animation-delay: 280ms; }
 
 /* ============================================================
    27. KEYFRAMES
@@ -2701,11 +2764,20 @@ a.badge-pill:hover svg {
   .post-header__tools {
     display: none;
   }
+
 }
 
 @media (max-width: 560px) {
   .site-main {
     padding: var(--space-6) var(--space-4) var(--space-8);
+  }
+
+  .hero__summary {
+    font-size: 1rem;
+  }
+
+  .topic-list {
+    grid-template-columns: 1fr;
   }
 
   .site-header__inner {
@@ -3074,5 +3146,122 @@ a.badge-pill:hover svg {
 
   .site-header__nav {
     display: none;
+  }
+}
+
+/* ============================================================
+   32. BACK TO TOP
+   Appears once the reader is past the fold on long pages.
+   ============================================================ */
+.back-to-top {
+  position: fixed;
+  right: clamp(var(--space-4), 3vw, var(--space-6));
+  bottom: clamp(var(--space-4), 3vw, var(--space-6));
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--text-muted);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  cursor: pointer;
+  transition: opacity var(--duration-normal) var(--ease-soft),
+              transform var(--duration-normal) var(--ease-soft),
+              color var(--duration-fast) var(--ease-soft),
+              border-color var(--duration-fast) var(--ease-soft);
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.back-to-top:hover {
+  color: var(--accent);
+  border-color: var(--accent-line);
+}
+
+/* ============================================================
+   33. ARCHIVE TRACK SWITCHER
+   Local tabs for filtering the archive by track, independent
+   of the header (which stays a single calm row).
+   ============================================================ */
+.archive-tracks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--border);
+}
+
+.archive-track-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 15px;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-soft),
+              border-color var(--duration-fast) var(--ease-soft),
+              background var(--duration-fast) var(--ease-soft);
+}
+
+.archive-track-btn:hover {
+  color: var(--text-strong);
+  border-color: var(--border-strong);
+  background: var(--bg-raised);
+}
+
+.archive-track-btn.is-active {
+  color: var(--track-hue, var(--accent));
+  border-color: color-mix(in srgb, var(--track-hue, var(--accent)) 38%, transparent);
+  background: color-mix(in srgb, var(--track-hue, var(--accent)) 10%, transparent);
+}
+
+.archive-track-btn__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.85;
+}
+
+.archive-track-btn__count {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.archive-track-btn.is-active .archive-track-btn__count {
+  color: inherit;
+  opacity: 0.75;
+}
+
+@media (max-width: 820px) {
+  .archive-tracks {
+    gap: 5px;
+  }
+
+  .archive-track-btn {
+    height: 32px;
+    padding: 0 12px;
+    font-size: 0.8rem;
   }
 }

@@ -70,6 +70,14 @@ const topics = [...topicMap.entries()]
           {siteConfig.hero.secondaryCta.label}
         </a>
       </div>
+      <div class="hero__tracks rise">
+        {tracks.map((track) => (
+          <a class="hero__track" href={`/archive?track=${track.key}`} style={`--track-hue: ${trackHue[track.key]}`}>
+            {track.label}
+            <span class="hero__track-count">{track.count}</span>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 
