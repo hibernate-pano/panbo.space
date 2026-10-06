@@ -1,8 +1,9 @@
 <section class="search-page" data-search-shell>
   <header class="search-header">
-    <h1 class="search-header__title">Search</h1>
+    <p class="page-header__eyebrow">Search</p>
+    <h1 class="search-header__title">搜索</h1>
     <p class="search-header__summary">
-      Search across the archive by title, topic, tag, or phrase.
+      按标题、主题、标签或关键词检索整个档案。
     </p>
   </header>
 
@@ -10,14 +11,14 @@
     <input
       class="search-input"
       type="search"
-      placeholder="Search notes..."
+      placeholder="搜索笔记…"
       autocomplete="off"
       data-search-input
     />
-    <p class="search-hint">Press <kbd>⌘K</kbd> anytime to focus</p>
+    <p class="search-hint">随时按 <kbd>⌘K</kbd> 聚焦搜索框</p>
   </div>
 
-  <p class="search-status" data-search-status aria-live="polite">Enter at least 1 keyword to search.</p>
+  <p class="search-status" data-search-status aria-live="polite">输入至少一个关键词开始搜索。</p>
 
   <div class="search-results" data-search-results></div>
 </section>
@@ -58,7 +59,7 @@
         .catch((error) => {
           pagefindPromise = undefined
           if (!silent) {
-            status.textContent = 'Search index will be available after build.'
+            status.textContent = '搜索索引将在构建后可用。'
           }
           throw error
         })
@@ -101,20 +102,20 @@
       history.replaceState({}, '', nextParams.toString() ? `?${nextParams.toString()}` : window.location.pathname)
 
       if (!query) {
-        renderEmpty('Enter at least 1 keyword to search.')
+        renderEmpty('输入至少一个关键词开始搜索。')
         return
       }
 
-      status.textContent = pagefindModule ? 'Searching...' : 'Loading search index...'
+      status.textContent = pagefindModule ? '搜索中…' : '正在加载搜索索引…'
       const api = await loadPagefind()
       if (!api || currentToken !== searchToken) return
 
-      status.textContent = 'Processing results...'
+      status.textContent = '正在处理结果…'
       const search = await api.search(query)
       if (currentToken !== searchToken) return
 
       if (!search.results.length) {
-        renderEmpty('No results found.')
+        renderEmpty('没有找到结果。')
         return
       }
 
@@ -123,8 +124,8 @@
 
       status.textContent =
         search.results.length > data.length
-          ? `Found ${search.results.length} results, showing first ${data.length}.`
-          : `Found ${data.length} results.`
+          ? `找到 ${search.results.length} 条结果，显示前 ${data.length} 条。`
+          : `找到 ${data.length} 条结果。`
       results.innerHTML = data
         .map(
           (item) => `

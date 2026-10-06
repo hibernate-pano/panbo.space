@@ -1,80 +1,53 @@
 ---
-import { getAvailableTracks, trackLabels } from '../lib/posts'
+import { getAllPosts } from '../lib/posts'
 
 const currentPath = Astro.url.pathname
-const currentTrack = Astro.url.searchParams.get('track') ?? 'all'
 
-// Band 2 nav — HN: READ / TOP BLOGS / WRITE NOW / ABOUT
 const navItems = [
   { href: '/archive', label: 'Archive', matches: ['/archive'] },
   { href: '/topics', label: 'Topics', matches: ['/topics/'] },
   { href: '/tags', label: 'Tags', matches: ['/tags/'] },
   { href: '/projects', label: 'Projects', matches: ['/projects'] },
   { href: '/about', label: 'About', matches: ['/about'] },
-  { href: '/search', label: 'Search', matches: ['/search'] },
-]
-
-// Band 3 track tabs — derived from single source of truth (lib/posts.getAvailableTracks)
-const tracks = [
-  { key: 'all', label: 'All', href: '/archive' },
-  ...(await getAvailableTracks()).map(key => ({
-    key,
-    label: trackLabels[key],
-    href: `/archive?track=${key}`,
-  })),
 ]
 
 const isActive = (matches: string[], href: string) =>
   currentPath === href || matches.some((match) => currentPath === match || currentPath.startsWith(match))
+
+// Per-nav note shown on mobile; count is real, so no dead links
+const allPosts = await getAllPosts()
+const noteFor = (href: string): string => {
+  if (href === '/archive') return `${allPosts.length} 篇`
+  if (href === '/topics') {
+    const topics = new Set(allPosts.map((post) => post.data.topic).filter(Boolean))
+    return `${topics.size} 个`
+  }
+  if (href === '/tags') return '索引'
+  if (href === '/projects') return '作品'
+  return ''
+}
 ---
 
 <header class="site-header">
-  <!-- Band 1: bright green brand bar -->
-  <div class="site-header__bar">
-    <div class="site-header__inner">
-      <a class="site-header__discover" href="/search" aria-label="Discover anything — search">
-        Discover Anything
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
-          <circle cx="11" cy="11" r="7"/>
-          <path d="m21 21-4.35-4.35"/>
-        </svg>
-      </a>
+  <div class="site-header__inner">
+    <a class="site-header__brand" href="/" aria-label="panbo.space — home">
+      <svg
+        class="site-header__brand-mark"
+        width="19"
+        height="19"
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M12 2.6 14.1 8.4 20 10.3l-5.9 1.9L12 18l-2.1-5.8L4 10.3l5.9-1.9L12 2.6Z"
+          fill="currentColor"
+        />
+        <circle cx="18.6" cy="17.8" r="2.4" fill="currentColor" opacity="0.5" />
+      </svg>
+      <span class="site-header__brand-name">panbo<span class="site-header__brand-dot">.</span>space</span>
+    </a>
 
-      <a class="site-header__brand" href="/" aria-label="panbo.space home">
-        <svg class="site-header__brand-mark" width="19" height="22" viewBox="0 0 7 8" shape-rendering="crispEdges" aria-hidden="true">
-          <rect x="0" y="0" width="3" height="1"/>
-          <rect x="0" y="1" width="1" height="1"/>
-          <rect x="2" y="1" width="1" height="1"/>
-          <rect x="0" y="2" width="1" height="1"/>
-          <rect x="2" y="2" width="1" height="1"/>
-          <rect x="0" y="3" width="3" height="1"/>
-          <rect x="0" y="4" width="1" height="4"/>
-        </svg>
-        <span class="site-header__brand-name">panbo<span class="site-header__brand-dot">.</span>space</span>
-        <span class="site-header__cursor" aria-hidden="true"></span>
-      </a>
-
-      <div class="site-header__actions">
-        <a class="site-header__action" href="/search" aria-label="Search (Ctrl K)">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
-            <circle cx="11" cy="11" r="7"/>
-            <path d="m21 21-4.35-4.35"/>
-          </svg>
-          <kbd>Ctrl K</kbd>
-        </a>
-        <a class="site-header__action" href="/rss.xml" aria-label="RSS Feed" title="RSS">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
-            <path d="M4 11a9 9 0 0 1 9 9"/>
-            <path d="M4 4a16 16 0 0 1 16 16"/>
-            <circle cx="5" cy="19" r="1.6"/>
-          </svg>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Band 2: mid-green nav bar (uppercase, centered — HN style) -->
-  <div class="site-header__navbar">
     <nav class="site-header__nav" aria-label="Primary">
       {navItems.map((item) => (
         <a
@@ -88,41 +61,66 @@ const isActive = (matches: string[], href: string) =>
         </a>
       ))}
     </nav>
-  </div>
 
-  <!-- Band 3: deep teal track bar -->
-  <div class="site-header__trackbar">
-    <div class="site-header__inner">
-      <nav class="site-header__tracks" aria-label="Tracks">
-        {tracks.map((track) => (
-          <a
-            href={track.href}
-            class:list={['track-chip', currentTrack === track.key && 'is-active']}
-            data-track-link
-            data-track={track.key}
-            aria-current={currentTrack === track.key ? 'page' : undefined}
-          >
-            {track.label}
-          </a>
-        ))}
-      </nav>
-      <span class="site-header__prompt" aria-hidden="true">$ panbo --archive --all</span>
+    <div class="site-header__actions">
+      <button
+        type="button"
+        class="site-header__menu-btn"
+        data-menu-toggle
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        aria-label="打开菜单"
+      >
+        <svg class="icon-menu" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+        <svg class="icon-close" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="m6 6 12 12M18 6 6 18" />
+        </svg>
+      </button>
+
+      <a class="header-action" href="/search" aria-label="Search (Ctrl K)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
+        <kbd>⌘K</kbd>
+      </a>
+
+      <button type="button" class="header-action theme-toggle" data-theme-toggle aria-label="切换明暗主题" title="切换明暗主题">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+        </svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" />
+        </svg>
+      </button>
+
+      <a class="header-action" href="/rss.xml" aria-label="RSS Feed" title="RSS">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <path d="M4 11a9 9 0 0 1 9 9" />
+          <path d="M4 4a16 16 0 0 1 16 16" />
+          <circle cx="5" cy="19" r="1.5" />
+        </svg>
+      </a>
     </div>
   </div>
-</header>
 
-<style>
-  @media (max-width: 768px) {
-    .site-header__tracks {
-      height: 56px;
-    }
-    .track-chip {
-      font-size: 0.88rem;
-      padding: 7px 12px;
-    }
-    .site-header__prompt,
-    .site-header__discover {
-      display: none;
-    }
-  }
-</style>
+  <nav class="mobile-nav" id="mobile-nav" data-mobile-nav aria-label="Mobile">
+    <div class="mobile-nav__list">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          data-nav-link
+          data-match={item.matches.join(',')}
+          class:list={[isActive(item.matches, item.href) && 'is-active']}
+          aria-current={isActive(item.matches, item.href) ? 'page' : undefined}
+        >
+          <span>{item.label}</span>
+          <span class="mobile-nav__count">{noteFor(item.href)}</span>
+        </a>
+      ))}
+    </div>
+  </nav>
+</header>

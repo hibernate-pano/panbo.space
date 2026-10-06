@@ -1,10 +1,9 @@
 ---
+import '@fontsource-variable/newsreader/wght.css'
+import '@fontsource-variable/newsreader/wght-italic.css'
+import '@fontsource-variable/inter/wght.css'
 import '@fontsource/ibm-plex-mono/latin-400.css'
-import '@fontsource/ibm-plex-mono/latin-600.css'
-import '@fontsource/ibm-plex-mono/latin-700.css'
-import '@fontsource/ibm-plex-sans/latin-400.css'
-import '@fontsource/ibm-plex-sans/latin-600.css'
-import '@fontsource/ibm-plex-sans/latin-700.css'
+import '@fontsource/ibm-plex-mono/latin-500.css'
 import '../styles/global.css'
 import { siteConfig } from '../data/site'
 import SiteFooter from '../components/SiteFooter.astro'
@@ -40,11 +39,22 @@ const pageTitle = title === siteConfig.title ? siteConfig.title : `${title} · $
 const canonicalUrl = new URL(canonicalPath, siteConfig.site).toString()
 const imageUrl = image.startsWith('http') ? image : new URL(image, siteConfig.site).toString()
 
+// Runs before first paint so a dark-mode reader never sees a white flash.
+const themeBoot = `
+  (() => {
+    try {
+      const stored = localStorage.getItem('theme');
+      const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const resolved = stored === 'light' || stored === 'dark' ? stored : (dark ? 'dark' : 'light');
+      document.documentElement.dataset.theme = resolved;
+    } catch {}
+  })();
+`
+
 const runtimeScript = `
   (() => {
     let tocObserver;
 
-    // Reading progress
     const syncProgress = () => {
       const progress = document.querySelector('[data-reading-progress]');
       if (!progress) return;
@@ -53,14 +63,12 @@ const runtimeScript = `
       progress.style.transform = 'scaleX(' + ratio + ')';
     };
 
-    // Header scroll state — sticky black bar stays, green trackbar collapses
     const syncHeaderState = () => {
       const header = document.querySelector('.site-header');
       if (!header) return;
       header.classList.toggle('site-header--scrolled', window.scrollY > 8);
     };
 
-    // Active nav link (brand bar)
     const syncActiveNav = () => {
       const pathname = window.location.pathname;
       document.querySelectorAll('[data-nav-link]').forEach((link) => {
@@ -75,17 +83,54 @@ const runtimeScript = `
       });
     };
 
-    // Active track chip (green trackbar)
-    const syncActiveTrack = () => {
-      const track = new URLSearchParams(window.location.search).get('track') || 'all';
-      document.querySelectorAll('[data-track-link]').forEach((link) => {
-        const active = (link.getAttribute('data-track') || 'all') === track;
-        link.classList.toggle('is-active', active);
-        link.setAttribute('aria-current', active ? 'page' : 'false');
+    const setupThemeToggle = () => {
+      const toggle = document.querySelector('[data-theme-toggle]');
+      if (!toggle || toggle.dataset.ready === 'true') return;
+      toggle.dataset.ready = 'true';
+
+      toggle.addEventListener('click', () => {
+        const current = document.documentElement.dataset.theme
+          || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const next = current === 'dark' ? 'light' : 'dark';
+
+        document.documentElement.dataset.theme = next;
+        try {
+          localStorage.setItem('theme', next);
+        } catch {}
+        document.dispatchEvent(new CustomEvent('themechange', { detail: { theme: next } }));
       });
     };
 
-    // Table of contents
+    const setupMobileNav = () => {
+      const toggle = document.querySelector('[data-menu-toggle]');
+      const nav = document.querySelector('[data-mobile-nav]');
+      if (!toggle || !nav || toggle.dataset.ready === 'true') return;
+      toggle.dataset.ready = 'true';
+
+      const setOpen = (open) => {
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+        nav.classList.toggle('is-open', open);
+      };
+
+      toggle.addEventListener('click', () => {
+        setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+      });
+
+      nav.addEventListener('click', (event) => {
+        if (event.target.closest('a')) setOpen(false);
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') setOpen(false);
+      });
+
+      // Leaving mobile width should not leave the sheet stuck open
+      window.matchMedia('(min-width: 821px)').addEventListener('change', (event) => {
+        if (event.matches) setOpen(false);
+      });
+    };
+
     const setupToc = () => {
       tocObserver?.disconnect();
 
@@ -97,7 +142,7 @@ const runtimeScript = `
       if (!links.length || !headings.length) return;
 
       const updateActiveHeading = () => {
-        const currentHeading = [...headings].reverse().find((heading) => heading.getBoundingClientRect().top <= 120) || headings[0];
+        const currentHeading = [...headings].reverse().find((heading) => heading.getBoundingClientRect().top <= 140) || headings[0];
 
         links.forEach((link) => {
           link.classList.toggle('is-active', link.getAttribute('data-toc-link') === currentHeading.id);
@@ -105,7 +150,7 @@ const runtimeScript = `
       };
 
       tocObserver = new IntersectionObserver(updateActiveHeading, {
-        rootMargin: '-80px 0px -70% 0px',
+        rootMargin: '-100px 0px -70% 0px',
         threshold: [0, 1],
       });
 
@@ -113,7 +158,6 @@ const runtimeScript = `
       updateActiveHeading();
     };
 
-    // Search focus
     const focusSearchInput = () => {
       document.querySelector('[data-search-input]')?.focus();
     };
@@ -139,7 +183,6 @@ const runtimeScript = `
       window.location.href = '/search';
     };
 
-    // Code block copy buttons
     const setupCodeCopy = () => {
       document.querySelectorAll('.prose pre').forEach((pre) => {
         if (pre.dataset.copyReady) return
@@ -151,7 +194,7 @@ const runtimeScript = `
         const button = document.createElement('button')
         button.type = 'button'
         button.className = 'code-copy'
-        button.textContent = 'Copy'
+        button.textContent = '复制'
         button.setAttribute('aria-label', 'Copy code to clipboard')
         pre.append(button)
 
@@ -177,17 +220,16 @@ const runtimeScript = `
             textarea.remove()
           }
 
-          button.textContent = ok ? 'Copied' : 'Copy'
+          button.textContent = ok ? '已复制' : '复制'
           button.classList.toggle('is-copied', ok)
           window.setTimeout(() => {
-            button.textContent = 'Copy'
+            button.textContent = '复制'
             button.classList.remove('is-copied')
           }, 1500)
         })
       })
     };
 
-    // Scroll animations
     const setupScrollAnimations = () => {
       const elements = document.querySelectorAll('.animate-on-scroll');
       if (!elements.length) return;
@@ -211,16 +253,22 @@ const runtimeScript = `
       syncProgress();
       syncHeaderState();
       syncActiveNav();
-      syncActiveTrack();
+      setupThemeToggle();
+      setupMobileNav();
       setupToc();
       setupScrollAnimations();
       setupCodeCopy();
     };
 
-    // Event listeners
+    let ticking = false;
     window.addEventListener('scroll', () => {
-      syncProgress();
-      syncHeaderState();
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        syncProgress();
+        syncHeaderState();
+        ticking = false;
+      });
     }, { passive: true });
 
     window.addEventListener('resize', () => {
@@ -256,14 +304,17 @@ const runtimeScript = `
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
     <meta name="twitter:creator" content="@HibernatePano" />
-    <meta name="theme-color" content="#061f19" />
+    <meta name="theme-color" content="#faf9f5" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1f1e1d" media="(prefers-color-scheme: dark)" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)" />
     {tags.length > 0 && <meta name="keywords" content={tags.join(', ')} />}
     {publishedAt && <meta property="article:published_time" content={publishedAt.toISOString()} />}
     {updatedAt && <meta property="article:modified_time" content={updatedAt.toISOString()} />}
     {type === 'article' &&
       tags.map((tag) => <meta property="article:tag" content={tag} />)}
+    <script is:inline set:html={themeBoot} />
   </head>
   <body>
     {showProgress && (
@@ -272,7 +323,7 @@ const runtimeScript = `
       </div>
     )}
 
-    <a href="#main" class="skip-link">Skip to content</a>
+    <a href="#main" class="skip-link">跳到正文</a>
 
     <div class="site-shell">
       <SiteHeader />

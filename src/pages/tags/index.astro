@@ -13,17 +13,17 @@ const tagDirectory = await getTagDirectory()
 >
   <section class="page-shell">
     <header class="page-header">
-      <p class="page-header__eyebrow">Tag register</p>
+      <p class="page-header__eyebrow">Tags</p>
       <h1>标签档案</h1>
-      <p>标签来自 frontmatter、正文中的 #标签，以及受控关键词推断。它不是第二套 topic，而是跨主题的交叉索引。</p>
+      <p>标签来自 frontmatter、正文中的 #标签，以及受控关键词推断。它不是第二套 topic，而是跨主题的横向交叉索引。</p>
     </header>
 
     <div class="tag-directory">
       {tagDirectory.map((item) => (
         <a class="tag-directory__item" href={toTagPath(item.tag)}>
-          <span>Cross-index</span>
+          <span>{item.count} 篇</span>
           <strong>{formatTagLabel(item.tag)}</strong>
-          <p>{item.count} 篇文章落在这个标签下，适合横向浏览同一问题域。</p>
+          <p>这些文章通过这个标签被串起来，适合横向回看同一类问题。</p>
         </a>
       ))}
     </div>

@@ -9,7 +9,12 @@ export default defineConfig({
   integrations: [mdx(), sitemap()],
   markdown: {
     shikiConfig: {
-      theme: 'github-dark-dimmed',
+      // Emit both themes as CSS variables so code can follow the site theme
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark-dimmed',
+      },
+      defaultColor: false,
       wrap: true,
     },
   },

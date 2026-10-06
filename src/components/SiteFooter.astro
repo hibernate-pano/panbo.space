@@ -6,17 +6,18 @@ const year = new Date().getFullYear()
 <footer class="site-footer">
   <div class="site-footer__inner">
     <p class="site-footer__copy">
-      &copy; {year} {siteConfig.author.name} · {siteConfig.title}
+      © {year} {siteConfig.author.name} · {siteConfig.author.role} @ {siteConfig.author.company}
     </p>
     <nav class="site-footer__links" aria-label="Footer">
       <a href="/archive">Archive</a>
+      <a href="/topics">Topics</a>
       <a href="/about">About</a>
-      <a href="/rss.xml">Feed</a>
+      <a href="/rss.xml">RSS</a>
       <a href={siteConfig.social.github} target="_blank" rel="noreferrer">GitHub</a>
       <a href={siteConfig.social.x} target="_blank" rel="noreferrer">X</a>
     </nav>
   </div>
-  <div class="site-footer__strip">
-    panbo<span class="site-footer__strip-accent">.</span>space — engineering &amp;&amp; thinking
-  </div>
+  <p class="site-footer__strip" aria-hidden="true">
+    panbo<span class="site-footer__strip-accent">.</span>space
+  </p>
 </footer>

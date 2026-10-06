@@ -21,7 +21,7 @@ const formatCount = (count: number) => `${count} 篇`
 >
   <section class="page-shell">
     <header class="page-header">
-      <p class="page-header__eyebrow">Topic register</p>
+      <p class="page-header__eyebrow">Topics</p>
       <h1>主题档案</h1>
       <p>
         Topic 由作者在每篇文章的 frontmatter <code>topic</code> 字段指定。它比 tag 更聚焦——一个 topic 通常代表一个完整系列，
@@ -32,9 +32,9 @@ const formatCount = (count: number) => `${count} 篇`
     <div class="tag-directory">
       {topicDirectory.map((item) => (
         <a class="tag-directory__item" href={`/topics/${toTopicSlug(item.topic)}`}>
-          <span>Series</span>
+          <span>{formatCount(item.count)}</span>
           <strong>{item.topic}</strong>
-          <p>{formatCount(item.count)} 文章落在这个主题下，按最近更新时间倒序排列。</p>
+          <p>这个主题下的文章按最近更新时间倒序排列，适合顺着系列读。</p>
         </a>
       ))}
     </div>

@@ -36,7 +36,7 @@ const relatedTags = await getRelatedTags(tagPage.tag)
 
     {relatedTags.length > 0 && (
       <div class="tag-rail">
-        <p class="tag-rail__eyebrow">Adjacent tags</p>
+        <p class="tag-rail__eyebrow">相邻标签</p>
         <div class="tag-rail__list">
           {relatedTags.map((item) => (
             <a class="chip chip--tag" href={toTagPath(item.tag)}>

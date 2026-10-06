@@ -13,6 +13,7 @@ pagefind
 ## 临时文件
 *.tmp
 *.tmp.*
+.playwright-mcp/
 .vercel
 src/generated
 .vitepress/cache

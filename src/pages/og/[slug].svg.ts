@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro'
-import { getAllPosts, trackLabels } from '../../lib/posts'
+import { formatDate, getAllPosts, trackLabels } from '../../lib/posts'
+import { svgShell, ogTheme, ogWordmark, svgHeaders, trackColor } from '../../lib/og-theme'
 
 const escapeXml = (value: string): string =>
   value
@@ -61,31 +62,35 @@ export const GET: APIRoute = async ({ params }) => {
   }
 
   const track = escapeXml(trackLabels[post.data.track])
-  const titleLines = wrapText(post.data.title, 15.5, 3).map(escapeXml)
-  const summaryLines = wrapText(post.data.summary, 27, 2).map(escapeXml)
+  const hue = trackColor[post.data.track] ?? ogTheme.accent
+  const titleLines = wrapText(post.data.title, 15, 3).map(escapeXml)
+  const summaryLines = wrapText(post.data.summary, 26, 2).map(escapeXml)
 
-  const svg = `
-    <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="1200" height="630" fill="#061F19"/>
-      <rect x="0" y="0" width="1200" height="76" fill="#61FF83"/>
-      <text x="60" y="50" fill="#1D6854" font-family="IBM Plex Mono, monospace" font-size="32" font-weight="700" letter-spacing="2">PANBO</text>
-      <text x="236" y="50" fill="#1D6854" font-family="IBM Plex Mono, monospace" font-size="32" font-weight="700" letter-spacing="2">.SPACE</text>
-      <text x="66" y="166" fill="#63FF86" font-family="IBM Plex Mono, monospace" font-size="21" font-weight="600" letter-spacing="3">> ${track}</text>
-      <text x="66" y="330" fill="#B9FFD0" font-family="IBM Plex Mono, Noto Sans SC, sans-serif" font-size="64" font-weight="700">
-        ${titleLines.map((line, index) => `<tspan x="66" dy="${index === 0 ? 0 : 84}">${line}</tspan>`).join('')}
-      </text>
-      <text x="66" y="452" fill="#B7DCC8" font-family="IBM Plex Mono, Noto Sans SC, sans-serif" font-size="27">
-        ${summaryLines.map((line, index) => `<tspan x="66" dy="${index === 0 ? 0 : 40}">${line}</tspan>`).join('')}
-      </text>
-      <rect x="66" y="526" width="420" height="44" rx="8" fill="#1D6854"/>
-      <text x="86" y="553" fill="#B9FFD0" font-family="IBM Plex Mono, monospace" font-size="20" font-weight="700" letter-spacing="3">// PANBO.SPACE</text>
-    </svg>
-  `
+  const svg = svgShell(`
+    ${ogWordmark(56)}
 
-  return new Response(svg, {
-    headers: {
-      'Content-Type': 'image/svg+xml; charset=utf-8',
-      'Cache-Control': 'public, max-age=3600',
-    },
-  })
+    <!-- Track label with its own hue -->
+    <g transform="translate(72 148)">
+      <rect x="0" y="0" width="${26 + track.length * 15}" height="38" rx="19" fill="${hue}" fill-opacity="0.1"/>
+      <circle cx="19" cy="19" r="5" fill="${hue}"/>
+      <text x="36" y="25" fill="${hue}" font-family="${ogTheme.sans}" font-size="19" font-weight="600" letter-spacing="0.4">${track}</text>
+    </g>
+
+    <!-- Title -->
+    <text x="72" y="290" fill="${ogTheme.ink}" font-family="${ogTheme.serif}" font-size="66" font-weight="500" letter-spacing="-1.5">
+      ${titleLines.map((line, index) => `<tspan x="72" dy="${index === 0 ? 0 : 80}">${line}</tspan>`).join('')}
+    </text>
+
+    <!-- Summary -->
+    <text x="72" y="${296 + titleLines.length * 80}" fill="${ogTheme.muted}" font-family="${ogTheme.sans}" font-size="26" font-weight="400">
+      ${summaryLines.map((line, index) => `<tspan x="72" dy="${index === 0 ? 0 : 38}">${line}</tspan>`).join('')}
+    </text>
+
+    <!-- Footer rule -->
+    <line x1="72" y1="556" x2="1128" y2="556" stroke="${ogTheme.hairline}" stroke-width="1"/>
+    <text x="72" y="594" fill="${ogTheme.faint}" font-family="${ogTheme.sans}" font-size="20" font-weight="500" letter-spacing="1.6">PANBO.SPACE</text>
+    <text x="1128" y="594" text-anchor="end" fill="${ogTheme.faint}" font-family="${ogTheme.mono}" font-size="19" letter-spacing="1">${escapeXml(formatDate(post.data.publishedAt))}</text>
+  `)
+
+  return new Response(svg, { headers: svgHeaders() })
 }

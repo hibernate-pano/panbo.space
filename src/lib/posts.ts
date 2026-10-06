@@ -16,6 +16,17 @@ export const trackLabels: Record<TrackKey, string> = {
   games: 'Games',
 }
 
+// Maps a track to its CSS custom property, so each track keeps a consistent
+// hue wherever it appears (cards, labels, meta rows) without hardcoding colors.
+export const trackHue: Record<TrackKey, string> = {
+  thinking: 'var(--track-thinking)',
+  philosophy: 'var(--track-philosophy)',
+  psychology: 'var(--track-psychology)',
+  work: 'var(--track-work)',
+  engineering: 'var(--track-engineering)',
+  games: 'var(--track-games)',
+}
+
 const collator = new Intl.Collator('zh-CN')
 
 const stripMarkdown = (input: string): string =>

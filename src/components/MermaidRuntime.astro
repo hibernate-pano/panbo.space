@@ -21,9 +21,36 @@
     const wrappers = [...document.querySelectorAll<HTMLElement>('.mermaid-block')]
     if (!wrappers.length) return
 
+    const isDark =
+      document.documentElement.dataset.theme === 'dark' ||
+      (!document.documentElement.dataset.theme &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+
     mermaid.initialize({
       startOnLoad: false,
-      theme: 'dark',
+      theme: isDark ? 'dark' : 'neutral',
+      // Match the site's warm neutrals instead of Mermaid's default blue-grey
+      themeVariables: isDark
+        ? {
+            background: '#232221',
+            primaryColor: '#2c2b29',
+            primaryTextColor: '#e4e1d9',
+            primaryBorderColor: '#4e4c48',
+            lineColor: '#7d7972',
+            secondaryColor: '#262625',
+            tertiaryColor: '#1f1e1d',
+            fontFamily: 'Inter, -apple-system, PingFang SC, sans-serif',
+          }
+        : {
+            background: '#f5f3ec',
+            primaryColor: '#f1efe7',
+            primaryTextColor: '#33322f',
+            primaryBorderColor: '#d5cfbf',
+            lineColor: '#6d6a62',
+            secondaryColor: '#faf9f5',
+            tertiaryColor: '#ffffff',
+            fontFamily: 'Inter, -apple-system, PingFang SC, sans-serif',
+          },
       securityLevel: 'loose',
     })
 
@@ -55,4 +82,7 @@
   }
 
   document.addEventListener('astro:page-load', safeRender)
+
+  // Re-render when the reader flips the theme
+  document.addEventListener('themechange', safeRender)
 </script>

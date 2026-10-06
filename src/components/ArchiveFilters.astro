@@ -1,6 +1,6 @@
 ---
 import type { PostEntry } from '../lib/posts'
-import { formatDate, getAvailableTracks, getReadingTime, toPostPath, trackLabels } from '../lib/posts'
+import { formatDate, getAvailableTracks, getReadingTime, toPostPath, trackHue, trackLabels } from '../lib/posts'
 import { formatTagLabel, getPostTags, getVisiblePostTags, toTagPath } from '../lib/post-tags'
 import { toTopicSlug } from '../lib/slug'
 
@@ -28,15 +28,16 @@ const postsByYear = years
 
 <section class="archive-page" data-archive-shell>
   <header class="archive-header">
-    <h1 class="archive-header__title">Archive</h1>
-    <p class="archive-header__summary">Browse the complete archive by track, topic, and year.</p>
+    <p class="page-header__eyebrow">Archive</p>
+    <h1 class="archive-header__title">全部归档</h1>
+    <p class="archive-header__summary">按栏目、主题和年份浏览这个档案里的每一篇笔记。</p>
   </header>
 
   <!-- Current Track Indicator (hidden by default; JS toggles based on ?track= URL) -->
   <div class="archive-track-indicator" data-track-indicator hidden>
-    <span class="archive-track-indicator__label">Filtering by</span>
+    <span class="archive-track-indicator__label">正在筛选</span>
     <strong class="archive-track-indicator__value" data-track-indicator-label></strong>
-    <a class="archive-track-indicator__clear" href="/archive" aria-label="Clear track filter">× clear</a>
+    <a class="archive-track-indicator__clear" href="/archive" aria-label="Clear track filter">清除</a>
   </div>
 
   <!-- Hidden track-label map for the indicator -->
@@ -70,8 +71,8 @@ const postsByYear = years
 
   <!-- Results -->
   <div class="archive-results">
-    <p class="archive-count" data-archive-count aria-live="polite">{posts.length} notes</p>
-    <p class="archive-empty" data-archive-empty hidden>No notes match the current filters.</p>
+    <p class="archive-count" data-archive-count aria-live="polite">{posts.length} 篇笔记</p>
+    <p class="archive-empty" data-archive-empty hidden>没有符合当前筛选条件的笔记。</p>
 
     <div data-archive-list>
       {postsByYear.map((group) => (
@@ -88,13 +89,14 @@ const postsByYear = years
                 data-topic={post.data.topic ?? ''}
                 data-year={String(post.data.publishedAt.getFullYear())}
                 data-tags={getPostTags(post).join('||')}
+                style={`--track-hue: ${trackHue[post.data.track]}`}
               >
                 <a class="post-card__link" href={toPostPath(post)}>
                   <div class="post-card__meta">
                     <span>{trackLabels[post.data.track]}</span>
                     {post.data.topic && <span>{post.data.topic}</span>}
                     <span>{formatDate(post.data.publishedAt)}</span>
-                    <span>{getReadingTime(post.body ?? '')} min</span>
+                    <span>{getReadingTime(post.body ?? '')} 分钟</span>
                   </div>
                   <h3 class="post-card__title">{post.data.title}</h3>
                   <p class="post-card__summary">{post.data.summary}</p>
@@ -114,7 +116,7 @@ const postsByYear = years
                     ))}
                   </div>
                   <a class="post-card__readmore" href={toPostPath(post)}>
-                    Read →
+                    继续阅读 →
                   </a>
                 </div>
               </article>
@@ -127,19 +129,7 @@ const postsByYear = years
 </section>
 
 <style>
-  .archive-year {
-    margin-bottom: var(--space-7);
-  }
-
-  .archive-year__head {
-    margin-bottom: var(--space-4);
-    padding-bottom: var(--space-3);
-  }
-
-  .archive-year__list {
-    display: flex;
-    flex-direction: column;
-  }
+  /* Year headings and list rhythm live in global.css */
 </style>
 
 <script>
@@ -183,7 +173,7 @@ const postsByYear = years
       }
 
       if (count) {
-        count.textContent = `${visible} notes`
+        count.textContent = `${visible} 篇笔记`
       }
 
       if (empty) {

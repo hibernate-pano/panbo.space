@@ -5,47 +5,50 @@ import {
   formatDate,
   getAllPosts,
   getLatestPosts,
-  getPostsByTrack,
   getReadingTime,
   getTopicMap,
   toPostPath,
+  trackHue,
   trackLabels,
+  type TrackKey,
 } from '../lib/posts'
 
 const allPosts = await getAllPosts()
 const latestPosts = await getLatestPosts(6)
-const allThinkingPosts = await getPostsByTrack('thinking')
-const allWorkPosts = await getPostsByTrack('work')
-const allEngineeringPosts = await getPostsByTrack('engineering')
-const allPhilosophyPosts = await getPostsByTrack('philosophy')
-const allPsychologyPosts = await getPostsByTrack('psychology')
-const allGamesPosts = await getPostsByTrack('games')
 const topicMap = await getTopicMap()
 
+const countByTrack = (key: TrackKey) => allPosts.filter((post) => post.data.track === key).length
+
+const trackMeta: Record<string, { desc: string }> = {
+  thinking: { desc: '职业判断、长期主义与个人系统' },
+  work: { desc: '组织约束、项目推进与真实现场' },
+  philosophy: { desc: '哲学思辨、存在与意义的长期阅读' },
+  psychology: { desc: '人格、潜意识与心灵的现代解读' },
+  engineering: { desc: '系统、架构与工程判断' },
+  games: { desc: '玩过的游戏与做过的设计' },
+}
+
+// Only surface tracks that actually have notes — no empty shells
+const tracks = (['thinking', 'work', 'philosophy', 'psychology', 'engineering', 'games'] as TrackKey[])
+  .map((key) => ({ key, label: trackLabels[key], count: countByTrack(key), ...trackMeta[key] }))
+  .filter((track) => track.count > 0 && track.desc)
+
+// Ledger line: total plus the three largest tracks
 const stats = [
-  { label: 'Archive', value: allPosts.length, href: '/archive' },
-  { label: 'Thinking', value: allThinkingPosts.length, href: '/archive?track=thinking' },
-  { label: 'Work', value: allWorkPosts.length, href: '/archive?track=work' },
-  { label: 'Games', value: allGamesPosts.length, href: '/archive?track=games' },
+  { label: 'Notes', value: allPosts.length, href: '/archive' },
+  ...[...tracks]
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 3)
+    .map((track) => ({
+      label: track.label,
+      value: track.count,
+      href: `/archive?track=${track.key}`,
+    })),
 ]
 
-// 只展示有真实内容的栏目，避免"0 NOTES"空壳卡片
-const tracks = [
-  { name: 'Thinking', desc: '职业判断、长期主义与个人系统', count: allThinkingPosts.length, href: '/archive?track=thinking' },
-  { name: 'Work Notes', desc: '组织约束、项目推进与真实现场', count: allWorkPosts.length, href: '/archive?track=work' },
-  { name: 'Philosophy', desc: '哲学思辨、存在与意义的长期阅读', count: allPhilosophyPosts.length, href: '/archive?track=philosophy' },
-  ...(allPsychologyPosts.length
-    ? [{ name: 'Psychology', desc: '人格、潜意识与心灵的现代解读', count: allPsychologyPosts.length, href: '/archive?track=psychology' }]
-    : []),
-  ...(allEngineeringPosts.length
-    ? [{ name: 'Engineering', desc: '系统、架构与工程判断', count: allEngineeringPosts.length, href: '/archive?track=engineering' }]
-    : []),
-]
-
-// 按真实内容动态展示主题，无内容的主题不出现
 const topics = [...topicMap.entries()]
   .sort((left, right) => right[1].length - left[1].length)
-  .slice(0, 5)
+  .slice(0, 6)
   .map(([topic, posts]) => ({
     name: topic,
     post: posts[0]?.data.title ?? '',
@@ -54,13 +57,12 @@ const topics = [...topicMap.entries()]
 ---
 
 <BaseLayout mainClass="page-home">
-  <!-- Hero Section -->
   <section class="hero">
     <div class="hero__inner">
-      <p class="hero__eyebrow">{siteConfig.hero.eyebrow}</p>
-      <h1 class="hero__title">{siteConfig.hero.title}</h1>
-      <p class="hero__summary">{siteConfig.hero.summary}</p>
-      <div class="hero__cta">
+      <p class="hero__eyebrow rise">{siteConfig.hero.eyebrow}</p>
+      <h1 class="hero__title rise">{siteConfig.hero.title}</h1>
+      <p class="hero__summary rise">{siteConfig.hero.summary}</p>
+      <div class="hero__cta rise">
         <a class="btn btn--primary" href={siteConfig.hero.primaryCta.href}>
           {siteConfig.hero.primaryCta.label}
         </a>
@@ -71,29 +73,27 @@ const topics = [...topicMap.entries()]
     </div>
   </section>
 
-  <!-- Stats Section -->
   <section class="stats">
-    {stats.map((stat, index) => (
-      <a
-        class="stats__item"
-        href={stat.href}
-        style={`animation-delay: ${320 + index * 60}ms`}
-      >
+    {stats.map((stat) => (
+      <a class="stats__item" href={stat.href}>
         <span class="stats__value">{stat.value}</span>
         <span class="stats__label">{stat.label}</span>
       </a>
     ))}
   </section>
 
-  <!-- Latest Stories — HN feed cards with OG cover thumbnails -->
   <section class="section">
     <div class="section__header">
-      <h2 class="section__title">Latest Stories</h2>
-      <a class="section__link" href="/archive">View all →</a>
+      <h2 class="section__title">最新文章</h2>
+      <a class="section__link" href="/archive">全部归档 →</a>
     </div>
     <div class="feed-list">
       {latestPosts.map((post) => (
-        <a class="feed-card animate-on-scroll" href={toPostPath(post)}>
+        <a
+          class="feed-card animate-on-scroll"
+          href={toPostPath(post)}
+          style={`--track-hue: ${trackHue[post.data.track]}`}
+        >
           <span class="feed-card__media">
             <img
               src={`/og/${post.data.slug}.svg`}
@@ -107,20 +107,16 @@ const topics = [...topicMap.entries()]
             <span class="feed-card__meta">
               <span class="feed-card__track">{trackLabels[post.data.track]}</span>
               <span>{formatDate(post.data.publishedAt)}</span>
-              <span>{getReadingTime(post.body ?? '')} min read</span>
+              <span>{getReadingTime(post.body ?? '')} 分钟</span>
             </span>
             <span class="feed-card__title">{post.data.title}</span>
             <span class="feed-card__summary">{post.data.summary}</span>
             <span class="feed-card__footer">
               <span class="feed-card__byline">
-                <span class="feed-card__avatar" aria-hidden="true">
-                  <svg width="12" height="14" viewBox="0 0 7 8" shape-rendering="crispEdges">
-                    <rect x="0" y="0" width="3" height="1"/><rect x="0" y="1" width="1" height="1"/><rect x="2" y="1" width="1" height="1"/><rect x="0" y="2" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="0" y="3" width="3" height="1"/><rect x="0" y="4" width="1" height="4"/>
-                  </svg>
-                </span>
-                by&nbsp;<strong>{siteConfig.author.name}</strong>
+                <span class="feed-card__avatar" aria-hidden="true">P</span>
+                {siteConfig.author.name}
               </span>
-              {post.data.topic && <span class="tag tag--green">{post.data.topic}</span>}
+              {post.data.topic && <span class="tag tag--accent">{post.data.topic}</span>}
             </span>
           </span>
         </a>
@@ -128,28 +124,31 @@ const topics = [...topicMap.entries()]
     </div>
   </section>
 
-  <!-- Tracks Section -->
   <section class="section section--bordered">
     <div class="section__header">
-      <h2 class="section__title">Tracks</h2>
-      <a class="section__link" href="/archive">Browse →</a>
+      <h2 class="section__title">栏目</h2>
+      <a class="section__link" href="/archive">浏览全部 →</a>
     </div>
     <div class="track-grid">
       {tracks.map((track) => (
-        <a class="track-card animate-on-scroll" href={track.href}>
-          <span class="track-card__name">{track.name}</span>
+        <a
+          class="track-card animate-on-scroll"
+          href={`/archive?track=${track.key}`}
+          style={`--track-hue: ${trackHue[track.key]}`}
+        >
+          <span class="track-card__name">{track.label}</span>
           <span class="track-card__desc">{track.desc}</span>
-          <span class="track-card__count">{track.count} notes</span>
+          <span class="track-card__count">{track.count} 篇笔记</span>
         </a>
       ))}
     </div>
   </section>
 
-  <!-- Topics Section -->
   {topics.length > 0 && (
     <section class="section">
       <div class="section__header">
-        <h2 class="section__title">Topics</h2>
+        <h2 class="section__title">主题</h2>
+        <a class="section__link" href="/topics">主题档案 →</a>
       </div>
       <div class="topic-list">
         {topics.map((topic) => (

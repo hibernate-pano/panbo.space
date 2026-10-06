@@ -6,42 +6,42 @@ import { siteConfig } from '../data/site'
 <BaseLayout title="About" description="About Panbo's work, writing topics, and the direction of this blog.">
   <div class="about-page">
     <header class="about-header">
-      <p class="hero__eyebrow">About</p>
+      <p class="page-header__eyebrow">About</p>
       <h1 class="about-header__title">{siteConfig.author.name}</h1>
       <p class="about-header__intro">
-        {siteConfig.author.role} at {siteConfig.author.company}. This site is a personal research archive —
-        a place for writing that is worth revisiting, worth building on, and worth searching when you need it.
+        {siteConfig.author.role} @ {siteConfig.author.company}。这里是一个个人研究档案——存放那些值得重读、
+        值得在上面继续构建、也值得在需要时被搜索到的文字。
       </p>
     </header>
 
     <section class="about-section">
-      <h2 class="about-section__title">Current Work</h2>
+      <h2 class="about-section__title">当前工作</h2>
       <div class="about-section__content">
-        <p>Working on enterprise systems with a focus on backend architecture, distributed systems, and platform engineering. Tech stack includes Java, Spring Boot, React, and TypeScript in a banking environment.</p>
-        <p>Beyond work, I build and ship my own products — Chrome extensions, web apps, and a Mac app. See <a href="/projects">Projects</a> for what I am currently building, with update logs.</p>
+        <p>在做企业级系统，专注后端架构、分布式系统与平台工程。技术栈包括 Java、Spring Boot、React 与 TypeScript，运行在银行的环境里。</p>
+        <p>工作之外，我自己做并上线产品——Chrome 扩展、Web 应用和一个 Mac 应用。<a href="/projects">在研作品</a>里有我正在做什么，以及每一次的更新记录。</p>
       </div>
     </section>
 
     <section class="about-section">
-      <h2 class="about-section__title">Writing</h2>
+      <h2 class="about-section__title">写作方向</h2>
       <div class="about-section__content">
-        <p>This archive covers three main tracks:</p>
-        <p><strong>Engineering</strong> — System design, architecture decisions, and technical depth. The kind of writing that tries to explain why something works, not just how.</p>
-        <p><strong>Work Notes</strong> — Real observations from working in complex organizations. Process, people, and the unwritten rules that actually matter.</p>
-        <p><strong>Thinking</strong> — Long-form thinking on learning, growth, and the mental models that shape decisions.</p>
+        <p>这个档案目前包含这几条主线：</p>
+        <p><strong>Engineering</strong> — 系统设计、架构决策与技术深度。试图解释一个东西<em>为什么</em>这样工作，而不只是它怎么用。</p>
+        <p><strong>Work Notes</strong> — 在复杂组织里工作时的真实观察。流程、人，以及那些真正起作用的不成文规则。</p>
+        <p><strong>Thinking</strong> — 关于学习、成长，以及塑造决策的心智模型的长文思考。</p>
       </div>
     </section>
 
     <section class="about-section">
-      <h2 class="about-section__title">This Site</h2>
+      <h2 class="about-section__title">关于本站</h2>
       <div class="about-section__content">
-        <p>Not a blog in the traditional sense — more like a personal wiki that grows over time. The goal is to write things worth reading years later, not chasing trends or optimizing for metrics.</p>
-        <p>Start at the <a href="/archive">Archive</a> to browse by topic, or use <a href="/search">Search</a> to find something specific.</p>
+        <p>这不是传统意义上的博客，更像一份会随时间生长的个人 wiki。目标是写那些几年后还值得读的东西，而不是追热点或优化指标。</p>
+        <p>从<a href="/archive">归档</a>按主题浏览，或者用<a href="/search">搜索</a>直接找某篇东西。</p>
       </div>
     </section>
 
     <section class="about-section">
-      <h2 class="about-section__title">Connect</h2>
+      <h2 class="about-section__title">联系</h2>
       <div class="about-section__content">
         <p>
           <a href={siteConfig.social.github} target="_blank" rel="noreferrer">GitHub</a> ·
@@ -53,82 +53,4 @@ import { siteConfig } from '../data/site'
   </div>
 </BaseLayout>
 
-<style>
-  .about-page {
-    padding: var(--space-8) 0;
-    max-width: var(--reading-width);
-  }
 
-  .about-header {
-    margin-bottom: var(--space-8);
-    padding-bottom: var(--space-7);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .about-header__title {
-    font-size: clamp(2.25rem, 4vw, 3rem);
-    font-weight: 600;
-    margin-bottom: var(--space-5);
-  }
-
-  .about-header__intro {
-    font-size: 1.125rem;
-    color: var(--color-text-secondary);
-    line-height: 1.75;
-  }
-
-  .about-section {
-    display: grid;
-    grid-template-columns: 160px minmax(0, 1fr);
-    gap: var(--space-6);
-    margin-bottom: var(--space-7);
-    padding-bottom: var(--space-7);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .about-section:last-child {
-    border-bottom: none;
-  }
-
-  .about-section__title {
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-    padding-top: 0.25rem;
-  }
-
-  .about-section__content {
-    font-size: 1rem;
-    color: var(--color-text-secondary);
-    line-height: 1.75;
-  }
-
-  .about-section__content p + p {
-    margin-top: var(--space-4);
-  }
-
-  .about-section__content strong {
-    color: var(--color-text);
-    font-weight: 500;
-  }
-
-  .about-section__content a {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-decoration-color: color-mix(in srgb, var(--color-accent) 34%, transparent);
-    transition: text-decoration-color var(--duration-fast);
-  }
-
-  .about-section__content a:hover {
-    text-decoration-color: var(--color-accent);
-  }
-
-  @media (max-width: 768px) {
-    .about-section {
-      grid-template-columns: 1fr;
-      gap: var(--space-3);
-    }
-  }
-</style>
