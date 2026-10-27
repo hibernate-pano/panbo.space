@@ -1,7 +1,8 @@
 ---
+import { Image } from 'astro:assets'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { siteConfig } from '../data/site'
-import { getSortedProjects, getProjectStats } from '../data/projects'
+import { getSortedProjects, getProjectStats, toAnchor } from '../data/projects'
 import { formatDate } from '../lib/posts'
 
 const projects = getSortedProjects()
@@ -14,13 +15,6 @@ const kindSectionLabels: Record<(typeof kindOrder)[number], string> = {
   'mac-app': 'Mac 应用',
   'ios-app': 'iOS 应用',
 }
-
-// HTML5 forbids whitespace in id, and half these names are Latin + CJK.
-const toAnchor = (name: string) =>
-  name
-    .toLowerCase()
-    .replace(/[^a-z0-9一-鿿]+/g, '-')
-    .replace(/^-+|-+$/g, '')
 
 const sectionedProjects = kindOrder
   .map((kind) => ({
@@ -58,37 +52,49 @@ const sectionedProjects = kindOrder
                 <h3 class="project-card__name">{project.name}</h3>
                 <span class="project-card__status">{project.status}</span>
               </header>
-              <p class="project-card__tagline">{project.tagline}</p>
-              <div class="project-card__links">
-                {project.repoUrl && (
-                  <a class="project-card__link" href={project.repoUrl} target="_blank" rel="noreferrer">
-                    GitHub ↗
-                  </a>
-                )}
-                {project.privateRepo && (
-                  <span class="project-card__badge project-card__badge--private">私有仓库</span>
-                )}
-                {project.storeUrl && (
-                  <a class="project-card__link" href={project.storeUrl} target="_blank" rel="noreferrer">
-                    商店 ↗
-                  </a>
-                )}
-                {project.liveUrl && (
-                  <a class="project-card__link" href={project.liveUrl} target="_blank" rel="noreferrer">
-                    Live ↗
-                  </a>
-                )}
-                {project.report && (
-                  <a class="project-card__link" href={project.report.href} target="_blank" rel="noreferrer">
-                    {project.report.label} ↗
-                  </a>
-                )}
-              </div>
-              <div class="project-card__meta">
-                <span>最近更新 {formatDate(new Date(project.updatedAt))}</span>
-                {project.stack.map((tech) => (
-                  <span class="project-card__tech">{tech}</span>
-                ))}
+              <figure class="project-card__figure">
+                <Image
+                  src={project.image.src}
+                  alt={project.image.alt}
+                  widths={[420, 840]}
+                  sizes="(max-width: 900px) min(560px, calc(100vw - 40px)), 420px"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+              <div class="project-card__body">
+                <p class="project-card__tagline">{project.tagline}</p>
+                <div class="project-card__links">
+                  {project.repoUrl && (
+                    <a class="project-card__link" href={project.repoUrl} target="_blank" rel="noreferrer">
+                      GitHub ↗
+                    </a>
+                  )}
+                  {project.privateRepo && (
+                    <span class="project-card__badge project-card__badge--private">私有仓库</span>
+                  )}
+                  {project.storeUrl && (
+                    <a class="project-card__link" href={project.storeUrl} target="_blank" rel="noreferrer">
+                      商店 ↗
+                    </a>
+                  )}
+                  {project.liveUrl && (
+                    <a class="project-card__link" href={project.liveUrl} target="_blank" rel="noreferrer">
+                      Live ↗
+                    </a>
+                  )}
+                  {project.report && (
+                    <a class="project-card__link" href={project.report.href} target="_blank" rel="noreferrer">
+                      {project.report.label} ↗
+                    </a>
+                  )}
+                </div>
+                <div class="project-card__meta">
+                  <span>最近更新 {formatDate(new Date(project.updatedAt))}</span>
+                  {project.stack.map((tech) => (
+                    <span class="project-card__tech">{tech}</span>
+                  ))}
+                </div>
               </div>
               <div class="project-card__updates">
                 <h4 class="project-card__updates-title">Update log</h4>

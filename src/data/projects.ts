@@ -1,3 +1,18 @@
+import type { ImageMetadata } from 'astro'
+import videoSpeedController from '../assets/projects/video-speed-controller.webp'
+import folio from '../assets/projects/folio.webp'
+import tapstack from '../assets/projects/tapstack.webp'
+import folome from '../assets/projects/folome.webp'
+import rednoteDownloader from '../assets/projects/rednote-downloader.webp'
+import mangaTranslator from '../assets/projects/manga-translator.webp'
+import inputSmarter from '../assets/projects/input-smarter.webp'
+import studybook from '../assets/projects/studybook.webp'
+import youtubeDigest from '../assets/projects/youtube-digest.webp'
+import lagoon from '../assets/projects/lagoon.webp'
+import tt from '../assets/projects/tt.webp'
+import foodguard from '../assets/projects/foodguard.webp'
+import houseBuyingAssistant from '../assets/projects/house-buying-assistant.webp'
+
 export type ProjectLink = {
   label: string
   href: string
@@ -7,6 +22,12 @@ export type ProjectUpdate = {
   date: string
   summary: string
   report?: ProjectLink
+}
+
+/** 作品图版：一块 16:10 的界面图。 */
+export type ProjectImage = {
+  src: ImageMetadata
+  alt: string
 }
 
 export type ProjectKind = 'chrome-extension' | 'web-app' | 'mac-app' | 'ios-app'
@@ -19,6 +40,7 @@ export type Project = {
   stack: string[]
   updatedAt: string
   status: string
+  image: ProjectImage
   repoUrl?: string
   privateRepo?: boolean
   liveUrl?: string
@@ -38,6 +60,10 @@ export const projects: Project[] = [
     stack: ['Chrome MV3', 'TypeScript', 'Vitest'],
     updatedAt: '2026-10-27',
     status: 'v6.2.0 已上架',
+    image: {
+      src: videoSpeedController,
+      alt: '全屏播放时的倍速控制条，右下角可调速与设置',
+    },
     repoUrl: 'https://github.com/hibernate-pano/chrome-plugin-video-manager',
     storeUrl:
       'https://chromewebstore.google.com/detail/video-speed-controller/mennabljgjphikgaiahngapedibccmei',
@@ -70,6 +96,10 @@ export const projects: Project[] = [
     stack: ['Chrome MV3', 'React', 'Readability', 'Shadow DOM'],
     updatedAt: '2026-10-27',
     status: 'v3.9.0 发版准备中',
+    image: {
+      src: folio,
+      alt: '阅读模式重排后的文章页：标题、代码块与复制按钮',
+    },
     repoUrl: 'https://github.com/hibernate-pano/chrome-plugin-reading-extension',
     report: {
       label: '发行说明 v3.9.0',
@@ -98,6 +128,10 @@ export const projects: Project[] = [
     stack: ['Chrome MV3', 'TypeScript', 'React', 'IndexedDB', 'Supabase'],
     updatedAt: '2026-10-26',
     status: 'v1.29.0 已上架',
+    image: {
+      src: tapstack,
+      alt: '扩展面板里的一串会话，可保存并关闭标签页',
+    },
     repoUrl: 'https://github.com/hibernate-pano/chrome-plugin-one-tab',
     storeUrl: 'https://chromewebstore.google.com/detail/tapstack/bbbpnccbclnnphchghpfmcjjfhigepbk',
     report: {
@@ -128,6 +162,10 @@ export const projects: Project[] = [
     stack: ['Node.js 零依赖', 'Tauri 2', 'SQLite'],
     updatedAt: '2026-10-26',
     status: 'v2.5.0',
+    image: {
+      src: folome,
+      alt: '三栏 RSS 阅读器：订阅源、文章列表与正文',
+    },
     privateRepo: true,
     report: {
       label: 'macOS 外壳设计',
@@ -157,6 +195,10 @@ export const projects: Project[] = [
     stack: ['Chrome MV3', 'TypeScript'],
     updatedAt: '2026-10-25',
     status: 'v1.3.2 商店首发备料',
+    image: {
+      src: rednoteDownloader,
+      alt: '小红书笔记页，右侧下载面板列出待保存的视频',
+    },
     repoUrl: 'https://github.com/hibernate-pano/chrome-plugin-rednote-downloader',
     report: {
       label: '上架信息',
@@ -186,6 +228,10 @@ export const projects: Project[] = [
     stack: ['Chrome MV3', 'Vision LLM', 'React', 'Tesseract.js'],
     updatedAt: '2026-10-25',
     status: 'v2.1.1 商店提审中',
+    image: {
+      src: mangaTranslator,
+      alt: '漫画页上的译文气泡叠加在原图里',
+    },
     repoUrl: 'https://github.com/hibernate-pano/chrome-plugin-manga-translator',
     report: {
       label: '架构笔记',
@@ -214,6 +260,10 @@ export const projects: Project[] = [
     stack: ['Swift', 'SwiftUI', '辅助功能 API'],
     updatedAt: '2026-10-25',
     status: 'v0.0.1',
+    image: {
+      src: inputSmarter,
+      alt: '设置窗口：已配置的 app 与各自固定的输入法',
+    },
     repoUrl: 'https://github.com/hibernate-pano/input-smarter',
     updates: [
       {
@@ -238,6 +288,10 @@ export const projects: Project[] = [
     stack: ['Next.js', 'TypeScript', 'React', 'Vercel'],
     updatedAt: '2026-10-24',
     status: 'v1.20.4',
+    image: {
+      src: studybook,
+      alt: '学记首页：输入一个词，顺着网络学下去',
+    },
     privateRepo: true,
     liveUrl: 'https://studywithme.panbo.space',
     report: {
@@ -267,6 +321,10 @@ export const projects: Project[] = [
     stack: ['Chrome MV3', 'TypeScript'],
     updatedAt: '2026-10-22',
     status: 'v1.8.0',
+    image: {
+      src: youtubeDigest,
+      alt: 'YouTube 播放页，右侧是 AI 概览与章节笔记',
+    },
     repoUrl: 'https://github.com/hibernate-pano/youtube-digest',
     report: {
       label: '10-20 审计 R4',
@@ -295,6 +353,10 @@ export const projects: Project[] = [
     stack: ['Swift', 'Hummingbird', 'SQLite', 'IMAP'],
     updatedAt: '2026-10-22',
     status: 'V3 embedded',
+    image: {
+      src: lagoon,
+      alt: 'Lagoon 的快捷键表浮层，左侧是邮箱栏目',
+    },
     repoUrl: 'https://github.com/hibernate-pano/lagoon-email',
     report: {
       label: '只读 AI 宪法',
@@ -323,6 +385,10 @@ export const projects: Project[] = [
     stack: ['Swift', 'whisper.cpp', '辅助功能 API'],
     updatedAt: '2026-10-19',
     status: '本机自用',
+    image: {
+      src: tt,
+      alt: 'TT 启动页：按住 Fn 说话，松开即转写',
+    },
     updates: [
       {
         date: '2026-10-19',
@@ -346,6 +412,10 @@ export const projects: Project[] = [
     stack: ['SwiftUI', '本地规则引擎', 'LLM 成分提取'],
     updatedAt: '2026-10-09',
     status: 'v2.4.0 Sprint 2',
+    image: {
+      src: foodguard,
+      alt: 'FoodGuard 应用图标',
+    },
     privateRepo: true,
     report: {
       label: '路线图',
@@ -374,6 +444,10 @@ export const projects: Project[] = [
     stack: ['Next.js 15', 'React 19', 'Postgres', 'Vercel'],
     updatedAt: '2026-10-04',
     status: 'v0.1.0',
+    image: {
+      src: houseBuyingAssistant,
+      alt: '西安买房助手的「我的案子」页面',
+    },
     privateRepo: true,
     liveUrl: 'https://house-buying-assistant.vercel.app',
     updates: [
@@ -402,3 +476,17 @@ export const getProjectStats = () => ({
   live: projects.filter((project) => project.liveUrl).length,
   store: projects.filter((project) => project.storeUrl).length,
 })
+
+// HTML5 forbids whitespace in id, and half these names are Latin + CJK.
+export const toAnchor = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/[^a-z0-9一-鿿]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+
+// 首页那条作品带：每种应用类型各挑一个，正好对上那句「Chrome 扩展、Web 应用、
+// Mac 应用和一个 iOS 应用」。
+export const featuredProjects = (): Project[] =>
+  ['Video Speed Controller', '学记 Studybook', 'folome', 'FoodGuard 糖友助手']
+    .map((name) => projects.find((project) => project.name === name))
+    .filter((project): project is Project => Boolean(project))

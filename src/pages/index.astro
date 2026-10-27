@@ -1,7 +1,8 @@
 ---
+import { Image } from 'astro:assets'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { siteConfig } from '../data/site'
-import { getProjectStats } from '../data/projects'
+import { getProjectStats, featuredProjects, toAnchor } from '../data/projects'
 import {
   formatDate,
   getAllPosts,
@@ -17,6 +18,7 @@ const allPosts = await getAllPosts()
 const latestPosts = await getLatestPosts(9)
 const topicMap = await getTopicMap()
 const projectStats = getProjectStats()
+const featured = featuredProjects()
 
 const countByTrack = (key: TrackKey) => allPosts.filter((post) => post.data.track === key).length
 
@@ -186,6 +188,24 @@ const columns = [
           除了写字，我还在写代码。Chrome 扩展、Web 应用、Mac 应用和一个 iOS 应用——
           都是自己在真实工作里被逼出来，然后自己用上的东西。
         </p>
+        <div class="band__plates">
+          {featured.map((project) => (
+            <a class="band__plate" href={`/projects#${toAnchor(project.name)}`}>
+              <span class="band__plate-figure">
+                <Image
+                  src={project.image.src}
+                  alt={project.image.alt}
+                  widths={[240, 480]}
+                  sizes="(max-width: 700px) 44vw, 200px"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+              <b class="band__plate-name">{project.name}</b>
+              <span class="band__plate-kind">{project.kindLabel}</span>
+            </a>
+          ))}
+        </div>
         <ul class="band__list">
           {tracks.slice(0, 3).map((track) => (
             <li>
