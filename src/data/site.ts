@@ -13,8 +13,10 @@ export const siteConfig = {
     x: 'https://x.com/HibernatePano',
   },
   hero: {
-    eyebrow: 'Independent Research Archive',
-    title: '把工程经验写成档案，把长期思考写成文字。',
+    kicker: 'Independent Research Archive',
+    // Rendered as two lines; `r` marks the cinnabar-highlighted phrase.
+    titleLines: ['把工程经验写成档案，', '把长期思考写成文字。'],
+    accent: '长期思考',
     summary:
       '不追热点，不做资讯流。这里记录工程判断、工作现场，以及技术之外仍值得反复回看的问题。',
     primaryCta: {

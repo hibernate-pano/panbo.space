@@ -5,7 +5,7 @@ import { toTopicSlug } from '../../lib/slug'
 
 const topicMap = await getTopicMap()
 const topicDirectory = [...topicMap.entries()]
-  .map(([topic, posts]) => ({ topic, count: posts.length }))
+  .map(([topic, posts]) => ({ topic, count: posts.length, latestTitle: posts[0]?.data.title ?? '' }))
   .sort((left, right) => {
     if (left.count !== right.count) return right.count - left.count
     return left.topic.localeCompare(right.topic, 'zh-CN')
@@ -19,9 +19,9 @@ const formatCount = (count: number) => `${count} 篇`
   description="按主题浏览 panbo.space 的文章系列归档。"
   mainClass="page-browse"
 >
-  <section class="page-shell">
+  <section class="page-shell wrap">
     <header class="page-header">
-      <p class="page-header__eyebrow">Topics</p>
+      <p class="eyebrow">Topics · 主题档案</p>
       <h1>主题档案</h1>
       <p>
         Topic 由作者在每篇文章的 frontmatter <code>topic</code> 字段指定。它比 tag 更聚焦——一个 topic 通常代表一个完整系列，
@@ -34,7 +34,7 @@ const formatCount = (count: number) => `${count} 篇`
         <a class="tag-directory__item" href={`/topics/${toTopicSlug(item.topic)}`}>
           <span>{formatCount(item.count)}</span>
           <strong>{item.topic}</strong>
-          <p>这个主题下的文章按最近更新时间倒序排列，适合顺着系列读。</p>
+          <p>{item.latestTitle}</p>
         </a>
       ))}
     </div>

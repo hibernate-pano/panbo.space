@@ -1,19 +1,20 @@
-// Shared visual language for generated OG cards — warm paper, ink text,
-// coral accent, and one per-track hue so cards stay recognizable in a feed.
+// Shared visual language for generated OG cards — paper canvas, warm-black ink,
+// one cinnabar accent, and a serif display face.
 export const ogTheme = {
-  bg: '#FAF9F5',
-  ink: '#1A1A18',
-  muted: '#6D6A62',
-  faint: '#98948A',
-  hairline: '#E8E4D9',
-  accent: '#BD5C38',
-  serif: 'Newsreader, Georgia, Songti SC, serif',
-  sans: 'Inter, -apple-system, PingFang SC, sans-serif',
+  bg: '#F8F6F1',
+  ink: '#1F1E1B',
+  muted: '#1F1E1BA8',
+  faint: '#1F1E1B75',
+  hairline: '#1F1E1B1C',
+  accent: '#BF3A26',
+  serif: 'Noto Serif SC, Songti SC, STSong, serif',
+  latin: 'Newsreader, Songti SC, serif',
+  sans: '-apple-system, PingFang SC, Microsoft YaHei, sans-serif',
   mono: 'IBM Plex Mono, ui-monospace, monospace',
 } as const
 
 export const trackColor: Record<string, string> = {
-  thinking: '#BD5C38',
+  thinking: '#BF3A26',
   philosophy: '#75619C',
   psychology: '#3F7D70',
   work: '#52759B',
@@ -23,14 +24,7 @@ export const trackColor: Record<string, string> = {
 
 export const svgShell = (inner: string) => `
   <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
-        <stop offset="0%" stop-color="${ogTheme.accent}" stop-opacity="0.14"/>
-        <stop offset="100%" stop-color="${ogTheme.accent}" stop-opacity="0"/>
-      </radialGradient>
-    </defs>
     <rect width="1200" height="630" fill="${ogTheme.bg}"/>
-    <ellipse cx="600" cy="60" rx="520" ry="300" fill="url(#glow)"/>
     ${inner}
   </svg>
 `
@@ -38,8 +32,9 @@ export const svgShell = (inner: string) => `
 // Wordmark lockup reused across cards
 export const ogWordmark = (y = 60) => `
   <g transform="translate(72 ${y})">
-    <path d="M6 0.6 8.1 6.4 14 8.3l-5.9 1.9L6 16l-2.1-5.8L-2 8.3l5.9-1.9L6 0.6Z" fill="${ogTheme.accent}" transform="scale(1.1) translate(2 2)"/>
-    <text x="26" y="17" fill="${ogTheme.ink}" font-family="${ogTheme.serif}" font-size="30" font-weight="500" letter-spacing="-0.5">panbo<tspan fill="${ogTheme.accent}">.</tspan>space</text>
+    <rect x="0" y="0" width="40" height="40" rx="10" fill="${ogTheme.accent}"/>
+    <text x="20" y="28" text-anchor="middle" fill="${ogTheme.bg}" font-family="${ogTheme.serif}" font-size="24" font-weight="700">盘</text>
+    <text x="56" y="27" fill="${ogTheme.ink}" font-family="${ogTheme.serif}" font-size="28" font-weight="700">panbo.space</text>
   </g>
 `
 

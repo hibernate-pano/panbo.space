@@ -27,9 +27,9 @@ const relatedTags = await getRelatedTags(tagPage.tag)
   tags={[tagPage.tag]}
   mainClass="page-browse"
 >
-  <section class="page-shell">
+  <section class="page-shell wrap">
     <header class="page-header">
-      <p class="page-header__eyebrow">Tag</p>
+      <p class="eyebrow">Tag · 标签</p>
       <h1>{formatTagLabel(tagPage.tag)}</h1>
       <p>{tagPage.posts.length} 篇文章通过这个标签被串起来，适合跨 topic 回看同一类问题。</p>
     </header>
@@ -47,7 +47,7 @@ const relatedTags = await getRelatedTags(tagPage.tag)
       </div>
     )}
 
-    <div class="post-grid">
+    <div class="post-list">
       {tagPage.posts.map((post) => (
         <PostCard post={post} />
       ))}

@@ -7,12 +7,20 @@ import { formatDate } from '../lib/posts'
 const projects = getSortedProjects()
 const stats = getProjectStats()
 
-const kindOrder = ['chrome-extension', 'web-app', 'mac-app'] as const
+const kindOrder = ['chrome-extension', 'web-app', 'mac-app', 'ios-app'] as const
 const kindSectionLabels: Record<(typeof kindOrder)[number], string> = {
   'chrome-extension': 'Chrome 扩展',
   'web-app': 'Web 应用',
   'mac-app': 'Mac 应用',
+  'ios-app': 'iOS 应用',
 }
+
+// HTML5 forbids whitespace in id, and half these names are Latin + CJK.
+const toAnchor = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/[^a-z0-9一-鿿]+/g, '-')
+    .replace(/^-+|-+$/g, '')
 
 const sectionedProjects = kindOrder
   .map((kind) => ({
@@ -25,14 +33,14 @@ const sectionedProjects = kindOrder
 
 <BaseLayout
   title="Projects"
-  description="Panbo 的在研作品清单：Chrome 扩展、Web 应用与 Mac 应用，附最近更新日志与报告链接。"
+  description="Panbo 的在研作品清单：Chrome 扩展、Web 应用、Mac 应用与 iOS 应用，附最近更新日志与报告链接。"
 >
-  <div class="projects-page">
+  <div class="projects-page wrap">
     <header class="projects-header">
-      <p class="page-header__eyebrow">Projects</p>
+      <p class="eyebrow">Projects · 在研作品</p>
       <h1 class="projects-header__title">在研作品</h1>
       <p class="projects-header__intro">
-        {stats.total} 个在研项目，{stats.public} 个开源在 GitHub，{stats.live} 个有公网地址。这里记录代码工作的最近动态，与文章互为补充。
+        {stats.total} 个在研项目，{stats.public} 个开源在 GitHub，{stats.live} 个有公网地址，{stats.store} 个已上架 Chrome 商店。这里记录代码工作的最近动态，与文章互为补充。
       </p>
     </header>
     <p class="projects-updated-note">
@@ -45,7 +53,7 @@ const sectionedProjects = kindOrder
         <h2 class="projects-section__title">{section.label}</h2>
         <div class="projects-grid">
           {section.projects.map((project) => (
-            <article class="project-card" id={project.name}>
+            <article class="project-card" id={toAnchor(project.name)}>
               <header class="project-card__header">
                 <h3 class="project-card__name">{project.name}</h3>
                 <span class="project-card__status">{project.status}</span>
@@ -59,6 +67,11 @@ const sectionedProjects = kindOrder
                 )}
                 {project.privateRepo && (
                   <span class="project-card__badge project-card__badge--private">私有仓库</span>
+                )}
+                {project.storeUrl && (
+                  <a class="project-card__link" href={project.storeUrl} target="_blank" rel="noreferrer">
+                    商店 ↗
+                  </a>
                 )}
                 {project.liveUrl && (
                   <a class="project-card__link" href={project.liveUrl} target="_blank" rel="noreferrer">

@@ -29,27 +29,27 @@
     mermaid.initialize({
       startOnLoad: false,
       theme: isDark ? 'dark' : 'neutral',
-      // Match the site's warm neutrals instead of Mermaid's default blue-grey
+      // Match the site's paper-and-ink neutrals instead of Mermaid's default blue-grey
       themeVariables: isDark
         ? {
-            background: '#232221',
-            primaryColor: '#2c2b29',
-            primaryTextColor: '#e4e1d9',
-            primaryBorderColor: '#4e4c48',
-            lineColor: '#7d7972',
-            secondaryColor: '#262625',
-            tertiaryColor: '#1f1e1d',
-            fontFamily: 'Inter, -apple-system, PingFang SC, sans-serif',
+            background: '#14120f',
+            primaryColor: '#1c1a16',
+            primaryTextColor: '#ece5d6',
+            primaryBorderColor: '#3a362e',
+            lineColor: '#8a8272',
+            secondaryColor: '#26231d',
+            tertiaryColor: '#1c1a16',
+            fontFamily: '-apple-system, PingFang SC, Microsoft YaHei, sans-serif',
           }
         : {
-            background: '#f5f3ec',
-            primaryColor: '#f1efe7',
-            primaryTextColor: '#33322f',
+            background: '#f8f6f1',
+            primaryColor: '#efece4',
+            primaryTextColor: '#1f1e1b',
             primaryBorderColor: '#d5cfbf',
             lineColor: '#6d6a62',
-            secondaryColor: '#faf9f5',
-            tertiaryColor: '#ffffff',
-            fontFamily: 'Inter, -apple-system, PingFang SC, sans-serif',
+            secondaryColor: '#f8f6f1',
+            tertiaryColor: '#efece4',
+            fontFamily: '-apple-system, PingFang SC, Microsoft YaHei, sans-serif',
           },
       securityLevel: 'loose',
     })

@@ -1,7 +1,7 @@
 ---
 import type { PostEntry } from '../lib/posts'
 import type { TrackKey } from '../lib/posts'
-import { formatDate, getAvailableTracks, getReadingTime, toPostPath, trackHue, trackLabels } from '../lib/posts'
+import { formatDate, getAvailableTracks, getReadingTime, toPostPath, trackLabels } from '../lib/posts'
 import { formatTagLabel, getPostTags, getVisiblePostTags, toTagPath } from '../lib/post-tags'
 import { toTopicSlug } from '../lib/slug'
 
@@ -29,23 +29,21 @@ const postsByYear = years
   .filter((group) => group.posts.length > 0)
 ---
 
-<section class="archive-page" data-archive-shell>
+<section class="archive-page wrap" data-archive-shell>
   <header class="archive-header">
-    <p class="page-header__eyebrow">Archive</p>
+    <p class="eyebrow">Archive · 全部归档</p>
     <h1 class="archive-header__title">全部归档</h1>
     <p class="archive-header__summary">按栏目、主题和年份浏览这个档案里的每一篇笔记。</p>
   </header>
 
   <!-- Track switcher: local tabs, mirrors ?track= URL state -->
   <div class="archive-tracks" role="group" aria-label="按栏目筛选">
-    <button type="button" class="archive-track-btn" data-archive-track="" style="--track-hue: var(--accent)">
-      <span class="archive-track-btn__dot" aria-hidden="true"></span>
+    <button type="button" class="archive-track-btn" data-archive-track="">
       全部
       <span class="archive-track-btn__count">{posts.length}</span>
     </button>
     {trackOptions.map((key) => (
-      <button type="button" class="archive-track-btn" data-archive-track={key} style={`--track-hue: ${trackHue[key as TrackKey]}`}>
-        <span class="archive-track-btn__dot" aria-hidden="true"></span>
+      <button type="button" class="archive-track-btn" data-archive-track={key}>
         {trackLabels[key as TrackKey]}
         <span class="archive-track-btn__count">{trackCount(key)}</span>
       </button>
@@ -56,7 +54,7 @@ const postsByYear = years
   <div class="archive-track-indicator" data-track-indicator hidden>
     <span class="archive-track-indicator__label">正在筛选</span>
     <strong class="archive-track-indicator__value" data-track-indicator-label></strong>
-    <a class="archive-track-indicator__clear" href="/archive" aria-label="Clear track filter">清除</a>
+    <a class="archive-track-indicator__clear" href="/archive" aria-label="清除筛选">清除</a>
   </div>
 
   <!-- Hidden track-label map for the indicator -->
@@ -109,36 +107,36 @@ const postsByYear = years
                 data-topic={post.data.topic ?? ''}
                 data-year={String(post.data.publishedAt.getFullYear())}
                 data-tags={getPostTags(post).join('||')}
-                style={`--track-hue: ${trackHue[post.data.track]}`}
               >
-                <a class="post-card__link" href={toPostPath(post)}>
-                  <div class="post-card__meta">
-                    <span>{trackLabels[post.data.track]}</span>
-                    {post.data.topic && <span>{post.data.topic}</span>}
-                    <span>{formatDate(post.data.publishedAt)}</span>
-                    <span>{getReadingTime(post.body ?? '')} 分钟</span>
-                  </div>
-                  <h3 class="post-card__title">{post.data.title}</h3>
-                  <p class="post-card__summary">{post.data.summary}</p>
-                </a>
+                <span class="post-card__date">{formatDate(post.data.publishedAt)}</span>
 
-                <div class="post-card__footer">
-                  <div class="post-card__tags">
-                    {post.data.topic && (
-                      <a href={`/topics/${toTopicSlug(post.data.topic)}`} class="tag">
-                        {post.data.topic}
-                      </a>
-                    )}
-                    {getVisiblePostTags(post, 2).map((tag) => (
-                      <a href={toTagPath(tag)} class="tag">
-                        {formatTagLabel(tag)}
-                      </a>
-                    ))}
-                  </div>
-                  <a class="post-card__readmore" href={toPostPath(post)}>
-                    继续阅读 →
+                <div class="post-card__main">
+                  <a href={toPostPath(post)}>
+                    <h3 class="post-card__title">{post.data.title}</h3>
+                    <p class="post-card__summary">{post.data.summary}</p>
                   </a>
+
+                  <div class="post-card__footer">
+                    <div class="post-card__tags">
+                      <span class="tag">{trackLabels[post.data.track]}</span>
+                      {post.data.topic && (
+                        <a href={`/topics/${toTopicSlug(post.data.topic)}`} class="tag tag--accent">
+                          {post.data.topic}
+                        </a>
+                      )}
+                      {getVisiblePostTags(post, 2).map((tag) => (
+                        <a href={toTagPath(tag)} class="tag">
+                          {formatTagLabel(tag)}
+                        </a>
+                      ))}
+                    </div>
+                    <span class="post-card__readmore">{getReadingTime(post.body ?? '')} 分钟</span>
+                  </div>
                 </div>
+
+                <a class="post-card__arrow" href={toPostPath(post)} aria-label={post.data.title}>
+                  →
+                </a>
               </article>
             ))}
           </div>
@@ -147,10 +145,6 @@ const postsByYear = years
     </div>
   </div>
 </section>
-
-<style>
-  /* Year headings and list rhythm live in global.css */
-</style>
 
 <script>
   const shell = document.querySelector<HTMLElement>('[data-archive-shell]')
@@ -178,6 +172,15 @@ const postsByYear = years
       track: params.get('track') ?? '',
       topic: params.get('topic') ?? '',
       year: params.get('year') ?? '',
+    }
+
+    const syncUrl = () => {
+      const nextParams = new URLSearchParams()
+      if (activeFilters.track) nextParams.set('track', activeFilters.track)
+      if (activeFilters.topic) nextParams.set('topic', activeFilters.topic)
+      if (activeFilters.year) nextParams.set('year', activeFilters.year)
+      const nextUrl = nextParams.toString() ? `${window.location.pathname}?${nextParams.toString()}` : window.location.pathname
+      window.history.replaceState({}, '', nextUrl)
     }
 
     const applyFilters = () => {
@@ -222,30 +225,25 @@ const postsByYear = years
       }
 
       // Update shortcut states
-      for (const btn of trackButtons) {
+      for (const shortcut of topicShortcuts) {
+        shortcut.classList.toggle('is-active', activeFilters.topic === (shortcut.dataset.topicShortcut ?? ''))
+      }
+
+      for (const shortcut of yearShortcuts) {
+        shortcut.classList.toggle('is-active', activeFilters.year === (shortcut.dataset.yearShortcut ?? ''))
+      }
+
+      syncUrl()
+    }
+
+    // Listeners live outside applyFilters — registering them inside would
+    // stack a new listener on every click and toggle the filter back.
+    for (const btn of trackButtons) {
       btn.addEventListener('click', () => {
         const value = btn.dataset.archiveTrack ?? ''
         activeFilters.track = activeFilters.track === value ? '' : value
         applyFilters()
       })
-    }
-
-    for (const shortcut of topicShortcuts) {
-        const value = shortcut.dataset.topicShortcut ?? ''
-        shortcut.classList.toggle('is-active', activeFilters.topic === value)
-      }
-
-      for (const shortcut of yearShortcuts) {
-        const value = shortcut.dataset.yearShortcut ?? ''
-        shortcut.classList.toggle('is-active', activeFilters.year === value)
-      }
-
-      const nextParams = new URLSearchParams()
-      if (activeFilters.track) nextParams.set('track', activeFilters.track)
-      if (activeFilters.topic) nextParams.set('topic', activeFilters.topic)
-      if (activeFilters.year) nextParams.set('year', activeFilters.year)
-      const nextUrl = nextParams.toString() ? `${window.location.pathname}?${nextParams.toString()}` : window.location.pathname
-      window.history.replaceState({}, '', nextUrl)
     }
 
     for (const shortcut of topicShortcuts) {

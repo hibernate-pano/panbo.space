@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { siteConfig } from '../data/site'
+import { getProjectStats } from '../data/projects'
 import {
   formatDate,
   getAllPosts,
@@ -8,14 +9,14 @@ import {
   getReadingTime,
   getTopicMap,
   toPostPath,
-  trackHue,
   trackLabels,
   type TrackKey,
 } from '../lib/posts'
 
 const allPosts = await getAllPosts()
-const latestPosts = await getLatestPosts(6)
+const latestPosts = await getLatestPosts(9)
 const topicMap = await getTopicMap()
+const projectStats = getProjectStats()
 
 const countByTrack = (key: TrackKey) => allPosts.filter((post) => post.data.track === key).length
 
@@ -33,19 +34,6 @@ const tracks = (['thinking', 'work', 'philosophy', 'psychology', 'engineering', 
   .map((key) => ({ key, label: trackLabels[key], count: countByTrack(key), ...trackMeta[key] }))
   .filter((track) => track.count > 0 && track.desc)
 
-// Ledger line: total plus the three largest tracks
-const stats = [
-  { label: 'Notes', value: allPosts.length, href: '/archive' },
-  ...[...tracks]
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 3)
-    .map((track) => ({
-      label: track.label,
-      value: track.count,
-      href: `/archive?track=${track.key}`,
-    })),
-]
-
 const topics = [...topicMap.entries()]
   .sort((left, right) => right[1].length - left[1].length)
   .slice(0, 6)
@@ -54,121 +42,201 @@ const topics = [...topicMap.entries()]
     post: posts[0]?.data.title ?? '',
     href: `/archive?topic=${encodeURIComponent(topic)}`,
   }))
+
+// Hero ledger: total notes, then the two heaviest tracks
+const ledger = [
+  { label: '篇笔记', value: allPosts.length, href: '/archive' },
+  ...[...tracks]
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 2)
+    .map((track) => ({
+      label: track.label,
+      value: track.count,
+      href: `/archive?track=${track.key}`,
+    })),
+]
+
+// The three-column contents: tracks, topics, and the site's own index
+const columns = [
+  {
+    head: '栏目',
+    link: { label: '按栏目归档 →', href: '/archive' },
+    items: tracks.map((track) => ({
+      meta: `${track.count} 篇`,
+      title: track.label,
+      sub: track.desc,
+      href: `/archive?track=${track.key}`,
+    })),
+  },
+  {
+    head: '主题',
+    link: { label: '全部主题 →', href: '/topics' },
+    items: topics.map((topic) => ({
+      meta: '',
+      title: topic.name,
+      sub: topic.post,
+      href: topic.href,
+    })),
+  },
+  {
+    head: '索引',
+    link: { label: '标签档案 →', href: '/tags' },
+    items: [
+      { meta: `${allPosts.length} 篇`, title: '全部归档', sub: '按年份与栏目排列', href: '/archive' },
+      { meta: '索引', title: '标签档案', sub: '跨主题的横向索引', href: '/tags' },
+      { meta: '作品', title: '在研项目', sub: `${projectStats.total} 个在做的产品`, href: '/projects' },
+      { meta: '全文', title: '搜索', sub: '按关键词检索', href: '/search' },
+    ],
+  },
+]
 ---
 
-<BaseLayout mainClass="page-home">
-  <section class="hero">
-    <div class="hero__inner">
-      <p class="hero__eyebrow rise">{siteConfig.hero.eyebrow}</p>
-      <h1 class="hero__title rise">{siteConfig.hero.title}</h1>
-      <p class="hero__summary rise">{siteConfig.hero.summary}</p>
-      <div class="hero__cta rise">
-        <a class="btn btn--primary" href={siteConfig.hero.primaryCta.href}>
-          {siteConfig.hero.primaryCta.label}
-        </a>
-        <a class="btn btn--ghost" href={siteConfig.hero.secondaryCta.href}>
-          {siteConfig.hero.secondaryCta.label}
-        </a>
-      </div>
-      <div class="hero__tracks rise">
-        {tracks.map((track) => (
-          <a class="hero__track" href={`/archive?track=${track.key}`} style={`--track-hue: ${trackHue[track.key]}`}>
-            {track.label}
-            <span class="hero__track-count">{track.count}</span>
+<BaseLayout>
+  <section class="hero wrap">
+    <p class="hero__kicker kicker">{siteConfig.hero.kicker}</p>
+
+    <h1 class="hero__title">
+      {siteConfig.hero.titleLines.map((line) => (
+        <span class="hero__line">
+          <span>
+            {line.split(siteConfig.hero.accent).map((chunk, index) =>
+              index === 1 ? (
+                <>
+                  <span class="r">{siteConfig.hero.accent}</span>
+                  {chunk}
+                </>
+              ) : (
+                chunk
+              )
+            )}
+          </span>
+        </span>
+      ))}
+    </h1>
+
+    <div class="hero__foot">
+      <div>
+        <p class="hero__bio">{siteConfig.hero.summary}</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary" href={siteConfig.hero.primaryCta.href}>
+            {siteConfig.hero.primaryCta.label}
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
           </a>
+          <a class="btn btn--ghost" href={siteConfig.hero.secondaryCta.href}>
+            {siteConfig.hero.secondaryCta.label}
+          </a>
+        </div>
+      </div>
+
+      <ul class="proof">
+        {ledger.map((item) => (
+          <li>
+            <a href={item.href}>
+              <b>{item.value}</b>
+              <span>{item.label}</span>
+              <i aria-hidden="true">↗</i>
+            </a>
+          </li>
         ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec wrap">
+    <header class="sec__head">
+      <div>
+        <p class="eyebrow">Contents · 本期目录</p>
+        <h2 class="sec__title">这个档案里有什么。</h2>
+      </div>
+    </header>
+
+    <div class="cols">
+      {columns.map((column) => (
+        <div>
+          <div class="col__head">
+            <b>{column.head}</b>
+            <a href={column.link.href}>{column.link.label}</a>
+          </div>
+          <ul class="col__list">
+            {column.items.map((item) => (
+              <li>
+                <a class="col__item" href={item.href}>
+                  <span class="col__title">
+                    {item.title}
+                    {item.meta && <span class="col__count">{item.meta}</span>}
+                  </span>
+                  <span class="col__sub">{item.sub}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="band__inner wrap">
+      <div>
+        <p class="band__label">Projects · 在研作品</p>
+        <h2 class="band__title">我做的，<br />和我正在做的。</h2>
+      </div>
+      <div>
+        <p class="band__text">
+          除了写字，我还在写代码。Chrome 扩展、Web 应用、Mac 应用和一个 iOS 应用——
+          都是自己在真实工作里被逼出来，然后自己用上的东西。
+        </p>
+        <ul class="band__list">
+          {tracks.slice(0, 3).map((track) => (
+            <li>
+              <a class="band__row" href={`/archive?track=${track.key}`}>
+                <b>{track.label}</b>
+                <span>{track.count} 篇</span>
+                <i aria-hidden="true">↗</i>
+              </a>
+            </li>
+          ))}
+          <li>
+            <a class="band__row" href="/projects">
+              <b>全部作品与更新日志</b>
+              <span>{projectStats.total} 个项目</span>
+              <i aria-hidden="true">↗</i>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <section class="stats">
-    {stats.map((stat) => (
-      <a class="stats__item" href={stat.href}>
-        <span class="stats__value">{stat.value}</span>
-        <span class="stats__label">{stat.label}</span>
-      </a>
-    ))}
-  </section>
+  <section class="sec wrap">
+    <header class="sec__head">
+      <div>
+        <p class="eyebrow">Notes · 最新笔记</p>
+        <h2 class="sec__title">最近写下的。</h2>
+      </div>
+      <a class="sec__link" href="/archive">全部归档 →</a>
+    </header>
 
-  <section class="section">
-    <div class="section__header">
-      <h2 class="section__title">最新文章</h2>
-      <a class="section__link" href="/archive">全部归档 →</a>
-    </div>
-    <div class="feed-list">
+    <div>
       {latestPosts.map((post) => (
-        <a
-          class="feed-card animate-on-scroll"
-          href={toPostPath(post)}
-          style={`--track-hue: ${trackHue[post.data.track]}`}
-        >
-          <span class="feed-card__media">
-            <img
-              src={`/og/${post.data.slug}.svg`}
-              alt=""
-              loading="lazy"
-              width="1200"
-              height="630"
-            />
-          </span>
-          <span class="feed-card__body">
-            <span class="feed-card__meta">
-              <span class="feed-card__track">{trackLabels[post.data.track]}</span>
-              <span>{formatDate(post.data.publishedAt)}</span>
-              <span>{getReadingTime(post.body ?? '')} 分钟</span>
-            </span>
-            <span class="feed-card__title">{post.data.title}</span>
-            <span class="feed-card__summary">{post.data.summary}</span>
-            <span class="feed-card__footer">
-              <span class="feed-card__byline">
-                <span class="feed-card__avatar" aria-hidden="true">P</span>
-                {siteConfig.author.name}
-              </span>
+        <article class="post-card">
+          <span class="post-card__date">{formatDate(post.data.publishedAt)}</span>
+          <div class="post-card__main">
+            <a href={toPostPath(post)}>
+              <h3 class="post-card__title">{post.data.title}</h3>
+              <p class="post-card__summary">{post.data.summary}</p>
+            </a>
+            <div class="post-card__footer">
+              <span class="tag">{trackLabels[post.data.track]}</span>
               {post.data.topic && <span class="tag tag--accent">{post.data.topic}</span>}
-            </span>
-          </span>
-        </a>
-      ))}
-    </div>
-  </section>
-
-  <section class="section section--bordered">
-    <div class="section__header">
-      <h2 class="section__title">栏目</h2>
-      <a class="section__link" href="/archive">浏览全部 →</a>
-    </div>
-    <div class="track-grid">
-      {tracks.map((track) => (
-        <a
-          class="track-card animate-on-scroll"
-          href={`/archive?track=${track.key}`}
-          style={`--track-hue: ${trackHue[track.key]}`}
-        >
-          <span class="track-card__name">{track.label}</span>
-          <span class="track-card__desc">{track.desc}</span>
-          <span class="track-card__count">{track.count} 篇笔记</span>
-        </a>
-      ))}
-    </div>
-  </section>
-
-  {topics.length > 0 && (
-    <section class="section">
-      <div class="section__header">
-        <h2 class="section__title">主题</h2>
-        <a class="section__link" href="/topics">主题档案 →</a>
-      </div>
-      <div class="topic-list">
-        {topics.map((topic) => (
-          <a class="topic-item animate-on-scroll" href={topic.href}>
-            <div class="topic-item__left">
-              <span class="topic-item__name">{topic.name}</span>
-              <span class="topic-item__post">{topic.post}</span>
+              <span class="post-card__readmore">{getReadingTime(post.body ?? '')} 分钟</span>
             </div>
-            <span class="topic-item__count">→</span>
+          </div>
+          <a class="post-card__arrow" href={toPostPath(post)} aria-label={post.data.title}>
+            →
           </a>
-        ))}
-      </div>
-    </section>
-  )}
+        </article>
+      ))}
+    </div>
+  </section>
 </BaseLayout>

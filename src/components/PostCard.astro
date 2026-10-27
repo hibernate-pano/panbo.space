@@ -16,35 +16,33 @@ const tags = getVisiblePostTags(post, compact ? 2 : 3)
 ---
 
 <article class="post-card">
-  <a class="post-card__link" href={postPath}>
-    <div class="post-card__meta">
-      <span>{trackLabels[post.data.track]}</span>
-      {post.data.topic && <span>{post.data.topic}</span>}
-      <span>{formatDate(post.data.publishedAt)}</span>
-      <span>{readingTime} min</span>
-    </div>
+  <span class="post-card__date">{formatDate(post.data.publishedAt)}</span>
 
-    <h3 class="post-card__title">{post.data.title}</h3>
-    <p class="post-card__summary">{post.data.summary}</p>
-  </a>
-
-  <div class="post-card__footer">
-    <div class="post-card__tags">
-      {post.data.topic && (
-        <a href={`/topics/${toTopicSlug(post.data.topic)}`} class="tag">
-          {post.data.topic}
-        </a>
-      )}
-      {post.data.series && <span class="tag">{post.data.series}</span>}
-      {tags.map((tag) => (
-        <a href={toTagPath(tag)} class="tag">
-          {formatTagLabel(tag)}
-        </a>
-      ))}
-    </div>
-
-    <a class="post-card__readmore" href={postPath}>
-      继续阅读 →
+  <div class="post-card__main">
+    <a href={postPath}>
+      <h3 class="post-card__title">{post.data.title}</h3>
+      <p class="post-card__summary">{post.data.summary}</p>
     </a>
+
+    <div class="post-card__footer">
+      <div class="post-card__tags">
+        <span class="tag">{trackLabels[post.data.track]}</span>
+        {post.data.topic && (
+          <a href={`/topics/${toTopicSlug(post.data.topic)}`} class="tag tag--accent">
+            {post.data.topic}
+          </a>
+        )}
+        {tags.map((tag) => (
+          <a href={toTagPath(tag)} class="tag">
+            {formatTagLabel(tag)}
+          </a>
+        ))}
+      </div>
+      <span class="post-card__readmore">{readingTime} 分钟</span>
+    </div>
   </div>
+
+  <a class="post-card__arrow" href={postPath} aria-label={post.data.title}>
+    →
+  </a>
 </article>

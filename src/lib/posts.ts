@@ -163,6 +163,8 @@ export const getTagDirectory = async (limit?: number) => {
       tag,
       slug: toTagSlug(tag),
       count: posts.length,
+      // Newest title in the bucket — gives each directory row something real to say
+      latestTitle: posts[0]?.data.title ?? '',
     }))
     .sort((left, right) => {
       if (left.count !== right.count) return right.count - left.count

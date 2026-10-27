@@ -1,7 +1,7 @@
 ---
+import '@fontsource-variable/noto-serif-sc/wght.css'
 import '@fontsource-variable/newsreader/wght.css'
 import '@fontsource-variable/newsreader/wght-italic.css'
-import '@fontsource-variable/inter/wght.css'
 import '@fontsource/ibm-plex-mono/latin-400.css'
 import '@fontsource/ibm-plex-mono/latin-500.css'
 import '../styles/global.css'
@@ -63,10 +63,10 @@ const runtimeScript = `
       progress.style.transform = 'scaleX(' + ratio + ')';
     };
 
-    const syncHeaderState = () => {
-      const header = document.querySelector('.site-header');
-      if (!header) return;
-      header.classList.toggle('site-header--scrolled', window.scrollY > 8);
+    const syncMastState = () => {
+      const mast = document.querySelector('.mast');
+      if (!mast) return;
+      mast.classList.toggle('is-scrolled', window.scrollY > 8);
     };
 
     const syncActiveNav = () => {
@@ -126,7 +126,7 @@ const runtimeScript = `
       });
 
       // Leaving mobile width should not leave the sheet stuck open
-      window.matchMedia('(min-width: 821px)').addEventListener('change', (event) => {
+      window.matchMedia('(min-width: 981px)').addEventListener('change', (event) => {
         if (event.matches) setOpen(false);
       });
     };
@@ -230,33 +230,13 @@ const runtimeScript = `
       })
     };
 
-    const setupScrollAnimations = () => {
-      const elements = document.querySelectorAll('.animate-on-scroll');
-      if (!elements.length) return;
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-      );
-
-      elements.forEach((el) => observer.observe(el));
-    };
-
     const initPage = () => {
       syncProgress();
-      syncHeaderState();
+      syncMastState();
       syncActiveNav();
       setupThemeToggle();
       setupMobileNav();
       setupToc();
-      setupScrollAnimations();
       setupCodeCopy();
     };
 
@@ -266,7 +246,7 @@ const runtimeScript = `
       ticking = true;
       window.requestAnimationFrame(() => {
         syncProgress();
-        syncHeaderState();
+        syncMastState();
         ticking = false;
       });
     }, { passive: true });
@@ -277,8 +257,6 @@ const runtimeScript = `
     });
 
     window.addEventListener('keydown', handleKeydown);
-
-    document.addEventListener('astro:page-load', initPage);
 
     initPage();
   })();
@@ -304,8 +282,8 @@ const runtimeScript = `
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
     <meta name="twitter:creator" content="@HibernatePano" />
-    <meta name="theme-color" content="#faf9f5" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#1f1e1d" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f8f6f1" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)" />
@@ -325,13 +303,13 @@ const runtimeScript = `
 
     <a href="#main" class="skip-link">跳到正文</a>
 
-    <div class="site-shell">
-      <SiteHeader />
-      <main id="main" class:list={['site-main', mainClass]} data-pagefind-body>
-        <slot />
-      </main>
-      <SiteFooter />
-    </div>
+    <SiteHeader />
+
+    <main id="main" class:list={['site-main', mainClass]} data-pagefind-body>
+      <slot />
+    </main>
+
+    <SiteFooter />
 
     <script is:inline set:html={runtimeScript}></script>
   </body>

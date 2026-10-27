@@ -11,9 +11,9 @@ const tagDirectory = await getTagDirectory()
   description="按自动识别与人工补充后的标签浏览 panbo.space 的文章网络。"
   mainClass="page-browse"
 >
-  <section class="page-shell">
+  <section class="page-shell wrap">
     <header class="page-header">
-      <p class="page-header__eyebrow">Tags</p>
+      <p class="eyebrow">Tags · 标签档案</p>
       <h1>标签档案</h1>
       <p>标签来自 frontmatter、正文中的 #标签，以及受控关键词推断。它不是第二套 topic，而是跨主题的横向交叉索引。</p>
     </header>
@@ -23,7 +23,7 @@ const tagDirectory = await getTagDirectory()
         <a class="tag-directory__item" href={toTagPath(item.tag)}>
           <span>{item.count} 篇</span>
           <strong>{formatTagLabel(item.tag)}</strong>
-          <p>这些文章通过这个标签被串起来，适合横向回看同一类问题。</p>
+          <p>{item.latestTitle}</p>
         </a>
       ))}
     </div>

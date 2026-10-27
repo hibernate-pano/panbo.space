@@ -24,14 +24,14 @@ if (!topicPage) {
   canonicalPath={`/topics/${Astro.params.topic}`}
   mainClass="page-browse"
 >
-  <section class="page-shell">
+  <section class="page-shell wrap">
     <header class="page-header">
-      <p class="page-header__eyebrow">Topic</p>
+      <p class="eyebrow">Topic · 主题</p>
       <h1>{topicPage.topic}</h1>
       <p>{topicPage.posts.length} 篇文章，像一份单独的主题档案，按最近更新时间倒序整理。</p>
     </header>
 
-    <div class="post-grid">
+    <div class="post-list">
       {topicPage.posts.map((post) => (
         <PostCard post={post} />
       ))}
