@@ -1,0 +1,175 @@
+---
+import { readingScales, readingKeys } from '../lib/reading'
+
+// The panel writes CSS custom properties onto <html>; the values come from
+// the shared scale definition so the site default and the reader override
+// can never drift apart.
+---
+
+<div class="reading-settings" data-reading-settings>
+  <button
+    type="button"
+    class="badge-pill badge-pill--icon"
+    data-reading-toggle
+    aria-expanded="false"
+    aria-controls="reading-panel"
+    data-tip="阅读设置"
+    aria-label="阅读设置"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+      <path d="M4 7h9M18 7h2" />
+      <path d="M4 17h3M12 17h8" />
+      <circle cx="15.5" cy="7" r="2.2" />
+      <circle cx="9.5" cy="17" r="2.2" />
+    </svg>
+  </button>
+
+  <div class="reading-settings__panel" id="reading-panel" data-reading-panel hidden>
+    <p class="reading-settings__title">阅读设置</p>
+
+    {readingKeys.map((key) => (
+      <div class="reading-settings__row">
+        <span class="reading-settings__label">{readingScales[key].label}</span>
+        <div class="reading-settings__options" role="group" aria-label={readingScales[key].label}>
+          {readingScales[key].options.map((option) => (
+            <button
+              type="button"
+              class="reading-settings__option"
+              data-reading-option={key}
+              data-value={option.value}
+              aria-pressed="false"
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <button type="button" class="reading-settings__reset" data-reading-reset>恢复默认</button>
+  </div>
+</div>
+
+<script>
+  import { readingScales, readingKeys, readingStorageKey, type ReadingKey } from '../lib/reading'
+
+  const root = document.documentElement
+
+  const readStored = (): Partial<Record<ReadingKey, string>> => {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(readingStorageKey) || '{}')
+      return parsed && typeof parsed === 'object' ? parsed : {}
+    } catch {
+      return {}
+    }
+  }
+
+  const readDefaults = (): Partial<Record<ReadingKey, string>> => {
+    try {
+      return JSON.parse(root.dataset.readingDefaults || '{}')
+    } catch {
+      return {}
+    }
+  }
+
+  const effective = (): Record<ReadingKey, string> => {
+    const defaults = readDefaults()
+    const stored = readStored()
+    const state = {} as Record<ReadingKey, string>
+
+    for (const key of readingKeys) {
+      state[key] = stored[key] ?? defaults[key] ?? readingScales[key].options[0].value
+    }
+
+    return state
+  }
+
+  const apply = (state: Record<ReadingKey, string>) => {
+    for (const key of readingKeys) {
+      const scale = readingScales[key]
+      const option = scale.options.find((entry) => entry.value === state[key])
+      if (!option) continue
+      root.style.setProperty(scale.cssVar, option.css)
+    }
+  }
+
+  const syncPanel = (state: Record<ReadingKey, string>) => {
+    document.querySelectorAll<HTMLButtonElement>('[data-reading-option]').forEach((button) => {
+      const key = button.dataset.readingOption as ReadingKey
+      const active = state[key] === button.dataset.value
+      button.classList.toggle('is-active', active)
+      button.setAttribute('aria-pressed', String(active))
+    })
+
+    const reset = document.querySelector<HTMLButtonElement>('[data-reading-reset]')
+    const hasOverride = readingKeys.some((key) => readStored()[key] !== undefined)
+    if (reset) reset.disabled = !hasOverride
+  }
+
+  const setup = () => {
+    const settings = document.querySelector<HTMLElement>('[data-reading-settings]')
+    if (!settings || settings.dataset.ready === 'true') return
+    settings.dataset.ready = 'true'
+
+    const toggle = settings.querySelector<HTMLButtonElement>('[data-reading-toggle]')
+    const panel = settings.querySelector<HTMLElement>('[data-reading-panel]')
+    if (!toggle || !panel) return
+
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open))
+      panel.hidden = !open
+      settings.classList.toggle('is-open', open)
+    }
+
+    toggle.addEventListener('click', (event) => {
+      event.stopPropagation()
+      setOpen(panel.hidden)
+    })
+
+    document.addEventListener('click', (event) => {
+      if (!panel.hidden && !settings.contains(event.target as Node)) setOpen(false)
+    })
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !panel.hidden) {
+        setOpen(false)
+        toggle.focus()
+      }
+    })
+
+    panel.addEventListener('click', (event) => {
+      const option = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-reading-option]')
+      if (!option) return
+
+      const key = option.dataset.readingOption as ReadingKey
+      const value = option.dataset.value
+      if (!key || !value) return
+
+      const stored = readStored()
+      stored[key] = value
+      try {
+        localStorage.setItem(readingStorageKey, JSON.stringify(stored))
+      } catch {}
+
+      const state = effective()
+      apply(state)
+      syncPanel(state)
+    })
+
+    const reset = panel.querySelector<HTMLButtonElement>('[data-reading-reset]')
+    reset?.addEventListener('click', () => {
+      try {
+        localStorage.removeItem(readingStorageKey)
+      } catch {}
+
+      const state = effective()
+      apply(state)
+      syncPanel(state)
+    })
+
+    const state = effective()
+    syncPanel(state)
+  }
+
+  setup()
+</script>

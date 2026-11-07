@@ -8,6 +8,17 @@ import '../styles/global.css'
 import { siteConfig } from '../data/site'
 import SiteFooter from '../components/SiteFooter.astro'
 import SiteHeader from '../components/SiteHeader.astro'
+import { readingScales, readingKeys, readingStorageKey, resolveReadingDefaults } from '../lib/reading'
+
+// The owner's defaults become CSS custom properties; a reader's override
+// replaces the same properties at runtime.
+const { keys: readingDefaultKeys, css: readingDefaultCss } = resolveReadingDefaults(siteConfig.reading)
+const readingStyle = Object.entries(readingDefaultCss)
+  .map(([key, value]) => `${readingScales[key as keyof typeof readingScales].cssVar}: ${value}`)
+  .join('; ')
+const readingScaleMap = Object.fromEntries(
+  readingKeys.map((key) => [key, { cssVar: readingScales[key].cssVar, options: readingScales[key].options }]),
+)
 
 type Props = {
   title?: string
@@ -47,6 +58,18 @@ const themeBoot = `
       const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       const resolved = stored === 'light' || stored === 'dark' ? stored : (dark ? 'dark' : 'light');
       document.documentElement.dataset.theme = resolved;
+    } catch {}
+
+    // Reader overrides for the reading scale, applied before first paint so
+    // the article never reflows after it has been laid out. The site default
+    // already lives in the stylesheet; only overrides need to be applied here.
+    try {
+      const stored = JSON.parse(localStorage.getItem('${readingStorageKey}') || '{}');
+      const scales = ${JSON.stringify(readingScaleMap)};
+      for (const [key, scale] of Object.entries(scales)) {
+        const option = scale.options.find((entry) => entry.value === (stored && stored[key]));
+        if (option) document.documentElement.style.setProperty(scale.cssVar, option.css);
+      }
     } catch {}
   })();
 `
@@ -264,7 +287,11 @@ const runtimeScript = `
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html
+  lang="zh-CN"
+  data-reading-defaults={JSON.stringify(readingDefaultKeys)}
+  style={readingStyle}
+>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

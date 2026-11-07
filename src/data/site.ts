@@ -12,6 +12,15 @@ export const siteConfig = {
     github: 'https://github.com/hibernate-pano',
     x: 'https://x.com/HibernatePano',
   },
+  // Reading defaults for every article. Each axis is one of the option keys
+  // in `src/lib/reading.ts`; a reader may override any of them from the
+  // in-page panel, and the override is remembered per device.
+  reading: {
+    fontSize: 'md',
+    measure: 'md',
+    lineHeight: 'md',
+    paraGap: 'md',
+  },
   hero: {
     kicker: 'Independent Research Archive',
     // Rendered as two lines; `r` marks the cinnabar-highlighted phrase.

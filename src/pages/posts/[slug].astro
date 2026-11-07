@@ -1,6 +1,7 @@
 ---
 import { render } from 'astro:content'
 import MermaidRuntime from '../../components/MermaidRuntime.astro'
+import ReadingSettings from '../../components/ReadingSettings.astro'
 import TableOfContents from '../../components/TableOfContents.astro'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { formatDate, getAllPosts, getReadingTime, toPostPath, trackLabels } from '../../lib/posts'
@@ -45,7 +46,7 @@ const related = [...sameTrack, ...fallback].slice(0, 3)
   tags={metaTags}
 >
   <div class:list={['post-page wrap', hasToc ? 'post-page--with-toc' : 'post-page--no-toc']}>
-    <div class:list={['post-layout', hasToc ? 'post-layout--with-toc' : '']}>
+    <div class:list={['post-layout', hasToc ? 'post-layout--with-toc' : 'post-layout--no-toc']}>
       <div class="post-column">
         <header class="post-header">
           <div class="post-header__kicker">
@@ -82,6 +83,7 @@ const related = [...sameTrack, ...fallback].slice(0, 3)
               <time class="num" datetime={post.data.publishedAt.toISOString()}>{formatDate(post.data.publishedAt)}</time>
             </span>
             <span class="post-header__tools">
+              <ReadingSettings />
               <button type="button" class="badge-pill badge-pill--icon" data-copy-link data-tip="复制链接" aria-label="Copy link">
                 <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
               </button>
@@ -90,6 +92,12 @@ const related = [...sameTrack, ...fallback].slice(0, 3)
               </a>
             </span>
           </div>
+
+          {hasToc && (
+            <div class="post-header__toc">
+              <TableOfContents headings={headings} variant="inline" />
+            </div>
+          )}
 
         </header>
 
