@@ -13,6 +13,7 @@
     "route:sync": "node scripts/generate-route-manifest.mjs"
   },
   "dependencies": {
+    "@astrojs/markdown-satteri": "0.4.2",
     "@astrojs/mdx": "^8.0.2",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",

@@ -1,6 +1,8 @@
 import { defineConfig } from 'astro/config'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
+import { satteri } from '@astrojs/markdown-satteri'
+import editorialPlugin from './src/plugins/rehype-editorial.mjs'
 
 export default defineConfig({
   site: 'https://www.panbo.space',
@@ -8,6 +10,8 @@ export default defineConfig({
   trailingSlash: 'never',
   integrations: [mdx(), sitemap()],
   markdown: {
+    // Strip the hand-written table of contents and make wide tables scrollable.
+    processor: satteri({ hastPlugins: [editorialPlugin] }),
     shikiConfig: {
       // Emit both themes as CSS variables so code can follow the site theme
       themes: {
@@ -15,7 +19,9 @@ export default defineConfig({
         dark: 'github-dark-dimmed',
       },
       defaultColor: false,
-      wrap: true,
+      // Wrapping breaks the box drawings and ASCII diagrams several of the
+      // articles use; the block scrolls instead.
+      wrap: false,
     },
   },
   vite: {
