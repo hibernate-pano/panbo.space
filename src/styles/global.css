@@ -52,10 +52,22 @@
     'Microsoft YaHei', 'Noto Sans SC', sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
+  /* The article column: Chinese from Noto Serif SC, Latin and numerals from
+     Newsreader. Both are serif, so the line keeps one voice. */
+  --reading-font: 'Newsreader Variable', 'Noto Serif SC Variable', 'Songti SC',
+    'STSong', 'SimSun', serif;
+
   /* --- layout --- */
   --max: 1240px;
   --gutter: 48px;
+
+  /* --- reading scale ---
+     The owner sets the default in src/data/site.ts; a reader overrides any
+     axis from the in-page panel. Both write the same custom properties. */
+  --reading-font-size: 17px;
   --reading-width: 720px;
+  --reading-line-height: 1.9;
+  --reading-para-gap: 1;
 
   /* --- motion --- */
   --ease: cubic-bezier(0.23, 1, 0.32, 1);
@@ -1309,44 +1321,101 @@ button {
 
 /* ============================================================
    12. PROSE — the reading column
+   ------------------------------------------------------------
+   One serif voice from headline to footnote: Chinese from Noto Serif SC,
+   Latin and numerals from Newsreader. Every metric that shapes the
+   rhythm of a long read is a custom property, so the owner sets the
+   baseline and a reader can retune it without touching the source.
    ============================================================ */
 .prose {
   max-width: var(--reading-width);
-  font-size: 17px;
-  line-height: 1.95;
+  font-family: var(--reading-font);
+  font-size: var(--reading-font-size);
+  line-height: var(--reading-line-height);
   color: var(--ink);
+  font-variant-numeric: lining-nums;
+  overflow-wrap: break-word;
+}
+
+/* Chinese sets flush to both edges; the last line stays ragged. Justified
+   body copy only — a heading stretched to the full measure reads as broken
+   spacing rather than as a heading. */
+.prose p,
+.prose li {
+  text-align: justify;
+  text-justify: inter-ideograph;
 }
 
 .prose > * + * {
-  margin-top: 1em;
-}
-
-.prose h2 {
-  margin-top: 2.4em;
-  font-family: var(--serif);
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  line-height: 1.4;
-}
-
-.prose h3 {
-  margin-top: 1.8em;
-  font-family: var(--serif);
-  font-size: 1.18rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  line-height: 1.5;
-}
-
-.prose h4 {
-  margin-top: 1.6em;
-  font-size: 1.02rem;
-  font-weight: 600;
+  margin-top: calc(1em * var(--reading-para-gap));
 }
 
 .prose p {
   color: var(--ink-2);
+}
+
+/* --- headings --- */
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  font-family: var(--serif);
+  color: var(--ink);
+  /* Anchor links must clear the sticky mast. */
+  scroll-margin-top: 108px;
+  text-wrap: balance;
+}
+
+.prose h2 {
+  position: relative;
+  margin-top: calc(2.3em * var(--reading-para-gap));
+  margin-bottom: calc(0.8em * var(--reading-para-gap));
+  padding-top: 0.9em;
+  font-size: 1.42rem;
+  font-weight: 700;
+  letter-spacing: 0.015em;
+  line-height: 1.45;
+}
+
+/* The hairline is what separates one argument from the next. It reaches the
+   full measure of the column, unlike the rules around a quote. */
+.prose h2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--rule);
+}
+
+/* A section break already draws a rule; the heading above it does not need
+   a second one right underneath. */
+.prose hr + h2,
+.prose h2:first-child {
+  padding-top: 0;
+}
+
+.prose hr + h2::before {
+  display: none;
+}
+
+.prose h3 {
+  margin-top: calc(1.9em * var(--reading-para-gap));
+  margin-bottom: calc(0.6em * var(--reading-para-gap));
+  font-size: 1.16rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.55;
+}
+
+.prose h4 {
+  margin-top: calc(1.6em * var(--reading-para-gap));
+  margin-bottom: calc(0.5em * var(--reading-para-gap));
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.6;
 }
 
 .prose strong {
@@ -1358,11 +1427,13 @@ button {
   color: var(--ink);
 }
 
+/* --- links --- */
 .prose a {
   color: var(--ink);
   text-decoration: underline;
   text-decoration-color: var(--ink-4);
-  text-underline-offset: 5px;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.28em;
   transition: text-decoration-color var(--fast) var(--ease), color var(--fast) var(--ease);
 }
 
@@ -1371,42 +1442,76 @@ button {
   text-decoration-color: var(--red);
 }
 
+/* --- lists --- */
 .prose ul,
 .prose ol {
-  padding-left: 1.3em;
+  padding-left: 1.45em;
   color: var(--ink-2);
 }
 
 .prose li + li {
-  margin-top: 0.45em;
+  margin-top: calc(0.42em * var(--reading-para-gap));
 }
 
 .prose li::marker {
   color: var(--ink-4);
+  font-family: var(--latin);
 }
 
+.prose ol > li::marker {
+  color: var(--red);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* A list that interrupts a paragraph keeps the paragraph's measure. */
+.prose li > ul,
+.prose li > ol {
+  margin-top: 0.42em;
+}
+
+/* --- blockquote --- */
 .prose blockquote {
-  padding: 4px 0 4px 20px;
-  border-left: 3px solid var(--red);
+  position: relative;
+  margin-inline: 0;
+  padding: 0.7em 1.1em 0.7em 1.25em;
+  border-left: 2px solid var(--red);
+  background: var(--paper-2);
+  border-radius: 0 8px 8px 0;
   color: var(--ink-2);
+}
+
+.prose blockquote p {
+  font-size: 1.02em;
+  line-height: 1.85;
 }
 
 .prose blockquote p + p {
   margin-top: 0.8em;
 }
 
+/* A nested quote inside a quote would double the frame. */
+.prose blockquote blockquote {
+  margin-top: 0.8em;
+  background: none;
+  padding-left: 1em;
+}
+
 .prose hr {
-  margin: 2.6em 0;
+  margin: calc(2.6em * var(--reading-para-gap)) 0;
   border: 0;
   border-top: 1px solid var(--rule);
 }
 
+/* --- code --- */
+/* Inline code sits in the line, so it is marked with a rule rather than a
+   filled chip: a background block breaks the paragraph into pieces. */
 .prose code {
-  padding: 0.14em 0.4em;
+  padding: 0.1em 0.3em;
   font-family: var(--mono);
-  font-size: 0.86em;
-  background: var(--paper-2);
-  border-radius: 5px;
+  font-size: 0.82em;
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
   color: var(--ink);
 }
 
@@ -1415,27 +1520,45 @@ button {
   padding: 20px 22px;
   overflow-x: auto;
   font-family: var(--mono);
-  font-size: 0.85rem;
+  /* Scales with the reader's font size, unlike a fixed rem. */
+  font-size: 0.82em;
   line-height: 1.75;
   background: var(--paper-2);
   border: 1px solid var(--rule);
   border-radius: 12px;
   color: var(--ink);
+  text-align: left;
+}
+
+/* The Shiki config wraps long lines, which is right for prose but destroys
+   box drawings and ASCII diagrams. Let them scroll instead. */
+.prose pre,
+.prose pre code {
+  white-space: pre;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 
 .prose pre code {
   padding: 0;
   font-size: inherit;
   background: none;
+  border: 0;
   border-radius: 0;
 }
 
+/* --- media --- */
 .prose img {
   border-radius: 12px;
 }
 
 .prose figure {
-  margin: 2em 0;
+  margin: calc(2em * var(--reading-para-gap)) 0;
+}
+
+.prose figure img {
+  display: block;
+  margin-inline: auto;
 }
 
 .prose figcaption {
@@ -1445,26 +1568,59 @@ button {
   text-align: center;
 }
 
+/* --- tables --- */
+/* The build wraps every table in a scroll container: the widest reference
+   notes run well past the reading column. */
+.table-scroll {
+  margin-block: calc(1.4em * var(--reading-para-gap));
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  /* A soft edge on the right tells the reader there is more to the right. */
+  background:
+    linear-gradient(to right, var(--paper) 30%, transparent) left / 32px 100% no-repeat,
+    linear-gradient(to left, var(--paper) 30%, transparent) right / 32px 100% no-repeat,
+    radial-gradient(farthest-side at 0 50%, color-mix(in srgb, var(--ink) 12%, transparent), transparent) left / 12px 100% no-repeat,
+    radial-gradient(farthest-side at 100% 50%, color-mix(in srgb, var(--ink) 12%, transparent), transparent) right / 12px 100% no-repeat;
+  background-attachment: local, local, scroll, scroll;
+}
+
 .prose table {
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
-  font-size: 14.5px;
+  font-family: var(--sans);
+  font-size: 13.5px;
+  line-height: 1.7;
+  text-align: left;
 }
 
 .prose th,
 .prose td {
-  padding: 10px 14px;
+  padding: 9px 14px;
   border-bottom: 1px solid var(--rule);
   text-align: left;
+  vertical-align: top;
 }
 
 .prose th {
   font-family: var(--serif);
   font-weight: 700;
+  color: var(--ink);
+  background: var(--paper-2);
   border-bottom-color: var(--rule-strong);
+  white-space: nowrap;
 }
 
-/* Shiki dual theme */
+.prose tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Shiki dual theme.
+   The theme's own background is deliberately not painted: it would land on
+   every highlighted span and draw a chip behind each word. The block takes
+   the page's paper colour instead, and only the foreground colours swap. */
 .astro-code {
   background: var(--paper-2) !important;
   border: 1px solid var(--rule);
@@ -1473,13 +1629,13 @@ button {
 
 .astro-code span {
   color: var(--shiki-light, inherit);
-  background-color: var(--shiki-light-bg, transparent) !important;
+  background-color: transparent !important;
 }
 
 :root[data-theme='dark'] .astro-code,
 :root[data-theme='dark'] .astro-code span {
   color: var(--shiki-dark, inherit);
-  background-color: var(--shiki-dark-bg, transparent) !important;
+  background-color: transparent !important;
 }
 
 .code-copy {
@@ -1520,13 +1676,28 @@ button {
 
 .post-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 240px;
-  gap: 72px;
+  gap: 48px;
   align-items: start;
 }
 
+/* Without an outline there is no rail, so the article owns the full
+   width and centres itself in the page. */
+.post-layout--no-toc {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.post-layout--no-toc .post-column {
+  max-width: var(--reading-width);
+  margin-inline: auto;
+}
+
+/* The column is exactly the reading measure and the rail sits right next
+   to it; the pair then centres as one composition. Letting the column
+   stretch instead would leave a band of dead space between the article
+   and its outline. */
 .post-layout--with-toc {
-  grid-template-columns: minmax(0, 1fr) 240px;
+  grid-template-columns: minmax(0, var(--reading-width)) 260px;
+  justify-content: center;
 }
 
 .post-column {
@@ -1548,6 +1719,10 @@ button {
   font-weight: 700;
   line-height: 1.22;
   letter-spacing: 0.01em;
+  /* A long Chinese headline breaks wherever it happens to break; `balance`
+     keeps the last line from stranding one or two characters. */
+  text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 
 .post-header__byline {
@@ -1600,6 +1775,95 @@ button {
   gap: 8px;
 }
 
+/* --- reading settings panel --- */
+.reading-settings {
+  position: relative;
+  display: inline-flex;
+}
+
+.reading-settings__panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 60;
+  width: 258px;
+  padding: 16px;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule-strong);
+  border-radius: 12px;
+  box-shadow: 0 18px 40px -28px #0009;
+}
+
+.reading-settings__title {
+  margin-bottom: 14px;
+  font-family: var(--serif);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+}
+
+.reading-settings__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.reading-settings__row + .reading-settings__row {
+  margin-top: 10px;
+}
+
+.reading-settings__label {
+  font-size: 13px;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.reading-settings__options {
+  display: inline-flex;
+  padding: 2px;
+  background: var(--paper-2);
+  border-radius: 8px;
+}
+
+.reading-settings__option {
+  padding: 4px 9px;
+  font-size: 12px;
+  color: var(--ink-3);
+  border-radius: 6px;
+  transition: color var(--fast) var(--ease), background var(--fast) var(--ease);
+}
+
+.reading-settings__option:hover {
+  color: var(--ink);
+}
+
+.reading-settings__option.is-active {
+  color: var(--ink);
+  background: var(--paper-raised);
+  box-shadow: 0 1px 2px #00000014;
+}
+
+.reading-settings__reset {
+  width: 100%;
+  margin-top: 14px;
+  padding-top: 12px;
+  font-size: 12.5px;
+  color: var(--ink-3);
+  border-top: 1px solid var(--rule);
+  transition: color var(--fast) var(--ease);
+}
+
+.reading-settings__reset:hover:not(:disabled) {
+  color: var(--red);
+}
+
+.reading-settings__reset:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
 .badge-pill {
   display: inline-flex;
   align-items: center;
@@ -1637,7 +1901,8 @@ button {
 .tldr {
   margin-top: 28px;
   border: 1px solid var(--rule);
-  border-radius: 12px;
+  border-left: 2px solid var(--red);
+  border-radius: 0 10px 10px 0;
   background: var(--paper-2);
   overflow: hidden;
 }
@@ -1649,10 +1914,17 @@ button {
   gap: 12px;
   padding: 13px 20px;
   cursor: pointer;
-  font-size: 13.5px;
-  letter-spacing: 0.06em;
+  font-family: var(--serif);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   color: var(--ink-2);
   list-style: none;
+  transition: color var(--fast) var(--ease);
+}
+
+.tldr summary:hover {
+  color: var(--ink);
 }
 
 .tldr summary::-webkit-details-marker {
@@ -1670,7 +1942,9 @@ button {
 }
 
 .tldr__panel {
+  margin: 0;
   padding: 0 20px 18px;
+  font-family: var(--reading-font);
   font-size: 15.5px;
   line-height: 1.85;
   color: var(--ink-2);
@@ -1732,8 +2006,8 @@ button {
 .toc__link {
   display: block;
   padding: 7px 0 7px 14px;
-  font-size: 13.5px;
-  line-height: 1.6;
+  font-size: 13px;
+  line-height: 1.75;
   color: var(--ink-3);
   border-left: 2px solid var(--rule);
   transition: color var(--fast) var(--ease), border-color var(--fast) var(--ease);
@@ -1751,6 +2025,53 @@ button {
 .toc__link--child {
   padding-left: 26px;
   font-size: 12.5px;
+}
+
+/* --- inline outline, shown under the headline on narrow screens --- */
+.post-header__toc {
+  display: none;
+  margin-top: 24px;
+}
+
+.toc-inline {
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: var(--paper-2);
+  overflow: hidden;
+}
+
+.toc-inline summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-family: var(--serif);
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+  list-style: none;
+}
+
+.toc-inline summary::-webkit-details-marker {
+  display: none;
+}
+
+.toc-inline summary svg {
+  width: 14px;
+  height: 14px;
+  transition: transform var(--fast) var(--ease);
+}
+
+.toc-inline[open] summary svg {
+  transform: rotate(90deg);
+}
+
+.toc--inline {
+  padding: 2px 16px 14px;
+  border-top: 1px solid var(--rule);
 }
 
 /* ============================================================
@@ -2620,16 +2941,18 @@ button {
     gap: 48px;
   }
 
-  .post-sidebar {
-    position: static;
-    padding-top: 32px;
-    border-top: 1px solid var(--rule);
+  .post-layout--no-toc .post-column {
+    margin-inline: 0;
   }
 
-  .toc {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0 24px;
+  /* The rail would fall to the very bottom of the article; the inline
+     outline under the headline takes its place. */
+  .post-sidebar {
+    display: none;
+  }
+
+  .post-header__toc {
+    display: block;
   }
 }
 
@@ -2868,8 +3191,8 @@ button {
   }
 
   .prose {
-    font-size: 16.5px;
-    line-height: 1.9;
+    font-size: var(--reading-font-size);
+    line-height: var(--reading-line-height);
   }
 
   .back-to-top {

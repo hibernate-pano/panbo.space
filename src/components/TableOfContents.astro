@@ -5,7 +5,15 @@ type Heading = {
   text: string
 }
 
-const { headings } = Astro.props as { headings: Heading[] }
+type Props = {
+  headings: Heading[]
+  /** `sidebar` is the sticky rail on wide screens; `inline` is the collapsed
+      outline that sits under the headline on narrow ones. */
+  variant?: 'sidebar' | 'inline'
+}
+
+const { headings, variant = 'sidebar' } = Astro.props as Props
+
 const outlineHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3 && heading.text !== '目录')
 const visibleHeadings =
   outlineHeadings.length > 18
@@ -13,16 +21,36 @@ const visibleHeadings =
     : outlineHeadings
 ---
 
-{visibleHeadings.length >= 3 && (
-  <nav class="toc">
-    {visibleHeadings.map((heading) => (
-      <a
-        href={`#${heading.slug}`}
-        data-toc-link={heading.slug}
-        class:list={['toc__link', heading.depth === 3 && 'toc__link--child']}
-      >
-        {heading.text}
-      </a>
-    ))}
-  </nav>
-)}
+{
+  variant === 'inline' ? (
+    <details class="toc-inline">
+      <summary>
+        <span>本文目录</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </summary>
+      <nav class="toc toc--inline">
+        {visibleHeadings.map((heading) => (
+          <a
+            href={`#${heading.slug}`}
+            data-toc-link={heading.slug}
+            class:list={['toc__link', heading.depth === 3 && 'toc__link--child']}
+          >
+            {heading.text}
+          </a>
+        ))}
+      </nav>
+    </details>
+  ) : (
+    <nav class="toc">
+      {visibleHeadings.map((heading) => (
+        <a
+          href={`#${heading.slug}`}
+          data-toc-link={heading.slug}
+          class:list={['toc__link', heading.depth === 3 && 'toc__link--child']}
+        >
+          {heading.text}
+        </a>
+      ))}
+    </nav>
+  )
+}
