@@ -517,11 +517,12 @@ button {
   display: none;
 }
 
-:root[data-theme='dark'] .icon-btn .sun {
+/* Any of the two dark palettes shows the sun. */
+:root:is([data-theme='dark'], [data-theme='hsbc-dark']) .icon-btn .sun {
   display: block;
 }
 
-:root[data-theme='dark'] .icon-btn .moon {
+:root:is([data-theme='dark'], [data-theme='hsbc-dark']) .icon-btn .moon {
   display: none;
 }
 
@@ -537,9 +538,188 @@ button {
   border-radius: 999px;
   transition: background var(--fast) var(--ease);
 }
-
 .mast__cta:hover {
   background: color-mix(in srgb, var(--ink) 86%, var(--red));
+}
+
+/* --- theme picker ---
+   Four palettes, each shown as its own five-colour strip. The reader
+   picks by looking rather than by reading a name. */
+.theme-selector {
+  position: relative;
+  display: inline-flex;
+}
+
+.theme-selector__trigger.is-open,
+.theme-selector.is-open .theme-selector__trigger {
+  background: var(--paper-2);
+  color: var(--ink);
+}
+
+.theme-selector__dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 70;
+  /* Never wider than the viewport, however narrow the screen. */
+  width: min(300px, calc(100vw - 32px));
+  padding: 14px;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule-strong);
+  border-radius: 12px;
+  box-shadow: 0 18px 40px -28px #0009;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px) scale(0.98);
+  transform-origin: top right;
+  transition:
+    opacity var(--fast) var(--ease),
+    transform var(--fast) var(--ease),
+    visibility var(--fast);
+}
+
+.theme-selector.is-open .theme-selector__dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.theme-selector__label {
+  margin-bottom: 10px;
+  padding: 0 2px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+}
+
+.theme-selector__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.theme-selector__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  text-align: left;
+  border: 1px solid var(--rule);
+  border-radius: 9px;
+  background: var(--paper);
+  transition:
+    border-color var(--fast) var(--ease),
+    transform var(--fast) var(--ease),
+    box-shadow var(--fast) var(--ease);
+}
+
+.theme-selector__card:hover {
+  border-color: var(--rule-strong);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px -12px #0006;
+}
+
+.theme-selector__card.is-active {
+  border-color: var(--red);
+  box-shadow: inset 0 0 0 1px var(--red);
+}
+
+/* The palette strip: ground, raised surface, ink, accent, counterpart. */
+.theme-selector__palette {
+  display: flex;
+  height: 34px;
+  gap: 2px;
+  padding: 5px 5px 0;
+}
+
+.theme-selector__swatch {
+  flex: 1;
+  border-radius: 3px 3px 0 0;
+  transition: flex var(--fast) var(--ease);
+}
+
+.theme-selector__card:hover .theme-selector__swatch {
+  flex: 1.35;
+}
+
+.theme-selector__card:hover .theme-selector__swatch:first-child {
+  flex: 1;
+}
+
+.theme-selector__card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 7px 9px 8px;
+}
+
+.theme-selector__card-name {
+  font-family: var(--serif);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.theme-selector__card-desc {
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--ink-3);
+}
+
+/* The check rides on the palette strip, so it needs its own ground to
+   stay legible against whichever swatch it lands on. */
+.theme-selector__check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 19px;
+  height: 19px;
+  padding: 4px;
+  color: var(--paper);
+  background: var(--ink);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.5) rotate(-12deg);
+  transition:
+    opacity var(--fast) var(--ease),
+    transform var(--slow) var(--ease);
+}
+
+.theme-selector__card.is-active .theme-selector__check {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.theme-selector__hint {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 11px;
+  padding-top: 10px;
+  font-size: 11px;
+  color: var(--ink-3);
+  border-top: 1px solid var(--rule);
+}
+
+.theme-selector__hint kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 17px;
+  height: 16px;
+  padding: 0 4px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 1;
+  color: var(--ink-3);
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
 }
 
 /* --- mobile drawer --- */
@@ -1632,8 +1812,8 @@ button {
   background-color: transparent !important;
 }
 
-:root[data-theme='dark'] .astro-code,
-:root[data-theme='dark'] .astro-code span {
+:root:is([data-theme='dark'], [data-theme='hsbc-dark']) .astro-code,
+:root:is([data-theme='dark'], [data-theme='hsbc-dark']) .astro-code span {
   color: var(--shiki-dark, inherit);
   background-color: transparent !important;
 }

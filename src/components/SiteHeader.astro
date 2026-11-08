@@ -15,6 +15,36 @@ const navItems = [
 const isActive = (matches: string[], href: string) =>
   currentPath === href || matches.some((match) => currentPath === match || currentPath.startsWith(match))
 
+// The four palettes a reader can pick from. `swatch` is the five-colour
+// strip shown on each card: ground, raised surface, ink, accent, and the
+// accent's counterpart.
+const themes = [
+  {
+    id: 'light',
+    name: '纸白',
+    desc: '暖调印刷',
+    swatch: ['#f8f6f1', '#fdfcf9', '#1f1e1b', '#bf3a26', '#8a7a5c'],
+  },
+  {
+    id: 'dark',
+    name: '夜读',
+    desc: '深色纸面',
+    swatch: ['#14120f', '#1e1b17', '#ece5d6', '#e0644c', '#5c7f6e'],
+  },
+  {
+    id: 'hsbc-light',
+    name: '汇丰白',
+    desc: '专业净白',
+    swatch: ['#ffffff', '#f4f4f5', '#1a1a1a', '#b8001c', '#14243d'],
+  },
+  {
+    id: 'hsbc-dark',
+    name: '汇丰夜',
+    desc: '蓝黑金融',
+    swatch: ['#0d1117', '#1b2028', '#e6edf3', '#f0604f', '#58a6ff'],
+  },
+] as const
+
 // The dateline strip: today's date, ISO week, and whatever landed most recently.
 const now = new Date()
 const dateLabel = new Intl.DateTimeFormat('zh-CN', {
@@ -74,15 +104,56 @@ const latest = allPosts[0]
         </svg>
       </a>
 
-      <button type="button" class="icon-btn" data-theme-toggle aria-label="切换明暗主题" title="切换明暗主题">
-        <svg class="sun" viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="12" cy="12" r="4" />
-          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
-        </svg>
-        <svg class="moon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" />
-        </svg>
-      </button>
+      <div class="theme-selector" data-theme-selector>
+        <button
+          type="button"
+          class="icon-btn theme-selector__trigger"
+          data-theme-toggle
+          aria-label="切换主题"
+          aria-haspopup="true"
+          aria-expanded="false"
+          title="切换主题（⌘1-4）"
+        >
+          <svg class="sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+          </svg>
+          <svg class="moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" />
+          </svg>
+        </button>
+
+        <div class="theme-selector__dropdown" role="menu" aria-label="主题">
+          <p class="theme-selector__label">主题</p>
+          <div class="theme-selector__grid">
+            {themes.map((theme) => (
+              <button
+                type="button"
+                class="theme-selector__card"
+                data-theme-option={theme.id}
+                role="menuitemradio"
+                aria-checked="false"
+              >
+                <span class="theme-selector__palette" aria-hidden="true">
+                  {theme.swatch.map((color) => (
+                    <span class="theme-selector__swatch" style={`background:${color}`} />
+                  ))}
+                </span>
+                <span class="theme-selector__card-info">
+                  <span class="theme-selector__card-name">{theme.name}</span>
+                  <span class="theme-selector__card-desc">{theme.desc}</span>
+                </span>
+                <svg class="theme-selector__check" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </button>
+            ))}
+          </div>
+          <p class="theme-selector__hint">
+            <kbd>⌘</kbd><kbd>1</kbd>–<kbd>4</kbd> 快速切换
+          </p>
+        </div>
+      </div>
 
       <a class="mast__cta" href="/rss.xml">订阅</a>
 

@@ -5,10 +5,12 @@ import '@fontsource-variable/newsreader/wght-italic.css'
 import '@fontsource/ibm-plex-mono/latin-400.css'
 import '@fontsource/ibm-plex-mono/latin-500.css'
 import '../styles/global.css'
+import '../styles/theme-hsbc.css'
 import { siteConfig } from '../data/site'
 import SiteFooter from '../components/SiteFooter.astro'
 import SiteHeader from '../components/SiteHeader.astro'
 import { readingScales, readingKeys, readingStorageKey, resolveReadingDefaults } from '../lib/reading'
+import { themes, themeColors, themeStorageKey, legacyThemeStorageKey } from '../lib/themes'
 
 // The owner's defaults become CSS custom properties; a reader's override
 // replaces the same properties at runtime.
@@ -54,10 +56,16 @@ const imageUrl = image.startsWith('http') ? image : new URL(image, siteConfig.si
 const themeBoot = `
   (() => {
     try {
-      const stored = localStorage.getItem('theme');
+      const stored = localStorage.getItem('${themeStorageKey}');
+      const legacy = localStorage.getItem('${legacyThemeStorageKey}');
+      const valid = ${JSON.stringify(themes)};
       const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const resolved = stored === 'light' || stored === 'dark' ? stored : (dark ? 'dark' : 'light');
+      const resolved = valid.includes(stored)
+        ? stored
+        : (legacy === 'light' || legacy === 'dark' ? legacy : (dark ? 'dark' : 'light'));
       document.documentElement.dataset.theme = resolved;
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', ${JSON.stringify(themeColors)}[resolved] || ${JSON.stringify(themeColors.light)});
     } catch {}
 
     // Reader overrides for the reading scale, applied before first paint so
@@ -107,21 +115,87 @@ const runtimeScript = `
     };
 
     const setupThemeToggle = () => {
+      const selector = document.querySelector('[data-theme-selector]');
       const toggle = document.querySelector('[data-theme-toggle]');
-      if (!toggle || toggle.dataset.ready === 'true') return;
+      if (!selector || !toggle || toggle.dataset.ready === 'true') return;
       toggle.dataset.ready = 'true';
 
-      toggle.addEventListener('click', () => {
-        const current = document.documentElement.dataset.theme
-          || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        const next = current === 'dark' ? 'light' : 'dark';
+      const options = [...document.querySelectorAll('[data-theme-option]')];
+      const validThemes = ${JSON.stringify(themes)};
+      const themeColors = ${JSON.stringify(themeColors)};
+      const storageKey = '${themeStorageKey}';
 
-        document.documentElement.dataset.theme = next;
-        try {
-          localStorage.setItem('theme', next);
-        } catch {}
-        document.dispatchEvent(new CustomEvent('themechange', { detail: { theme: next } }));
+      const currentTheme = () => document.documentElement.dataset.theme || 'light';
+
+      const syncCards = (theme) => {
+        for (const option of options) {
+          const active = option.getAttribute('data-theme-option') === theme;
+          option.classList.toggle('is-active', active);
+          option.setAttribute('aria-checked', String(active));
+        }
+      };
+
+      const setOpen = (open) => {
+        selector.classList.toggle('is-open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+      };
+
+      const applyTheme = (theme, persist) => {
+        if (!validThemes.includes(theme)) return;
+
+        document.documentElement.dataset.theme = theme;
+        document.querySelector('meta[name="theme-color"]')
+          ?.setAttribute('content', themeColors[theme] || themeColors.light);
+
+        if (persist) {
+          try {
+            localStorage.setItem(storageKey, theme);
+            // The old key only ever held light/dark; drop it so the two
+            // cannot disagree after the reader picks a palette.
+            localStorage.removeItem('${legacyThemeStorageKey}');
+          } catch {}
+        }
+
+        syncCards(theme);
+        document.dispatchEvent(new CustomEvent('themechange', { detail: { theme } }));
+      };
+
+      toggle.addEventListener('click', (event) => {
+        event.stopPropagation();
+        setOpen(!selector.classList.contains('is-open'));
       });
+
+      // A click inside the panel must not reach the document handler below.
+      selector.addEventListener('click', (event) => event.stopPropagation());
+
+      document.addEventListener('click', () => setOpen(false));
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && selector.classList.contains('is-open')) {
+          setOpen(false);
+          toggle.focus();
+          return;
+        }
+
+        const target = event.target;
+        if (target instanceof HTMLElement && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName))) {
+          return;
+        }
+
+        if (!(event.metaKey || event.ctrlKey) || !['1', '2', '3', '4'].includes(event.key)) return;
+
+        event.preventDefault();
+        applyTheme(validThemes[Number(event.key) - 1], true);
+      });
+
+      for (const option of options) {
+        option.addEventListener('click', () => {
+          applyTheme(option.getAttribute('data-theme-option') || 'light', true);
+          setOpen(false);
+        });
+      }
+
+      syncCards(currentTheme());
     };
 
     const setupMobileNav = () => {
@@ -309,8 +383,9 @@ const runtimeScript = `
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
     <meta name="twitter:creator" content="@HibernatePano" />
-    <meta name="theme-color" content="#f8f6f1" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)" />
+    {/* One tag, rewritten by the theme runtime: the reader's chosen palette
+        decides the browser chrome, not the operating system. */}
+    <meta name="theme-color" content={themeColors.light} />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)" />
