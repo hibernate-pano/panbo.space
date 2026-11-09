@@ -27,12 +27,13 @@ const trackMeta: Record<string, { desc: string }> = {
   work: { desc: '组织约束、项目推进与真实现场' },
   philosophy: { desc: '哲学思辨、存在与意义的长期阅读' },
   psychology: { desc: '人格、潜意识与心灵的现代解读' },
+  health: { desc: '身体、代谢与可执行的健康决策' },
   engineering: { desc: '系统、架构与工程判断' },
   games: { desc: '玩过的游戏与做过的设计' },
 }
 
 // Only surface tracks that actually have notes — no empty shells
-const tracks = (['thinking', 'work', 'philosophy', 'psychology', 'engineering', 'games'] as TrackKey[])
+const tracks = (['thinking', 'work', 'philosophy', 'psychology', 'health', 'engineering', 'games'] as TrackKey[])
   .map((key) => ({ key, label: trackLabels[key], count: countByTrack(key), ...trackMeta[key] }))
   .filter((track) => track.count > 0 && track.desc)
 

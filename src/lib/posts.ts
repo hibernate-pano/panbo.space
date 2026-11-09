@@ -12,6 +12,7 @@ export const trackLabels: Record<TrackKey, string> = {
   thinking: 'Thinking',
   philosophy: 'Philosophy',
   psychology: 'Psychology',
+  health: 'Health',
   work: 'Work Notes',
   games: 'Games',
 }
@@ -22,6 +23,7 @@ export const trackHue: Record<TrackKey, string> = {
   thinking: 'var(--track-thinking)',
   philosophy: 'var(--track-philosophy)',
   psychology: 'var(--track-psychology)',
+  health: 'var(--track-health)',
   work: 'var(--track-work)',
   engineering: 'var(--track-engineering)',
   games: 'var(--track-games)',
@@ -97,7 +99,7 @@ export const getPostsByTrack = async (track: TrackKey): Promise<PostEntry[]> => 
 // Canonical track display order — single source of truth for SiteHeader and ArchiveFilters.
 // Order encodes an editorial progression: practical reflection → abstract (philosophy, psychology)
 // → operational (work, engineering) → leisure.
-const trackOrder: TrackKey[] = ['thinking', 'philosophy', 'psychology', 'work', 'engineering', 'games']
+const trackOrder: TrackKey[] = ['thinking', 'philosophy', 'psychology', 'health', 'work', 'engineering', 'games']
 
 export const getAvailableTracks = async (): Promise<TrackKey[]> => {
   const posts = await getAllPosts()

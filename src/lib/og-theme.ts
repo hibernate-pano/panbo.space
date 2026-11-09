@@ -17,6 +17,7 @@ export const trackColor: Record<string, string> = {
   thinking: '#BF3A26',
   philosophy: '#75619C',
   psychology: '#3F7D70',
+  health: '#8E6C88',
   work: '#52759B',
   engineering: '#9A6F36',
   games: '#5F8248',
