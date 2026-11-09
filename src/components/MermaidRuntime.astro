@@ -8,9 +8,13 @@
       const pre = block instanceof HTMLElement && block.matches('pre') ? block : block.closest('pre')
       if (!pre) continue
 
+      // Read from the <code> element, not the <pre>: the code-copy button is
+      // appended to the <pre>, and its label would otherwise end up in the
+      // diagram source (rendering a stray node labelled "复制").
+      const code = pre.querySelector('code')
       const wrapper = document.createElement('figure')
       wrapper.className = 'mermaid-block'
-      wrapper.dataset.source = (pre.textContent ?? '').trim()
+      wrapper.dataset.source = (code?.textContent ?? pre.textContent ?? '').trim()
       pre.replaceWith(wrapper)
     }
   }

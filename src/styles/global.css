@@ -3079,6 +3079,14 @@ button {
   height: auto;
 }
 
+/* Below this width the diagram would be scaled down until its labels are
+   illegible. Keep a readable minimum and let the block scroll instead. */
+@media (max-width: 720px) {
+  .mermaid-block .mermaid svg {
+    min-width: 620px;
+  }
+}
+
 /* ============================================================
    19. MOTION
    ============================================================ */
