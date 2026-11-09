@@ -58,14 +58,14 @@
     'STSong', 'SimSun', serif;
 
   /* --- layout --- */
-  --max: 1240px;
+  --max: 1440px;
   --gutter: 48px;
 
   /* --- reading scale ---
      The owner sets the default in src/data/site.ts; a reader overrides any
      axis from the in-page panel. Both write the same custom properties. */
   --reading-font-size: 17px;
-  --reading-width: 720px;
+  --reading-width: 840px;
   --reading-line-height: 1.9;
   --reading-para-gap: 1;
 
@@ -3133,6 +3133,14 @@ button {
 
   .post-layout--no-toc .post-column {
     margin-inline: 0;
+  }
+
+  /* Once the rail drops away, the column should stay a centred reading
+     measure instead of hugging the left edge of a wide viewport. */
+  .post-column {
+    width: 100%;
+    max-width: var(--reading-width);
+    margin-inline: auto;
   }
 
   /* The rail would fall to the very bottom of the article; the inline

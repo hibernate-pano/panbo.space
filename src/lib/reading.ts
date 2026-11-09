@@ -38,9 +38,9 @@ export const readingScales: Record<ReadingKey, ReadingScale> = {
     label: '栏宽',
     cssVar: '--reading-width',
     options: [
-      { value: 'sm', label: '窄', css: '620px' },
-      { value: 'md', label: '标准', css: '720px' },
-      { value: 'lg', label: '宽', css: '800px' },
+      { value: 'sm', label: '窄', css: '680px' },
+      { value: 'md', label: '标准', css: '840px' },
+      { value: 'lg', label: '宽', css: '1040px' },
     ],
   },
   lineHeight: {
