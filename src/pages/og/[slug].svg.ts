@@ -68,11 +68,12 @@ export const GET: APIRoute = async ({ params }) => {
   const svg = svgShell(`
     ${ogWordmark(56)}
 
-    <!-- Track label -->
+    <!-- Track label: a square annotation chip, blueprint blue -->
     <g transform="translate(72 148)">
-      <rect x="0" y="0" width="${26 + track.length * 15}" height="38" rx="19" fill="${ogTheme.accent}" fill-opacity="0.1"/>
-      <circle cx="19" cy="19" r="5" fill="${ogTheme.accent}"/>
-      <text x="36" y="25" fill="${ogTheme.accent}" font-family="${ogTheme.sans}" font-size="19" font-weight="600" letter-spacing="0.4">${track}</text>
+      <rect x="0" y="0" width="${26 + track.length * 15}" height="38" fill="${ogTheme.blue}" fill-opacity="0.08"/>
+      <rect x="0" y="0" width="${26 + track.length * 15}" height="38" fill="none" stroke="${ogTheme.blue}" stroke-opacity="0.45" stroke-width="1"/>
+      <rect x="14" y="14" width="10" height="10" fill="${ogTheme.blue}"/>
+      <text x="36" y="25" fill="${ogTheme.blue}" font-family="${ogTheme.mono}" font-size="17" font-weight="500" letter-spacing="1">${track}</text>
     </g>
 
     <!-- Title -->
@@ -87,8 +88,8 @@ export const GET: APIRoute = async ({ params }) => {
 
     <!-- Footer rule -->
     <line x1="72" y1="556" x2="1128" y2="556" stroke="${ogTheme.ink}" stroke-opacity="0.12" stroke-width="1"/>
-    <text x="72" y="594" fill="${ogTheme.faint}" font-family="${ogTheme.latin}" font-size="20" letter-spacing="2">PANBO.SPACE</text>
-    <text x="1128" y="594" text-anchor="end" fill="${ogTheme.faint}" font-family="${ogTheme.latin}" font-size="19" letter-spacing="1">${escapeXml(formatDate(post.data.publishedAt))}</text>
+    <text x="72" y="594" fill="${ogTheme.faint}" font-family="${ogTheme.mono}" font-size="18" letter-spacing="2">PANBO.SPACE</text>
+    <text x="1128" y="594" text-anchor="end" fill="${ogTheme.faint}" font-family="${ogTheme.mono}" font-size="18" letter-spacing="1">${escapeXml(formatDate(post.data.publishedAt))}</text>
   `)
 
   return new Response(svg, { headers: svgHeaders() })

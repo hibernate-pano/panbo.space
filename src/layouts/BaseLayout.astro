@@ -98,6 +98,7 @@ const runtimeScript = `
       const mast = document.querySelector('.mast');
       if (!mast) return;
       mast.classList.toggle('is-scrolled', window.scrollY > 8);
+      mast.style.borderBottomColor = window.scrollY > 8 ? 'var(--rule-strong)' : '';
     };
 
     const syncActiveNav = () => {

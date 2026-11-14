@@ -85,13 +85,6 @@
   --grain-opacity: 0;
 }
 
-/* The seal is the one place the brand colour is allowed to sit as a
-   solid block, so it follows the accent rather than the paper. */
-:root[data-theme='hsbc-light'] .seal,
-:root[data-theme='hsbc-dark'] .seal {
-  border-radius: 4px;
-}
-
 /* The theme picker is the one control that has to work in every
    palette, so its own frame follows the accent too. */
 :root[data-theme='hsbc-light'] .theme-selector__card.is-active,

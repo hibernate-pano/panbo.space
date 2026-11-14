@@ -1,21 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <defs>
-    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="#BD5C38" stop-opacity="0.14"/>
-      <stop offset="100%" stop-color="#BD5C38" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <rect width="1200" height="630" fill="#FAF9F5"/>
-  <ellipse cx="600" cy="60" rx="520" ry="300" fill="url(#glow)"/>
+  <rect width="1200" height="630" fill="#E9E9E2"/>
   <g transform="translate(72 56)">
-    <path d="M6 0.6 8.1 6.4 14 8.3l-5.9 1.9L6 16l-2.1-5.8L-2 8.3l5.9-1.9L6 0.6Z" fill="#BD5C38" transform="scale(1.1) translate(2 2)"/>
-    <text x="26" y="17" fill="#1A1A18" font-family="Newsreader, Georgia, Songti SC, serif" font-size="30" font-weight="500" letter-spacing="-0.5">panbo<tspan fill="#BD5C38">.</tspan>space</text>
+    <rect x="0" y="0" width="40" height="40" fill="#D33A2C"/>
+    <text x="20" y="28" text-anchor="middle" fill="#E9E9E2" font-family="Noto Serif SC, Songti SC, serif" font-size="24" font-weight="700">盘</text>
+    <text x="56" y="27" fill="#161616" font-family="Noto Serif SC, Songti SC, serif" font-size="28" font-weight="700">panbo<tspan fill="#1F4FA8">.</tspan>space</text>
   </g>
-  <text x="72" y="266" fill="#1A1A18" font-family="Newsreader, Georgia, Songti SC, serif" font-size="82" font-weight="500" letter-spacing="-2">
+  <text x="72" y="266" fill="#161616" font-family="Noto Serif SC, Songti SC, serif" font-size="82" font-weight="700" letter-spacing="-2">
     <tspan x="72" dy="0">把工程经验写成档案，</tspan>
     <tspan x="72" dy="98">把长期思考写成文字。</tspan>
   </text>
-  <text x="72" y="486" fill="#6D6A62" font-family="Inter, -apple-system, PingFang SC, sans-serif" font-size="28">工程判断 / 工作现场 / 长期思考</text>
-  <line x1="72" y1="556" x2="1128" y2="556" stroke="#E8E4D9" stroke-width="1"/>
-  <text x="72" y="594" fill="#98948A" font-family="Inter, sans-serif" font-size="20" font-weight="500" letter-spacing="1.6">PANBO.SPACE</text>
+  <text x="72" y="486" fill="#161616AB" font-family="-apple-system, PingFang SC, sans-serif" font-size="28">工程判断 / 工作现场 / 长期思考</text>
+  <line x1="72" y1="556" x2="1128" y2="556" stroke="#161616" stroke-opacity="0.12" stroke-width="1"/>
+  <text x="72" y="594" fill="#16161678" font-family="IBM Plex Mono, monospace" font-size="20" letter-spacing="2">PANBO.SPACE</text>
 </svg>

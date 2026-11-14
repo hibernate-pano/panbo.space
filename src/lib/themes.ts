@@ -14,8 +14,8 @@ export const themes: ThemeId[] = ['light', 'dark', 'hsbc-light', 'hsbc-dark']
 
 /** The browser chrome colour that follows the theme. */
 export const themeColors: Record<ThemeId, string> = {
-  light: '#f8f6f1',
-  dark: '#14120f',
+  light: '#e9e9e2',
+  dark: '#141412',
   'hsbc-light': '#ffffff',
   'hsbc-dark': '#0d1117',
 }

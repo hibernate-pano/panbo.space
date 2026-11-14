@@ -1,12 +1,14 @@
-// Shared visual language for generated OG cards — paper canvas, warm-black ink,
-// one cinnabar accent, and a serif display face.
+// Shared visual language for generated OG cards — proof-sheet paper, ink,
+// vermilion for the stamp, blueprint blue for annotation, and a serif
+// display face. Everything is square: the OG card is a proofing sheet.
 export const ogTheme = {
-  bg: '#F8F6F1',
-  ink: '#1F1E1B',
-  muted: '#1F1E1BA8',
-  faint: '#1F1E1B75',
-  hairline: '#1F1E1B1C',
-  accent: '#BF3A26',
+  bg: '#E9E9E2',
+  ink: '#161616',
+  muted: '#161616AB',
+  faint: '#16161678',
+  hairline: '#1616161F',
+  accent: '#D33A2C',
+  blue: '#1F4FA8',
   serif: 'Noto Serif SC, Songti SC, STSong, serif',
   latin: 'Newsreader, Songti SC, serif',
   sans: '-apple-system, PingFang SC, Microsoft YaHei, sans-serif',
@@ -14,8 +16,8 @@ export const ogTheme = {
 } as const
 
 export const trackColor: Record<string, string> = {
-  thinking: '#BF3A26',
-  philosophy: '#75619C',
+  thinking: '#D33A2C',
+  philosophy: '#1F4FA8',
   psychology: '#3F7D70',
   health: '#8E6C88',
   work: '#52759B',
@@ -30,10 +32,10 @@ export const svgShell = (inner: string) => `
   </svg>
 `
 
-// Wordmark lockup reused across cards
+// Wordmark lockup reused across cards — a square vermilion stamp
 export const ogWordmark = (y = 60) => `
   <g transform="translate(72 ${y})">
-    <rect x="0" y="0" width="40" height="40" rx="10" fill="${ogTheme.accent}"/>
+    <rect x="0" y="0" width="40" height="40" fill="${ogTheme.accent}"/>
     <text x="20" y="28" text-anchor="middle" fill="${ogTheme.bg}" font-family="${ogTheme.serif}" font-size="24" font-weight="700">盘</text>
     <text x="56" y="27" fill="${ogTheme.ink}" font-family="${ogTheme.serif}" font-size="28" font-weight="700">panbo.space</text>
   </g>
