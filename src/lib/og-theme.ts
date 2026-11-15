@@ -32,11 +32,11 @@ export const svgShell = (inner: string) => `
   </svg>
 `
 
-// Wordmark lockup reused across cards — a square vermilion stamp
+// Wordmark lockup reused across cards — a square ink-framed monogram
 export const ogWordmark = (y = 60) => `
   <g transform="translate(72 ${y})">
-    <rect x="0" y="0" width="40" height="40" fill="${ogTheme.accent}"/>
-    <text x="20" y="28" text-anchor="middle" fill="${ogTheme.bg}" font-family="${ogTheme.serif}" font-size="24" font-weight="700">盘</text>
+    <rect x="0" y="0" width="40" height="40" fill="none" stroke="${ogTheme.ink}" stroke-width="1.5"/>
+    <text x="20" y="28" text-anchor="middle" fill="${ogTheme.ink}" font-family="${ogTheme.serif}" font-size="24" font-weight="700">P</text>
     <text x="56" y="27" fill="${ogTheme.ink}" font-family="${ogTheme.serif}" font-size="28" font-weight="700">panbo.space</text>
   </g>
 `

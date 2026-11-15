@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <rect width="1200" height="630" fill="#E9E9E2"/>
   <g transform="translate(72 56)">
-    <rect x="0" y="0" width="40" height="40" fill="#D33A2C"/>
-    <text x="20" y="28" text-anchor="middle" fill="#E9E9E2" font-family="Noto Serif SC, Songti SC, serif" font-size="24" font-weight="700">盘</text>
+    <rect x="0" y="0" width="40" height="40" fill="none" stroke="#161616" stroke-width="1.5"/>
+    <text x="20" y="28" text-anchor="middle" fill="#161616" font-family="Georgia, Songti SC, serif" font-size="24" font-weight="700">P</text>
     <text x="56" y="27" fill="#161616" font-family="Noto Serif SC, Songti SC, serif" font-size="28" font-weight="700">panbo<tspan fill="#1F4FA8">.</tspan>space</text>
   </g>
   <text x="72" y="266" fill="#161616" font-family="Noto Serif SC, Songti SC, serif" font-size="82" font-weight="700" letter-spacing="-2">

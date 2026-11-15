@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <rect width="32" height="32" fill="#e9e9e2"/>
   <rect x="0.5" y="0.5" width="31" height="31" fill="none" stroke="#161616" stroke-width="1"/>
-  <path d="M14.4 6.5 17.1 14 24.5 16.5 17.1 19 14.4 26.5 11.7 19 4.3 16.5 11.7 14 14.4 6.5Z" fill="#d33a2c"/>
+  <text x="16" y="23" text-anchor="middle" fill="#161616" font-family="Georgia, Songti SC, serif" font-size="19" font-weight="700">P</text>
 </svg>

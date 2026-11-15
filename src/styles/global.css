@@ -437,19 +437,26 @@ button {
   justify-self: start;
 }
 
-.seal {
+.brand-mark {
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   flex: none;
   font-family: var(--serif);
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   line-height: 1;
-  color: var(--red-ink);
-  background: var(--red);
+  color: var(--ink);
+  background: none;
+  border: 1px solid var(--ink);
   border-radius: 0;
+  transition: color var(--fast) var(--ease), background var(--fast) var(--ease);
+}
+
+.mast__brand:hover .brand-mark {
+  color: var(--paper);
+  background: var(--ink);
 }
 
 .mast__word {
@@ -2026,8 +2033,9 @@ button {
   font-family: var(--serif);
   font-size: 13px;
   font-weight: 700;
-  color: var(--red-ink);
-  background: var(--red);
+  color: var(--ink);
+  background: none;
+  border: 1px solid var(--rule-strong);
   border-radius: 0;
 }
 
