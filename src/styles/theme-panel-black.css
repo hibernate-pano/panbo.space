@@ -1,0 +1,393 @@
+/* ============================================================
+   panbo.space — 分镜黑 Panel Black
+   ------------------------------------------------------------
+   A comic page: near-black ground, paper-white content, one signal
+   vermilion. The skeleton is the panel grid — content sits in framed
+   panels separated by thick black gutters, one block per screen is
+   inverted to paper-white as the anchor, images are diagonally cut,
+   and every display face is a heavy sans at extreme size against
+   11–12px mono metadata.
+
+   Three colours only. No cyan, no blue, no gradient, no glass.
+   ============================================================ */
+
+:root[data-theme='panel-black'] {
+  color-scheme: dark;
+
+  /* --- surfaces: panels are raised off the gutter --- */
+  --paper: #0b0b0b;
+  --paper-2: #131313;
+  --paper-3: #1c1c1c;
+  --paper-raised: #161616;
+
+  /* --- ink: paper white --- */
+  --ink: #f2f0ea;
+  --ink-2: #f2f0eab8;
+  --ink-3: #9a9890;
+  --ink-4: #9a989080;
+
+  /* --- rules --- */
+  --rule: #f2f0ea24;
+  --rule-strong: #f2f0ea;
+
+  /* --- the one signal --- */
+  --red: #ff3b1f;
+  --red-hover: #ff5b43;
+  --red-ink: #0b0b0b;
+  --red-wash: #ff3b1f1f;
+
+  /* The palette has no blue. Links and annotations fall back to paper
+     white, so nothing here introduces a fourth hue. */
+  --blue: #f2f0ea;
+  --blue-hover: #ffffff;
+  --blue-wash: #f2f0ea0f;
+
+  --live: #ff3b1f;
+
+  /* --- the inverted anchor block --- */
+  --band: #f2f0ea;
+  --band-ink: #0b0b0b;
+  --band-2: #0b0b0bb8;
+  --band-3: #0b0b0b70;
+  --band-rule: #0b0b0b24;
+
+  --shadow-hard: 6px 6px 0 #000;
+
+  /* --- type: display is a heavy sans, never a serif --- */
+  --serif: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --latin: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+
+  /* Article body sets in sans too: this palette is for reading on screen
+     at night, not for setting a book. */
+  --reading-font: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+
+  --grain-opacity: 0;
+
+  /* --- the gutter --- */
+  --gutter-band: #000;
+  --gutter-size: 10px;
+}
+
+/* --- the page as a sheet of panels ---------------------------- */
+
+/* Thick black gutters under the masthead and between sections. */
+:root[data-theme='panel-black'] .mast {
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+:root[data-theme='panel-black'] .dateline {
+  border-bottom: var(--gutter-size) solid var(--gutter-band);
+}
+
+:root[data-theme='panel-black'] .sec {
+  padding-block: 72px;
+}
+
+:root[data-theme='panel-black'] .sec--ruled {
+  border-top: var(--gutter-size) solid var(--gutter-band);
+}
+
+:root[data-theme='panel-black'] .foot {
+  border-top: var(--gutter-size) solid var(--gutter-band);
+}
+
+/* --- display: extreme size, heavy weight, tight tracking ---------- */
+
+:root[data-theme='panel-black'] .hero__title {
+  margin: 24px 0 48px;
+  font-size: clamp(44px, 9vw, 132px);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+}
+
+:root[data-theme='panel-black'] .sec__title,
+:root[data-theme='panel-black'] .page-header h1,
+:root[data-theme='panel-black'] .archive-header__title,
+:root[data-theme='panel-black'] .about-header__title,
+:root[data-theme='panel-black'] .projects-header__title,
+:root[data-theme='panel-black'] .search-header__title {
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+}
+
+:root[data-theme='panel-black'] .post-header__title {
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+/* The proof ledger becomes the page's oversized moment: numbers at
+   120px against 11px mono labels. */
+:root[data-theme='panel-black'] .proof b {
+  font-size: clamp(56px, 7vw, 104px);
+  font-weight: 900;
+  letter-spacing: -0.06em;
+}
+
+:root[data-theme='panel-black'] .proof a {
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+/* --- panels: framed, gutter-separated ---------------------------- */
+
+:root[data-theme='panel-black'] .post-card {
+  margin-bottom: var(--gutter-size);
+  padding: 20px 22px;
+  background: var(--paper-2);
+  border: 1px solid var(--rule-strong);
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+
+:root[data-theme='panel-black'] .post-card:hover {
+  background: var(--paper-3);
+  border-color: var(--rule-strong);
+}
+
+:root[data-theme='panel-black'] .post-card__title {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+:root[data-theme='panel-black'] .post-card:hover .post-card__title {
+  text-decoration: none;
+}
+
+:root[data-theme='panel-black'] .post-card__arrow {
+  align-self: center;
+  font-size: 22px;
+}
+
+:root[data-theme='panel-black'] .track-card {
+  margin-bottom: var(--gutter-size);
+  padding: 18px 20px;
+  background: var(--paper-2);
+  border: 1px solid var(--rule-strong);
+}
+
+:root[data-theme='panel-black'] .track-card__name {
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+:root[data-theme='panel-black'] .col__item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+:root[data-theme='panel-black'] .col__title {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+:root[data-theme='panel-black'] .tag-directory,
+:root[data-theme='panel-black'] .post-list {
+  border-top: 1px solid var(--rule-strong);
+}
+
+:root[data-theme='panel-black'] .tag-directory__item {
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+/* Contact sheet: settings and filters read as a grid of preset panels. */
+:root[data-theme='panel-black'] .archive-track-btn,
+:root[data-theme='panel-black'] .chip,
+:root[data-theme='panel-black'] .filter-pill {
+  border: 1px solid var(--rule-strong);
+  background: none;
+  font-weight: 600;
+}
+
+:root[data-theme='panel-black'] .archive-track-btn.is-active,
+:root[data-theme='panel-black'] .chip.is-active,
+:root[data-theme='panel-black'] .chip[aria-pressed='true'],
+:root[data-theme='panel-black'] .filter-pill.is-active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+/* --- the one inverted block per screen --------------------------- */
+
+:root[data-theme='panel-black'] .band {
+  background: var(--band);
+  color: var(--band-ink);
+  border-block: var(--gutter-size) solid var(--gutter-band);
+}
+
+:root[data-theme='panel-black'] .band__title {
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+}
+
+:root[data-theme='panel-black'] .band__label,
+:root[data-theme='panel-black'] .band__text,
+:root[data-theme='panel-black'] .band__row span,
+:root[data-theme='panel-black'] .band__plate-kind {
+  color: var(--band-2);
+}
+
+:root[data-theme='panel-black'] .band__row {
+  border-bottom: 1px solid var(--band-rule);
+}
+
+:root[data-theme='panel-black'] .band__row b {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+:root[data-theme='panel-black'] .band__row i {
+  color: var(--band-2);
+}
+
+:root[data-theme='panel-black'] .band__row:hover i {
+  color: var(--band-ink);
+}
+
+:root[data-theme='panel-black'] .band__plate-figure {
+  border: 1px solid var(--band-rule);
+}
+
+/* --- images cut on a diagonal ----------------------------------- */
+
+:root[data-theme='panel-black'] .band__plate-figure,
+:root[data-theme='panel-black'] .project-card__figure {
+  clip-path: polygon(0 0, 100% 0, 100% 86%, 0 100%);
+}
+
+:root[data-theme='panel-black'] .project-card__figure {
+  border: 1px solid var(--rule-strong);
+}
+
+/* --- controls: full-bleed rectangles, never pills ---------------- */
+
+:root[data-theme='panel-black'] .btn {
+  padding: 14px 26px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+:root[data-theme='panel-black'] .btn--primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+:root[data-theme='panel-black'] .btn--primary:hover {
+  background: var(--red);
+  color: var(--red-ink);
+}
+
+:root[data-theme='panel-black'] .btn--ghost {
+  box-shadow: inset 0 0 0 1px var(--rule-strong);
+  padding: 13px 25px;
+}
+
+:root[data-theme='panel-black'] .btn--ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: none;
+}
+
+:root[data-theme='panel-black'] .mast__cta {
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 700;
+}
+
+:root[data-theme='panel-black'] .mast__cta:hover {
+  background: var(--red);
+  color: var(--red-ink);
+}
+
+:root[data-theme='panel-black'] .brand-mark {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+:root[data-theme='panel-black'] .mast__brand:hover .brand-mark {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* --- reading: sans body, tighter rules -------------------------- */
+
+:root[data-theme='panel-black'] .prose {
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+:root[data-theme='panel-black'] .prose h2,
+:root[data-theme='panel-black'] .prose h3,
+:root[data-theme='panel-black'] .prose h4 {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+:root[data-theme='panel-black'] .prose h2::before {
+  height: 2px;
+  background: var(--rule-strong);
+}
+
+:root[data-theme='panel-black'] .prose blockquote {
+  border-left-width: 3px;
+  border-left-color: var(--red);
+  background: var(--paper-2);
+}
+
+:root[data-theme='panel-black'] .prose a {
+  color: var(--ink);
+  text-decoration-color: var(--ink-3);
+  text-decoration-thickness: 2px;
+}
+
+:root[data-theme='panel-black'] .prose a:hover {
+  color: var(--red);
+  text-decoration-color: var(--red);
+}
+
+:root[data-theme='panel-black'] .prose code,
+:root[data-theme='panel-black'] .code-block,
+:root[data-theme='panel-black'] .mermaid-block,
+:root[data-theme='panel-black'] .table-scroll {
+  border-color: var(--rule-strong);
+}
+
+:root[data-theme='panel-black'] .code-block__lang,
+:root[data-theme='panel-black'] .prose figcaption {
+  color: var(--ink-3);
+}
+
+/* --- the reading rail ------------------------------------------- */
+
+:root[data-theme='panel-black'] .toc__link {
+  border-left: 2px solid var(--rule);
+}
+
+:root[data-theme='panel-black'] .toc__link.is-active {
+  color: var(--red);
+  border-left-color: var(--red);
+  font-weight: 600;
+}
+
+:root[data-theme='panel-black'] .sidebar-section__title,
+:root[data-theme='panel-black'] .sec__head {
+  border-color: var(--rule-strong);
+}
+
+:root[data-theme='panel-black'] .mast__nav a.is-active::after {
+  background: var(--red);
+  height: 3px;
+}
+
+:root[data-theme='panel-black'] .reading-progress__bar {
+  background: var(--red);
+  height: 3px;
+}

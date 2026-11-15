@@ -1,0 +1,487 @@
+/* ============================================================
+   panbo.space — 巨字海报 Big-Type Editorial
+   ------------------------------------------------------------
+   A fashion spread: pure white, pure black, one signal red. The
+   skeleton is a newspaper grid — 1px black rules, two or three
+   columns, headings spanning columns, actions sunk to the bottom of
+   the right column. Type does all the hierarchy: a 56–96px display
+   line with tight tracking against 12–13px body, and the key number
+   promoted to a hero.
+
+   Zero radius, zero shadow, zero gradient. Hover is a plain
+   black/white reversal.
+   ============================================================ */
+
+:root[data-theme='big-type'] {
+  color-scheme: light;
+
+  /* --- surfaces: pure white only --- */
+  --paper: #ffffff;
+  --paper-2: #ffffff;
+  --paper-3: #f2f2f2;
+  --paper-raised: #ffffff;
+
+  /* --- ink: pure black --- */
+  --ink: #000000;
+  --ink-2: #000000b3;
+  --ink-3: #00000080;
+  --ink-4: #0000004d;
+
+  /* --- rules: the grid is drawn in black --- */
+  --rule: #000000;
+  --rule-strong: #000000;
+
+  /* --- the one signal --- */
+  --red: #e2231a;
+  --red-hover: #c01a12;
+  --red-ink: #ffffff;
+  --red-wash: #e2231a0f;
+
+  /* The palette is three colours. Annotation links take the signal red
+     rather than introducing a fourth hue. */
+  --blue: #e2231a;
+  --blue-hover: #c01a12;
+  --blue-wash: #e2231a0f;
+
+  --live: #e2231a;
+
+  /* --- the inverted strip --- */
+  --band: #000000;
+  --band-ink: #ffffff;
+  --band-2: #ffffffb8;
+  --band-3: #ffffff70;
+  --band-rule: #ffffff26;
+
+  --shadow-hard: none;
+
+  /* --- type: display is a tight-tracked heavy sans --------------- */
+  --serif: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --latin: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Body copy is small and sans; the display line carries the voice. */
+  --reading-font: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+
+  --grain-opacity: 0;
+}
+
+/* --- the newspaper grid ----------------------------------------- */
+
+:root[data-theme='big-type'] .mast {
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+}
+
+:root[data-theme='big-type'] .mast__inner {
+  height: 64px;
+}
+
+:root[data-theme='big-type'] .mast__nav a {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+:root[data-theme='big-type'] .dateline {
+  border-bottom: 1px solid var(--rule);
+}
+
+:root[data-theme='big-type'] .sec {
+  padding-block: 64px;
+}
+
+:root[data-theme='big-type'] .sec--ruled,
+:root[data-theme='big-type'] .foot {
+  border-top: 1px solid var(--rule);
+}
+
+/* --- display: oversized, tight, structural ---------------------- */
+
+:root[data-theme='big-type'] .hero__title {
+  margin: 20px 0 40px;
+  font-size: clamp(44px, 6.2vw, 92px);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.07em;
+}
+
+/* One oversized moment per screen: the headline is it, so section
+   titles step back to a magazine-subhead size. */
+:root[data-theme='big-type'] .sec__title {
+  margin-top: 8px;
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1.1;
+}
+
+:root[data-theme='big-type'] .page-header h1,
+:root[data-theme='big-type'] .archive-header__title,
+:root[data-theme='big-type'] .about-header__title,
+:root[data-theme='big-type'] .projects-header__title,
+:root[data-theme='big-type'] .search-header__title {
+  margin: 12px 0 14px;
+  font-size: clamp(40px, 6.4vw, 92px);
+  font-weight: 700;
+  letter-spacing: -0.065em;
+  line-height: 0.94;
+}
+
+:root[data-theme='big-type'] .post-header__title {
+  font-size: clamp(38px, 5.6vw, 84px);
+  font-weight: 700;
+  letter-spacing: -0.06em;
+  line-height: 0.98;
+}
+
+:root[data-theme='big-type'] .about-header__title,
+:root[data-theme='big-type'] .post-header__title {
+  text-wrap: balance;
+}
+
+/* The key number becomes the hero: 64–80px figures with a 12px label,
+   no card around them. */
+:root[data-theme='big-type'] .proof a {
+  grid-template-columns: 1fr;
+  gap: 2px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+:root[data-theme='big-type'] .proof b {
+  font-family: var(--latin);
+  font-size: clamp(52px, 5.6vw, 80px);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+}
+
+:root[data-theme='big-type'] .proof span {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+}
+
+:root[data-theme='big-type'] .proof i {
+  display: none;
+}
+
+/* --- the grid: rules instead of boxes -------------------------- */
+
+:root[data-theme='big-type'] .post-card {
+  grid-template-columns: 96px minmax(0, 1fr) 24px;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+:root[data-theme='big-type'] .post-card__title {
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+:root[data-theme='big-type'] .post-card__summary {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink-2);
+}
+
+:root[data-theme='big-type'] .post-card:hover .post-card__title {
+  color: var(--red);
+  text-decoration: none;
+}
+
+:root[data-theme='big-type'] .post-card__date {
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  color: var(--ink-3);
+}
+
+:root[data-theme='big-type'] .track-card {
+  padding: 18px 0;
+  border-top: 1px solid var(--rule);
+}
+
+:root[data-theme='big-type'] .track-card__name {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+:root[data-theme='big-type'] .col__head {
+  border-bottom: 1px solid var(--rule);
+}
+
+:root[data-theme='big-type'] .col__head b {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+:root[data-theme='big-type'] .col__title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+:root[data-theme='big-type'] .col__item {
+  border-bottom: 1px solid var(--rule);
+}
+
+:root[data-theme='big-type'] .tag-directory,
+:root[data-theme='big-type'] .post-list,
+:root[data-theme='big-type'] .archive-tracks,
+:root[data-theme='big-type'] .projects-grid,
+:root[data-theme='big-type'] .topic-list {
+  border-color: var(--rule);
+}
+
+:root[data-theme='big-type'] .tag-directory__item,
+:root[data-theme='big-type'] .topic-item,
+:root[data-theme='big-type'] .project-card,
+:root[data-theme='big-type'] .search-result {
+  border-bottom: 1px solid var(--rule);
+}
+
+:root[data-theme='big-type'] .tag-directory__item strong,
+:root[data-theme='big-type'] .topic-item__name {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+/* --- hover is a plain reversal --------------------------------- */
+
+:root[data-theme='big-type'] .btn {
+  padding: 12px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+:root[data-theme='big-type'] .btn--primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+:root[data-theme='big-type'] .btn--primary:hover {
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+
+:root[data-theme='big-type'] .btn--ghost {
+  box-shadow: inset 0 0 0 1px var(--ink);
+  padding: 11px 21px;
+}
+
+:root[data-theme='big-type'] .btn--ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: none;
+}
+
+:root[data-theme='big-type'] .mast__cta {
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+}
+
+:root[data-theme='big-type'] .mast__cta:hover {
+  background: var(--red);
+  color: var(--red-ink);
+}
+
+:root[data-theme='big-type'] .tag {
+  border-color: var(--rule);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+
+:root[data-theme='big-type'] .tag--accent {
+  background: none;
+  color: var(--red);
+  border-color: var(--red);
+}
+
+:root[data-theme='big-type'] .archive-track-btn,
+:root[data-theme='big-type'] .chip,
+:root[data-theme='big-type'] .filter-pill {
+  border: 1px solid var(--rule);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+:root[data-theme='big-type'] .archive-track-btn.is-active,
+:root[data-theme='big-type'] .chip.is-active,
+:root[data-theme='big-type'] .chip[aria-pressed='true'],
+:root[data-theme='big-type'] .filter-pill.is-active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+:root[data-theme='big-type'] .filter-pill.is-active {
+  color: var(--paper);
+  background: var(--red);
+  border-color: var(--red);
+}
+
+:root[data-theme='big-type'] .brand-mark {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+:root[data-theme='big-type'] .mast__brand:hover .brand-mark {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* --- the inverted strip ---------------------------------------- */
+
+:root[data-theme='big-type'] .band {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+:root[data-theme='big-type'] .band__title {
+  font-size: clamp(30px, 4vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.06em;
+  line-height: 0.98;
+}
+
+:root[data-theme='big-type'] .band__label,
+:root[data-theme='big-type'] .band__text,
+:root[data-theme='big-type'] .band__row span,
+:root[data-theme='big-type'] .band__plate-kind {
+  color: var(--band-2);
+}
+
+:root[data-theme='big-type'] .band__row b {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+/* The plate strip is a printed plate: black caption bar, white block. */
+:root[data-theme='big-type'] .band__plate-name {
+  margin-top: 0;
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+:root[data-theme='big-type'] .band__plate-kind {
+  display: block;
+  padding: 0 10px 7px;
+  font-size: 10.5px;
+  color: var(--ink-3);
+  background: var(--paper);
+}
+
+/* --- reading: small body, loud headings ------------------------ */
+
+:root[data-theme='big-type'] .prose {
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+:root[data-theme='big-type'] .prose h2 {
+  font-size: 1.62rem;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
+}
+
+:root[data-theme='big-type'] .prose h3 {
+  font-size: 1.16rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+:root[data-theme='big-type'] .prose h2::before {
+  height: 1px;
+  background: var(--ink);
+}
+
+:root[data-theme='big-type'] .prose blockquote {
+  border-left: 2px solid var(--red);
+  background: none;
+  padding-left: 1.2em;
+}
+
+:root[data-theme='big-type'] .prose a {
+  color: var(--red);
+  text-decoration-color: var(--red);
+  text-decoration-thickness: 1px;
+}
+
+:root[data-theme='big-type'] .prose a:hover {
+  color: var(--red-hover);
+  text-decoration-thickness: 2px;
+}
+
+:root[data-theme='big-type'] .prose figcaption {
+  color: var(--ink-3);
+}
+
+:root[data-theme='big-type'] .prose th {
+  background: none;
+  border-bottom: 1px solid var(--ink);
+}
+
+:root[data-theme='big-type'] .prose th,
+:root[data-theme='big-type'] .prose td {
+  border-color: var(--rule);
+}
+
+:root[data-theme='big-type'] .code-block,
+:root[data-theme='big-type'] .mermaid-block,
+:root[data-theme='big-type'] .table-scroll,
+:root[data-theme='big-type'] .prose pre {
+  border-color: var(--rule);
+}
+
+:root[data-theme='big-type'] .code-block__lang {
+  color: var(--ink-3);
+}
+
+:root[data-theme='big-type'] .toc__link.is-active {
+  color: var(--red);
+  border-left-color: var(--red);
+}
+
+:root[data-theme='big-type'] .reading-progress__bar {
+  background: var(--red);
+}
+
+/* --- the printed foot ------------------------------------------ */
+
+:root[data-theme='big-type'] .foot__grid {
+  border-top: 1px solid var(--rule);
+}
+
+:root[data-theme='big-type'] .foot__brand b {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+}
+
+:root[data-theme='big-type'] .foot__col h5 {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
+:root[data-theme='big-type'] .empty-state__title {
+  font-size: clamp(40px, 6vw, 88px);
+  font-weight: 700;
+  letter-spacing: -0.06em;
+  line-height: 0.96;
+}

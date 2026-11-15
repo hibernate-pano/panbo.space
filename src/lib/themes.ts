@@ -1,21 +1,47 @@
 /**
- * The four palettes the site ships with, and the rules for moving between
+ * The six palettes the site ships with, and the rules for moving between
  * them.
  *
- * `light` and `dark` are the editorial pair; the two HSBC ones are the
- * professional variants. Every palette is a set of CSS custom properties
- * (see `src/styles/global.css` and `src/styles/theme-hsbc.css`), so
- * switching is a single attribute write on <html>.
+ * `light` and `dark` are the 校正紙 pair; `panel-black` and `big-type` are the
+ * two print-poster directions (a comic gutter grid and an oversized-type
+ * spread); the two HSBC ones are the professional variants. Every palette is
+ * a set of CSS custom properties (see `src/styles/*.css`), so switching is a
+ * single attribute write on <html>.
  */
 
-export type ThemeId = 'light' | 'dark' | 'hsbc-light' | 'hsbc-dark'
+export type ThemeId = 'light' | 'dark' | 'panel-black' | 'big-type' | 'hsbc-light' | 'hsbc-dark'
 
-export const themes: ThemeId[] = ['light', 'dark', 'hsbc-light', 'hsbc-dark']
+export const themes: ThemeId[] = [
+  'light',
+  'dark',
+  'panel-black',
+  'big-type',
+  'hsbc-light',
+  'hsbc-dark',
+]
+
+/**
+ * Whether a palette is light or dark.
+ *
+ * Components that need to know — the sun/moon icon, the dual-theme code
+ * spans — ask this rather than listing theme names, so adding a palette
+ * cannot leave one of them behind.
+ */
+export const themeSchemes: Record<ThemeId, 'light' | 'dark'> = {
+  light: 'light',
+  dark: 'dark',
+  'panel-black': 'dark',
+  'big-type': 'light',
+  'hsbc-light': 'light',
+  'hsbc-dark': 'dark',
+}
 
 /** The browser chrome colour that follows the theme. */
 export const themeColors: Record<ThemeId, string> = {
   light: '#e9e9e2',
   dark: '#141412',
+  'panel-black': '#0b0b0b',
+  'big-type': '#ffffff',
   'hsbc-light': '#ffffff',
   'hsbc-dark': '#0d1117',
 }

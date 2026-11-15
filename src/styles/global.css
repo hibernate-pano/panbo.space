@@ -548,12 +548,13 @@ button {
   display: none;
 }
 
-/* Any of the two dark palettes shows the sun. */
-:root:is([data-theme='dark'], [data-theme='hsbc-dark']) .icon-btn .sun {
+/* Any dark palette shows the sun. The scheme attribute is stamped on <html>
+   by the theme runtime, so adding a palette never leaves the icon behind. */
+:root[data-scheme='dark'] .icon-btn .sun {
   display: block;
 }
 
-:root:is([data-theme='dark'], [data-theme='hsbc-dark']) .icon-btn .moon {
+:root[data-scheme='dark'] .icon-btn .moon {
   display: none;
 }
 
@@ -593,7 +594,7 @@ button {
   right: 0;
   z-index: 70;
   /* Never wider than the viewport, however narrow the screen. */
-  width: min(300px, calc(100vw - 32px));
+  width: min(316px, calc(100vw - 32px));
   padding: 14px;
   background: var(--paper-raised);
   border: 1px solid var(--rule-strong);
@@ -630,6 +631,11 @@ button {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
+  /* Six palettes is three rows; on a short viewport the list scrolls
+     rather than pushing the panel off screen. */
+  max-height: min(58vh, 420px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .theme-selector__card {
@@ -662,14 +668,16 @@ button {
 /* The palette strip: ground, raised surface, ink, accent, counterpart. */
 .theme-selector__palette {
   display: flex;
-  height: 34px;
+  height: 26px;
   gap: 2px;
-  padding: 5px 5px 0;
+  padding: 4px 4px 0;
 }
 
 .theme-selector__swatch {
   flex: 1;
-  border-radius: 0 3px 0 0;
+  /* A palette that leads with white would otherwise vanish into a white
+     card, so each swatch carries its own hairline. */
+  box-shadow: inset 0 0 0 1px var(--rule);
   transition: flex var(--fast) var(--ease);
 }
 
@@ -684,13 +692,13 @@ button {
 .theme-selector__card-info {
   display: flex;
   flex-direction: column;
-  gap: 1px;
-  padding: 7px 9px 8px;
+  gap: 0;
+  padding: 6px 8px 7px;
 }
 
 .theme-selector__card-name {
   font-family: var(--serif);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
   line-height: 1.25;
   color: var(--ink);
@@ -1376,6 +1384,7 @@ button {
 .band__list {
   margin-top: 30px;
   border-top: 1px solid var(--band-rule);
+  list-style: none;
 }
 
 /* One plate per kind — the sentence above names four kinds, this shows them. */
@@ -1918,7 +1927,7 @@ button {
 /* The dark rule covers the spans only: putting `.astro-code` in the same
    selector would clear the block's own background, since that declaration
    comes later in the cascade at the same specificity. */
-:root:is([data-theme='dark'], [data-theme='hsbc-dark']) .astro-code span {
+:root[data-scheme='dark'] .astro-code span {
   color: var(--shiki-dark, inherit);
   background-color: transparent !important;
 }

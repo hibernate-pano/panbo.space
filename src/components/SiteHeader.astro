@@ -32,6 +32,18 @@ const themes = [
     swatch: ['#141412', '#1e1e1b', '#e9e9e2', '#e5584a', '#7a9cd8'],
   },
   {
+    id: 'panel-black',
+    name: '分镜黑',
+    desc: '画格与朱点',
+    swatch: ['#0b0b0b', '#131313', '#f2f0ea', '#ff3b1f', '#9a9890'],
+  },
+  {
+    id: 'big-type',
+    name: '巨字海报',
+    desc: '报纸栏与巨字',
+    swatch: ['#ffffff', '#000000', '#000000', '#e2231a', '#808080'],
+  },
+  {
     id: 'hsbc-light',
     name: '汇丰白',
     desc: '专业净白',
@@ -150,7 +162,7 @@ const latest = allPosts[0]
             ))}
           </div>
           <p class="theme-selector__hint">
-            <kbd>⌘</kbd><kbd>1</kbd>–<kbd>4</kbd> 快速切换
+            <kbd>⌘</kbd><kbd>1</kbd>–<kbd>{themes.length}</kbd> 快速切换
           </p>
         </div>
       </div>

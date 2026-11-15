@@ -6,11 +6,19 @@ import '@fontsource/ibm-plex-mono/latin-400.css'
 import '@fontsource/ibm-plex-mono/latin-500.css'
 import '../styles/global.css'
 import '../styles/theme-hsbc.css'
+import '../styles/theme-panel-black.css'
+import '../styles/theme-big-type.css'
 import { siteConfig } from '../data/site'
 import SiteFooter from '../components/SiteFooter.astro'
 import SiteHeader from '../components/SiteHeader.astro'
 import { readingScales, readingKeys, readingStorageKey, resolveReadingDefaults } from '../lib/reading'
-import { themes, themeColors, themeStorageKey, legacyThemeStorageKey } from '../lib/themes'
+import {
+  themes,
+  themeColors,
+  themeSchemes,
+  themeStorageKey,
+  legacyThemeStorageKey,
+} from '../lib/themes'
 
 // The owner's defaults become CSS custom properties; a reader's override
 // replaces the same properties at runtime.
@@ -63,7 +71,9 @@ const themeBoot = `
       const resolved = valid.includes(stored)
         ? stored
         : (legacy === 'light' || legacy === 'dark' ? legacy : (dark ? 'dark' : 'light'));
+      const schemes = ${JSON.stringify(themeSchemes)};
       document.documentElement.dataset.theme = resolved;
+      document.documentElement.dataset.scheme = schemes[resolved] || 'light';
       const meta = document.querySelector('meta[name="theme-color"]');
       if (meta) meta.setAttribute('content', ${JSON.stringify(themeColors)}[resolved] || ${JSON.stringify(themeColors.light)});
     } catch {}
@@ -124,6 +134,7 @@ const runtimeScript = `
       const options = [...document.querySelectorAll('[data-theme-option]')];
       const validThemes = ${JSON.stringify(themes)};
       const themeColors = ${JSON.stringify(themeColors)};
+      const themeSchemes = ${JSON.stringify(themeSchemes)};
       const storageKey = '${themeStorageKey}';
 
       const currentTheme = () => document.documentElement.dataset.theme || 'light';
@@ -145,6 +156,7 @@ const runtimeScript = `
         if (!validThemes.includes(theme)) return;
 
         document.documentElement.dataset.theme = theme;
+        document.documentElement.dataset.scheme = themeSchemes[theme] || 'light';
         document.querySelector('meta[name="theme-color"]')
           ?.setAttribute('content', themeColors[theme] || themeColors.light);
 
@@ -183,10 +195,11 @@ const runtimeScript = `
           return;
         }
 
-        if (!(event.metaKey || event.ctrlKey) || !['1', '2', '3', '4'].includes(event.key)) return;
+        const index = Number(event.key) - 1;
+        if (!(event.metaKey || event.ctrlKey) || !Number.isInteger(index) || !validThemes[index]) return;
 
         event.preventDefault();
-        applyTheme(validThemes[Number(event.key) - 1], true);
+        applyTheme(validThemes[index], true);
       });
 
       for (const option of options) {
