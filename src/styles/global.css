@@ -1749,6 +1749,59 @@ button {
   text-align: left;
 }
 
+/* The proof-sheet frame: a hairline head strip carrying the fence language
+   and the copy action, then the scrolling block. The strip lives outside the
+   scroll container, so a long line scrolls under nothing. */
+.code-block {
+  margin-block: calc(1.4em * var(--reading-para-gap));
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+}
+
+.code-block__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 30px;
+  padding: 3px 10px 3px 14px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.code-block__lang {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  color: var(--blue);
+  text-transform: uppercase;
+}
+
+.code-block__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Only shown when the block really scrolls. */
+.code-block__hint {
+  display: none;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1;
+  color: var(--blue);
+}
+
+.code-block.is-overflowing .code-block__hint {
+  display: inline;
+}
+
+.code-block > pre {
+  margin: 0;
+  padding: 16px 20px 18px;
+  background: none;
+  border: 0;
+}
+
 /* The Shiki config wraps long lines, which is right for prose but destroys
    box drawings and ASCII diagrams. Let them scroll instead. */
 .prose pre,
@@ -1846,8 +1899,7 @@ button {
    every highlighted span and draw a chip behind each word. The block takes
    the page's paper colour instead, and only the foreground colours swap. */
 .astro-code {
-  background: var(--paper-2) !important;
-  border: 1px solid var(--rule);
+  background: transparent !important;
   border-radius: 0;
 }
 
@@ -1865,32 +1917,28 @@ button {
 }
 
 .code-copy {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 4px 11px;
-  font-family: var(--sans);
-  font-size: 12px;
+  flex: none;
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
   color: var(--ink-3);
-  background: var(--paper);
+  background: none;
   border: 1px solid var(--rule);
   border-radius: 0;
-  opacity: 0;
-  transition: opacity var(--fast) var(--ease), color var(--fast) var(--ease);
-}
-
-.prose pre:hover .code-copy,
-.code-copy:focus-visible {
-  opacity: 1;
+  transition: color var(--fast) var(--ease), background var(--fast) var(--ease),
+    border-color var(--fast) var(--ease);
 }
 
 .code-copy:hover {
-  color: var(--ink);
+  color: var(--paper);
+  background: var(--ink);
+  border-color: var(--ink);
 }
 
 .code-copy.is-copied {
-  color: var(--live);
-  border-color: color-mix(in srgb, var(--live) 40%, transparent);
+  color: var(--blue);
+  border-color: color-mix(in srgb, var(--blue) 45%, transparent);
 }
 
 /* ============================================================
@@ -3135,6 +3183,23 @@ button {
 .mermaid-block .mermaid svg {
   max-width: 100%;
   height: auto;
+}
+
+/* Mermaid's own shapes: square corners everywhere, and the label chips on
+   edges read as pencil notes rather than as rounded badges. */
+.mermaid-block .node rect,
+.mermaid-block .node polygon,
+.mermaid-block .node circle,
+.mermaid-block .node ellipse,
+.mermaid-block .cluster rect,
+.mermaid-block .edgeLabel rect {
+  rx: 0;
+  ry: 0;
+}
+
+.mermaid-block .edgeLabel rect,
+.mermaid-block .labelBkg {
+  background: var(--paper-2) !important;
 }
 
 /* Below this width the diagram would be scaled down until its labels are

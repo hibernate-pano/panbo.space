@@ -19,42 +19,80 @@
     }
   }
 
+  /**
+   * Read the palette that is actually in force.
+   *
+   * The four themes all set the same custom properties, and every one of the
+   * two dark palettes sets `color-scheme: dark`. Reading both means a diagram
+   * cannot fall out of step with the page — the earlier check only knew about
+   * `data-theme="dark"` and painted light diagrams on a dark HSBC page.
+   */
+  const readPalette = () => {
+    const root = getComputedStyle(document.documentElement)
+    const value = (name: string) => root.getPropertyValue(name).trim()
+
+    const dark = root.colorScheme.includes('dark')
+
+    return {
+      dark,
+      paper: value('--paper') || '#e9e9e2',
+      surface: value('--paper-2') || '#dfdfd6',
+      ink: value('--ink') || '#161616',
+      muted: value('--ink-3') || '#16161678',
+      blue: value('--blue') || '#1f4fa8',
+    }
+  }
+
   const renderMermaid = async () => {
     upgradeBlocks()
 
     const wrappers = [...document.querySelectorAll<HTMLElement>('.mermaid-block')]
     if (!wrappers.length) return
 
-    const isDark =
-      document.documentElement.dataset.theme === 'dark' ||
-      (!document.documentElement.dataset.theme &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    const palette = readPalette()
 
+    // `base` with every variable spelled out is the only preset that does
+    // not smuggle in its own rainbow; the diagram stays on paper, ink and
+    // blueprint blue, square-cornered, with straight connectors.
     mermaid.initialize({
       startOnLoad: false,
-      theme: isDark ? 'dark' : 'neutral',
-      // Match the site's paper-and-ink neutrals instead of Mermaid's default blue-grey
-      themeVariables: isDark
-        ? {
-            background: '#141412',
-            primaryColor: '#1c1c19',
-            primaryTextColor: '#e9e9e2',
-            primaryBorderColor: '#3a3a34',
-            lineColor: '#8a8a80',
-            secondaryColor: '#262622',
-            tertiaryColor: '#1c1c19',
-            fontFamily: '-apple-system, PingFang SC, Microsoft YaHei, sans-serif',
-          }
-        : {
-            background: '#e9e9e2',
-            primaryColor: '#dfdfd6',
-            primaryTextColor: '#161616',
-            primaryBorderColor: '#b9b9ae',
-            lineColor: '#55554f',
-            secondaryColor: '#e9e9e2',
-            tertiaryColor: '#dfdfd6',
-            fontFamily: '-apple-system, PingFang SC, Microsoft YaHei, sans-serif',
-          },
+      theme: 'base',
+      flowchart: {
+        curve: 'linear',
+        htmlLabels: true,
+        padding: 14,
+        nodeSpacing: 34,
+        rankSpacing: 44,
+      },
+      themeVariables: {
+        darkMode: palette.dark,
+        background: palette.surface,
+        fontFamily:
+          '-apple-system, BlinkMacSystemFont, PingFang SC, Noto Sans SC, Microsoft YaHei, sans-serif',
+        fontSize: '13px',
+
+        // Nodes: printed boxes on the sheet.
+        primaryColor: palette.paper,
+        primaryTextColor: palette.ink,
+        primaryBorderColor: palette.ink,
+        mainBkg: palette.paper,
+        nodeBorder: palette.ink,
+        nodeTextColor: palette.ink,
+        secondaryColor: palette.surface,
+        secondaryBorderColor: palette.muted,
+        tertiaryColor: palette.surface,
+        tertiaryBorderColor: palette.muted,
+
+        // Connectors: the blueprint layer.
+        lineColor: palette.blue,
+        textColor: palette.ink,
+        edgeLabelBackground: palette.surface,
+
+        // Clusters and titles stay quiet.
+        clusterBkg: palette.surface,
+        clusterBorder: palette.muted,
+        titleColor: palette.ink,
+      },
       securityLevel: 'loose',
     })
 

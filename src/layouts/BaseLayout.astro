@@ -294,7 +294,32 @@ const runtimeScript = `
         button.className = 'code-copy'
         button.textContent = '复制'
         button.setAttribute('aria-label', 'Copy code to clipboard')
-        pre.append(button)
+
+        // The head strip does not scroll with the code, so the action stays
+        // put on the widest reference blocks.
+        const head = pre.closest('.code-block')?.querySelector('.code-block__head')
+        ;(head ?? pre).append(button)
+
+        // A block wider than its column gets a mark in the head, because a
+        // clipped line on a phone otherwise looks like lost text.
+        const block = pre.closest('.code-block')
+        if (block && head) {
+          const hint = document.createElement('span')
+          hint.className = 'code-block__hint'
+          hint.textContent = '↔'
+          hint.setAttribute('aria-hidden', 'true')
+
+          const actions = document.createElement('span')
+          actions.className = 'code-block__actions'
+          head.insertBefore(actions, button)
+          actions.append(hint, button)
+
+          const syncOverflow = () => {
+            block.classList.toggle('is-overflowing', pre.scrollWidth > pre.clientWidth + 1)
+          }
+          syncOverflow()
+          window.addEventListener('resize', syncOverflow, { passive: true })
+        }
 
         button.addEventListener('click', async () => {
           const text = code.innerText
