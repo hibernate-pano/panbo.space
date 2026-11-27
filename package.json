@@ -22,7 +22,7 @@
     "@fontsource/ibm-plex-mono": "^5.2.7",
     "astro": "^7.4.13",
     "gray-matter": "^4.0.3",
-    "mermaid": "^11.13.0",
+    "mermaid": "^11.17.2",
     "pagefind": "^1.4.0"
   },
   "devDependencies": {
